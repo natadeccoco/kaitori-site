@@ -133,6 +133,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .card .nm{display:none}
 .card .bxname{padding:5px 6px 0;font-weight:700;font-size:12px;line-height:1.3;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
 .grid.simple .card .bxname{display:none}
+.card .dl{font-size:11px;color:var(--navy-2);text-decoration:none;padding:0 6px 2px;display:block}.card .dl:hover{text-decoration:underline}.grid.simple .card .dl{display:none}
 .card .no{display:flex;justify-content:space-between;gap:4px;padding:3px 6px 0;font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
 .card .no span:first-child{overflow:hidden;text-overflow:ellipsis}
 .card .no span:last-child{font-weight:700;color:var(--ink-3);flex:none}
@@ -460,12 +461,12 @@ function cardHTML(it){
   const catTag=(it.cat!==CONFIG.categories[0]&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat)}</span>`:"";
   const img=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:"";
   const badge=/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
-  return `<button class="card${q?" sel":""}" type="button" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
+  return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
     <div class="im">${ph}${img}${badge}${catTag}<span class="qty">${q}</span></div>
-    <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
+    <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div><a class="dl" href="/card/${encodeURIComponent(it.id)}/" onclick="event.stopPropagation()">詳細 ›</a>
     <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!==CONFIG.categories[0]?it.cat:""].filter(Boolean).join("　"))}</span></div>
     <div class="pr num">${yen(it.price)}</div>
-  </button>`;
+  </div>`;
 }
 function apply(){
   page=1;VIEW=filtered();render();
@@ -530,7 +531,8 @@ function lineUrl(){return `https://line.me/R/oaMessage/${encodeURIComponent(CONF
 let toastT;function toast(m){let t=$(".toast");if(!t){t=document.createElement("div");t.className="toast";document.body.appendChild(t);}t.textContent=m;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),2200);}
 
 /* ============================ イベント ============================ */
-$("#grid").addEventListener("click",e=>{const c=e.target.closest(".card");if(!c)return;addToCart(c.dataset.id,1);toast("買取内容に追加しました");});
+$("#grid").addEventListener("click",e=>{if(e.target.closest("a"))return;const c=e.target.closest(".card");if(!c)return;addToCart(c.dataset.id,1);toast("買取内容に追加しました");});
+$("#grid").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest(".card");if(!c||e.target!==c)return;e.preventDefault();addToCart(c.dataset.id,1);toast("買取内容に追加しました");});
 $("#q").addEventListener("input",e=>{state.q=e.target.value;apply();});
 $("#focusSearch").onclick=()=>{scrollToList();$("#q").focus();};
 $("#fbtn").onclick=()=>openPanel($("#fpanel").hidden);

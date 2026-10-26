@@ -1,0 +1,1 @@
+{ "name": "natadecoco-kaitori-site", "private": true, "scripts": { "build": "node build.js", "fetch": "bash scripts/fetch_data.sh" } }

@@ -358,7 +358,7 @@ footer .copy{margin-top:14px;opacity:.75;font-size:13px;text-align:center}
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.2 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.8-3.4 7.9-5.9C21.3 14.2 22 12.7 22 11c0-4.4-4.5-8-10-8z"/></svg>
       LINEで買取申込へ進む
     </a>
-    <div class="subact"><button class="linkbtn" type="button" id="copyBtn">申込内容をコピー</button><button class="linkbtn" type="button" id="clearBtn">すべて削除</button></div>
+    <div class="subact"><button class="linkbtn" type="button" id="clearBtn">すべて削除</button></div>
     <ul class="notes">
       <li>※同一商品複数枚の申込は在庫状況により減額の場合がございます。大量申込を希望される方はLINEにてご相談ください。</li>
       <li>※表示価格は美品の場合の価格です。傷・白かけ・反り等がある場合は減額となることがあります。</li>
@@ -642,13 +642,6 @@ $("#sort").onchange=e=>{state.sort=e.target.value;apply();};
 $("#vImg").onclick=()=>{mode="img";$("#vImg").classList.add("on");$("#vSimple").classList.remove("on");render();};
 $("#vSimple").onclick=()=>{mode="simple";$("#vSimple").classList.add("on");$("#vImg").classList.remove("on");render();};
 $("#allBtn").onclick=()=>{resetFilters();scrollToList();};
-$("#copyBtn").onclick=async()=>{
-  if(!cart.size)return toast("カードを選んでください");
-  const text=cartText();let ok=false;
-  try{await navigator.clipboard.writeText(text);ok=true;}catch{}
-  if(!ok){const ta=document.createElement("textarea");ta.value=text;ta.setAttribute("readonly","");ta.style.cssText="position:fixed;left:-9999px;top:0";document.body.appendChild(ta);ta.select();ta.setSelectionRange(0,text.length);try{ok=document.execCommand("copy");}catch{}ta.remove();}
-  if(ok)toast("申込内容をコピーしました");else{window.prompt("コピーできなかったので、この文章を長押し／Ctrl+Cでコピーしてください",text);}
-};
 $("#clearBtn").onclick=()=>{[...cart.keys()].forEach(id=>addToCart(id,-(cart.get(id).qty)));};
 $("#fab").onclick=()=>$("#cart").scrollIntoView({block:"start"});
 const openHow=e=>{if(e)e.preventDefault();$("#howto").hidden=false;$("#howtoClose").focus();};

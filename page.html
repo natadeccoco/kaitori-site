@@ -208,20 +208,33 @@ table.cart tfoot td{font-weight:800;font-size:16px}
 .bcard .chip:hover{background:var(--lemon);border-color:var(--yellow)}
 
 /* ===== footer ===== */
-footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:26px 16px 30px;text-align:center;font-size:14px;position:relative}
-footer .season{display:block;height:150px;margin:0 auto 10px;filter:drop-shadow(0 3px 0 rgba(43,58,103,.15))}
-footer .friends{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0 0}
-footer .friends img{height:64px;width:auto;opacity:.95}
-footer h4{margin:16px 0 6px;font-size:14px;font-weight:800;color:var(--navy-2)}
-footer h4:first-child{margin-top:0}
-footer a{display:block;color:var(--navy);text-decoration:none;margin:5px 0;opacity:.95}
-footer a:hover{text-decoration:underline}
-footer .ln{display:inline-flex;align-items:center;gap:6px}
-footer .ln i{width:18px;height:18px;border-radius:4px;background:var(--line-green);display:inline-block}
-footer .store{opacity:.9;font-size:13px;line-height:1.5;margin:4px 0}
-footer .copy{margin-top:20px;opacity:.75;font-size:13px}
-footer .x{font-size:20px;font-weight:800}
-
+footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:30px 16px 26px;font-size:14px;position:relative}
+footer .fwrap{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr 1.6fr;gap:28px;align-items:start}
+@media (max-width:900px){footer .fwrap{grid-template-columns:1fr 1fr}footer .shops{grid-column:1/-1}}
+@media (max-width:560px){footer .fwrap{grid-template-columns:1fr}}
+footer .fcol{background:rgba(255,255,255,.5);border-radius:18px;padding:18px 18px 20px;border:2px solid rgba(255,255,255,.8)}
+footer .about{text-align:center;position:relative;padding-top:12px}
+footer .season{display:block;height:130px;margin:0 auto 6px;filter:drop-shadow(0 3px 0 rgba(43,58,103,.15))}
+footer .flogo{height:54px;width:auto;display:block;margin:0 auto}
+footer .tag{margin:10px 0 14px;font-size:13px;line-height:1.6;color:var(--ink-2)}
+footer h4{margin:0 0 8px;font-size:14px;font-weight:800;color:var(--navy-2);display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+footer h4 + h4,footer .links h4:not(:first-child){margin-top:16px}
+footer .links a{display:block;color:var(--navy);text-decoration:none;margin:6px 0;padding-left:14px;position:relative}
+footer .links a::before{content:"";position:absolute;left:0;top:.55em;width:7px;height:7px;border-radius:50%;background:var(--cyan-deep);opacity:.7}
+footer .links a:hover{text-decoration:underline}
+footer h4 .more{font-size:12px;font-weight:700;color:var(--navy-2);text-decoration:none;padding:3px 10px;border-radius:999px;background:#fff}
+footer .stores{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media (max-width:420px){footer .stores{grid-template-columns:1fr}}
+footer .store{display:block;background:#fff;border-radius:12px;padding:8px 12px;font-size:12px;line-height:1.45;text-decoration:none;color:var(--ink-2)}
+footer .store b{display:block;font-size:14px;color:var(--navy)}footer .store span{display:block}footer .store .tel{color:var(--navy-2);font-weight:700}
+footer .store:hover{box-shadow:0 3px 0 var(--cyan)}
+footer .ln{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:700;text-decoration:none;border-radius:999px;padding:9px 16px;box-shadow:0 3px 0 #049a42}
+footer .ln i{width:18px;height:18px;border-radius:4px;background:#fff;opacity:.9;display:inline-block}
+footer .x{display:inline-flex;align-items:center;gap:6px;margin-top:10px;color:var(--navy);text-decoration:none;font-weight:700;font-size:13px}
+footer .x span{font-size:18px;font-weight:800}
+footer .friends{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:22px 0 0}
+footer .friends img{height:60px;width:auto;opacity:.95}
+footer .copy{margin-top:14px;opacity:.75;font-size:13px;text-align:center}
 /* ===== modal ===== */
 .modal{position:fixed;inset:0;z-index:50;background:rgba(20,30,40,.55);display:flex;align-items:center;justify-content:center;padding:16px}
 .modal .box{background:#fff;border-radius:20px;border:3px solid var(--cyan);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:22px 22px 26px;position:relative}
@@ -366,20 +379,37 @@ footer .x{font-size:20px;font-weight:800}
 </section>
 
 <footer id="stores">
-  <img class="season" id="seasonChar" src="/img/chars/deco_autumn.webp" alt="">
-  <h4>かんたん郵送買取</h4>
-  <a href="#" id="howtoLink">ご利用方法・配送方法</a>
-  <a href="#cart">買取注意事項</a>
-  <a href="#" class="ln" id="lineFoot"><i></i>郵送買取のお問い合わせはこちらのLINEから</a>
-  <h4>店頭買取</h4>
-  <a href="__STORES_URL__">店舗一覧（全8店舗）を見る ›</a>
-  <div class="store"><b>柏本店</b><br>千葉県柏市柏1-1-11 ファミリかしわ4F　TEL:04-7170-0605</div>
-  <div class="store"><b>津田沼店</b><br>千葉県船橋市前原西2-14-8 津田沼パスタビル4F　TEL:080-4862-1488</div>
-  <h4>ナタデココ買取サービス</h4>
-  <a href="/legal/">古物営業法に関する表示</a>
-  <a href="/privacy/">プライバシーポリシー</a>
-  <h4>公式SNS</h4>
-  <a href="#" class="x" id="xLink" aria-label="X">𝕏</a>
+  <div class="fwrap">
+    <div class="fcol about">
+      <img class="season" id="seasonChar" src="/img/chars/deco_autumn.webp" alt="">
+      <img class="flogo" src="/logo.png" alt="ナタデココ">
+      <p class="tag">千葉・東京・神奈川に8店舗のポケモンカード専門店。<br>お店に来られない方も、送るだけでかんたんに買取。</p>
+      <a href="#" class="ln" id="lineFoot"><i></i>LINEで郵送買取を相談する</a>
+      <a href="#" class="x" id="xLink" aria-label="X"><span>𝕏</span> 公式X（買取強化情報）</a>
+    </div>
+    <div class="fcol links">
+      <h4>かんたん郵送買取</h4>
+      <a href="#" id="howtoLink">ご利用ガイド（流れ・送り方）</a>
+      <a href="#cart">買取のご注意</a>
+      <a href="#top">買取価格表のトップへ</a>
+      <h4>サイトについて</h4>
+      <a href="/legal/">古物営業法に関する表示</a>
+      <a href="/privacy/">プライバシーポリシー</a>
+    </div>
+    <div class="fcol shops">
+      <h4>店頭買取もできます <a class="more" href="__STORES_URL__">店舗一覧・営業時間 ›</a></h4>
+      <div class="stores">
+        <a class="store" href="__STORES_URL__#s-kashiwa"><b>柏本店</b><span>千葉県柏市柏1-1-11 ファミリかしわ4階</span><span class="tel">TEL 04-7170-0605</span></a>
+        <a class="store" href="__STORES_URL__#s-matsudo"><b>松戸店</b><span>千葉県松戸市松戸1307-1 キテミテマツド2階</span><span class="tel">TEL 070-1318-2369</span></a>
+        <a class="store" href="__STORES_URL__#s-tsudanuma"><b>津田沼店</b><span>千葉県船橋市前原西2-14-8 津田沼パスタビル4F</span><span class="tel">TEL 080-4862-1488</span></a>
+        <a class="store" href="__STORES_URL__#s-chibachuo"><b>千葉中央店</b><span>千葉県千葉市中央区本千葉町7-2 T's BRIGHTIA千葉中央2F</span><span class="tel">TEL 070-3278-3935</span></a>
+        <a class="store" href="__STORES_URL__#s-nakano"><b>中野店</b><span>東京都中野区中野5-65-9 ストックビル中野Ⅱ2階</span><span class="tel">TEL 080-4027-9821</span></a>
+        <a class="store" href="__STORES_URL__#s-odaiba"><b>お台場店</b><span>東京都港区台場1-7-1 アクアシティお台場3F</span><span class="tel">TEL 070-5506-7199</span></a>
+        <a class="store" href="__STORES_URL__#s-machida"><b>町田店</b><span>東京都町田市原町田6-9-19 コビルナマチダ2階</span><span class="tel">TEL 090-9493-1847</span></a>
+        <a class="store" href="__STORES_URL__#s-yokohama"><b>横浜店</b><span>神奈川県横浜市西区南幸2-15-13 ビブレ横浜3F</span><span class="tel">TEL 070-6643-5411</span></a>
+      </div>
+    </div>
+  </div>
   <div class="friends"><img src="/img/chars/minty1.webp" alt=""><img src="/img/chars/fai1.webp" alt=""><img src="/img/chars/mag.webp" alt=""><img src="/img/chars/amery1.webp" alt=""><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/milfine.webp" alt=""><img src="/img/chars/bachira.webp" alt=""></div>
   <div class="copy">© 株式会社ナタデココ</div>
 </footer>

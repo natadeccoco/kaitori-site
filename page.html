@@ -59,6 +59,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 /* ===== banner ===== */
 .banner{margin-top:16px;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);aspect-ratio:3/1;position:relative;background:linear-gradient(120deg,#FFF9C4 0%,#A9F3F4 55%,#E5D2FF 100%)}
 .banner img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}
+.banner.has .ph{display:none}
 .banner .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px}
 .banner .ph b{font-family:"M PLUS Rounded 1c",sans-serif;font-size:clamp(22px,4.5vw,56px);font-weight:800;color:#fff;-webkit-text-stroke:2px var(--navy);text-shadow:3px 3px 0 var(--yellow);line-height:1.15}
 .banner .ph span{margin-top:8px;font-size:clamp(12px,1.6vw,18px);font-weight:700;color:var(--navy)}
@@ -260,7 +261,7 @@ footer .x{font-size:20px;font-weight:800}
   <div class="tabs" id="tabs"></div>
 
   <div class="banner" id="banner">
-    <img src="banner.jpg" alt="" onerror="this.remove()">
+    <img src="banner.jpg" alt="ポケカ 送るだけ買取" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
     <div class="ph"><b>ポケカ買取強化中！</b><span>送るだけ・送料無料・最短当日入金</span><small>バナー画像（banner.jpg 1800×600px）をここに表示</small></div>
   </div>
 

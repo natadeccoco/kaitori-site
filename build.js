@@ -182,6 +182,25 @@ for (const c of CFG.categories) {
 }
 console.log(`pack pages: ${packs.length}, cat pages: ${CFG.categories.length}`);
 
+/* ---------- 3c. 文章ページ（articles/*.json → /<slug>/） ---------- */
+const artTpl = read(path.join(SRC, "article.html"));
+const artDir = path.join(ROOT, "articles");
+const arts = fs.existsSync(artDir) ? fs.readdirSync(artDir).filter(f => f.endsWith(".json")).map(f => JSON.parse(read(path.join(artDir, f)))) : [];
+for (const a of arts) {
+  const url = `${CFG.siteUrl}/${a.slug}/`;
+  const more = arts.filter(x => x.slug !== a.slug).map(x => `<a href="/${x.slug}/">${esc(x.crumb)}</a>`).join("") + `<a href="/pack/">収録弾ごとの買取価格</a><a href="/cat/psa/">PSA10の買取価格</a><a href="/cat/old/">旧裏の買取価格</a>`;
+  const ld = [{ "@context": "https://schema.org", "@type": "Article", headline: a.h1, description: a.desc, url, dateModified: updated.replace(/\//g, "-"), author: { "@type": "Organization", name: CFG.company }, publisher: { "@type": "Organization", name: CFG.company } }];
+  if (a.faq) ld.push({ "@context": "https://schema.org", "@type": "FAQPage", mainEntity: a.faq.map(([q, ans]) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: ans } })) });
+  const html = artTpl
+    .replace(/__TITLE__/g, esc(a.title + "｜" + CFG.siteName))
+    .replace("__HEAD__", headCommon(a.title, a.desc, url, CFG.siteUrl + "/ogp.png") + ld.map(x => `\n<script type="application/ld+json">${JSON.stringify(x)}</script>`).join(""))
+    .replace(/__CRUMB__/g, esc(a.crumb)).replace(/__H1__/g, esc(a.h1)).replace(/__LEDE__/g, esc(a.lede)).replace(/__MASCOT__/g, a.mascot || "chan1").replace("__BODY__", a.body).replace(/__MORE__/g, more)
+    .replace(/__UPDATED__/g, esc(updated)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
+  write(`${a.slug}/index.html`, wrap(html));
+  urls.push({ url, lastmod: updated.replace(/\//g, "-") });
+}
+console.log(`article pages: ${arts.length}`);
+
 /* ---------- 4. 固定ページ ---------- */
 for (const name of ["stores", "legal", "privacy"]) {
   let html = read(path.join(SRC, name + ".html"));

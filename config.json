@@ -8,7 +8,7 @@
   "shopUrl": "https://pokemon-card.shop/",
   "storesUrl": "/stores/",
   "pageSize": 48,
-  "categories": ["ポケモン", "PSA", "BOX", "旧裏"],
+  "categories": ["ポケモン", "PSA", "BOX", "旧裏", "旧弾", "汎用"],
   "topRarities": ["UR", "SAR", "SR", "HR", "SSR", "CSR", "AR", "PROMO"],
   "topSetsCount": 8,
   "sources": {

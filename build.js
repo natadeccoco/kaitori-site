@@ -17,23 +17,37 @@ const write = (rel, s) => { const f = path.join(DIST, rel); fs.mkdirSync(path.di
 
 /* ---------- 1. データ読み込み ---------- */
 let items = [];
-const base = lib.csvToItems(read(path.join(DATA, "data_data.csv")));
-items = base;
-for (const [file, cat] of Object.entries(CFG.sources)) {
-  if (file === "data.csv") continue;
-  const txt = read(path.join(DATA, "data_" + file)); if (!txt) continue;
-  const extra = lib.sheetToItems(txt, cat); if (!extra.length) continue;
-  lib.resolveImages(extra, base);
-  items = items.filter(i => i.cat !== cat).concat(extra); // 同カテゴリはシートを正とする
+const sheetJson = read(path.join(DATA, "data_sheet.json"));
+if (sheetJson) {
+  // 買取表スプレッドシート（GAS sitedata）＋ Myca画像カタログ
+  const sd = require("./sheetdata.js");
+  const data = JSON.parse(sheetJson);
+  items = sd.sheetToItems(data, CFG);
+  const catalog = sd.loadCatalog(read(path.join(ROOT, "master_images.csv")));
+  sd.resolveImages(items, catalog);
+  const noimg = items.filter(i => !i.img && i.cat !== "汎用");
+  console.log(`sheet tabs: ${data.tabs.map(t => t.tab + "=" + t.rows.length).join(", ")} / 画像なし ${noimg.length} 件`);
+  fs.mkdirSync(DIST, { recursive: true });
+  fs.writeFileSync(path.join(DIST, "noimage.txt"), noimg.map(i => `${i.cat}\t${i.tab}\t${i.name}\t${i.code}`).join("\n"));
+} else {
+  // 旧方式: Myca CSV ＋ タブ別CSV
+  const base = lib.csvToItems(read(path.join(DATA, "data_data.csv")));
+  items = base;
+  for (const [file, cat] of Object.entries(CFG.sources)) {
+    if (file === "data.csv") continue;
+    const txt = read(path.join(DATA, "data_" + file)); if (!txt) continue;
+    const extra = lib.sheetToItems(txt, cat); if (!extra.length) continue;
+    lib.resolveImages(extra, base);
+    items = items.filter(i => i.cat !== cat).concat(extra);
+  }
 }
-// 画像なし(noimage)は空に
 items.forEach(i => { if (/noimage/.test(i.img)) i.img = ""; });
-const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
+const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson && JSON.parse(sheetJson).updated) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
 console.log(`items: ${items.length}`, Object.fromEntries(CFG.categories.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 
 /* ---------- 2. 価格表ページ ---------- */
 const clientCfg = { lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
-const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, img, imgAlt, note, order }) => ({ id, name, code, set, rarity, grade, type, cat, no, exp, price, img, imgAlt, note, order }));
+const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }) => ({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }));
 const dataJson = JSON.stringify({ updated, items: slim }).replace(/</g, "\\u003c");
 const headCommon = (title, desc, url, image) => `<meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(CFG.siteName)}">
@@ -55,7 +69,7 @@ write("index.html", wrap(page));
 
 /* ---------- 3. カード個別ページ ---------- */
 const cardTpl = read(path.join(SRC, "card.html"));
-const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c;
+const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c === "旧弾" ? "旧弾（eカード等）" : c === "汎用" ? "汎用・サプライ" : c;
 const urls = [];
 for (const it of items) {
   const rel = `card/${encodeURIComponent(it.id)}/`;
@@ -72,7 +86,7 @@ for (const it of items) {
     .replace("__HEAD__", headCommon(title, desc, url, it.img) + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
     .replace(/__NAME__/g, esc(it.name)).replace(/__CODE__/g, esc(it.code)).replace(/__SET__/g, esc(it.set)).replace(/__RARITY__/g, esc(it.rarity !== "-" ? it.rarity : ""))
     .replace(/__GRADE__/g, esc(it.grade !== "素体" ? it.grade : "")).replace(/__CAT__/g, esc(it.cat)).replace(/__CATLABEL__/g, esc(catLabel(it.cat)))
-    .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__UPDATED__/g, esc(updated))
+    .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" style="font-size:26px">${esc(yen(it.price2))}</div>` : "").replace(/__UPDATED__/g, esc(updated))
     .replace(/__IMG__/g, it.img ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="eager" data-alt="${esc((it.imgAlt || []).join("|"))}" onerror="imgErr(this)">` : `<div class="ph"><span>${esc(it.name)}</span></div>`)
     .replace(/__PSABADGE__/g, /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
     .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/#add=${encodeURIComponent(it.id)}`)

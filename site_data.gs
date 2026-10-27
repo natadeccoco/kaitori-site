@@ -1,117 +1,123 @@
 /**
- * site_data.gs — 買取サイト（kaitori.pokemon-card.shop）用の価格CSV配信
+ * site_data.gs — 買取サイト（kaitori.pokemon-card.shop）用データ配信
  *
  * 【組み込み方】既存の doGet(e) の先頭に次の1行を追加するだけ:
- *   if (e && e.parameter && e.parameter.action === 'sitecsv') return siteCsv_(e.parameter.file);
+ *   if (e && e.parameter && e.parameter.action === 'sitedata') return siteData_();
  * 追加後、Webアプリを「新しいバージョン」でデプロイ（アクセス: 全員）。
  *
- * 取得URL: {WebアプリURL}?action=sitecsv&file=data | psa | box | kyuura
- *   data   … 当日の Myca用販売買取価格CSV（シングル＋BOX。画像URL付き）
- *   psa    … 「PSA（閲覧専用）」タブ（お客様に見せている列だけ）
- *   box    … 「BOX」タブ（DF／ボックス名／買取価格／画像URL だけ）
- *   kyuura … 「旧裏(テスト中)」または「旧裏」タブ
- * ※ 内部情報の列（ラッシュ価格・固定価格・スライド位置・マイカ用coord 等）は絶対に出さない。
- *   出す列は下の SITE_COLS の見出し名だけ。非表示の行は出さない。
+ * 取得URL: {WebアプリURL}?action=sitedata  → JSON
+ *   { updated:"2026/10/27", tabs:[ {tab:"MEGA", cat:"ポケモン", rows:[{pack,name,exp,rarity,no,price,price2,img,note}, …]}, … ] }
+ *
+ * ・出す列は下の見出し名だけ（ラッシュ価格・coord・○・固定価格などの内部列は出さない）
+ * ・非表示のタブ・非表示の行は出さない。価格が数字でない行（時価・ASK・ー）は出さない
+ * ・SITE_TABS に無いタブは出さない（新しいタブを載せたいときはここに追加）
  */
-var SITE_COLS = {
-  psa:    ['パック名', 'カード名', 'パック型番', 'レアリティ', '型番', '買取価格', '画像URL'],
-  box:    ['DF', 'ボックス名', '買取価格', '画像URL'],
-  kyuura: ['パック名', 'カード名', 'パック型番', 'レアリティ', '型番', '買取価格', '画像URL']
-};
-var SITE_TABS = {
-  psa:    ['PSA（閲覧専用）', 'PSA'],
-  box:    ['BOX'],
-  kyuura: ['旧裏(テスト中)', '旧裏']
+var SITE_TABS = [
+  // {tab: タブ名, cat: サイトのカテゴリー, headerless: 見出し行が無いタブ（A列=名前, B列=価格）}
+  { tab: '強化買取',             cat: 'ポケモン' },
+  { tab: '強化買取中',           cat: 'ポケモン' },
+  { tab: '新弾　アビスアイ',     cat: 'ポケモン' },
+  { tab: 'MEGA',                 cat: 'ポケモン' },
+  { tab: 'SV',                   cat: 'ポケモン' },
+  { tab: 'SS',                   cat: 'ポケモン' },
+  { tab: 'SM',                   cat: 'ポケモン' },
+  { tab: 'XY',                   cat: 'ポケモン' },
+  { tab: 'BW以前',               cat: 'ポケモン' },
+  { tab: 'PROMO',                cat: 'ポケモン' },
+  { tab: 'PSA（閲覧専用）',      cat: 'PSA' },
+  { tab: 'BOX',                  cat: 'BOX' },
+  { tab: '旧裏(テスト中)',       cat: '旧裏' },
+  { tab: '旧裏',                 cat: '旧裏' },
+  { tab: 'eカード(テスト中)',    cat: '旧弾' },
+  { tab: 'その他旧弾(テスト中)', cat: '旧弾' },
+  { tab: '最低保証',             cat: '汎用' },
+  { tab: '汎用買取表(サポート)', cat: '汎用', headerless: true },
+  { tab: '汎用買取表(モンスター)', cat: '汎用', headerless: true }
+];
+var SITE_HEADERS = {
+  name:   ['カード名', 'ボックス名', '商品名', '強化買取'],
+  exp:    ['パック型番', 'パック'],
+  rarity: ['レアリティ'],
+  no:     ['型番'],
+  price:  ['ナタデココ買取価格', '買取価格（シュリンク有）', '買取価格'],
+  price2: ['買取価格（シュリンク無）'],
+  img:    ['画像URL'],
+  note:   ['備考']
 };
 
-function siteCsv_(file) {
-  var csv;
-  try {
-    if (file === 'data') csv = siteMycaCsv_();
-    else if (SITE_TABS[file]) csv = siteTabCsv_(file);
-    else return ContentService.createTextOutput('unknown file').setMimeType(ContentService.MimeType.TEXT);
-  } catch (err) {
-    return ContentService.createTextOutput('error: ' + err).setMimeType(ContentService.MimeType.TEXT);
-  }
-  return ContentService.createTextOutput(csv).setMimeType(ContentService.MimeType.CSV);
+function siteData_() {
+  var out;
+  try { out = siteBuildData_(); }
+  catch (err) { out = { error: String(err) }; }
+  return ContentService.createTextOutput(JSON.stringify(out)).setMimeType(ContentService.MimeType.JSON);
 }
 
-/** 当日分フォルダの最新「Myca用販売買取価格CSV_*.csv」をそのまま返す（image_url 列が無ければマスタから補う） */
-function siteMycaCsv_() {
-  var folder = mycaOutFolder_();   // myca_csv.gs にある既存関数（当日分フォルダ）
-  var files = folder.getFiles(), latest = null;
-  while (files.hasNext()) {
-    var f = files.next();
-    if (/^Myca用販売買取価格CSV_\d{8}\.csv$/.test(f.getName()) && (!latest || f.getLastUpdated() > latest.getLastUpdated())) latest = f;
-  }
-  if (!latest) throw new Error('当日分のMyca用CSVが見つかりません');
-  var text = latest.getBlob().getDataAsString('UTF-8').replace(/^﻿/, '');
-  if (text.indexOf('image_url') >= 0) return text;
-  // image_url 列が無い形式なら、マスタ（Myca連携/01_マスタ の最新エクスポート）の画像URLを id で補う
-  return siteMergeImages_(text);
-}
-
-function siteMergeImages_(text) {
-  var rows = Utilities.parseCsv(text);
-  var hi = -1; for (var i = 0; i < rows.length; i++) if (rows[i].indexOf('buy_price') >= 0) { hi = i; break; }
-  if (hi < 0) return text;
-  var master = siteMasterRows_(); // {id: {image_url, expansion, cardnumber, rarity, pack_name, keyword, display_name, genre, category}}
-  var head = rows[hi];
-  var add = ['image_url', 'expansion', 'cardnumber', 'rarity', 'pack_name', 'keyword', 'genre_display_name', 'category_display_name', 'display_name'].filter(function (c) { return head.indexOf(c) < 0; });
-  var idCol = head.indexOf('id');
-  var out = rows.map(function (r, i) {
-    if (i < hi) return r;
-    if (i === hi) return r.concat(add);
-    var m = master[r[idCol]] || {};
-    return r.concat(add.map(function (c) { return m[c] || ''; }));
+function siteBuildData_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var tabs = [];
+  SITE_TABS.forEach(function (def) {
+    var sheet = ss.getSheetByName(def.tab);
+    if (!sheet || sheet.isSheetHidden()) return;
+    var vals = sheet.getDataRange().getDisplayValues();
+    if (!vals.length) return;
+    var rows = def.headerless ? siteReadHeaderless_(sheet, vals) : siteReadTable_(sheet, vals);
+    if (rows.length) tabs.push({ tab: def.tab, cat: def.cat, rows: rows });
   });
-  return out.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+  var now = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy/MM/dd');
+  return { updated: now, tabs: tabs };
 }
 
-function siteMasterRows_() {
-  var it = DriveApp.getFoldersByName('01_マスタ');
-  if (!it.hasNext()) throw new Error('01_マスタ フォルダが見つかりません');
-  var files = it.next().getFiles(), latest = null;
-  while (files.hasNext()) { var f = files.next(); if (/\.csv$/i.test(f.getName()) && (!latest || f.getLastUpdated() > latest.getLastUpdated())) latest = f; }
-  var rows = Utilities.parseCsv(latest.getBlob().getDataAsString('UTF-8').replace(/^﻿/, ''));
-  var hi = -1; for (var i = 0; i < rows.length; i++) if (rows[i].indexOf('buy_price') >= 0) { hi = i; break; }
-  var head = rows[hi], idx = {}; head.forEach(function (h, i) { idx[h] = i; });
-  var map = {};
-  for (var r = hi + 1; r < rows.length; r++) {
-    var row = rows[r]; if (!row[idx.id]) continue;
-    var o = {}; Object.keys(idx).forEach(function (k) { o[k] = row[idx[k]] || ''; });
-    map[row[idx.id]] = o;
-  }
-  return map;
+function siteFindCol_(head, names) {
+  for (var i = 0; i < names.length; i++) { var k = head.indexOf(names[i]); if (k >= 0) return k; }
+  return -1;
+}
+function sitePrice_(s) {
+  var n = Number(String(s || '').replace(/[^\d]/g, ''));
+  return (n > 0 && /\d/.test(String(s))) ? n : 0;
 }
 
-/** シートのタブを、許可した見出しの列だけ・非表示行を除いてCSV化 */
-function siteTabCsv_(file) {
-  var ss = SpreadsheetApp.getActiveSpreadsheet(), sheet = null;
-  SITE_TABS[file].forEach(function (n) { if (!sheet) sheet = ss.getSheetByName(n); });
-  if (!sheet) throw new Error('タブが見つかりません: ' + SITE_TABS[file].join('/'));
-  var vals = sheet.getDataRange().getDisplayValues();
+/** 見出し行のあるタブ（カード・BOX・PSA・旧裏など） */
+function siteReadTable_(sheet, vals) {
   var hi = -1;
-  for (var i = 0; i < Math.min(vals.length, 10); i++) { if (vals[i].indexOf('買取価格') >= 0) { hi = i; break; } }
-  if (hi < 0) throw new Error('見出し行が見つかりません');
-  var head = vals[hi].map(function (h) { return String(h).trim(); });
-  var cols = SITE_COLS[file].map(function (name) { return head.indexOf(name); });
-  // 1列目（パック名/DF）は見出しが空のことがあるので、見出し名で見つからなければA列を使う
-  if (cols[0] < 0) cols[0] = 0;
-  var lines = [SITE_COLS[file]];
+  for (var i = 0; i < Math.min(vals.length, 10); i++) {
+    var h = vals[i].map(function (x) { return String(x).trim(); });
+    if (siteFindCol_(h, SITE_HEADERS.price) >= 0) { hi = i; break; }
+  }
+  if (hi < 0) return [];
+  var head = vals[hi].map(function (x) { return String(x).trim(); });
+  var c = {};
+  Object.keys(SITE_HEADERS).forEach(function (k) { c[k] = siteFindCol_(head, SITE_HEADERS[k]); });
+  if (c.name < 0) c.name = 0;                 // 見出しが無ければA列が名前（強化買取タブなど）
+  var packCol = (c.name !== 0) ? 0 : -1;      // 名前がB列以降ならA列はパック名/シリーズ
+  var out = [];
   for (var r = hi + 1; r < vals.length; r++) {
     if (sheet.isRowHiddenByUser(r + 1)) continue;
-    var row = cols.map(function (c) { return c >= 0 ? vals[r][c] : ''; });
-    if (!row.join('').trim()) continue;
-    lines.push(row);
+    var row = vals[r];
+    var name = String(row[c.name] || '').trim();
+    var price = sitePrice_(row[c.price]);
+    if (!name || !price) continue;
+    var g = function (k) { return c[k] >= 0 ? String(row[c[k]] || '').trim().replace(/^[-ー－]$/, '') : ''; };
+    out.push({ pack: packCol >= 0 ? String(row[packCol] || '').trim() : '', name: name, exp: g('exp'), rarity: g('rarity'), no: g('no'),
+               price: price, price2: sitePrice_(c.price2 >= 0 ? row[c.price2] : ''), img: g('img'), note: g('note') });
   }
-  return lines.map(function (r) { return r.map(function (c) { return '"' + String(c == null ? '' : c).replace(/"/g, '""') + '"'; }).join(','); }).join('\n');
+  return out;
 }
 
-/** 動作確認用：エディタから実行してログに件数を出す */
-function siteCsvTest() {
-  ['data', 'psa', 'box', 'kyuura'].forEach(function (f) {
-    try { var t = siteCsv_(f).getContent(); Logger.log(f + ': ' + t.split('\n').length + ' 行 / ' + t.length + ' 文字'); }
-    catch (e) { Logger.log(f + ': ERROR ' + e); }
-  });
+/** 見出しの無い2列タブ（A=名前, B=価格） */
+function siteReadHeaderless_(sheet, vals) {
+  var out = [];
+  for (var r = 0; r < vals.length; r++) {
+    if (sheet.isRowHiddenByUser(r + 1)) continue;
+    var name = String(vals[r][0] || '').trim(), price = sitePrice_(vals[r][1]);
+    if (!name || !price) continue;
+    out.push({ pack: '', name: name, exp: '', rarity: '', no: '', price: price, price2: 0, img: '', note: String(vals[r][2] || '').trim() });
+  }
+  return out;
+}
+
+/** 動作確認用：エディタから実行してログにタブごとの件数を出す */
+function siteDataTest() {
+  var d = siteBuildData_();
+  d.tabs.forEach(function (t) { Logger.log(t.tab + ' (' + t.cat + '): ' + t.rows.length + ' 件'); });
+  Logger.log('合計 ' + d.tabs.reduce(function (a, t) { return a + t.rows.length; }, 0) + ' 件 / ' + JSON.stringify(d).length + ' 文字');
 }

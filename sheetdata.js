@@ -27,7 +27,7 @@ function loadCatalog(csvText) {
   }
   const byNo = new Map([...byNoAll].filter(([, s]) => s.size === 1).map(([k, s]) => [k, [...s][0]]));
   const boxes = all.filter(x => x.category === "ボックス").map(x => ({ ...x, key: stripBox(x.name) }));
-  const old = cards.filter(x => x.old).map(x => ({ ...x, key: strip(x.name) }));
+  const old = cards.filter(x => x.old).map(x => ({ ...x, key: strip(x.name), base: baseName(x.name) }));
   return { byExpNo, byExpNoList, byNo, byNoList, boxes, old, cardsByName: groupBy(cards, c => strip(c.name)) };
 }
 function groupBy(arr, f) { const m = new Map(); for (const x of arr) { const k = f(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); } return m; }
@@ -53,8 +53,17 @@ function sheetToItems(data, cfg) {
 }
 
 /** 画像の引き当て */
-function resolveImages(items, cat) {
+/** image_overrides.csv（カテゴリ,名前,画像パス）— 自動引き当てが違うときに手で指定する */
+function loadOverrides(csvText) {
+  const m = new Map();
+  if (!csvText) return m;
+  for (const r of parseCSV(csvText.replace(/^﻿/, "")).slice(1)) { if (r.length >= 3 && r[1]) m.set(r[0] + "|" + norm(r[1]), r[2].trim()); }
+  return m;
+}
+function resolveImages(items, cat, overrides = new Map()) {
   for (const it of items) {
+    const ov = overrides.get(it.cat + "|" + norm(it.name));
+    if (ov) { it.img = ov === "-" ? "" : /^https?:/.test(ov) ? ov : THUMB_PREFIX + ov; it.imgCands = 1; continue; }
     if (it.img) continue;
     if (it.cat === "汎用") continue;
     if (it.cat === "BOX") { it.img = matchBox(it, cat); continue; }
@@ -101,16 +110,38 @@ function matchBox(it, cat) {
   const c = ex.length ? ex : cat.boxes.filter(b => b.key.includes(k));
   return c.length ? c[0].img : "";
 }
+/* 旧裏：シートの「名前 LV.xx(ヒント/ヒント)」を Myca の 旧裏カード（名前（補足）, パック名）に当てる。
+   候補＝括弧を除いた名前が同じもの。括弧内のヒント（/ ・ で区切り）がパック名か補足に含まれるほど高得点。
+   シートにないのに補足が付いている候補（マークなし等）は減点。同点ならカタログ順の先頭。 */
+const OLD_HINT_ALIAS = { 初版: ["初版"], マークなし: ["マークなし"], マークあり: ["第1弾拡張パック"], 拡張シート: ["拡張シート"], クイックスターター: ["クイックスターター"],
+  イントロパック: ["イントロパック"], サザンアイランド: ["サザンアイランド"], ジムマーク問わず: ["ポケモンジム"], 通信交換: ["通信進化"], トレーナーズ: ["トレーナーズ"],
+  ファンクラブ: ["ファンクラブ"], とりかえっこ: ["とりかえっこ"], GB: ["ポケモンカードGB"], コロコロ付録: ["コロコロ"], 未開封: [], 英語表記: [], 光沢なし: [] };
+const oldHints = s => [...(s.match(/[（(](.*?)[)）]/g) || [])].flatMap(h => h.slice(1, -1).split(/[\/／・,、]/)).map(x => x.trim()).filter(Boolean);
 function matchOld(it, cat) {
   const b = baseName(it.name); if (!b) return "";
-  let c = cat.old.filter(x => x.key === b); if (!c.length) c = cat.old.filter(x => x.key.includes(b));
+  let c = cat.old.filter(x => x.base === b); if (!c.length) c = cat.old.filter(x => x.key.includes(b));
   if (!c.length) return "";
   const rr = it.rarity;
   if (rr && rr !== "-" && rr !== "P") { const f = c.filter(x => x.rarity === rr); if (f.length) c = f; }
   if (rr === "P") { const f = c.filter(x => /PROMO/i.test(x.rarity)); if (f.length) c = f; }
-  const hs = hints(it.name);
-  if (c.length > 1 && hs.length) { const f = c.filter(x => hs.some(h => strip(x.pack).includes(h) || strip(x.name).includes(h))); if (f.length) c = f; }
-  return c[0].img;
+  const hs = oldHints(it.name);
+  const wantsNoMark = hs.includes("マークなし");
+  const scored = c.map(x => {
+    const hay = strip(x.pack) + "|" + strip(x.name);
+    let s = 0;
+    for (const h of hs) {
+      const keys = OLD_HINT_ALIAS[h] || [h];
+      if (keys.some(k => hay.includes(strip(k)))) s += 2;
+      else if (strip(h).length >= 4 && hay.includes(strip(h).slice(0, 4))) s += 1;   // 「チャンピオンロード2000金箔押し」→パック名「チャンピオンロード2000 来場記念」など前方一致
+    }
+    if (hs.includes("マークあり") && /初版/.test(x.pack)) s -= 3;
+    if (!wantsNoMark && /マークなし/.test(x.name)) s -= 3;
+    if (hs.includes("プレミアムファイル") && x.pack.trim() === "プレミアムファイル") s += 1;
+    if (!hs.length && /拡張パック|ジム拡張|ポケモンジム/.test(x.pack)) s += 1;   // ヒント無しなら通常パック優先
+    return { x, s };
+  }).sort((a, b) => b.s - a.s);
+  const tied = scored.filter(z => z.s === scored[0].s); it.imgCands = tied.length; it.imgCandList = tied.map(z => ({ img: z.x.img, pack: z.x.pack, name: z.x.name }));
+  return scored[0].x.img;
 }
 
-module.exports = { loadCatalog, sheetToItems, resolveImages };
+module.exports = { loadCatalog, sheetToItems, resolveImages, loadOverrides };

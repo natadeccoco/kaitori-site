@@ -24,7 +24,7 @@ if (sheetJson) {
   const data = JSON.parse(sheetJson);
   items = sd.sheetToItems(data, CFG);
   const catalog = sd.loadCatalog(read(path.join(ROOT, "master_images.csv")));
-  sd.resolveImages(items, catalog);
+  sd.resolveImages(items, catalog, sd.loadOverrides(read(path.join(ROOT, "image_overrides.csv"))));
   const noimg = items.filter(i => !i.img && i.cat !== "汎用");
   console.log(`sheet tabs: ${data.tabs.map(t => t.tab + "=" + t.rows.length).join(", ")} / 画像なし ${noimg.length} 件`);
   fs.mkdirSync(DIST, { recursive: true });

@@ -424,7 +424,6 @@ footer .copy{margin-top:14px;opacity:.75;font-size:13px;text-align:center}
     <div class="iqty"><button type="button" id="iminus" aria-label="減らす">−</button><span id="iqty">1</span><button type="button" id="iplus" aria-label="増やす">＋</button></div>
     <button class="iadd" type="button" id="iadd">買取内容に追加</button>
     <div class="inow" id="inow"></div>
-    <a class="ilink" id="ilink" href="#">カードの詳細ページを見る ›</a>
   </div>
 </div>
 
@@ -546,7 +545,7 @@ function cardHTML(it){
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
   return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
     <div class="im">${ph}${img}${badge}${catTag}<span class="qty">${q}</span></div>
-    <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div><a class="dl" href="/card/${encodeURIComponent(it.id)}/" onclick="event.stopPropagation()">詳細 ›</a>
+    <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
     <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!==CONFIG.categories[0]?it.cat:""].filter(Boolean).join("　"))}</span></div>
     <div class="pr num">${yen(it.price)}</div>
   </div>`;
@@ -624,7 +623,6 @@ function openItem(id){
   $("#iim").innerHTML=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:`<div class="ph">${esc(it.name)}</div>`;
   $("#iqty").textContent=MODAL_Q;
   const q=cart.get(id)?.qty||0;$("#inow").textContent=q?`現在 ${q}枚 追加済み`:"";
-  $("#ilink").href=`${CONFIG.base||"/"}card/${encodeURIComponent(id)}/`;
   $("#imodal").hidden=false;$("#iadd").focus();
 }
 function closeItem(){$("#imodal").hidden=true;MODAL_ID=null;}

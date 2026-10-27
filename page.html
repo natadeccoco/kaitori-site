@@ -624,7 +624,7 @@ function openItem(id){
   $("#iim").innerHTML=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:`<div class="ph">${esc(it.name)}</div>`;
   $("#iqty").textContent=MODAL_Q;
   const q=cart.get(id)?.qty||0;$("#inow").textContent=q?`現在 ${q}枚 追加済み`:"";
-  $("#ilink").href=`/card/${encodeURIComponent(id)}/`;
+  $("#ilink").href=`${CONFIG.base||"/"}card/${encodeURIComponent(id)}/`;
   $("#imodal").hidden=false;$("#iadd").focus();
 }
 function closeItem(){$("#imodal").hidden=true;MODAL_ID=null;}

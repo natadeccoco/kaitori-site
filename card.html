@@ -22,6 +22,9 @@ a{color:inherit}h1,h2{font-family:"M PLUS Rounded 1c",sans-serif}
 .im img.badge{width:58px;height:58px;position:absolute;top:10px;right:10px;border:0;border-radius:0;background:none;box-shadow:none;object-fit:contain}
 .cat{display:inline-block;font-size:12px;font-weight:700;background:var(--navy);color:#fff;border-radius:999px;padding:2px 8px}
 h1{margin:8px 0 4px;font-size:24px;line-height:1.3;font-weight:800;text-wrap:balance}
+p.en{margin:0 0 6px;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:700;color:var(--cyan-deep);font-size:15px;letter-spacing:.02em}
+.dex{margin:10px 0 0;display:flex;flex-direction:column;gap:4px}.dex div{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;font-size:13px;background:var(--bg-2);border-radius:10px;padding:6px 12px}.dex dt{color:var(--ink-2);font-weight:700}.dex dd{margin:0}.dex .en{margin-left:6px;color:var(--cyan-deep);font-weight:700}.dex a{color:var(--navy-2);font-weight:700;text-decoration:none}.dex a:hover{text-decoration:underline}
+h2.rel .more{font-size:13px;font-weight:700;color:var(--navy-2);margin-left:10px;text-decoration:none}h2.rel .more:hover{text-decoration:underline}
 .meta{color:var(--ink-2);font-size:14px;display:flex;flex-wrap:wrap;gap:4px 14px}
 .pricebox{margin-top:16px;border:2px solid #FFB8DC;border-radius:16px;padding:14px 18px;background:#fff;position:relative;padding-right:120px}.pricebox .mas{position:absolute;right:10px;bottom:0;height:110px}
 .pricebox .l{font-size:12px;color:var(--ink-2);font-weight:700;letter-spacing:.08em}
@@ -53,7 +56,9 @@ footer{margin-top:40px;background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:
     <div>
       <span class="cat">__CATLABEL__</span>
       <h1>__NAME__</h1>
+      __EN__
       <div class="meta"><span>__CODE__</span><span>__SET__</span><span>__RARITY__</span><span>__GRADE__</span></div>
+      __DEX__
       <div class="pricebox"><div class="l">買取価格（美品）</div><div class="v">__PRICE__</div>__PRICE2__<div class="d">__UPDATED__ 時点の価格。相場により毎日変動します。</div><img class="mas" src="/img/chars/chan1.webp" alt=""></div>
       <div class="btns">
         <a class="apply" href="__LINE_URL__" target="_blank" rel="noopener">このカードをLINEで買取申込</a>

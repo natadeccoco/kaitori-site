@@ -696,6 +696,7 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
   boot(data.items);
   const sp=new URLSearchParams(location.search);const qc=sp.get("cat");if(qc&&CATS().includes(qc)){setCat(qc);}
   const qs=sp.get("set");if(qs&&ITEMS.some(i=>i.set===qs)){state.set.add(qs);apply();scrollToList();}   // 弾ページからの遷移（?set=収録弾名）
+  const qq=sp.get("q");if(qq){$("#q").value=qq;state.q=qq;apply();scrollToList();}   // カードページ「同じポケモンを探す」からの遷移（?q=名前）
   // カード個別ページからの遷移（#add=ID）
   const m=location.hash.match(/#add=([^&]+)/);
   if(m){const id=decodeURIComponent(m[1]);if(ITEMS.some(i=>i.id===id)){addToCart(id,1);history.replaceState(null,"",location.pathname);$("#cart").scrollIntoView();}}

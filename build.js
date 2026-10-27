@@ -104,6 +104,7 @@ function cardAbout(it) {
   s1 += `です。ナタデココの買取価格は<b>${esc(yen(it.price))}</b>（${esc(updated)}時点・美品の場合）。`;
   const r = rankInSet.get(it.id); if (r && r[1] >= 5) s1 += `${esc(it.set)}の掲載${r[1]}枚の中で${r[0]}番目に高い買取価格です。`;
   p.push(s1);
+  { const sps = speciesOf(it); if (sps.length) p.push(sps.map(sp => `${esc(sp.ja)}は全国図鑑No.${sp.id}のポケモンで、英語名は<b>${esc(sp.en)}</b>（海外版カードでの表記）です。`).join("") + `海外からの買取のお問い合わせにも対応しています。`); }
   if (it.cat === "PSA") p.push("PSA純正ケース入りで、ケースに割れ・ヒビ・大きな傷がないものが対象です。ラベル（カード名・認証番号）が読める写真を添えてお申込みください。PSA9以下や他社鑑定品もご相談いただけます。");
   else if (it.cat === "BOX") p.push("価格はシュリンク付き未開封の場合です。" + (it.price2 ? `シュリンクなし（ぺりぺり付き）は${esc(yen(it.price2))}で買取しています。` : "") + "箱のつぶれ・シュリンクの破れは減額の対象になります。");
   else if (it.cat === "旧裏") p.push("旧裏は発売から20年以上たっているため、裏面の白かけ・スレ・反りで価格が大きく変わります。同名カードでもLV（レベル）や版（初版・マークなし等）で価格が異なるので、お手元のカードのLVと右下の番号をご確認ください。");
@@ -136,6 +137,36 @@ function cardFaq(it) {
   return { html, ld };
 }
 
+
+/* ポケモン図鑑（図鑑番号・英語名）：カード名からポケモンを判定して英語名・図鑑Noを載せる（検索対策） */
+const DEX = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, "pokedex.json"), "utf8")); } catch (e) { return []; } })();
+const DEX_BY_LEN = [...DEX].sort((a, b) => b.ja.length - a.ja.length);
+const speciesCache = new Map();
+function speciesOf(it) {
+  if (speciesCache.has(it.id)) return speciesCache.get(it.id);
+  let n = it.name || ""; if (it.cat === "旧裏" || it.cat === "旧弾") n = n.replace(/\(.*$/, "");   // 旧裏の「(イントロパック/フシギダネ)」はデッキ名なので除外
+  if (it.cat === "BOX" || it.cat === "汎用") { speciesCache.set(it.id, []); return []; }
+  const hits = [];
+  for (const sp of DEX_BY_LEN) { let i = n.indexOf(sp.ja); while (i >= 0) { if (!hits.some(h => i >= h.i && i + sp.ja.length <= h.i + h.len)) hits.push({ i, len: sp.ja.length, sp }); i = n.indexOf(sp.ja, i + 1); } }
+  const out = []; for (const h of hits.sort((a, b) => a.i - b.i)) if (!out.some(x => x.id === h.sp.id)) out.push(h.sp);
+  speciesCache.set(it.id, out); return out;
+}
+const bySpecies = new Map(); for (const it of items) for (const sp of speciesOf(it)) { if (!bySpecies.has(sp.id)) bySpecies.set(sp.id, []); bySpecies.get(sp.id).push(it); }
+function speciesRows(it) {
+  const sps = speciesOf(it); if (!sps.length) return "";
+  return `<dl class="dex">` + sps.map(sp => `<div><dt>図鑑No.${String(sp.id).padStart(4, "0")}</dt><dd>${esc(sp.ja)}<span class="en">${esc(sp.en)}</span></dd><dd><a href="/?q=${encodeURIComponent(sp.ja)}">同じポケモンを探す ›</a></dd></div>`).join("") + `</dl>`;
+}
+function speciesCards(it) {
+  const sps = speciesOf(it); if (!sps.length) return "";
+  const vIds = new Set((byBase.get(baseName(it.name)) || []).map(x => x.id)); vIds.add(it.id);
+  const seen = new Set(); const a = [];
+  for (const sp of sps) for (const x of (bySpecies.get(sp.id) || [])) { if (vIds.has(x.id) || seen.has(x.id)) continue; seen.add(x.id); a.push(x); }
+  if (!a.length) return "";
+  a.sort((x, y) => y.price - x.price);
+  const label = sps.map(sp => sp.ja).join("・");
+  return `<h2 class="rel">${esc(label)}のほかのカード <a class="more" href="/?q=${encodeURIComponent(sps[0].ja)}">すべて見る（${a.length + vIds.size - 1}枚）›</a></h2><div class="rels">` + a.slice(0, 12).map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<b>${esc(r.name)}</b><span>${esc([r.code, r.cat === "PSA" ? r.grade : ""].filter(Boolean).join(" "))}</span><em>${esc(yen(r.price))}</em></a>`).join("") + `</div>`;
+}
+
 /* ---------- 3. カード個別ページ ---------- */
 const cardTpl = read(path.join(SRC, "card.html"));
 const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c === "旧弾" ? "旧弾（eカード等）" : c === "汎用" ? "汎用・サプライ" : c;
@@ -144,10 +175,11 @@ for (const it of items) {
   const rel = `card/${encodeURIComponent(it.id)}/`;
   const url = `${CFG.siteUrl}/${rel}`;
   const title = `${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} 買取価格 ${yen(it.price)}`;
-  const desc = `${it.name}${it.code ? " " + it.code : ""}${it.set ? "／" + it.set : ""}${it.rarity !== "-" ? "／" + it.rarity : ""} の買取価格は${yen(it.price)}（${updated}時点）。ナタデココのかんたん郵送買取ならLINEで申込・送料無料・最短当日入金。`;
+  const sps = speciesOf(it); const enNames = sps.map(x => x.en).join(" & ");
+  const desc = `${it.name}${it.code ? " " + it.code : ""}${enNames ? "（英語名：" + enNames + "）" : ""}${it.set ? "／" + it.set : ""}${it.rarity !== "-" ? "／" + it.rarity : ""} の買取価格は${yen(it.price)}（${updated}時点）。ナタデココのかんたん郵送買取ならLINEで申込・送料無料・最短当日入金。`;
   const lineText = `【郵送買取 申込】\n・${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} ×1 … ${yen(it.price)}\n\n※美品の場合の価格です。\nお名前・枚数・発送予定日をご記入ください：`;
   const lineUrl = `https://line.me/R/oaMessage/${encodeURIComponent(CFG.lineId)}/?${encodeURIComponent(lineText)}`;
-  const ld = { "@context": "https://schema.org", "@type": "Product", name: it.name, image: it.img || undefined, description: desc, brand: { "@type": "Brand", name: "ポケモンカードゲーム" }, sku: it.code || undefined,
+  const ld = { "@context": "https://schema.org", "@type": "Product", name: it.name, alternateName: enNames || undefined, image: it.img || undefined, description: desc, brand: { "@type": "Brand", name: "ポケモンカードゲーム" }, sku: it.code || undefined,
     offers: { "@type": "Offer", url, priceCurrency: "JPY", price: it.price, availability: "https://schema.org/InStock", seller: { "@type": "Organization", name: CFG.company }, description: "買取価格（美品の場合）" } };
   const vIds = new Set((byBase.get(baseName(it.name)) || []).map(x => x.id));
   let related = items.filter(x => x.cat === it.cat && x.id !== it.id && !vIds.has(x.id) && x.set && x.set === it.set).sort((x, y) => Math.abs(y.price - it.price) < Math.abs(x.price - it.price) ? 1 : -1).slice(0, 8);
@@ -156,7 +188,7 @@ for (const it of items) {
   const html = cardTpl
     .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
     .replace("__HEAD__", headCommon(title, desc, url, it.img) + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>\n<script type="application/ld+json">${JSON.stringify(faq.ld)}</script>`)
-    .replace("__ABOUT__", cardAbout(it)).replace("__VARIANTS__", cardVariants(it)).replace("__FAQ__", faq.html)
+    .replace("__ABOUT__", cardAbout(it)).replace("__VARIANTS__", cardVariants(it) + speciesCards(it)).replace("__FAQ__", faq.html).replace("__DEX__", speciesRows(it)).replace("__EN__", enNames ? `<p class="en">${esc(enNames)}</p>` : "")
     .replace(/__NAME__/g, esc(it.name)).replace(/__CODE__/g, esc(it.code)).replace(/__SET__/g, esc(it.set)).replace(/__RARITY__/g, esc(it.rarity !== "-" ? it.rarity : ""))
     .replace(/__GRADE__/g, esc(it.grade !== "素体" ? it.grade : "")).replace(/__CAT__/g, esc(it.cat)).replace(/__CATLABEL__/g, esc(catLabel(it.cat)))
     .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" style="font-size:26px">${esc(yen(it.price2))}</div>` : "").replace(/__UPDATED__/g, esc(updated))

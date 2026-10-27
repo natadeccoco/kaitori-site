@@ -23,9 +23,9 @@ jobs:
         env:
           SITE_DATA_URL: ${{ secrets.SITE_DATA_URL }}
         run: bash fetch_data.sh
-      - name: 画像を自前に取り込む（未取得分のみ）
+      - name: 画像を自前に取り込む（未取得分のみ。手動pushのときは少なめにして早く公開）
         env:
-          IMG_LIMIT: "1500"
+          IMG_LIMIT: ${{ github.event_name == 'push' && '60' || '1500' }}
         run: |
           npm install --no-save sharp@0.33.5 >/dev/null 2>&1 || npm install --no-save sharp
           node fetch_images.js

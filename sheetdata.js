@@ -36,6 +36,7 @@ function loadCatalog(csvText) {
 }
 function groupBy(arr, f) { const m = new Map(); for (const x of arr) { const k = f(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); } return m; }
 
+const CAT_SLUG = { "ポケモン": "pk", PSA: "psa", BOX: "box", "旧裏": "old", "旧弾": "kyu", "汎用": "misc" };
 /** GAS の sitedata JSON → 商品配列（タブの順で重複を除く） */
 function sheetToItems(data, cfg) {
   const seen = new Set(), out = [];
@@ -46,7 +47,7 @@ function sheetToItems(data, cfg) {
       const exp = (r.exp || "").replace(/^(その他|-)$/, ""), no = r.no || "";
       const code = no ? (/[A-Za-z]/.test(no) ? no : [exp, no].filter(Boolean).join(" ")) : "";
       out.push({
-        id: `${t.cat}-${hashId(t.cat + "|" + norm(r.name) + "|" + norm(no) + "|" + norm(exp))}`,
+        id: `${CAT_SLUG[t.cat] || "c"}-${hashId(t.cat + "|" + norm(r.name) + "|" + norm(no) + "|" + norm(exp))}`,   // URLに使うので英数字だけ
         name: r.name, code, set: r.pack || "", rarity: r.rarity || "-", grade: t.cat === "PSA" ? "PSA10" : "素体",
         type: t.cat === "BOX" ? "ボックス" : "シングル", cat: t.cat, no, exp, price: r.price, price2: r.price2 || 0,
         img: r.img || "", note: r.note || "", kw: "", order: 0, tab: t.tab

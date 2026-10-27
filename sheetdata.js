@@ -4,9 +4,13 @@ const { parseCSV, norm, hashId, CARD_PREFIX, THUMB_PREFIX } = require("./lib.js"
 const strip = s => (s || "").replace(/＆/g, "&").replace(/[\s　・･\-－—「」]/g, "").toLowerCase();
 const stripBox = s => strip(s).replace(/box/g, "").replace(/ボックス/g, "").replace(/[（）()［］\[\]]/g, "");
 const baseName = s => strip(s.replace(/[（(].*?[)）]/g, "").replace(/LV\.?\s*\d+/gi, ""));
-const hints = s => [...(s.match(/[（(](.*?)[)）]/g) || []).map(h => strip(h.slice(1, -1))), ...s.split(/[\s　]+/).slice(1).map(strip)].filter(Boolean);
+const hints = s => [...(s.match(/[（(](.*?)[)）]/g) || []).flatMap(h => h.slice(1, -1).split(/[\/／・]/)).map(strip), ...s.replace(/[（(].*?[)）]/g, "").split(/[\s　]+/).slice(1).map(strip)].filter(Boolean);
 const dedupeKey = r => norm(r.name).replace(/[（）()［］\[\]「」【】、,.．。!！?？]/g, "") + "|" + norm(r.no) + "|" + norm(r.exp);
 
+/* カード名の照合キー：括弧・LV・記号・空白を除き、ex/EX/ＥＸ や δ 表記のゆれをそろえる */
+const nameKey = s => (s || "").normalize("NFKC").replace(/[（(].*?[)）]/g, "").replace(/LV\.?\s*\d+/gi, "")
+  .replace(/δ-?デルタ種?/g, "δ").replace(/[\s・･\-—「」【】\[\]☆★♪!?,.\/_&＆']/g, "").toLowerCase();
+const nameOK = (sheet, catalog) => { const a = nameKey(sheet), b = nameKey(catalog); if (!a || !b) return false; return a === b || (a.length >= 2 && (b.includes(a) || a.includes(b))); };
 /** master_images.csv を読み込んで索引を作る */
 function loadCatalog(csvText) {
   const rows = parseCSV(csvText.replace(/^﻿/, ""));
@@ -28,7 +32,7 @@ function loadCatalog(csvText) {
   const byNo = new Map([...byNoAll].filter(([, s]) => s.size === 1).map(([k, s]) => [k, [...s][0]]));
   const boxes = all.filter(x => x.category === "ボックス").map(x => ({ ...x, key: stripBox(x.name) }));
   const old = cards.filter(x => x.old).map(x => ({ ...x, key: strip(x.name), base: baseName(x.name) }));
-  return { byExpNo, byExpNoList, byNo, byNoList, boxes, old, cardsByName: groupBy(cards, c => strip(c.name)) };
+  return { byExpNo, byExpNoList, byNo, byNoList, boxes, old, cardsByName: groupBy(cards, c => strip(c.name)), byNameKey: groupBy(cards, c => nameKey(c.name)) };
 }
 function groupBy(arr, f) { const m = new Map(); for (const x of arr) { const k = f(x); if (!m.has(k)) m.set(k, []); m.get(k).push(x); } return m; }
 
@@ -67,42 +71,62 @@ function resolveImages(items, cat, overrides = new Map()) {
     if (it.img) continue;
     if (it.cat === "汎用") continue;
     if (it.cat === "BOX") { it.img = matchBox(it, cat); continue; }
-    if (it.cat === "旧裏" || it.cat === "旧弾") { it.img = matchOld(it, cat) || matchCard(it, cat) || ""; continue; }
+    if (it.cat === "旧裏") { it.img = matchOld(it, cat) || matchCard(it, cat) || ""; continue; }
+    if (it.cat === "旧弾") { it.img = matchCard(it, cat) || ""; continue; }   // eカード・ADV/PCG/DP等は型番＋名前＋パック名で照合
     it.img = matchCard(it, cat) || "";
   }
 }
+function scoreCands(it, cands, cat) {
+  const expAlnum = it.exp.replace(/[^A-Za-z0-9+\-]/g, "").toLowerCase(), color = { 青: "B", 赤: "R", 緑: "G", 白: "W", 黒: "K", 黄: "Y", 銀: "S", 金: "G" }[(it.exp.match(/[青赤緑白黒黄銀金]/) || [])[0]];
+  const hs = hints(it.name);
+  return cands.map(x => {
+      let sc = 0; const xe = (x.exp || "").toLowerCase();
+      if (it.exp && xe === it.exp.toLowerCase()) sc += 4; else if (expAlnum && xe === expAlnum) sc += 3; else if (!it.exp && !xe) sc += 1;
+      if (color && new RegExp("_" + color + "[_/]").test(x.img)) sc += 1;
+      if (strip(x.name) === strip(it.name)) sc += 1;
+      if (hs.length && hs.some(h => strip(x.name).includes(h) || strip(x.pack).includes(h))) sc += 1;
+      // ミラー・マスターボールミラー等：括弧内の指定とカタログのレアリティ欄を突合（指定なしなら通常版を優先）
+      const xr = strip(x.rarity || ""), wantMirror = hs.some(h => /ミラー/.test(h));
+      if (hs.some(h => h && xr === h)) sc += 3;
+      if (wantMirror && /ミラー/.test(xr)) sc += 2;
+      if (!wantMirror && /ミラー/.test(xr)) sc -= 2;
+      if (it.rarity && it.rarity !== "-" && x.rarity === it.rarity) sc += 1;
+      if (it.set) { const sp = strip(it.set).replace(/[（）()]/g, ""), xp = strip(x.pack); if (sp && xp && (xp.includes(sp) || sp.includes(xp))) sc += 2; }   // シートのパック名（A列）とカタログのパック名
+      return { x, sc };
+    }).sort((a, b) => b.sc - a.sc);
+}
+/* 番号のある通常カード：同じ型番の候補の中から「名前が一致するもの」だけを採用し、パック型番・色（版）で絞る。
+   名前が合う候補が無いときは画像なし（違うカードを出すより安全）。カタログにその弾が無いときだけ命名規則から推定する */
 function matchCard(it, cat) {
+  it.imgWhy = "";
   if (it.no) {
-    if (it.no.includes("+")) { const first = { ...it, no: it.no.split("+")[0].trim() }; const r = matchCard(first, cat); if (r) { it.imgAlt = first.imgAlt; return r; } }
-    const k = (it.exp + "|" + it.no).toLowerCase();
-    if (cat.byExpNo.has(k)) return cat.byExpNo.get(k);
-    // 「XY11青」「BW1白」のような表記 → 英数字だけにして探し、色（青=B 赤=R 緑=G 白=W 黒=K 黄=Y）で版を選ぶ
-    const expAlnum = it.exp.replace(/[^A-Za-z0-9+\-]/g, ""), color = { 青: "B", 赤: "R", 緑: "G", 白: "W", 黒: "K", 黄: "Y", 銀: "S", 金: "G" }[(it.exp.match(/[青赤緑白黒黄銀金]/) || [])[0]];
-    const list = cat.byExpNoList.get((expAlnum + "|" + it.no).toLowerCase()) || [];
-    if (list.length) {
-      let c = list.filter(x => strip(x.name) === strip(it.name)); if (!c.length) c = list;
-      if (color && c.length > 1) { const f = c.filter(x => new RegExp("_" + color + "[_/]").test(x.img)); if (f.length) c = f; }
-      return c[0].img;
+    if (/[+＋]|\s\d/.test(it.no)) { const first = { ...it, no: it.no.split(/[+＋\s]+/)[0].trim() }; const r = matchCard(first, cat); if (r) { it.imgAlt = first.imgAlt; it.imgWhy = first.imgWhy; return r; } }
+    const all = cat.byNoList.get(it.no) || [];
+    const expAlnum = it.exp.replace(/[^A-Za-z0-9+\-]/g, "").toLowerCase(), color = { 青: "B", 赤: "R", 緑: "G", 白: "W", 黒: "K", 黄: "Y", 銀: "S", 金: "G" }[(it.exp.match(/[青赤緑白黒黄銀金]/) || [])[0]];
+    const hs = hints(it.name);
+    const scored = scoreCands(it, all.filter(x => nameOK(it.name, x.name)), cat);
+    if (scored.length) {
+      it.imgCands = scored.filter(z => z.sc === scored[0].sc).length; it.imgWhy = "no+name";
+      return scored[0].x.img;
     }
-    if (cat.byNo.has(it.no)) return cat.byNo.get(it.no);
-    // 番号が複数弾にある場合は名前（括弧内のヒント含む）で絞る
-    const base = strip(it.name.replace(/[（(].*?[)）]/g, "")), hs = hints(it.name);
-    let cand = (cat.byNoList.get(it.no) || []).filter(x => strip(x.name).includes(base));
-    if (cand.length > 1 && hs.length) { const f = cand.filter(x => hs.some(h => strip(x.name).includes(h) || strip(x.pack).includes(h))); if (f.length) cand = f; }
-    if (cand.length) return cand[0].img;
-    // 命名規則からの推定（読めなければ onerror で次の候補、最後は仮表示）
+    if (all.length) { it.imgWhy = "no-only(名前不一致)"; }   // 同じ型番はあるが名前が合わない → 画像なし
+    // 命名規則からの推定：カタログにその弾（パック型番）のカードが1枚も無いときだけ
+    const knownExp = expAlnum && [...cat.byExpNoList.keys()].some(k => k.startsWith(expAlnum + "|"));
     let m, c = [];
-    if ((m = it.no.match(/^(\d+)\/([A-Za-z]+-P)$/))) c = [`${m[2]}/${m[2]}_${m[1]}.jpg`, `${m[2]}/${m[2].toLowerCase()}${m[1]}.jpg`];
-    else if (/^[A-Za-z0-9+]+$/.test(it.exp) && (m = it.no.match(/^(\d+)\/\d+$/))) {
+    if (!all.length && (m = it.no.match(/^(\d+)\/([A-Za-z]+-P)$/))) c = [`${m[2]}/${m[2]}_${m[1]}.jpg`, `${m[2]}/${m[2].toLowerCase()}${m[1]}.jpg`];
+    else if (!all.length && !knownExp && /^[A-Za-z0-9+]+$/.test(it.exp) && (m = it.no.match(/^(\d+)\/\d+$/))) {
       const e = it.exp.replace("+", "p"), E2 = e.slice(0, 2).toUpperCase() + e.slice(2);
       c = [...new Set([`${e}/${e}_${m[1]}.jpg`, `${e}/${e.toUpperCase()}_${m[1]}.jpg`, `${e.toLowerCase()}/${e}_${m[1]}.jpg`, `${e.toLowerCase()}/${e.toLowerCase()}_${m[1]}.jpg`, `${E2}/${E2}_${m[1]}.jpg`])];
     }
-    if (c.length) { it.imgAlt = c.slice(1).map(x => CARD_PREFIX + x); return CARD_PREFIX + c[0]; }
+    if (c.length) { it.imgAlt = c.slice(1).map(x => CARD_PREFIX + x); it.imgWhy = "guess"; return CARD_PREFIX + c[0]; }
+    if (all.length) return "";
   }
-  // 型番なし：名前一致（1件に絞れたときだけ）
-  const same = cat.cardsByName.get(strip(it.name)) || [];
-  const r = it.rarity && it.rarity !== "-" ? same.filter(x => x.rarity === it.rarity) : same;
-  return (r.length === 1 ? r[0].img : same.length === 1 ? same[0].img : "");
+  // 型番なし：名前が同じカードの中から、パック名・括弧内ヒント・レアリティで選ぶ
+  const same = cat.byNameKey.get(nameKey(it.name)) || [];
+  const scored = scoreCands(it, same, cat);
+  if (!scored.length) return "";
+  it.imgCands = scored.filter(z => z.sc === scored[0].sc).length; it.imgWhy = "name-only";
+  return scored[0].x.img;
 }
 function matchBox(it, cat) {
   const k = stripBox(it.name); if (!k) return "";

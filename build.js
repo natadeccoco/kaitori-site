@@ -28,7 +28,7 @@ if (sheetJson) {
   const noimg = items.filter(i => !i.img && i.cat !== "汎用");
   console.log(`sheet tabs: ${data.tabs.map(t => t.tab + "=" + t.rows.length).join(", ")} / 画像なし ${noimg.length} 件`);
   fs.mkdirSync(DIST, { recursive: true });
-  fs.writeFileSync(path.join(DIST, "noimage.txt"), noimg.map(i => `${i.cat}\t${i.tab}\t${i.name}\t${i.code}`).join("\n"));
+  fs.writeFileSync(path.join(DIST, "noimage.txt"), noimg.map(i => `${i.cat}\t${i.tab}\t${i.name}\t${i.code}\t${i.imgWhy || ""}`).join("\n"));
 } else {
   // 旧方式: Myca CSV ＋ タブ別CSV
   const base = lib.csvToItems(read(path.join(DATA, "data_data.csv")));

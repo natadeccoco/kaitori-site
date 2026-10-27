@@ -1,44 +1,75 @@
-# ナタデココ かんたん郵送買取 — サイト本体
+# ナタデココ かんたん郵送買取 — サイト本体（引き継ぎメモ兼README）
 
-`kaitori.pokemon-card.shop` で公開する買取価格表サイトの一式です。
-毎朝、買取表スプレッドシート（GAS）から価格CSVを取り込み、サイト全体（価格表・カード個別ページ・サイトマップ）を自動で作り直して公開します。人の手は不要です。
+株式会社ナタデココのポケモンカード買取価格表サイトです。
+公開URL（仮）: https://natadeccoco.github.io/kaitori-site/ → 独自ドメイン `kaitori.pokemon-card.shop` に切替予定。
 
-## 仕組み
+このメモは、別の人（またはその人のClaude）がこのサイトの管理・編集を引き継げるように書いています。
+**Claudeに「https://github.com/natadeccoco/kaitori-site のREADMEを読んで、買取サイトの編集を手伝って」と伝えれば、仕組みを把握できます。**
+
+## 1. 仕組み（全体像）
 
 ```
-買取表スプレッドシート（毎朝2〜6時に自動更新）
-   └ GAS doGet ?action=sitedata（全タブをJSONで配信）   ← site_data.gs
-        └ GitHub Actions（毎朝06:30 JST）が取得 → node build.js → GitHub Pages に公開
+Googleスプレッドシート「ナタデココ買取表」(ID 1gtUjjGDQvFAE2PR_QDe343wFHS48PbqcHuuLTmT-4YQ)
+   └ Apps Script（site_data.gs）: Webアプリ ?action=sitedata → 価格データをJSONで配信
+        └ GitHub Actions（毎朝 06:30 JST / pushのたび / 手動）
+             fetch_data.sh で取得 → data_sheet.json → node build.js → dist/ → GitHub Pages に公開
 ```
 
-- `data_sheet.json` … 最後に取得した買取表の全タブ（取得失敗時はこれで生成されるので、サイトが空になることはない）
-- `master_images.csv` … Mycaの全商品カタログ（画像URL付き・約3.3万件）。カード画像はここから型番・名前で引き当てる。Mycaに新商品が増えたら全商品エクスポートから作り直す
-- `sheetdata.js` … 買取表JSON→商品データ、画像引き当て
-- `dist/noimage.txt` … 画像を引き当てられなかった行の一覧（ビルドごとに更新）
-- `page.html` … 価格表アプリ（1ページ）
-- `card.html` … カード個別ページの雛形（検索エンジン向け・1カード1ページ・OGP・構造化データ）
+- **価格・掲載カードの元は常にスプレッドシート**。サイト側のファイルに価格は書いていません。
+- 画像は Myca（static.mycalinks.io）の商品画像を `master_images.csv`（Myca全商品カタログの抜粋）から引き当てます。
+- 非表示にしたタブはサイトに出ません。非表示の行は BOXタブだけ除外されます（他タブは行の非表示は見ていません）。
+- 価格が数字でない行（時価・ASK・ー）は出ません。
+
+## 2. よくある作業と、どこを触るか
+
+| やりたいこと | 触る場所 | 反映 |
+|---|---|---|
+| 価格を変える・カードを足す/消す | スプレッドシートの該当タブ | 翌朝6:30に自動（急ぐなら Actions → Run workflow） |
+| 新しいタブをサイトに載せる | Apps Script `site_data.gs` の `SITE_TABS` に追加 → 新バージョンでデプロイ | 次回更新 |
+| バナー画像を差し替える | `banner.jpg`（1800×600）を上書き | pushで自動 |
+| 画像が違うカードを直す | `image_overrides.csv` に1行追加（カテゴリ,名前,画像パス。`-` で画像なし） | pushで自動 |
+| 文言・デザイン | `page.html`（価格表）、`card.html`（カード個別）、`stores.html`（店舗）、`legal.html`、`privacy.html` | pushで自動 |
+| LINE・X・古物商番号・会社名 | `config.json` | pushで自動 |
+| 独自ドメイン切替 | `config.json` の `siteUrl` を `https://kaitori.pokemon-card.shop` に戻す ＋ GitHub Settings → Pages → Custom domain | pushで自動 |
+
+ファイルの編集は GitHub のWeb画面（ファイルを開いて鉛筆アイコン、または「Add file → Upload files」で上書き）でできます。pushすると1〜2分で公開されます。
+
+## 3. ファイル一覧
+
+- `build.js` … 生成本体。`data_sheet.json` ＋ `master_images.csv` ＋ `image_overrides.csv` から `dist/` を出力
+- `sheetdata.js` … スプレッドシートJSON→商品データ、画像の引き当て（型番一致 → 旧裏はカード名＋括弧内ヒントで採点 → 命名規則からの推定）
+- `lib.js` … 共通関数（CSV読み込み、正規化、ID生成）
+- `page.html` … 価格表アプリ（検索・カテゴリタブ・カート・LINE申込）
+- `card.html` … カード個別ページの雛形（SEO用・OGP・構造化データ）
 - `stores.html` `legal.html` `privacy.html` … 固定ページ
-- `lib.js` … CSV→商品データ変換、画像URL引き当て（Myca型番一致→命名規則推定）
-- `build.js` … 生成本体。`dist/` に出力
-- `config.json` … サイトURL・LINE・X・会社情報・古物商許可番号
-- `.github/workflows/build.yml` … 毎朝の自動更新と公開
-- `site_data.gs` … スプレッドシート側に追加するスクリプト
+- `config.json` … サイトURL・LINE ID/友だち追加URL・X・古物商許可・会社名・カテゴリ
+- `site_data.gs` … スプレッドシート側 Apps Script（既にインストール済み。同じ内容を置いてあるだけ）
+- `fetch_data.sh` … GAS から JSON を取得（失敗時は前回のデータを使う）
+- `.github/workflows/build.yml` … 自動更新と公開
+- `data_sheet.json` `data_updated.txt` … 最後に取得した価格データ（Actionsが自動でコミット）
+- `master_images.csv` … Myca画像カタログ（約33,000件）。新弾が出てカードが見つからないときは、Myca POSの商品エクスポートから作り直す
+- `image_overrides.csv` … 画像の手動指定
+- `logo.png` `ogp.png` `banner.jpg` `favicon.svg` … 画像
+- `data_*.csv` … 旧方式の名残（未使用。消してよい）
 
-## 初回セットアップ（1回だけ）
+## 4. 設定済みのもの
 
-1. **GitHub** でリポジトリを作成（例 `natadecoco/kaitori-site`、Private でOK）し、このフォルダの中身をすべてアップロード（build.yml は `.github/workflows/build.yml` に置く）。
-2. リポジトリの Settings → Pages → Build and deployment の Source を **GitHub Actions** にする。
-3. Settings → Secrets and variables → Actions → New repository secret
-   - Name: `SITE_DATA_URL`　Value: GASのWebアプリURL（`https://script.google.com/macros/s/…/exec`）
-4. **GAS**：買取表スプレッドシートのApps Scriptに `site_data.gs` を追加し、既存の `doGet(e)` の先頭に
-   `if (e && e.parameter && e.parameter.action === 'sitedata') return siteData_();`
-   を1行追加 → 新しいバージョンでデプロイ。エディタで `siteDataTest` を実行してタブごとの件数が出ればOK。載せるタブは `site_data.gs` の `SITE_TABS` で管理。
-5. **DNS**：`kaitori.pokemon-card.shop` の CNAME を `<GitHubユーザー名>.github.io` に向ける。
-   GitHub の Settings → Pages → Custom domain に `kaitori.pokemon-card.shop` を入れ、Enforce HTTPS をON。
-6. `config.json` の `lineId` / `lineAddUrl` / `xUrl` / `antiqueLicense` を実際の値にする。
-7. 画像：リポジトリ直下に `logo.png`（720×180 透過PNG）、`banner.jpg`（1800×600）、`ogp.png`（1200×630）を置く。店舗写真は `img/stores/<id>.jpg`（kashiwa, matsudo, tsudanuma, chibachuo, nakano, odaiba, machida, yokohama）。
-8. Actions タブ → build-and-deploy → Run workflow で初回公開。以後は毎朝自動。
-9. Shopify のメニューに「買取価格表」として `https://kaitori.pokemon-card.shop/` を追加。
+- GitHub Pages: Source = GitHub Actions
+- Secrets: `SITE_DATA_URL`（GAS WebアプリURL）
+- Apps Script: 買取表スプレッドシートに紐づくプロジェクト。`doGet` の先頭に `action=sitedata` の分岐あり
+
+## 5. 残タスク（2026-10-27時点）
+
+1. 公式LINEのIDと友だち追加URL → `config.json` の `lineId` / `lineAddUrl`（今は仮）
+2. DNS: `kaitori.pokemon-card.shop` の CNAME を `natadeccoco.github.io` に向ける → GitHub Pages の Custom domain に設定 → `config.json` の `siteUrl` を戻す
+3. 店舗写真 `img/stores/<id>.jpg`（kashiwa, matsudo, tsudanuma, chibachuo, nakano, odaiba, machida, yokohama）任意
+4. Shopify のメニューに「買取価格表」のリンクを追加
+
+## 6. 注意
+
+- スプレッドシートはお客様も見るため、内部情報（仕入れ基準・他社価格など）の列は置かない
+- `site_data.gs` が出す列は見出し名のホワイトリストだけ。列を増やしてもサイトには出ない
+- リポジトリは公開（GitHub Pages 無料枠の条件）。パスワードや内部データはコミットしない
 
 ## 手元で確認するとき
 

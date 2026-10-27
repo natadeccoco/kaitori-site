@@ -16,7 +16,7 @@ Googleスプレッドシート「ナタデココ買取表」(ID 1gtUjjGDQvFAE2PR
 ```
 
 - **価格・掲載カードの元は常にスプレッドシート**。サイト側のファイルに価格は書いていません。
-- 画像は Myca（static.mycalinks.io）の商品画像を `master_images.csv`（Myca全商品カタログの抜粋）から引き当てます。
+- 画像は `master_images.csv`（Myca全商品カタログの抜粋）で引き当て、`fetch_images.js` が毎朝の更新時に未取得分を `img/cards/<hash>.webp`（幅480px）として自前に取り込みます。サイトには自前の画像URLだけが出ます（取り込み前のものだけ一時的に元URL）。
 - 非表示にしたタブはサイトに出ません。非表示の行は BOXタブだけ除外されます（他タブは行の非表示は見ていません）。
 - 価格が数字でない行（時価・ASK・ー）は出ません。
 
@@ -45,6 +45,7 @@ Googleスプレッドシート「ナタデココ買取表」(ID 1gtUjjGDQvFAE2PR
 - `config.json` … サイトURL・LINE ID/友だち追加URL・X・古物商許可・会社名・カテゴリ
 - `site_data.gs` … スプレッドシート側 Apps Script（既にインストール済み。同じ内容を置いてあるだけ）
 - `fetch_data.sh` … GAS から JSON を取得（失敗時は前回のデータを使う）
+- `fetch_images.js` … 商品画像の自前取り込み（Actionsで実行。`img/cards/_missing.txt` は取得できなかった元URLの控え、公開はされない）
 - `.github/workflows/build.yml` … 自動更新と公開
 - `data_sheet.json` `data_updated.txt` … 最後に取得した価格データ（Actionsが自動でコミット）
 - `master_images.csv` … Myca画像カタログ（約33,000件）。新弾が出てカードが見つからないときは、Myca POSの商品エクスポートから作り直す

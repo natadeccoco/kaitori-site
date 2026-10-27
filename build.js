@@ -42,6 +42,17 @@ if (sheetJson) {
   }
 }
 items.forEach(i => { if (/noimage/.test(i.img)) i.img = ""; });
+// 自前に取り込んだ画像（img/cards/<hash>.webp）があればそちらを使う（出典URLを出さない）
+{
+  const crypto = require("crypto"), cdir = path.join(ROOT, "img", "cards");
+  let local = 0;
+  for (const i of items) {
+    if (!/^https?:/.test(i.img)) continue;
+    const f = crypto.createHash("md5").update(i.img).digest("hex").slice(0, 12) + ".webp";
+    if (fs.existsSync(path.join(cdir, f))) { i.img = `${CFG.siteUrl}/img/cards/${f}`; i.imgAlt = []; local++; }
+  }
+  console.log(`自前画像 ${local} / 外部URLのまま ${items.filter(i => /^https?:\/\/static\.mycalinks/.test(i.img)).length}`);
+}
 const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson && JSON.parse(sheetJson).updated) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
 console.log(`items: ${items.length}`, Object.fromEntries(CFG.categories.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 
@@ -114,5 +125,5 @@ write(".nojekyll", "");
 if (!/github\.io$/.test(new URL(CFG.siteUrl).host)) write("CNAME", new URL(CFG.siteUrl).host);
 write("data/items.json", dataJson);
 for (const f of fs.readdirSync(ROOT)) { if (/\.(png|jpg|jpeg|svg|ico|webp)$/i.test(f)) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)); }
-if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true });
+if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true, filter: f => !path.basename(f).startsWith("_") });   // _missing.txt 等は公開しない
 console.log(`built ${urls.length + 1} pages -> dist/`);

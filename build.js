@@ -78,6 +78,11 @@ page = page.replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
 const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n</body>\n</html>\n`;
 write("index.html", wrap(page));
 
+/* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */
+const CAT_SLUG = { "ポケモン": "pk", PSA: "psa", BOX: "box", "旧裏": "old", "旧弾": "kyu", "汎用": "misc" };
+const packSlugBySet = (() => { const m = new Map(); const g = new Map(); for (const it of items) { if (!it.set || it.cat === "汎用") continue; if (!g.has(it.set)) g.set(it.set, []); g.get(it.set).push(it); }
+  for (const [set, a] of g) { if (a.length < 3) continue; const exps = [...new Set(a.map(x => x.exp).filter(e => /^[A-Za-z0-9+\-]+$/.test(e)))]; m.set(set, exps.length === 1 ? exps[0].toLowerCase().replace("+", "p") : "p-" + lib.hashId(set)); } return m; })();
+
 /* ---------- 3. カード個別ページ ---------- */
 const cardTpl = read(path.join(SRC, "card.html"));
 const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c === "旧弾" ? "旧弾（eカード等）" : c === "汎用" ? "汎用・サプライ" : c;
@@ -102,10 +107,80 @@ for (const it of items) {
     .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
     .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/#add=${encodeURIComponent(it.id)}`)
     .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
-    .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company));
+    .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company))
+    .replace(/__PACK_LINK__/g, it.set && packSlugBySet.has(it.set) ? `<a class="sec" href="/pack/${packSlugBySet.get(it.set)}/">${esc(it.set)}の買取価格一覧 ›</a>` : "")
+    .replace(/__CAT_URL__/g, `/cat/${CAT_SLUG[it.cat] || "c"}/`);
   write(rel + "index.html", wrap(html));
   urls.push({ url, lastmod: updated.replace(/\//g, "-") });
 }
+
+/* ---------- 3b. 収録弾ごと・カテゴリごとの一覧ページ（検索対策） ---------- */
+const packTpl = read(path.join(SRC, "pack.html"));
+const CAT_TEXT = {
+  "ポケモン": ["シングルカードの買取について", "<p>SV・MEGA・SM・XY・BW以前・プロモまで、ポケモンカードのシングルカードを型番つきで掲載しています。価格は美品（傷・白かけ・反りなし）の場合の金額で、相場に合わせて毎日更新しています。</p><p>掲載のないカードも買取できます。LINEでカードの写真（型番が見えるように）をお送りください。</p>"],
+  PSA: ["PSA10鑑定品の買取について", "<p>PSA10（GEM MINT）のケース入りカードの買取価格です。ケースに割れ・大きな傷がないものが対象で、ラベルのグレードが確認できる写真をLINEでお送りいただければ、事前にお見積りします。</p><p>PSA9以下やBGSなど他社鑑定品もご相談ください。</p>"],
+  BOX: ["未開封BOXの買取について", "<p>シュリンク付き未開封BOXの買取価格です。一部のBOXはシュリンクなし（ぺりぺり付き）の価格も併記しています。シュリンクの破れ・箱のへこみがある場合は減額となることがあります。</p><p>まとめて売る場合は、箱の数と状態をLINEでお知らせください。</p>"],
+  "旧裏": ["旧裏（旧裏面カード）の買取について", "<p>1996〜2001年の旧裏面ポケモンカードの買取価格です。カード名の後ろにLV（レベル）や版（イントロパック・拡張シート・初版マークなし等）を記載しています。</p><p>旧裏は状態による価格差が大きいため、表面のスレ・裏面の白かけ・角の状態が分かる写真をLINEでお送りください。</p>"],
+  "旧弾": ["旧弾（eカード・ADV/PCG・DP等）の買取について", "<p>ポケモンカードe、ADV・PCG、DPシリーズなど、現行レギュレーション以前のカードの買取価格です。1ED（初版）・アンリミ・キラ・ミラーの区別はカード名に記載しています。</p><p>該当するものが見当たらない場合もLINEでご相談ください。</p>"],
+  "汎用": ["汎用カード・最低保証の買取について", "<p>サポート・モンスター等の汎用カードや最低保証価格の一覧です。</p>"]
+};
+const catSlugOf = c => CAT_SLUG[c] || "c";
+const listCards = arr => arr.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.outerHTML='<div class=ph>'+this.alt+'</div>'">` : `<div class="ph">${esc(r.name)}</div>`}${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}<b>${esc(r.name)}</b><span>${esc(r.code || "")}</span><em>${esc(yen(r.price))}</em></a>`).join("");
+const packPage = (rel, o) => {
+  const url = `${CFG.siteUrl}/${rel}`;
+  const html = packTpl
+    .replace(/__TITLE__/g, esc(o.title + "｜" + CFG.siteName))
+    .replace("__HEAD__", headCommon(o.title, o.desc, url, o.image || CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "CollectionPage", name: o.title, description: o.desc, url })}</script>`)
+    .replace(/__CRUMB__/g, o.crumb).replace(/__EYEBROW__/g, esc(o.eyebrow)).replace(/__H1__/g, esc(o.h1)).replace(/__LEDE__/g, o.lede).replace(/__STATS__/g, o.stats)
+    .replace(/__LIST_URL__/g, esc(o.listUrl)).replace(/__CARDS__/g, listCards(o.cards)).replace(/__TEXT_TITLE__/g, esc(o.textTitle)).replace(/__TEXT__/g, o.text).replace(/__OTHERS__/g, o.others)
+    .replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
+  write(rel + "index.html", wrap(html));
+  urls.push({ url, lastmod: updated.replace(/\//g, "-") });
+};
+// 収録弾（シートA列のパック名）ごと：3件以上あるもの
+const bySet = new Map();
+for (const it of items) { if (!it.set || it.cat === "汎用") continue; if (!bySet.has(it.set)) bySet.set(it.set, []); bySet.get(it.set).push(it); }
+const packs = [...bySet].filter(([, a]) => a.length >= 3).map(([set, a]) => {
+  const exps = [...new Set(a.map(x => x.exp).filter(e => /^[A-Za-z0-9+\-]+$/.test(e)))];
+  const slug = exps.length === 1 ? exps[0].toLowerCase().replace("+", "p") : "p-" + lib.hashId(set);
+  return { set, slug, items: a.sort((x, y) => y.price - x.price), exp: exps.length === 1 ? exps[0] : "" };
+}).sort((a, b) => b.items.length - a.items.length);
+const packLink = p => `<a href="/pack/${p.slug}/">${esc(p.set)}${p.exp ? "（" + esc(p.exp) + "）" : ""} <small>${p.items.length}</small></a>`;
+const packIndexLinks = packs.map(packLink).join("");
+for (const p of packs) {
+  const cats = [...new Set(p.items.map(x => x.cat))];
+  const top = p.items[0];
+  const others = packs.filter(q => q !== p && q.items.some(x => cats.includes(x.cat))).slice(0, 12).map(packLink).join("") + `<a href="/pack/">収録弾の一覧をすべて見る ›</a>`;
+  packPage(`pack/${p.slug}/`, {
+    title: `${p.set}${p.exp ? "（" + p.exp + "）" : ""}の買取価格一覧 ${p.items.length}件`,
+    desc: `${p.set}${p.exp ? "（" + p.exp + "）" : ""}収録カードの買取価格一覧。最高 ${yen(top.price)}（${top.name}）。${updated}更新。ナタデココのかんたん郵送買取は送料無料・最短当日入金。`,
+    image: top.img, crumb: `<a href="/pack/">収録弾から探す</a><span>›</span><span>${esc(p.set)}</span>`, eyebrow: "収録弾ごとの買取価格", h1: `${p.set}${p.exp ? "（" + p.exp + "）" : ""} 買取価格一覧`,
+    lede: `${esc(p.set)}に収録されているカードの買取価格です。<b>${esc(top.name)}</b> ${esc(yen(top.price))} など ${p.items.length}件を掲載（${esc(updated)}更新）。`,
+    stats: `<span class="stat">${p.items.length}件</span><span class="stat">最高 ${esc(yen(top.price))}</span>${cats.map(c => `<span class="stat">${esc(catLabel(c))}</span>`).join("")}`,
+    listUrl: `/?set=${encodeURIComponent(p.set)}`, cards: p.items, textTitle: `${p.set}のカードを売るなら`, text: `<p>価格表に載っているカードをタップして枚数を選び、「LINEで買取申込へ進む」から申込できます。箱に詰めて送るだけ、送料無料・最短当日入金です。</p>${CAT_TEXT[cats[0]] ? CAT_TEXT[cats[0]][1] : ""}`,
+    others
+  });
+}
+packPage("pack/", {
+  title: "収録弾ごとの買取価格一覧", desc: `ポケモンカードを収録弾（パック）ごとにまとめた買取価格一覧。${packs.length}弾を掲載、毎日更新。`, crumb: `<span>収録弾から探す</span>`, eyebrow: "収録弾から探す", h1: "収録弾ごとの買取価格一覧",
+  lede: `${packs.length}の収録弾を掲載しています。弾を選ぶとそのカードの買取価格一覧が開きます。`, stats: `<span class="stat">${packs.length}弾</span><span class="stat">${items.length}件</span>`, listUrl: "/", cards: packs.slice(0, 12).map(p => p.items[0]),
+  textTitle: "収録弾の一覧", text: `<div class="links">${packIndexLinks}</div>`, others: CFG.categories.map(c => `<a href="/cat/${catSlugOf(c)}/">${esc(catLabel(c))}</a>`).join("")
+});
+// カテゴリごと
+for (const c of CFG.categories) {
+  const a = items.filter(x => x.cat === c).sort((x, y) => y.price - x.price); if (!a.length) continue;
+  const top = a[0], t = CAT_TEXT[c] || [catLabel(c) + "の買取について", ""];
+  const catPacks = packs.filter(p => p.items.some(x => x.cat === c)).slice(0, 20).map(packLink).join("");
+  packPage(`cat/${catSlugOf(c)}/`, {
+    title: `${catLabel(c)}の買取価格一覧 ${a.length}件`, desc: `${catLabel(c)}の買取価格一覧。最高 ${yen(top.price)}（${top.name}）。${updated}更新。ナタデココのかんたん郵送買取は送料無料・最短当日入金。`,
+    image: top.img, crumb: `<span>${esc(catLabel(c))}</span>`, eyebrow: "カテゴリごとの買取価格", h1: `${catLabel(c)} 買取価格一覧`,
+    lede: `${esc(catLabel(c))}の買取価格です。<b>${esc(top.name)}</b> ${esc(yen(top.price))} など ${a.length}件を掲載（${esc(updated)}更新）。`,
+    stats: `<span class="stat">${a.length}件</span><span class="stat">最高 ${esc(yen(top.price))}</span>`, listUrl: `/?cat=${encodeURIComponent(c)}`, cards: a.slice(0, 60),
+    textTitle: t[0], text: t[1] + (catPacks ? `<p><b>収録弾から探す</b></p><div class="links">${catPacks}</div>` : ""),
+    others: CFG.categories.filter(x => x !== c).map(x => `<a href="/cat/${catSlugOf(x)}/">${esc(catLabel(x))}</a>`).join("") + `<a href="/pack/">収録弾から探す ›</a>`
+  });
+}
+console.log(`pack pages: ${packs.length}, cat pages: ${CFG.categories.length}`);
 
 /* ---------- 4. 固定ページ ---------- */
 for (const name of ["stores", "legal", "privacy"]) {

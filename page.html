@@ -392,6 +392,9 @@ footer .copy{margin-top:14px;opacity:.75;font-size:13px;text-align:center}
       <a href="#" id="howtoLink">ご利用ガイド（流れ・送り方）</a>
       <a href="#cart">買取のご注意</a>
       <a href="#top">買取価格表のトップへ</a>
+      <a href="/pack/">収録弾ごとの買取価格一覧</a>
+      <a href="/cat/psa/">PSA10の買取価格一覧</a>
+      <a href="/cat/old/">旧裏の買取価格一覧</a>
       <h4>サイトについて</h4>
       <a href="/legal/">古物営業法に関する表示</a>
       <a href="/privacy/">プライバシーポリシー</a>
@@ -659,7 +662,8 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
   const data=JSON.parse(document.getElementById("site-data").textContent);
   const u=$("#updated");if(u&&data.updated)u.textContent="価格更新日 "+data.updated;
   boot(data.items);
-  const qc=new URLSearchParams(location.search).get("cat");if(qc&&CATS().includes(qc)){setCat(qc);}
+  const sp=new URLSearchParams(location.search);const qc=sp.get("cat");if(qc&&CATS().includes(qc)){setCat(qc);}
+  const qs=sp.get("set");if(qs&&ITEMS.some(i=>i.set===qs)){state.set.add(qs);apply();scrollToList();}   // 弾ページからの遷移（?set=収録弾名）
   // カード個別ページからの遷移（#add=ID）
   const m=location.hash.match(/#add=([^&]+)/);
   if(m){const id=decodeURIComponent(m[1]);if(ITEMS.some(i=>i.id===id)){addToCart(id,1);history.replaceState(null,"",location.pathname);$("#cart").scrollIntoView();}}

@@ -234,6 +234,23 @@ footer .x{font-size:20px;font-weight:800}
 .steps .n small{font-size:8px;letter-spacing:.1em}
 .steps b{display:block;font-size:15px}
 .steps p{margin:2px 0 0;color:var(--ink-2);font-size:13px}
+/* ===== カードのポップアップ（タップで開く） ===== */
+.imodal .box{max-width:460px;padding:18px 18px 20px;border-color:var(--lav)}
+.imodal .ihead{padding-right:40px}
+.imodal .iname{margin:0;font-size:18px;line-height:1.3;color:var(--navy)}
+.imodal .imeta{margin:4px 0 0;font-size:13px;color:var(--ink-2)}
+.imodal .iprice{margin:6px 0 0;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:26px;color:var(--price)}
+.imodal .iprice small{font-size:12px;color:var(--ink-2);font-weight:700;margin-left:6px}
+.imodal .iim{margin:12px auto 0;width:min(100%,300px);aspect-ratio:63/88;border-radius:14px;overflow:hidden;background:var(--bg-2);border:2px solid var(--cyan);position:relative}
+.imodal .iim img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
+.imodal .iim .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-weight:700;color:var(--ink-2);background:linear-gradient(160deg,#FFFBE0,#E7F9FA 60%,#F2E8FF)}
+.imodal .iqty{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:14px}
+.imodal .iqty button{width:48px;height:44px;border:2px solid var(--line);border-radius:12px;background:#fff;font-size:20px;font-weight:800;cursor:pointer}
+.imodal .iqty span{min-width:64px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:2px solid var(--line);border-radius:12px;font-weight:800;font-size:18px}
+.imodal .iadd{display:flex;width:100%;align-items:center;justify-content:center;gap:8px;margin-top:12px;background:var(--price);color:#fff;border:0;border-radius:999px;padding:14px;font-weight:800;font-size:17px;cursor:pointer;box-shadow:0 4px 0 #b8202c}
+.imodal .iadd:hover{filter:brightness(1.05)}
+.imodal .ilink{display:block;text-align:center;margin-top:10px;font-size:13px;color:var(--navy-2)}
+.imodal .inow{margin-top:8px;text-align:center;font-size:12px;color:var(--ink-2)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.25)}
 .fab{position:fixed;right:16px;bottom:16px;z-index:40;background:var(--yellow);color:var(--ink);border:3px solid #fff;border-radius:999px;padding:12px 18px;font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.2);cursor:pointer;display:none;align-items:center;gap:8px}
 .fab.show{display:inline-flex}
@@ -368,6 +385,18 @@ footer .x{font-size:20px;font-weight:800}
 </footer>
 
 <button class="fab" id="fab" type="button">買取内容を見る <span class="b" id="fabN">0</span></button>
+
+<div class="modal imodal" id="imodal" hidden>
+  <div class="box" role="dialog" aria-modal="true" aria-labelledby="iname">
+    <button class="close" type="button" id="imodalClose" aria-label="閉じる">×</button>
+    <div class="ihead"><h2 class="iname" id="iname"></h2><p class="imeta" id="imeta"></p><div class="iprice" id="iprice"></div></div>
+    <div class="iim" id="iim"></div>
+    <div class="iqty"><button type="button" id="iminus" aria-label="減らす">−</button><span id="iqty">1</span><button type="button" id="iplus" aria-label="増やす">＋</button></div>
+    <button class="iadd" type="button" id="iadd">買取内容に追加</button>
+    <div class="inow" id="inow"></div>
+    <a class="ilink" id="ilink" href="#">カードの詳細ページを見る ›</a>
+  </div>
+</div>
 
 <div class="modal" id="howto" hidden>
   <div class="box" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
@@ -529,7 +558,7 @@ function addToCart(id,delta=1){
 }
 function renderCart(){
   const tb=$("#cartBody");tb.innerHTML="";let n=0,t=0;
-  if(!cart.size)tb.innerHTML=`<tr class="cart-empty"><td colspan="5">上の一覧からカードをタップすると、ここに追加されます</td></tr>`;
+  if(!cart.size)tb.innerHTML=`<tr class="cart-empty"><td colspan="5">上の一覧でカードをタップ →「買取内容に追加」を押すと、ここに追加されます</td></tr>`;
   cart.forEach(({item,qty},id)=>{
     n+=qty;t+=item.price*qty;
     const tr=document.createElement("tr");
@@ -555,8 +584,27 @@ function lineUrl(){return `https://line.me/R/oaMessage/${encodeURIComponent(CONF
 let toastT;function toast(m){let t=$(".toast");if(!t){t=document.createElement("div");t.className="toast";document.body.appendChild(t);}t.textContent=m;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),2200);}
 
 /* ============================ イベント ============================ */
-$("#grid").addEventListener("click",e=>{if(e.target.closest("a"))return;const c=e.target.closest(".card");if(!c)return;addToCart(c.dataset.id,1);toast("買取内容に追加しました");});
-$("#grid").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest(".card");if(!c||e.target!==c)return;e.preventDefault();addToCart(c.dataset.id,1);toast("買取内容に追加しました");});
+/* カードをタップ → ポップアップ（枚数を決めて「買取内容に追加」）。誤タッチで追加されないように */
+let MODAL_ID=null,MODAL_Q=1;
+function openItem(id){
+  const it=ITEMS.find(i=>i.id===id);if(!it)return;MODAL_ID=id;MODAL_Q=1;
+  $("#iname").textContent=it.name;
+  $("#imeta").textContent=[it.code,it.set,it.rarity!=="-"?it.rarity:"",it.grade!=="素体"?"["+it.grade+"]":"",it.cat!==CONFIG.categories[0]?it.cat:""].filter(Boolean).join("　");
+  $("#iprice").innerHTML=`${yen(it.price)}<small>買取価格（美品）</small>`;
+  $("#iim").innerHTML=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:`<div class="ph">${esc(it.name)}</div>`;
+  $("#iqty").textContent=MODAL_Q;
+  const q=cart.get(id)?.qty||0;$("#inow").textContent=q?`現在 ${q}枚 追加済み`:"";
+  $("#ilink").href=`/card/${encodeURIComponent(id)}/`;
+  $("#imodal").hidden=false;$("#iadd").focus();
+}
+function closeItem(){$("#imodal").hidden=true;MODAL_ID=null;}
+$("#grid").addEventListener("click",e=>{if(e.target.closest("a"))return;const c=e.target.closest(".card");if(!c)return;openItem(c.dataset.id);});
+$("#grid").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest(".card");if(!c||e.target!==c)return;e.preventDefault();openItem(c.dataset.id);});
+$("#iminus").onclick=()=>{MODAL_Q=Math.max(1,MODAL_Q-1);$("#iqty").textContent=MODAL_Q;};
+$("#iplus").onclick=()=>{MODAL_Q=Math.min(99,MODAL_Q+1);$("#iqty").textContent=MODAL_Q;};
+$("#iadd").onclick=()=>{if(!MODAL_ID)return;addToCart(MODAL_ID,MODAL_Q);toast(`買取内容に ${MODAL_Q}枚 追加しました`);closeItem();};
+$("#imodalClose").onclick=closeItem;
+$("#imodal").addEventListener("click",e=>{if(e.target.id==="imodal")closeItem();});
 $("#q").addEventListener("input",e=>{state.q=e.target.value;apply();});
 $("#focusSearch").onclick=()=>{scrollToList();$("#q").focus();};
 $("#fbtn").onclick=()=>openPanel($("#fpanel").hidden);
@@ -571,7 +619,7 @@ const openHow=e=>{if(e)e.preventDefault();$("#howto").hidden=false;$("#howtoClos
 $("#howtoBtn").onclick=openHow;$("#howtoLink").onclick=openHow;
 $("#howtoClose").onclick=()=>$("#howto").hidden=true;
 $("#howto").addEventListener("click",e=>{if(e.target.id==="howto")$("#howto").hidden=true;});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")$("#howto").hidden=true;});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#howto").hidden=true;closeItem();}});
 $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;$("#xLink").href=CONFIG.xUrl;
 
 /* ============================ 初期化 ============================ */

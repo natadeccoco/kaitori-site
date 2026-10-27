@@ -3,14 +3,14 @@ __HEAD__
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
 :root{--bg:#fff;--bg-2:#F4FAFB;--line:#DDE8EB;--line-2:#C5D5DA;--ink:#22303C;--ink-2:#5A6B76;--cyan:#A9F3F4;--cyan-deep:#1FA8B8;--navy:#173B5C;--navy-2:#1E4E78;--lav:#C4A8F0;--open:#0B7A47;--open-soft:#DFF5E9;--wait:#8A5A00;--wait-soft:#FFF3C9}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:15px;line-height:1.7}
-.top{background:var(--cyan);height:64px;display:flex;align-items:center;justify-content:center}
+*{box-sizing:border-box}body{margin:0;background:#FBFDFF;background-image:radial-gradient(rgba(169,243,244,.35) 1.5px,transparent 1.6px);background-size:22px 22px;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:15px;line-height:1.7}
+.top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);height:64px;display:flex;align-items:center;justify-content:center}.top img{height:46px}
 .logo{text-decoration:none;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:22px;color:#fff;-webkit-text-stroke:1.5px var(--navy);text-shadow:2px 2px 0 var(--lav);text-align:center;line-height:1.1}
 .logo small{display:block;font-size:10px;-webkit-text-stroke:0;color:var(--navy);text-shadow:none;letter-spacing:.14em;margin-bottom:2px}
 .page{max-width:1080px;margin:0 auto;padding:22px 16px 40px}
 .eyebrow{margin:0;color:var(--ink-2);font-size:12px}h1{margin:0;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:clamp(1.45rem,4.2vw,1.9rem);line-height:1.3}
 .lede{margin:4px 0 0;color:var(--ink-2);max-width:42em}.lede b{color:var(--ink)}
-.back{display:inline-flex;gap:8px;margin:10px 0 0;border:1px solid var(--line);background:var(--bg-2);border-radius:8px;padding:7px 12px;font-size:13px;text-decoration:none}
+.back{display:inline-flex;gap:8px;margin:10px 0 0;border:2px solid var(--cyan);background:#fff;border-radius:999px;box-shadow:0 3px 0 var(--cyan);padding:7px 12px;font-size:13px;text-decoration:none}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0}.chip{font:inherit;font-size:13px;background:#fff;border:1px solid var(--line-2);border-radius:999px;padding:4px 13px;cursor:pointer}.chip[aria-pressed="true"]{background:var(--navy-2);border-color:var(--navy-2);color:#fff}
 .stores{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}@media (max-width:760px){.stores{grid-template-columns:1fr}}
 .store{background:#fff;border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 10px rgba(34,48,60,.07);overflow:hidden;display:flex;flex-direction:column}
@@ -21,18 +21,19 @@ __HEAD__
 .pill{flex:none;font-size:12px;font-weight:700;border-radius:999px;padding:3px 11px;color:var(--ink-2);background:var(--bg-2);border:1px solid var(--line)}.pill.open{color:var(--open);background:var(--open-soft);border-color:transparent}.pill.soon{color:var(--wait);background:var(--wait-soft);border-color:transparent}
 .facts{margin:0;display:grid;grid-template-columns:4.6em 1fr;gap:8px 12px;border-top:1px solid var(--line);padding-top:12px}.facts dt{color:var(--ink-2);font-size:12px;font-weight:700;padding-top:3px}.facts dd{margin:0}
 .links{display:flex;flex-wrap:wrap;gap:8px}.links a{color:var(--navy-2);font-weight:700;font-size:13px;text-decoration:none;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;padding:7px 12px}
-footer{background:var(--navy-2);color:#fff;text-align:center;font-size:13px;padding:22px 16px 26px}footer a{color:#fff;margin:0 10px}
+footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text-align:center;font-size:13px;padding:22px 16px 26px}footer a{color:var(--navy)}footer .season{height:120px;display:block;margin:0 auto 10px}footer a{color:#fff;margin:0 10px}
 </style>
-<header class="top"><a class="logo" href="/"><small>ポケモンカード専門店</small>natadecoco</a></header>
+<header class="top"><a class="logo" href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
 <main class="page">
   <p class="eyebrow">ポケモンカード/ポケカを売るなら</p>
-  <h1>店頭買取 店舗一覧</h1>
+  <h1>店頭買取 店舗一覧 <img src="/img/chars/fai1.webp" alt="" style="height:64px;vertical-align:middle;margin-left:6px"></h1>
   <p class="lede">千葉・東京・神奈川の<b>8店舗</b>で店頭買取を受け付けています。カードは各店舗の営業時間内にお持ち込みください。遠方の方は<a href="/">かんたん郵送買取</a>をご利用ください。</p>
   <a class="back" href="/">郵送買取・買取価格表はこちら ›</a>
   <div class="chips" id="chips"></div>
   <section class="stores" id="stores"></section>
 </main>
 <footer>
+  <img class="season" src="/img/chars/deco_autumn.webp" alt="">
   <div><a href="/">買取価格表</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div>
   <p>住所・電話番号・営業時間は Google マップ掲載の情報です。祝日や臨時休業、大会開催日の営業時間は各店舗の X でご確認ください。</p>
   <div style="opacity:.75">© __COMPANY__</div>

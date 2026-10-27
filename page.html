@@ -14,12 +14,13 @@
   --navy:#173B5C; --navy-2:#1E4E78;
   --line-green:#06C755;
   --gold:#C9A227; --gold-soft:#FFF6D1;
-  --radius:10px; --shadow:0 2px 10px rgba(34,48,60,.07);
+  --radius:16px; --shadow:0 4px 14px rgba(43,58,103,.08);
+  --mint:#DDF8F8; --lemon:#FFF6C9; --rose:#FFE2F1; --lilac:#ECE3FF; --sky:#E3F4FF;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:14px;line-height:1.6}
+body{margin:0;background:#FBFDFF;background-image:radial-gradient(rgba(169,243,244,.35) 1.5px,transparent 1.6px);background-size:22px 22px;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:14px;line-height:1.6}
 a{color:inherit}
 button,input{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--cyan-deep);outline-offset:2px}
@@ -29,7 +30,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 [hidden]{display:none!important}
 
 /* ===== header ===== */
-.top{position:sticky;top:0;z-index:30;background:var(--cyan);box-shadow:0 1px 0 rgba(0,0,0,.05)}
+.top{position:sticky;top:0;z-index:30;background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);box-shadow:0 2px 0 rgba(255,255,255,.7),0 4px 14px rgba(43,58,103,.08)}
 .top .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:72px}
 .top .left{display:flex;align-items:center}
 .logo{display:flex;align-items:center;justify-content:center;text-decoration:none}
@@ -39,18 +40,20 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .right{display:flex;align-items:center;justify-content:flex-end;gap:10px}
 .icbtn{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.55);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;color:var(--navy)}
 .icbtn:hover{background:#fff}
-.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:700;text-decoration:none;border-radius:8px;padding:9px 16px;white-space:nowrap;border:0;cursor:pointer;font-size:15px}
+.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:700;text-decoration:none;border-radius:999px;box-shadow:0 3px 0 #049a42;padding:9px 16px;white-space:nowrap;border:0;cursor:pointer;font-size:15px}
 .line-btn:hover{filter:brightness(.95)}
 .line-btn svg{flex:none}
 @media (max-width:640px){.top .wrap{height:60px;grid-template-columns:auto 1fr auto}.logo{justify-content:flex-start}.logo img{height:40px}.logo .txt{font-size:20px}.line-btn span{display:none}.line-btn{padding:9px 11px}.top .left{display:none}}
 
 /* ===== page head ===== */
-.phead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 0 0}
+.phead{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 0 0;position:relative}
+.phead .mascot{position:absolute;right:170px;top:-6px;height:96px;width:auto;pointer-events:none;filter:drop-shadow(0 3px 0 rgba(43,58,103,.15))}
+@media (max-width:760px){.phead .mascot{display:none}}
 .phead .eyebrow{font-size:12px;color:var(--ink-2);margin:0}
-.phead h1{margin:0;font-size:22px;font-weight:800;line-height:1.3}
-.howto-btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line-2);background:var(--bg-2);color:var(--navy-2);font-weight:700;border-radius:8px;padding:9px 14px;cursor:pointer;white-space:nowrap}
+.phead h1{margin:0;font-size:24px;font-weight:800;line-height:1.3;color:var(--navy)}
+.howto-btn{display:inline-flex;align-items:center;gap:6px;border:2px solid var(--lav);background:#fff;color:var(--navy-2);font-weight:700;border-radius:999px;box-shadow:0 3px 0 var(--lav);padding:9px 14px;cursor:pointer;white-space:nowrap}
 .howto-btn:hover{background:#fff}
-.store-btn{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--bg-2);border-radius:8px;padding:7px 12px;font-size:13px;text-decoration:none;margin-top:10px}
+.store-btn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--cyan);background:#fff;border-radius:999px;box-shadow:0 3px 0 var(--cyan);padding:7px 12px;font-size:13px;text-decoration:none;margin-top:10px}
 .store-btn:hover{background:#fff}
 .tabs{display:flex;gap:22px;border-bottom:1px solid var(--line);margin-top:14px;overflow-x:auto}
 .tab{padding:8px 2px;font-weight:700;color:var(--ink-2);border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:0;border-left:0;border-right:0;cursor:pointer}
@@ -66,12 +69,12 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .banner .ph small{position:absolute;right:12px;bottom:8px;font-size:11px;color:var(--ink-2);background:rgba(255,255,255,.7);padding:2px 8px;border-radius:4px}
 
 /* ===== search ===== */
-.searchbox{margin-top:14px;border:1px solid var(--line);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow);background:#fff}
+.searchbox{margin-top:14px;border:2px solid var(--cyan);border-radius:var(--radius);padding:10px;box-shadow:var(--shadow);background:#fff}
 .searchrow{display:flex;gap:8px}
-.searchrow .in{flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-radius:8px;padding:0 12px;min-width:0}
+.searchrow .in{flex:1;display:flex;align-items:center;gap:8px;border:2px solid var(--line);border-radius:999px;background:var(--bg-2);padding:0 12px;min-width:0}
 .searchrow input{flex:1;border:0;outline:0;padding:10px 0;min-width:0;background:transparent;font-size:15px}
 .searchrow input::placeholder{color:var(--ink-3)}
-.fbtn{width:44px;border:1px solid var(--line-2);border-radius:8px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;position:relative;flex:none}
+.fbtn{width:44px;border:2px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;position:relative;flex:none}
 .fbtn:hover{background:var(--bg-2)}
 .fbtn .dot{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--price);display:none}
 .fbtn.active .dot{display:block}
@@ -80,21 +83,24 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{border:1px solid var(--line-2);background:#fff;border-radius:999px;padding:4px 12px;font-size:13px;cursor:pointer;line-height:1.5;color:var(--ink);font-weight:500}
 .chip:hover{border-color:var(--cyan-deep)}
-.chip[aria-pressed="true"]{background:var(--navy-2);border-color:var(--navy-2);color:#fff}
+.chip[aria-pressed="true"]{background:var(--lav);border-color:var(--lav);color:var(--navy)}
 .chip .c{font-size:11px;opacity:.6;margin-left:3px}
 .fpanel .tools{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .linkbtn{border:0;background:none;color:var(--navy-2);text-decoration:underline;cursor:pointer;padding:0;font-size:13px}
 .active-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.active-chips .chip{background:var(--navy-2);color:#fff;border-color:var(--navy-2);padding-right:8px}
+.active-chips .chip{background:var(--lav);color:var(--navy);border-color:var(--lav);padding-right:8px}
 .active-chips .chip::after{content:"×";margin-left:6px;opacity:.8}
 
 /* ===== category tabs ===== */
 .cattabs{display:flex;gap:8px;margin-top:14px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
 .cattabs::-webkit-scrollbar{height:0}
-.cattabs .tab{flex:1 0 auto;min-width:96px;text-align:center;border:2px solid var(--line);border-radius:10px;background:#fff;padding:9px 14px;font-size:15px;font-weight:800;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.2;transition:background .12s,border-color .12s}
+.cattabs .tab{flex:1 0 auto;min-width:96px;text-align:center;border:2px solid var(--line);border-radius:14px;background:#fff;box-shadow:0 3px 0 var(--line);padding:9px 14px;font-size:15px;font-weight:800;color:var(--ink-2);display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.2;transition:background .12s,border-color .12s}
 .cattabs .tab .tc{margin:0;font-size:11px;font-weight:600;opacity:.75}
 .cattabs .tab:hover{border-color:var(--cyan-deep);color:var(--ink)}
-.cattabs .tab.on{background:var(--cyan-deep);border-color:var(--cyan-deep);color:#fff}
+.cattabs .tab.on{background:linear-gradient(160deg,var(--cyan),#8EE3EC);border-color:#8EE3EC;color:var(--navy);box-shadow:0 3px 0 var(--cyan-deep)}
+.cattabs .tab[data-cat="PSA"].on{background:linear-gradient(160deg,#FFF6C9,#FFE27A);border-color:#FFE27A;box-shadow:0 3px 0 var(--yellow-deep)}
+.cattabs .tab[data-cat="BOX"].on{background:linear-gradient(160deg,#FFE2F1,#FFB8DC);border-color:#FFB8DC;box-shadow:0 3px 0 #E06FA8}
+.cattabs .tab[data-cat="旧裏"].on,.cattabs .tab[data-cat="旧弾"].on{background:linear-gradient(160deg,#ECE3FF,#CDB8FF);border-color:#CDB8FF;box-shadow:0 3px 0 #8E6FD9}
 .cattabs .tab.on .tc{opacity:.9}
 @media (max-width:560px){.cattabs .tab{min-width:78px;padding:8px 10px;font-size:14px}}
 
@@ -104,19 +110,19 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .lhead .cnt{color:var(--ink-2);font-size:13px;margin-left:8px;font-weight:500}
 .lhead .r{display:flex;align-items:center;gap:10px}
 .lhead .upd{font-size:12px;color:var(--ink-2);margin-right:auto}
-.seg{display:inline-flex;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:3px}
-.seg button{border:0;background:transparent;padding:5px 14px;border-radius:6px;cursor:pointer;font-weight:700;color:var(--ink-2)}
+.seg{display:inline-flex;background:var(--bg-2);border:2px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;padding:5px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--ink-2)}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
-.sort{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:13px}
+.sort{border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:13px}
 
 /* ===== grid ===== */
 .grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
 @media (max-width:1100px){.grid{grid-template-columns:repeat(6,1fr)}}
 @media (max-width:860px){.grid{grid-template-columns:repeat(4,1fr)}}
 @media (max-width:560px){.grid{grid-template-columns:repeat(3,1fr);gap:8px}}
-.card{border:1px solid var(--line);border-radius:6px;background:#fff;overflow:hidden;cursor:pointer;position:relative;text-align:left;padding:0;display:flex;flex-direction:column;transition:transform .12s,box-shadow .12s}
+.card{border:2px solid #E6EEF2;border-radius:12px;background:#fff;overflow:hidden;cursor:pointer;position:relative;text-align:left;padding:0;display:flex;flex-direction:column;transition:transform .12s,box-shadow .12s}
 .card:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(34,48,60,.14)}
-.card.sel{outline:3px solid var(--yellow);outline-offset:-3px}
+.card.sel{outline:3px solid var(--yellow);outline-offset:-3px;background:var(--lemon)}
 .card .im{aspect-ratio:63/88;background:var(--bg-2);position:relative;overflow:hidden}
 .card .im img{width:100%;height:100%;object-fit:cover;display:block;position:relative;z-index:1}
 .card .ph{position:absolute;inset:0;padding:8px 7px;display:flex;flex-direction:column;background:linear-gradient(160deg,#FFFBE0,#E7F9FA 60%,#F2E8FF);border:5px solid #F3D64A;border-radius:6px}
@@ -128,7 +134,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .card .ph .r{margin-top:auto;font-size:10px;color:var(--ink-2);display:flex;justify-content:space-between;gap:4px}
 .badge{position:absolute;top:4px;right:4px;z-index:2;background:#fff;border:2px solid #9AA3AD;border-radius:50%;width:40px;height:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;line-height:1;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .badge .p{font-size:9px;color:var(--price);letter-spacing:-.02em}.badge .g{font-size:15px;color:#1E4E78}
-.card .pr{padding:5px 6px;text-align:center;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;border-top:1px solid var(--line)}
+.card .pr{padding:5px 6px;text-align:center;font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;border-top:2px dashed var(--line);color:var(--price);font-family:"M PLUS Rounded 1c",sans-serif}
 .card .qty{position:absolute;left:4px;top:4px;z-index:3;background:var(--yellow);color:var(--ink);font-weight:800;border-radius:999px;min-width:24px;height:24px;padding:0 7px;display:none;align-items:center;justify-content:center;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .card.sel .qty{display:inline-flex}
 .card .nm{display:none}
@@ -138,7 +144,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .card .no{display:flex;justify-content:space-between;gap:4px;padding:3px 6px 0;font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
 .card .no span:first-child{overflow:hidden;text-overflow:ellipsis}
 .card .no span:last-child{font-weight:700;color:var(--ink-3);flex:none}
-.ctag{position:absolute;left:0;bottom:0;z-index:2;background:var(--navy);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:0 6px 0 0;letter-spacing:.04em}
+.ctag{position:absolute;left:0;bottom:0;z-index:2;background:var(--navy);color:#fff;border-radius:0 10px 0 0;font-size:10px;font-weight:800;padding:2px 7px;border-radius:0 6px 0 0;letter-spacing:.04em}
 .tab .tc{font-size:11px;font-weight:500;opacity:.7;margin-left:4px}
 .grid.simple .card .no,.grid.simple .ctag{display:none}
 
@@ -155,16 +161,21 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .grid.simple .card .nm span{font-size:12px;color:var(--ink-2)}
 .grid.simple .card .pr{border:0;padding:0;font-size:18px;color:var(--price);white-space:nowrap}
 .grid.simple .card .qty{position:static;margin-left:8px}
-.empty{padding:40px 16px;text-align:center;color:var(--ink-2);border:1px dashed var(--line-2);border-radius:var(--radius)}
+.empty{padding:28px 16px 32px;text-align:center;color:var(--ink-2);border:2px dashed var(--cyan);border-radius:var(--radius);background:#fff}
+.empty img{height:140px;display:block;margin:0 auto 8px}
 
 /* pagination */
 .pager{display:flex;justify-content:center;gap:6px;margin:18px 0 26px;flex-wrap:wrap}
-.pager button{min-width:36px;height:36px;border:1px solid var(--line);border-radius:6px;background:#fff;cursor:pointer;color:var(--ink-2);font-weight:600}
-.pager button.on{background:var(--cyan-deep);border-color:var(--cyan-deep);color:#fff}
+.pager button{min-width:36px;height:36px;border:2px solid var(--line);border-radius:999px;background:#fff;cursor:pointer;color:var(--ink-2);font-weight:600}
+.pager button.on{background:var(--cyan);border-color:var(--cyan);color:var(--navy)}
 .pager button:disabled{opacity:.4;cursor:default}
 
 /* ===== 買取内容 ===== */
-.cartsec h2{font-size:18px;font-weight:800;margin:0 0 6px}
+.cartsec{background:#fff;border:2px solid var(--rose);border-radius:var(--radius);padding:18px 16px 20px;box-shadow:var(--shadow);position:relative}
+.cartsec h2{font-size:18px;font-weight:800;margin:0 0 6px;color:var(--navy)}
+.cartsec .cheer{position:absolute;right:14px;top:-58px;height:120px;pointer-events:none;filter:drop-shadow(0 3px 0 rgba(43,58,103,.15))}
+@media (max-width:760px){.cartsec .cheer{height:90px;top:-40px}}
+.cartsec{margin-top:70px}
 table.cart{width:100%;border-collapse:collapse;font-size:14px}
 table.cart th{text-align:left;color:var(--navy-2);font-weight:700;padding:10px 8px;border-bottom:1px solid var(--line)}
 table.cart td{padding:9px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
@@ -176,28 +187,32 @@ table.cart tfoot td{font-weight:800;font-size:16px}
 .qc span{min-width:28px;text-align:center;font-weight:700}
 .rm{border:0;background:none;color:var(--ink-3);cursor:pointer;font-size:16px;padding:0 6px}
 .cart-empty td{color:var(--ink-3);text-align:center;padding:18px}
-.apply{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;margin-top:14px;background:var(--navy);color:#fff;border:0;border-radius:6px;padding:14px;font-weight:800;font-size:16px;cursor:pointer;text-decoration:none}
-.apply:hover{background:var(--navy-2)}
+.apply{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;margin-top:14px;background:var(--line-green);color:#fff;border:0;border-radius:999px;padding:14px;font-weight:800;font-size:17px;cursor:pointer;text-decoration:none;box-shadow:0 4px 0 #049a42}
+.apply:hover{filter:brightness(1.05)}
 .apply:disabled{opacity:.5;cursor:default}
 .subact{display:flex;gap:16px;justify-content:center;margin-top:8px}
 .notes{margin:12px 0 0;padding:0;list-style:none;color:var(--price);font-size:13px}
 .notes li{margin:2px 0}
 
 /* ===== browse section ===== */
-.allbar{display:block;margin-top:28px;background:var(--cyan-deep);color:#fff;text-align:center;font-weight:800;padding:12px;border:0;width:100%;cursor:pointer;font-size:15px}
-.browse{background:var(--navy);padding:16px 0 20px}
-.bcard{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);padding:14px 16px 16px;color:#fff}
-.bcard .bh{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;font-weight:800;font-size:15px}
+.allbar{display:block;margin-top:28px;background:linear-gradient(90deg,var(--cyan),var(--lav));color:var(--navy);text-align:center;font-weight:800;padding:12px;border:0;width:100%;cursor:pointer;font-size:15px}
+.browse{background:linear-gradient(180deg,var(--lilac),var(--sky));padding:16px 0 20px}
+.bcard{background:#fff;border:2px solid #fff;border-radius:var(--radius);padding:14px 16px 16px;color:var(--navy);box-shadow:var(--shadow);position:relative}
+.bcard .bh{display:flex;align-items:center;gap:12px;background:var(--lemon);border-radius:12px;padding:10px 14px;font-weight:800;font-size:15px;padding-right:110px}
+.bcard .peek{position:absolute;right:18px;top:-30px;height:88px;pointer-events:none}
 .bcard .bh .mk{width:44px;height:30px;border-radius:5px;background:linear-gradient(135deg,var(--yellow),var(--pink));display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:"M PLUS Rounded 1c",sans-serif;font-size:11px;font-weight:800;flex:none}
-.bcard h3{margin:14px 0 6px;font-size:13px;font-weight:700;color:#fff}
-.bcard .chip{background:#fff;color:var(--navy);border-color:#fff;font-weight:700}
-.bcard .chip:hover{background:var(--yellow);border-color:var(--yellow)}
+.bcard h3{margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--ink-2)}
+.bcard .chip{background:var(--bg-2);color:var(--navy);border-color:var(--line);font-weight:700}
+.bcard .chip:hover{background:var(--lemon);border-color:var(--yellow)}
 
 /* ===== footer ===== */
-footer{background:var(--navy-2);color:#fff;padding:26px 16px 30px;text-align:center;font-size:14px}
-footer h4{margin:16px 0 6px;font-size:14px;font-weight:800}
+footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:26px 16px 30px;text-align:center;font-size:14px;position:relative}
+footer .season{display:block;height:150px;margin:0 auto 10px;filter:drop-shadow(0 3px 0 rgba(43,58,103,.15))}
+footer .friends{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0 0}
+footer .friends img{height:64px;width:auto;opacity:.95}
+footer h4{margin:16px 0 6px;font-size:14px;font-weight:800;color:var(--navy-2)}
 footer h4:first-child{margin-top:0}
-footer a{display:block;color:#fff;text-decoration:none;margin:5px 0;opacity:.95}
+footer a{display:block;color:var(--navy);text-decoration:none;margin:5px 0;opacity:.95}
 footer a:hover{text-decoration:underline}
 footer .ln{display:inline-flex;align-items:center;gap:6px}
 footer .ln i{width:18px;height:18px;border-radius:4px;background:var(--line-green);display:inline-block}
@@ -207,17 +222,18 @@ footer .x{font-size:20px;font-weight:800}
 
 /* ===== modal ===== */
 .modal{position:fixed;inset:0;z-index:50;background:rgba(20,30,40,.55);display:flex;align-items:center;justify-content:center;padding:16px}
-.modal .box{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:22px 22px 26px;position:relative}
+.modal .box{background:#fff;border-radius:20px;border:3px solid var(--cyan);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:22px 22px 26px;position:relative}
 .modal h2{margin:0 0 4px;font-size:20px}
 .modal .close{position:absolute;top:10px;right:10px;border:0;background:var(--bg-2);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px}
 .steps{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
-.steps li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.steps li{display:grid;grid-template-columns:44px 1fr 64px;gap:12px;align-items:center;background:var(--bg-2);border-radius:14px;padding:10px 12px}
+.steps li img{height:60px;width:64px;object-fit:contain;justify-self:end}
 .steps .n{width:44px;height:44px;border-radius:50%;background:linear-gradient(160deg,var(--lav),var(--cyan));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.2)}
 .steps .n small{font-size:8px;letter-spacing:.1em}
 .steps b{display:block;font-size:15px}
 .steps p{margin:2px 0 0;color:var(--ink-2);font-size:13px}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-weight:700;z-index:60;box-shadow:0 6px 20px rgba(0,0,0,.25)}
-.fab{position:fixed;right:16px;bottom:16px;z-index:40;background:var(--yellow);color:var(--ink);border:0;border-radius:999px;padding:12px 18px;font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.2);cursor:pointer;display:none;align-items:center;gap:8px}
+.fab{position:fixed;right:16px;bottom:16px;z-index:40;background:var(--yellow);color:var(--ink);border:3px solid #fff;border-radius:999px;padding:12px 18px;font-weight:800;box-shadow:0 6px 18px rgba(0,0,0,.2);cursor:pointer;display:none;align-items:center;gap:8px}
 .fab.show{display:inline-flex}
 .fab .b{background:var(--ink);color:#fff;border-radius:999px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;padding:0 6px}
 </style>
@@ -253,6 +269,7 @@ footer .x{font-size:20px;font-weight:800}
         店頭買取の方はこちら <span>›</span>
       </a>
     </div>
+    <img class="mascot" src="/img/chars/chan1.webp" alt="">
     <button class="howto-btn" type="button" id="howtoBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4zM20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></svg>
       ご利用方法
@@ -298,6 +315,7 @@ footer .x{font-size:20px;font-weight:800}
   <div class="pager" id="pager"></div>
 
   <section class="cartsec" id="cart">
+    <img class="cheer" src="/img/chars/chan3.webp" alt="">
     <h2>買取内容</h2>
     <table class="cart">
       <thead><tr><th>商品名</th><th class="r">買取価格</th><th class="r">点数</th><th class="r">小計</th><th></th></tr></thead>
@@ -321,6 +339,7 @@ footer .x{font-size:20px;font-weight:800}
 <section class="browse">
   <div class="wrap">
     <div class="bcard">
+      <img class="peek" src="/img/chars/pachiru1.webp" alt="">
       <div class="bh"><span class="mk">ポケカ</span>ポケモンカード/ポケカ買取一覧</div>
       <div id="browseGroups"></div>
     </div>
@@ -328,6 +347,7 @@ footer .x{font-size:20px;font-weight:800}
 </section>
 
 <footer id="stores">
+  <img class="season" id="seasonChar" src="/img/chars/deco_autumn.webp" alt="">
   <h4>かんたん郵送買取</h4>
   <a href="#" id="howtoLink">ご利用方法・配送方法</a>
   <a href="#cart">買取注意事項</a>
@@ -341,6 +361,7 @@ footer .x{font-size:20px;font-weight:800}
   <a href="/privacy/">プライバシーポリシー</a>
   <h4>公式SNS</h4>
   <a href="#" class="x" id="xLink" aria-label="X">𝕏</a>
+  <div class="friends"><img src="/img/chars/minty1.webp" alt=""><img src="/img/chars/fai1.webp" alt=""><img src="/img/chars/mag.webp" alt=""><img src="/img/chars/amery1.webp" alt=""><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/milfine.webp" alt=""><img src="/img/chars/bachira.webp" alt=""></div>
   <div class="copy">© 株式会社ナタデココ</div>
 </footer>
 
@@ -352,11 +373,11 @@ footer .x{font-size:20px;font-weight:800}
     <h2 id="howtoTitle">かんたん郵送買取 ご利用方法</h2>
     <p style="margin:0;color:var(--ink-2);font-size:13px">お取引は全てネットで完結。即日査定・送料無料・到着後即日入金！</p>
     <ol class="steps">
-      <li><span class="n"><small>STEP</small>1</span><div><b>ご依頼（LINE）</b><p>価格表でカードを選んで「LINEで買取申込へ進む」を押すか、売りたいカードの写真をLINEでお送りください。品番が見えるように撮っていただけると助かります。</p></div></li>
-      <li><span class="n"><small>STEP</small>2</span><div><b>お見積り</b><p>美品での買取金額をご連絡します。傷があるとわかっている場合はあらかじめお知らせください。</p></div></li>
-      <li><span class="n"><small>STEP</small>3</span><div><b>お申込・ご発送</b><p>ご納得いただけたら申込フォームにご入力のうえ、佐川急便の着払いでご発送ください（レターパック・ヤマトも可）。お見積りの有効期限は到着まで含めて5日間です。</p></div></li>
-      <li><span class="n"><small>STEP</small>4</span><div><b>本査定</b><p>届いたカードを検品し、最終金額をご連絡します。減額後の金額にご納得いただけない場合はキャンセルも可能です（返送料は当店負担）。</p></div></li>
-      <li><span class="n"><small>STEP</small>5</span><div><b>本人確認・お振込</b><p>古物営業法にもとづき eKYC（スマホで本人確認）を行い、その後遅滞なくお振込みします。顔写真付き身分証が必要です。</p></div></li>
+      <li><span class="n"><small>STEP</small>1</span><div><b>ご依頼（LINE）</b><p>価格表でカードを選んで「LINEで買取申込へ進む」を押すか、売りたいカードの写真をLINEでお送りください。品番が見えるように撮っていただけると助かります。</p></div><img src="/img/chars/chan1.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>2</span><div><b>お見積り</b><p>美品での買取金額をご連絡します。傷があるとわかっている場合はあらかじめお知らせください。</p></div><img src="/img/chars/minty2.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>3</span><div><b>お申込・ご発送</b><p>ご納得いただけたら申込フォームにご入力のうえ、佐川急便の着払いでご発送ください（レターパック・ヤマトも可）。お見積りの有効期限は到着まで含めて5日間です。</p></div><img src="/img/chars/pachiru1.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>4</span><div><b>本査定</b><p>届いたカードを検品し、最終金額をご連絡します。減額後の金額にご納得いただけない場合はキャンセルも可能です（返送料は当店負担）。</p></div><img src="/img/chars/fai1.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>5</span><div><b>本人確認・お振込</b><p>古物営業法にもとづき eKYC（スマホで本人確認）を行い、その後遅滞なくお振込みします。顔写真付き身分証が必要です。</p></div><img src="/img/chars/melroot1.webp" alt=""></li>
     </ol>
   </div>
 </div>
@@ -483,7 +504,7 @@ function renderActive(){
 function render(){
   const grid=$("#grid");grid.className="grid"+(mode==="simple"?" simple":"");
   $("#cnt").textContent=VIEW.length?`${VIEW.length.toLocaleString()}件`:"";
-  if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
+  if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><img src="/img/chars/chan2.webp" alt=""><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
   const pages=Math.ceil(VIEW.length/CONFIG.pageSize);page=Math.min(page,pages);
   const s=(page-1)*CONFIG.pageSize;
   grid.innerHTML=VIEW.slice(s,s+CONFIG.pageSize).map(cardHTML).join("");
@@ -566,5 +587,6 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
   const m=location.hash.match(/#add=([^&]+)/);
   if(m){const id=decodeURIComponent(m[1]);if(ITEMS.some(i=>i.id===id)){addToCart(id,1);history.replaceState(null,"",location.pathname);$("#cart").scrollIntoView();}}
 })();
+(function(){var m=new Date().getMonth()+1,k=m>=3&&m<=5?"spring":m>=6&&m<=8?"summer":m>=9&&m<=11?"autumn":"winter";var e=document.getElementById("seasonChar");if(e)e.src="/img/chars/deco_"+k+".webp"})();
 </script>
 

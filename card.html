@@ -5,42 +5,42 @@ __HEAD__
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
 <style>
 :root{--bg:#fff;--bg-2:#F4FAFB;--line:#DDE8EB;--ink:#22303C;--ink-2:#5A6B76;--ink-3:#8C9AA3;--cyan:#A9F3F4;--cyan-deep:#1FA8B8;--yellow:#F7D31A;--price:#E23B47;--navy:#173B5C;--navy-2:#1E4E78;--line-green:#06C755}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:15px;line-height:1.6}
+*{box-sizing:border-box}body{margin:0;background:#FBFDFF;background-image:radial-gradient(rgba(169,243,244,.35) 1.5px,transparent 1.6px);background-size:22px 22px;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:15px;line-height:1.6}
 a{color:inherit}h1,h2{font-family:"M PLUS Rounded 1c",sans-serif}
-.top{background:var(--cyan)}.top .in{max-width:1100px;margin:0 auto;padding:0 16px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo{text-decoration:none;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:20px;color:#fff;-webkit-text-stroke:1.2px var(--navy)}.logo small{display:block;font-size:10px;-webkit-text-stroke:0;color:var(--navy);letter-spacing:.12em;line-height:1}
-.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:700;text-decoration:none;border-radius:8px;padding:8px 14px;white-space:nowrap}
+.top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%)}.top .in{max-width:1100px;margin:0 auto;padding:0 16px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{text-decoration:none;display:flex;align-items:center}.logo img{height:46px}.logo small{display:block;font-size:10px;-webkit-text-stroke:0;color:var(--navy);letter-spacing:.12em;line-height:1}
+.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:700;text-decoration:none;border-radius:999px;box-shadow:0 3px 0 #049a42;padding:8px 14px;white-space:nowrap}
 .wrap{max-width:1100px;margin:0 auto;padding:16px}
 .crumb{font-size:12px;color:var(--ink-2);display:flex;gap:6px;flex-wrap:wrap}.crumb a{text-decoration:none}.crumb a:hover{text-decoration:underline}
 .prod{display:grid;grid-template-columns:minmax(220px,340px) 1fr;gap:28px;margin-top:14px;align-items:start}
 @media (max-width:640px){.prod{grid-template-columns:1fr}}
-.im{position:relative;aspect-ratio:63/88;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.im{position:relative;aspect-ratio:63/88;background:#fff;border:2px solid var(--cyan);border-radius:16px;box-shadow:0 4px 14px rgba(43,58,103,.08);overflow:hidden}
 .im img{width:100%;height:100%;object-fit:contain;display:block;background:#fff}
 .im .ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;font-weight:700;color:var(--ink-2);background:linear-gradient(160deg,#FFFBE0,#E7F9FA 60%,#F2E8FF)}
 .badge{position:absolute;top:10px;right:10px;background:#fff;border:2px solid #9AA3AD;border-radius:50%;width:56px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;line-height:1;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .badge .p{font-size:12px;color:var(--price)}.badge .g{font-size:22px;color:var(--navy-2)}
-.cat{display:inline-block;font-size:12px;font-weight:700;background:var(--navy);color:#fff;border-radius:4px;padding:2px 8px}
+.cat{display:inline-block;font-size:12px;font-weight:700;background:var(--navy);color:#fff;border-radius:999px;padding:2px 8px}
 h1{margin:8px 0 4px;font-size:24px;line-height:1.3;font-weight:800;text-wrap:balance}
 .meta{color:var(--ink-2);font-size:14px;display:flex;flex-wrap:wrap;gap:4px 14px}
-.pricebox{margin-top:16px;border:1px solid var(--line);border-radius:10px;padding:14px 18px;background:var(--bg-2)}
+.pricebox{margin-top:16px;border:2px solid #FFB8DC;border-radius:16px;padding:14px 18px;background:#fff;position:relative;padding-right:120px}.pricebox .mas{position:absolute;right:10px;bottom:0;height:110px}
 .pricebox .l{font-size:12px;color:var(--ink-2);font-weight:700;letter-spacing:.08em}
 .pricebox .v{font-size:38px;font-weight:800;color:var(--price);font-family:"M PLUS Rounded 1c",sans-serif;line-height:1.1;font-variant-numeric:tabular-nums}
 .pricebox .d{font-size:12px;color:var(--ink-3);margin-top:4px}
 .btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.apply{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--line-green);color:#fff;text-decoration:none;border-radius:8px;padding:14px;font-weight:800;font-size:16px}
-.sec{display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:2px solid var(--navy);color:var(--navy);text-decoration:none;border-radius:8px;padding:11px;font-weight:700}
+.apply{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--line-green);color:#fff;text-decoration:none;border-radius:999px;box-shadow:0 4px 0 #049a42;padding:14px;font-weight:800;font-size:16px}
+.sec{display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:2px solid var(--cyan);color:var(--navy);text-decoration:none;border-radius:999px;box-shadow:0 3px 0 var(--cyan);padding:11px;font-weight:700}
 .notes{margin:14px 0 0;padding-left:1.2em;font-size:13px;color:var(--ink-2)}.notes li{margin:2px 0}
-.flow{margin-top:28px;background:var(--bg-2);border-radius:10px;padding:16px 18px}.flow h2{margin:0 0 8px;font-size:17px}
+.flow{margin-top:28px;background:#fff;border:2px dashed var(--cyan);border-radius:16px;padding:16px 18px;position:relative;padding-right:120px}.flow .mas{position:absolute;right:14px;bottom:10px;height:100px}@media (max-width:640px){.flow,.pricebox{padding-right:18px}.flow .mas,.pricebox .mas{display:none}}.flow h2{margin:0 0 8px;font-size:17px}
 .flow ol{margin:0;padding-left:1.3em;font-size:14px;color:var(--ink-2)}.flow li{margin:4px 0}.flow b{color:var(--ink)}
 h2.rel{margin:28px 0 10px;font-size:17px}
 .rels{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.rc{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:6px;overflow:hidden;text-decoration:none;background:#fff}
+.rc{display:flex;flex-direction:column;border:2px solid #E6EEF2;border-radius:12px;overflow:hidden;text-decoration:none;background:#fff}
 .rc img{aspect-ratio:63/88;width:100%;object-fit:cover}.rc b{font-size:12px;padding:6px 6px 0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
 .rc span{font-size:11px;color:var(--ink-3);padding:0 6px}.rc em{font-style:normal;font-weight:800;color:var(--price);padding:2px 6px 8px}
-footer{margin-top:40px;background:var(--navy-2);color:#fff;padding:22px 16px;text-align:center;font-size:13px}footer a{color:#fff;margin:0 10px}
+footer{margin-top:40px;background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:22px 16px;text-align:center;font-size:13px}footer a{color:var(--navy);margin:0 10px}footer .season{height:120px;display:block;margin:0 auto 10px}
 </style>
 <header class="top"><div class="in">
-  <a class="logo" href="/"><small>ポケモンカード専門店</small>natadecoco 買取</a>
+  <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
   <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener">LINE友だち追加</a>
 </div></header>
 <main class="wrap">
@@ -51,7 +51,7 @@ footer{margin-top:40px;background:var(--navy-2);color:#fff;padding:22px 16px;tex
       <span class="cat">__CATLABEL__</span>
       <h1>__NAME__</h1>
       <div class="meta"><span>__CODE__</span><span>__SET__</span><span>__RARITY__</span><span>__GRADE__</span></div>
-      <div class="pricebox"><div class="l">買取価格（美品）</div><div class="v">__PRICE__</div>__PRICE2__<div class="d">__UPDATED__ 時点の価格。相場により毎日変動します。</div></div>
+      <div class="pricebox"><div class="l">買取価格（美品）</div><div class="v">__PRICE__</div>__PRICE2__<div class="d">__UPDATED__ 時点の価格。相場により毎日変動します。</div><img class="mas" src="/img/chars/chan1.webp" alt=""></div>
       <div class="btns">
         <a class="apply" href="__LINE_URL__" target="_blank" rel="noopener">このカードをLINEで買取申込</a>
         <a class="sec" href="__ADD_URL__">他のカードも一緒に売る（価格表へ）</a>
@@ -71,11 +71,13 @@ footer{margin-top:40px;background:var(--navy-2);color:#fff;padding:22px 16px;tex
       <li><b>発送</b>：佐川急便の着払いで発送（レターパック・ヤマトも可）。</li>
       <li><b>本査定・お振込</b>：到着後に検品し、ご承諾後、最短当日にお振込み。本人確認はスマホで完結（eKYC）。</li>
     </ol>
+    <img class="mas" src="/img/chars/minty1.webp" alt="">
   </section>
   <h2 class="rel">関連するカードの買取価格</h2>
   <div class="rels">__RELATED__</div>
 </main>
 <footer>
+  <img class="season" src="/img/chars/deco_autumn.webp" alt="">
   <div><a href="/">買取価格表</a><a href="__STORES_URL__">店舗一覧</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a><a href="__XURL__" target="_blank" rel="noopener">X</a></div>
   <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
 </footer>

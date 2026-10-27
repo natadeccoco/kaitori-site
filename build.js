@@ -83,6 +83,59 @@ const CAT_SLUG = { "ポケモン": "pk", PSA: "psa", BOX: "box", "旧裏": "old"
 const packSlugBySet = (() => { const m = new Map(); const g = new Map(); for (const it of items) { if (!it.set || it.cat === "汎用") continue; if (!g.has(it.set)) g.set(it.set, []); g.get(it.set).push(it); }
   for (const [set, a] of g) { if (a.length < 3) continue; const exps = [...new Set(a.map(x => x.exp).filter(e => /^[A-Za-z0-9+\-]+$/.test(e)))]; m.set(set, exps.length === 1 ? exps[0].toLowerCase().replace("+", "p") : "p-" + lib.hashId(set)); } return m; })();
 
+
+/* カード個別ページ用：説明文・別バージョン・FAQ（検索対策で本文を厚くする） */
+const baseName = n => (n || "").split(/[（(\s／/]/)[0].replace(/\s+$/, "");
+const byBase = new Map(); for (const it of items) { const b = baseName(it.name); if (!b) continue; if (!byBase.has(b)) byBase.set(b, []); byBase.get(b).push(it); }
+const rankInSet = new Map(); { const g = new Map(); for (const it of items) { if (!it.set) continue; if (!g.has(it.set)) g.set(it.set, []); g.get(it.set).push(it); } for (const [, a] of g) { a.sort((x, y) => y.price - x.price); a.forEach((x, i) => rankInSet.set(x.id, [i + 1, a.length])); } }
+const codeKey = it => (it.code || "").replace(/\s/g, "").toUpperCase();
+function findPair(it) { // 素体↔PSA10 の相手
+  const b = baseName(it.name), ck = codeKey(it); if (!ck) return null;
+  const want = it.cat === "PSA" ? "ポケモン" : "PSA";
+  return (byBase.get(b) || []).find(x => x.cat === want && codeKey(x) === ck && (want !== "PSA" || /^PSA\s*10$/i.test(x.grade))) || null;
+}
+function cardAbout(it) {
+  const b = baseName(it.name), full = it.name + (it.code ? "（" + it.code + "）" : "");
+  const p = [];
+  let s1 = `<b>${esc(full)}</b>は`;
+  if (it.set) s1 += `「${esc(it.set)}」収録の`;
+  s1 += it.cat === "PSA" ? "PSA10（GEM MINT）鑑定済みカード" : it.cat === "BOX" ? "未開封BOX" : it.cat === "旧裏" ? "旧裏面ポケモンカード" : it.cat === "旧弾" ? "旧弾（ポケモンカードe・ADV・PCG・DPなど）のカード" : it.cat === "汎用" ? "商品" : "ポケモンカード";
+  if (it.rarity && it.rarity !== "-") s1 += `で、レアリティは${esc(it.rarity)}`;
+  s1 += `です。ナタデココの買取価格は<b>${esc(yen(it.price))}</b>（${esc(updated)}時点・美品の場合）。`;
+  const r = rankInSet.get(it.id); if (r && r[1] >= 5) s1 += `${esc(it.set)}の掲載${r[1]}枚の中で${r[0]}番目に高い買取価格です。`;
+  p.push(s1);
+  if (it.cat === "PSA") p.push("PSA純正ケース入りで、ケースに割れ・ヒビ・大きな傷がないものが対象です。ラベル（カード名・認証番号）が読める写真を添えてお申込みください。PSA9以下や他社鑑定品もご相談いただけます。");
+  else if (it.cat === "BOX") p.push("価格はシュリンク付き未開封の場合です。" + (it.price2 ? `シュリンクなし（ぺりぺり付き）は${esc(yen(it.price2))}で買取しています。` : "") + "箱のつぶれ・シュリンクの破れは減額の対象になります。");
+  else if (it.cat === "旧裏") p.push("旧裏は発売から20年以上たっているため、裏面の白かけ・スレ・反りで価格が大きく変わります。同名カードでもLV（レベル）や版（初版・マークなし等）で価格が異なるので、お手元のカードのLVと右下の番号をご確認ください。");
+  else if (it.cat === "旧弾") p.push("1ED（初版）・アンリミ（通常版）・キラ・ミラーなどの区別はカード名に書いています。古いカードは状態による価格差が大きいので、写真でのご相談がおすすめです。");
+  else if (it.cat === "ポケモン") p.push("価格表の金額は傷・白かけ・反りのない美品の場合です。状態によって減額となることがありますが、減額後の金額にご納得いただけない場合はキャンセルでき、返送料は当店が負担します。");
+  const pair = findPair(it);
+  if (pair) p.push(it.cat === "PSA" ? `鑑定なし（素体）の${esc(b)}は<a href="/card/${encodeURIComponent(pair.id)}/">${esc(yen(pair.price))}で買取</a>しています。` : `PSA10鑑定済みの${esc(b)}は<a href="/card/${encodeURIComponent(pair.id)}/">${esc(yen(pair.price))}で買取</a>しています。鑑定品をお持ちの方はそちらをご覧ください。`);
+  const vs = (byBase.get(b) || []).filter(x => x.id !== it.id);
+  if (vs.length) p.push(`${esc(b)}は別バージョン・別弾のカードも${vs.length}種類掲載しています（下の「同じ名前のカード」をご覧ください）。`);
+  p.push("相場に合わせて価格表を毎日更新しています。郵送買取はカード到着日の価格で査定し、送料無料・最短当日入金です。");
+  return p.map(x => `<p>${x}</p>`).join("");
+}
+function cardVariants(it) {
+  const b = baseName(it.name);
+  const vs = (byBase.get(b) || []).filter(x => x.id !== it.id).sort((x, y) => y.price - x.price).slice(0, 12);
+  if (!vs.length) return "";
+  return `<h2 class="rel">同じ名前のカード（別バージョン・別弾）</h2><div class="rels">` + vs.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<b>${esc(r.name)}</b><span>${esc([r.code, r.cat === "PSA" ? r.grade : r.cat === "BOX" ? "BOX" : ""].filter(Boolean).join(" "))}</span><em>${esc(yen(r.price))}</em></a>`).join("") + `</div>`;
+}
+function cardFaq(it) {
+  const b = baseName(it.name), full = it.name + (it.code ? "（" + it.code + "）" : "");
+  const q = [];
+  q.push([`${full}の買取価格はいくらですか？`, `${updated}時点で${yen(it.price)}（美品の場合）です。相場に合わせて毎日更新しており、郵送買取はカードが到着した日の価格で査定します。`]);
+  q.push([`状態が良くない${b}も買い取ってもらえますか？`, it.cat === "PSA" ? "中のカードは鑑定済みなので、主にケースの状態を確認します。角の割れ・ヒビ・深い傷があると減額となる場合があります。気になる点は写真でお知らせください。" : it.cat === "BOX" ? "シュリンクなし・箱つぶれなどは減額となりますが買取できます。先に写真をお送りいただくと、お見積りの段階で金額をお伝えできます。" : "はい。白かけ・スレ・反りなどがある場合は減額となりますが買取できます。減額後の金額にご納得いただけない場合はキャンセルでき、返送料は当店が負担します。"]);
+  const pair = findPair(it);
+  if (pair) q.push([it.cat === "PSA" ? `鑑定なし（素体）の${b}の買取価格は？` : `PSA10鑑定済みの${b}の買取価格は？`, `${yen(pair.price)}（${updated}時点）で買取しています。詳しくは${pair.name}${pair.code ? "（" + pair.code + "）" : ""}のページをご覧ください。`]);
+  q.push(["送料や手数料はかかりますか？", "かかりません。佐川急便の着払いでお送りください（レターパック・ヤマト運輸も可）。本査定のご承諾後、最短当日にお振込みします。"]);
+  q.push([`${b}を複数枚売りたいのですが`, "在庫状況により減額となる場合があります。枚数が多い場合は、先にLINEで枚数をお知らせいただくとスムーズです。"]);
+  const html = `<section class="faqs"><h2>よくある質問</h2>` + q.map(([a, c]) => `<details><summary>${esc(a)}</summary><p>${esc(c)}</p></details>`).join("") + `</section>`;
+  const ld = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: q.map(([a, c]) => ({ "@type": "Question", name: a, acceptedAnswer: { "@type": "Answer", text: c } })) };
+  return { html, ld };
+}
+
 /* ---------- 3. カード個別ページ ---------- */
 const cardTpl = read(path.join(SRC, "card.html"));
 const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c === "旧弾" ? "旧弾（eカード等）" : c === "汎用" ? "汎用・サプライ" : c;
@@ -96,10 +149,14 @@ for (const it of items) {
   const lineUrl = `https://line.me/R/oaMessage/${encodeURIComponent(CFG.lineId)}/?${encodeURIComponent(lineText)}`;
   const ld = { "@context": "https://schema.org", "@type": "Product", name: it.name, image: it.img || undefined, description: desc, brand: { "@type": "Brand", name: "ポケモンカードゲーム" }, sku: it.code || undefined,
     offers: { "@type": "Offer", url, priceCurrency: "JPY", price: it.price, availability: "https://schema.org/InStock", seller: { "@type": "Organization", name: CFG.company }, description: "買取価格（美品の場合）" } };
-  const related = items.filter(x => x.cat === it.cat && x.id !== it.id && (x.set && x.set === it.set || x.name.split(/[（(\s]/)[0] === it.name.split(/[（(\s]/)[0])).slice(0, 8);
+  const vIds = new Set((byBase.get(baseName(it.name)) || []).map(x => x.id));
+  let related = items.filter(x => x.cat === it.cat && x.id !== it.id && !vIds.has(x.id) && x.set && x.set === it.set).sort((x, y) => Math.abs(y.price - it.price) < Math.abs(x.price - it.price) ? 1 : -1).slice(0, 8);
+  if (!related.length) related = items.filter(x => x.cat === it.cat && x.id !== it.id && !vIds.has(x.id) && x.rarity === it.rarity).slice(0, 8);
+  const faq = cardFaq(it);
   const html = cardTpl
     .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
-    .replace("__HEAD__", headCommon(title, desc, url, it.img) + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
+    .replace("__HEAD__", headCommon(title, desc, url, it.img) + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>\n<script type="application/ld+json">${JSON.stringify(faq.ld)}</script>`)
+    .replace("__ABOUT__", cardAbout(it)).replace("__VARIANTS__", cardVariants(it)).replace("__FAQ__", faq.html)
     .replace(/__NAME__/g, esc(it.name)).replace(/__CODE__/g, esc(it.code)).replace(/__SET__/g, esc(it.set)).replace(/__RARITY__/g, esc(it.rarity !== "-" ? it.rarity : ""))
     .replace(/__GRADE__/g, esc(it.grade !== "素体" ? it.grade : "")).replace(/__CAT__/g, esc(it.cat)).replace(/__CATLABEL__/g, esc(catLabel(it.cat)))
     .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" style="font-size:26px">${esc(yen(it.price2))}</div>` : "").replace(/__UPDATED__/g, esc(updated))

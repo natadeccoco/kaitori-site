@@ -620,6 +620,18 @@ function render(){
 }
 
 /* ============================ 買取内容 ============================ */
+/* カートと一覧の状態をタブ内で保持（カード詳細ページへ行って戻っても消えない） */
+const SS_CART="nd_cart",SS_VIEW="nd_view";
+function saveCart(){try{sessionStorage.setItem(SS_CART,JSON.stringify([...cart].map(([id,c])=>[id,c.qty])));}catch(e){}}
+function loadCart(){try{const a=JSON.parse(sessionStorage.getItem(SS_CART)||"[]");for(const [id,q] of a){const it=ITEMS.find(i=>i.id===id);if(it&&q>0)cart.set(id,{item:it,qty:q});}}catch(e){}}
+function saveView(){try{sessionStorage.setItem(SS_VIEW,JSON.stringify({q:state.q,cat:state.cat,sort:state.sort,type:[...state.type],grade:[...state.grade],rarity:[...state.rarity],set:[...state.set],page,mode,y:window.scrollY}));}catch(e){}}
+function restoreView(){try{const v=JSON.parse(sessionStorage.getItem(SS_VIEW)||"null");if(!v)return false;
+  state.q=v.q||"";$("#q").value=state.q;state.sort=v.sort||"default";if($("#sort"))$("#sort").value=state.sort;
+  ["type","grade","rarity","set"].forEach(k=>{state[k]=new Set(v[k]||[]);});
+  mode=v.mode==="simple"?"simple":"img";$("#vSimple").classList.toggle("on",mode==="simple");$("#vImg").classList.toggle("on",mode!=="simple");
+  setCat(CATS().includes(v.cat)?v.cat:"すべて");page=v.page||1;render();
+  requestAnimationFrame(()=>window.scrollTo(0,v.y||0));return true;}catch(e){return false;}}
+window.addEventListener("pagehide",saveView);
 function addToCart(id,delta=1){
   const it=ITEMS.find(i=>i.id===id);if(!it)return;
   const cur=cart.get(id)||{item:it,qty:0};cur.qty+=delta;
@@ -628,6 +640,7 @@ function addToCart(id,delta=1){
   document.querySelectorAll(`.card[data-id="${CSS.escape(id)}"]`).forEach(el=>{const q=cart.get(id)?.qty||0;el.classList.toggle("sel",q>0);el.querySelector(".qty").textContent=q;const b=el.querySelector(".cartbtn");if(b)b.innerHTML=q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`;});
 }
 function renderCart(){
+  saveCart();
   const tb=$("#cartBody");tb.innerHTML="";let n=0,t=0;
   if(!cart.size)tb.innerHTML=`<tr class="cart-empty"><td colspan="5">上の一覧でカードをタップ →「買取内容に追加」を押すと、ここに追加されます</td></tr>`;
   cart.forEach(({item,qty},id)=>{
@@ -693,7 +706,7 @@ $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;$("#x
 
 /* ============================ 初期化 ============================ */
 function boot(items){
-  ITEMS=items;
+  ITEMS=items;loadCart();
   renderTabs();renderBrowse();renderCart();apply();
 }
 function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);if(alts.length){el.dataset.alt=alts.slice(1).join("|");el.src=alts[0];}else el.remove();}
@@ -706,7 +719,8 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
   const qq=sp.get("q");if(qq){$("#q").value=qq;state.q=qq;apply();scrollToList();}   // カードページ「同じポケモンを探す」からの遷移（?q=名前）
   // カード個別ページからの遷移（#add=ID）
   const m=location.hash.match(/#add=([^&]+)/);
-  if(m){const id=decodeURIComponent(m[1]);if(ITEMS.some(i=>i.id===id)){addToCart(id,1);history.replaceState(null,"",location.pathname);$("#cart").scrollIntoView();}}
+  if(m){const id=decodeURIComponent(m[1]);if(ITEMS.some(i=>i.id===id)){const back=/back=1/.test(location.hash);history.replaceState(null,"",location.pathname);
+    if(back&&restoreView()){addToCart(id,1);toast("カートに追加しました");}else{addToCart(id,1);$("#cart").scrollIntoView();}}}   // back=1：カードページ「カートに追加する」→ 直前に見ていた検索画面に戻す
 })();
 (function(){var m=new Date().getMonth()+1,k=m>=3&&m<=5?"spring":m>=6&&m<=8?"summer":m>=9&&m<=11?"autumn":"winter";var e=document.getElementById("seasonChar");if(e)e.src="/img/chars/deco_"+k+".webp"})();
 </script>

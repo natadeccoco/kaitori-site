@@ -12,6 +12,13 @@ const read = f => fs.existsSync(f) ? fs.readFileSync(f, "utf8").replace(/^﻿/, 
 const key = url => crypto.createHash("md5").update(url).digest("hex").slice(0, 12);
 const WIDTH = 480, CONC = 6, LIMIT = Number(process.env.IMG_LIMIT || 400);   // 1回の実行で取る上限（毎朝少しずつ埋まる）
 
+/* 薄い「natadecoco」の透かし（斜めに繰り返し） */
+function watermark(w, h) {
+  const fs = 34, step = 140, rows = [];
+  for (let y = -h; y < h * 2; y += step) for (let x = -w; x < w * 2; x += 260) rows.push(`<text x="${x}" y="${y}" font-size="${fs}" font-family="Arial, Helvetica, sans-serif" font-weight="700" fill="#ffffff" fill-opacity="0.28" stroke="#000000" stroke-opacity="0.14" stroke-width="1">natadecoco</text>`);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><g transform="rotate(-30 ${w / 2} ${h / 2})">${rows.join("")}</g></svg>`;
+  return Buffer.from(svg);
+}
 async function main() {
   const data = JSON.parse(read(path.join(ROOT, "data_sheet.json")));
   const items = sd.sheetToItems(data, CFG);
@@ -37,7 +44,9 @@ async function main() {
           if (!r.ok) continue;
           const buf = Buffer.from(await r.arrayBuffer());
           if (buf.length < 1000) continue;
-          await sharp(buf).resize({ width: WIDTH, withoutEnlargement: true }).webp({ quality: 82 }).toFile(path.join(OUT, key(u) + ".webp"));
+          const base = sharp(buf).resize({ width: WIDTH, withoutEnlargement: true });
+          const meta = await base.toBuffer({ resolveWithObject: true });
+          await sharp(meta.data).composite([{ input: watermark(meta.info.width, meta.info.height), blend: "over" }]).webp({ quality: 82 }).toFile(path.join(OUT, key(u) + ".webp"));
           ok++; done = true; break;
         } catch (e) { /* 次の候補 */ }
       }

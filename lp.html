@@ -251,13 +251,15 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 
 /* items */
 .sec.items{background:linear-gradient(180deg,#FFFBE0,#FBFDFF)}
-.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media (max-width:760px){.igrid{grid-template-columns:repeat(2,1fr);gap:10px}}
-.it{display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:22px;padding:22px 14px 18px;box-shadow:0 6px 0 var(--ink);transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden}.it:hover{transform:translateY(-6px) rotate(-1deg);box-shadow:0 12px 0 var(--ink)}
-.it:before{content:"";position:absolute;left:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--yel),var(--pink) 50%,var(--cyan));opacity:.5}
-.it .ico{font-size:44px;line-height:1;margin-bottom:10px;position:relative;transition:transform .3s}.it:hover .ico{transform:scale(1.2) rotate(-8deg)}
-.it b{font-family:"M PLUS Rounded 1c",sans-serif;font-size:19px;color:var(--navy);margin-bottom:6px;position:relative}.it>span:not(.ico){font-size:12px;color:var(--ink-2);line-height:1.6;position:relative}.it em{font-style:normal;margin-top:12px;font-size:12px;font-weight:900;color:#fff;background:var(--ink);border-radius:999px;padding:5px 14px;position:relative}
+.igrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media (max-width:960px){.igrid{grid-template-columns:repeat(2,1fr)}}@media (max-width:560px){.igrid{grid-template-columns:1fr;gap:10px}}
+.it{display:grid;grid-template-columns:118px 1fr 18px;align-items:center;gap:10px;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:20px;padding:14px 12px 14px 10px;box-shadow:0 6px 0 var(--ink);transition:transform .25s,box-shadow .25s;position:relative;min-height:124px}.it:hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:0 12px 0 var(--ink)}
+.pics{position:relative;height:96px;display:block}.pics img{position:absolute;bottom:0;width:64px;aspect-ratio:63/88;object-fit:cover;border-radius:5px;border:3px solid #fff;box-shadow:0 6px 14px rgba(43,58,103,.3);background:#fff;transition:transform .3s}
+.pics img:nth-child(1){left:6px;transform:rotate(-10deg);z-index:1}.pics img:nth-child(2){left:44px;transform:rotate(8deg) translateY(-4px);z-index:2}.pics.three img:nth-child(1){left:0;transform:rotate(-14deg)}.pics.three img:nth-child(2){left:30px;transform:rotate(0) translateY(-8px);z-index:3}.pics.three img:nth-child(3){left:58px;transform:rotate(14deg)}
+.it:hover .pics img:nth-child(1){transform:rotate(-16deg) translate(-6px,-4px)}.it:hover .pics img:nth-child(2){transform:rotate(12deg) translate(6px,-8px)}.it:hover .pics.three img:nth-child(2){transform:translateY(-14px)}
+.it .tx{display:flex;flex-direction:column;min-width:0}.it b{font-family:"M PLUS Rounded 1c",sans-serif;font-size:18px;color:var(--navy);line-height:1.3;margin-bottom:4px}.it .tx span{font-size:12px;color:var(--ink-2);line-height:1.55}
+.it .ch{font-style:normal;font-family:"DM Sans",sans-serif;font-weight:900;font-size:24px;color:var(--navy);transition:transform .2s}.it:hover .ch{transform:translateX(4px)}
 .it.big{background:linear-gradient(160deg,#FFF6B8,#FFE86B)}
-@media (max-width:760px){.it{padding:16px 10px 14px}.it .ico{font-size:36px}.it b{font-size:16px}.it>span:not(.ico){font-size:11px}.it>span:not(.ico) br{display:none}}
+@media (max-width:560px){.it{grid-template-columns:104px 1fr 16px;min-height:0;padding:10px 10px 10px 8px}.pics{height:84px}.pics img{width:56px}.it b{font-size:16px}.it .tx span{font-size:11px}.it .tx span br{display:none}}
 </style>
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
 <div id="intro" aria-hidden="true"><img class="ch" src="/img/chars/chan1.webp" alt=""><img src="/logo.png" alt=""><div class="t">かんたん郵送買取</div></div>
@@ -310,12 +312,12 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec tight items" id="items"><div class="wrap">
   <div class="sh rv"><span class="no">02</span><h2>ポケモンカードなら、<span class="ul">なんでもOK</span>！</h2><p>シングルも、BOXも、鑑定品も、昔のカードも。まとめて送ってください。</p></div>
   <div class="igrid">
-    <a class="it rv" href="/cat/pk/"><span class="ico">🃏</span><b>シングルカード</b><span>SAR・SR・AR・プロモ…<br>ノーマルも大量歓迎</span><em>価格表を見る →</em></a>
-    <a class="it rv d1" href="/cat/box/"><span class="ico">📦</span><b>未開封BOX・パック</b><span>シュリンク付きはもちろん<br>ぺりぺり付きも買取</span><em>価格表を見る →</em></a>
-    <a class="it rv d2" href="/cat/psa/"><span class="ico">🏅</span><b>鑑定品</b><span>PSA・BGS・ARS<br>PSA9以下もOK</span><em>価格表を見る →</em></a>
-    <a class="it rv d3" href="/cat/old/"><span class="ico">🕰️</span><b>旧裏・旧弾</b><span>1996年〜の旧裏面<br>e・ADV・PCG・DPも</span><em>価格表を見る →</em></a>
-    <a class="it rv d4" href="/cat/misc/"><span class="ico">🎁</span><b>サプライ・グッズ</b><span>デッキシールド・ぬいぐるみなど<br>ポケモン関連ならご相談ください</span><em>価格表を見る →</em></a>
-    <a class="it rv d4 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="ico">📚</span><b>大量・まとめ売り</b><span>仕分け不要。スリーブやファイルのままで<br>箱に詰めて送ってください</span><em>LINEで相談 →</em></a>
+    <a class="it rv" href="/cat/pk/"><span class="pics">__PICS_pk_2__</span><span class="tx"><b>シングルカード</b><span>SAR・SR・AR・プロモ…<br>ノーマルも大量歓迎</span></span><i class="ch">›</i></a>
+    <a class="it rv d1" href="/cat/box/"><span class="pics">__PICS_box_2__</span><span class="tx"><b>未開封BOX・パック</b><span>シュリンク付きはもちろん<br>ぺりぺり付きも買取</span></span><i class="ch">›</i></a>
+    <a class="it rv d2" href="/cat/psa/"><span class="pics">__PICS_psa_2__</span><span class="tx"><b>鑑定品</b><span>PSA・BGS・ARS<br>PSA9以下もOK</span></span><i class="ch">›</i></a>
+    <a class="it rv d3" href="/cat/old/"><span class="pics">__PICS_old_2__</span><span class="tx"><b>旧裏・旧弾</b><span>1996年〜の旧裏面<br>e・ADV・PCG・DPも</span></span><i class="ch">›</i></a>
+    <a class="it rv d4" href="/cat/misc/"><span class="pics">__PICS_misc_2__</span><span class="tx"><b>サプライ・グッズ</b><span>デッキシールド・ぬいぐるみなど<br>ポケモン関連ならご相談ください</span></span><i class="ch">›</i></a>
+    <a class="it rv d4 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics three">__PICS_kyu_3__</span><span class="tx"><b>大量・まとめ売り</b><span>仕分け不要。スリーブやファイルのまま<br>箱に詰めて送ってください</span></span><i class="ch">›</i></a>
   </div>
   <p class="cap">価格表にないものも買取できます。迷ったらLINEで写真を送ってください。</p>
 </div></section>

@@ -12,7 +12,7 @@ const yen = n => "¥" + Number(n).toLocaleString("ja-JP");
 const read = f => fs.existsSync(f) ? fs.readFileSync(f, "utf8").replace(/^﻿/, "") : "";
 // サイトのベースパス（独自ドメインなら "/"、github.io の仮公開なら "/kaitori-site/"）。HTML内の href="/..." をこれに置き換える
 const BASE = (() => { let p = new URL(CFG.siteUrl).pathname; if (!p.endsWith("/")) p += "/"; return p; })();
-const rebase = s => BASE === "/" ? s : s.replace(/(href|src)="\/(?!\/)/g, `$1="${BASE}`);
+const rebase = s => BASE === "/" ? s : s.replace(/(href|src|action)="\/(?!\/)/g, `$1="${BASE}`);
 const write = (rel, s) => { const f = path.join(DIST, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, /\.html$/.test(rel) ? rebase(s) : s); };
 
 /* ---------- 1. データ読み込み ---------- */

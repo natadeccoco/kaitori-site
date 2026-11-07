@@ -386,7 +386,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
         <option value="price-asc">買取価格が安い順</option>
         <option value="name">カード名順</option>
       </select>
-      <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vCompact" class="on">たくさん</button><button type="button" id="vImg">画像</button><button type="button" id="vSimple">シンプル</button></div>
+      <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vImg" class="on">画像</button><button type="button" id="vCompact">たくさん</button><button type="button" id="vSimple">シンプル</button></div>
     </div>
   </div>
   <div class="grid" id="grid"></div>
@@ -504,7 +504,7 @@ const CONFIG = /*__CONFIG__*/{};
 
 /* データは build.js が <script id="site-data"> に埋め込む */
 /* ============================ 状態 ============================ */
-let ITEMS=[], VIEW=[], page=1, mode="compact";
+let ITEMS=[], VIEW=[], page=1, mode="img";
 const state={q:"",cat:"すべて",type:new Set(),grade:new Set(),rarity:new Set(),set:new Set(),sort:"default"};
 const cart=new Map();
 const $=s=>document.querySelector(s);
@@ -642,7 +642,7 @@ function saveView(){try{sessionStorage.setItem(SS_VIEW,JSON.stringify({q:state.q
 function restoreView(){try{const v=JSON.parse(sessionStorage.getItem(SS_VIEW)||"null");if(!v)return false;
   state.q=v.q||"";$("#q").value=state.q;state.sort=v.sort||"default";if($("#sort"))$("#sort").value=state.sort;
   ["type","grade","rarity","set"].forEach(k=>{state[k]=new Set(v[k]||[]);});
-  mode=v.mode==="simple"?"simple":v.mode==="img"?"img":"compact";["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&mode==="img")||(id==="vCompact"&&mode==="compact")||(id==="vSimple"&&mode==="simple")));
+  mode=v.mode==="simple"?"simple":v.mode==="compact"?"compact":"img";["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&mode==="img")||(id==="vCompact"&&mode==="compact")||(id==="vSimple"&&mode==="simple")));
   setCat(CATS().includes(v.cat)?v.cat:"すべて");page=v.page||1;render();
   requestAnimationFrame(()=>window.scrollTo(0,v.y||0));return true;}catch(e){return false;}}
 window.addEventListener("pagehide",saveView);

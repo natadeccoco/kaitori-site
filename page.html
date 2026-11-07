@@ -265,6 +265,18 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 .phead .sp{right:150px;top:4px}.phead .sp.b{right:262px;top:60px;color:#FFB3DC;animation-delay:.8s;font-size:14px}
 @media (max-width:760px){.phead .sp{display:none}}
 @media (prefers-reduced-motion:reduce){.phead .mascot,.cartsec .cheer,.bcard .peek,footer .season,footer .friends img,.empty img,.sp{animation:none}}
+
+/* ===== たくさん表示（トレトク風：枠なし・小さめ・価格は右寄せ赤） ===== */
+.grid.compact{grid-template-columns:repeat(10,1fr);gap:14px 10px}
+@media (max-width:1100px){.grid.compact{grid-template-columns:repeat(7,1fr)}}@media (max-width:860px){.grid.compact{grid-template-columns:repeat(5,1fr)}}@media (max-width:560px){.grid.compact{grid-template-columns:repeat(4,1fr);gap:10px 6px}}
+.grid.compact .card{border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;padding:0}.grid.compact .card:hover{transform:translateY(-3px);box-shadow:none}
+.grid.compact .card .im{border-radius:4px;box-shadow:0 2px 6px rgba(43,58,103,.18);overflow:hidden}
+.grid.compact .card .bxname{display:-webkit-box;padding:2px 0 0;font-size:10px;font-weight:500;color:var(--ink-2);line-height:1.3;min-height:0;-webkit-line-clamp:2;order:3}
+.grid.compact .card .no{padding:0;font-size:10px;color:var(--ink-3);order:4}.grid.compact .card .no span:last-child{display:none}
+.grid.compact .card .pr{order:2;border:0;padding:4px 0 0;text-align:right;font-size:13px;color:var(--price)}
+.grid.compact .card .cartbtn{order:5;margin:4px 0 0;padding:4px 4px;font-size:10px;border-radius:6px;box-shadow:0 2px 0 #6fd6dc}.grid.compact .card .cartbtn .ic{font-size:11px}
+.grid.compact .card.sel{outline:0;background:transparent}.grid.compact .card.sel .im{outline:3px solid var(--yellow)}
+.grid.compact .card .ctag{transform:scale(.85);transform-origin:left bottom}.grid.compact .card .im img.badge{width:30px;height:30px}
 /* ===== modal ===== */
 .modal{position:fixed;inset:0;z-index:50;background:rgba(20,30,40,.55);display:flex;align-items:center;justify-content:center;padding:16px}
 .modal .box{background:#fff;border-radius:20px;border:3px solid var(--cyan);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:22px 22px 26px;position:relative}
@@ -374,7 +386,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
         <option value="price-asc">買取価格が安い順</option>
         <option value="name">カード名順</option>
       </select>
-      <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vImg" class="on">画像</button><button type="button" id="vSimple">シンプル</button></div>
+      <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vImg" class="on">画像</button><button type="button" id="vCompact">たくさん</button><button type="button" id="vSimple">シンプル</button></div>
     </div>
   </div>
   <div class="grid" id="grid"></div>
@@ -606,12 +618,12 @@ function renderActive(){
   GROUPS.forEach(([k])=>state[k].forEach(v=>{const b=document.createElement("button");b.className="chip";b.type="button";b.textContent=v;b.onclick=()=>{state[k].delete(v);apply();};box.appendChild(b);}));
 }
 function render(){
-  const grid=$("#grid");grid.className="grid"+(mode==="simple"?" simple":"");
+  const grid=$("#grid");grid.className="grid"+(mode==="simple"?" simple":mode==="compact"?" compact":"");
   $("#cnt").textContent=VIEW.length?`${VIEW.length.toLocaleString()}件`:"";
   if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><img src="/img/chars/chan2.webp" alt=""><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
-  const pages=Math.ceil(VIEW.length/CONFIG.pageSize);page=Math.min(page,pages);
-  const s=(page-1)*CONFIG.pageSize;
-  grid.innerHTML=VIEW.slice(s,s+CONFIG.pageSize).map(cardHTML).join("");
+  const PS=mode==="compact"?CONFIG.pageSize*3:CONFIG.pageSize;const pages=Math.ceil(VIEW.length/PS);page=Math.min(page,pages);
+  const s=(page-1)*PS;
+  grid.innerHTML=VIEW.slice(s,s+PS).map(cardHTML).join("");
   const pg=$("#pager");pg.innerHTML="";
   if(pages<=1)return;
   const mk=(t,p,dis,on)=>{const b=document.createElement("button");b.type="button";b.innerHTML=t;b.disabled=dis;if(on)b.classList.add("on");b.onclick=()=>{page=p;render();scrollToList();};pg.appendChild(b);};
@@ -630,7 +642,7 @@ function saveView(){try{sessionStorage.setItem(SS_VIEW,JSON.stringify({q:state.q
 function restoreView(){try{const v=JSON.parse(sessionStorage.getItem(SS_VIEW)||"null");if(!v)return false;
   state.q=v.q||"";$("#q").value=state.q;state.sort=v.sort||"default";if($("#sort"))$("#sort").value=state.sort;
   ["type","grade","rarity","set"].forEach(k=>{state[k]=new Set(v[k]||[]);});
-  mode=v.mode==="simple"?"simple":"img";$("#vSimple").classList.toggle("on",mode==="simple");$("#vImg").classList.toggle("on",mode!=="simple");
+  mode=v.mode==="simple"?"simple":v.mode==="compact"?"compact":"img";["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&mode==="img")||(id==="vCompact"&&mode==="compact")||(id==="vSimple"&&mode==="simple")));
   setCat(CATS().includes(v.cat)?v.cat:"すべて");page=v.page||1;render();
   requestAnimationFrame(()=>window.scrollTo(0,v.y||0));return true;}catch(e){return false;}}
 window.addEventListener("pagehide",saveView);
@@ -694,8 +706,9 @@ $("#q").addEventListener("input",e=>{state.q=e.target.value;apply();});
 $("#focusSearch").onclick=()=>{scrollToList();$("#q").focus();};
 $("#fbtn").onclick=()=>openPanel($("#fpanel").hidden);
 $("#sort").onchange=e=>{state.sort=e.target.value;apply();};
-$("#vImg").onclick=()=>{mode="img";$("#vImg").classList.add("on");$("#vSimple").classList.remove("on");render();};
-$("#vSimple").onclick=()=>{mode="simple";$("#vSimple").classList.add("on");$("#vImg").classList.remove("on");render();};
+function setMode(m){mode=m;["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&m==="img")||(id==="vCompact"&&m==="compact")||(id==="vSimple"&&m==="simple")));page=1;render();}
+$("#vImg").onclick=()=>setMode("img");$("#vCompact").onclick=()=>setMode("compact");
+$("#vSimple").onclick=()=>setMode("simple");
 $("#allBtn").onclick=()=>{resetFilters();scrollToList();};
 $("#clearBtn").onclick=()=>{[...cart.keys()].forEach(id=>addToCart(id,-(cart.get(id).qty)));};
 $("#fab").onclick=()=>$("#cart").scrollIntoView({block:"start"});

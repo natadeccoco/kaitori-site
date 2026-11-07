@@ -300,14 +300,14 @@ console.log(`article pages: ${arts.length}`);
     const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort((a, b) => b.price - a.price);
     const pick = []; const seen = new Set();
     for (const x of top) { const b = baseName(x.name); if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= 8) break; }
-    const cards = pick.map(r => `<a class="pc" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join("");
+    const cards = pick.map(r => `<a class="pc" href="/card/${encodeURIComponent(r.id)}/"><div class="flip"><div class="face f"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></div><div class="face b"><small>買取価格（美品）</small><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="go">詳細を見る →</span></div></div></a>`).join("");
     const shops = ["柏", "松戸", "津田沼", "千葉中央", "中野", "お台場", "町田", "横浜"].map(n => `<a href="${CFG.storesUrl}">${n}</a>`).join("");
     const ld = { "@context": "https://schema.org", "@type": "Service", name: "ポケモンカード郵送買取", provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };
     const html = lpTpl
       .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
       .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
       .replace(/__TICKER__/g, top.slice(0, 24).map(r => `<a class="tk" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()"><span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span></a>`).join(""))
-      .replace(/__FC1__/g, esc(top[8] ? top[8].img : "")).replace(/__FC2__/g, esc(top[9] ? top[9].img : ""))
+      .replace(/__FC([1-6])__/g, (m, i) => esc(top[8 + Number(i)] ? top[8 + Number(i)].img : ""))
       .replace(/__TOP__/g, cards).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
       .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
     write("lp/index.html", wrap(html));

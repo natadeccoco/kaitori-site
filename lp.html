@@ -155,8 +155,49 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
 /* mobile bar */
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-top:3px solid var(--ink);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px;transform:translateY(110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}.bar.show{transform:none}.bar .btn{flex:1;padding:12px 10px;font-size:14px;border-width:3px;animation:none}.bar .btn.o{flex:.7}
 @media (max-width:760px){.bar{display:flex}}
+
+/* ===== wow layer ===== */
+#intro{position:fixed;inset:0;z-index:100;background:linear-gradient(115deg,#FFF6B8 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;transition:transform .7s cubic-bezier(.7,0,.3,1),opacity .4s;transform-origin:50% 0}
+#intro.out{transform:translateY(-100%) }#intro img{height:min(120px,18vw);animation:popin .7s cubic-bezier(.34,1.56,.64,1) both}#intro .t{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;color:var(--ink);font-size:clamp(16px,3vw,24px);animation:popin .7s .25s cubic-bezier(.34,1.56,.64,1) both;letter-spacing:.1em}
+#intro .ch{height:min(140px,22vw);animation:popin .8s .1s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes popin{0%{opacity:0;transform:scale(.4) rotate(-8deg)}100%{opacity:1;transform:none}}
+#prog{position:fixed;left:0;top:0;height:4px;width:100%;z-index:60;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--pink-2),var(--yel-2),var(--cyan-deep),var(--lav-2));pointer-events:none}
+#fx{position:fixed;inset:0;pointer-events:none;z-index:50}
+.cur{position:fixed;left:0;top:0;pointer-events:none;z-index:70;font-size:18px;color:var(--yel-2);text-shadow:0 0 6px #fff;transform:translate(-50%,-50%);animation:curfade .7s forwards}
+@keyframes curfade{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-80%) scale(.3) rotate(90deg)}}
+.hero{background-size:200% 200%;animation:hbg 14s ease-in-out infinite}@keyframes hbg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero .ln{animation:linepop .8s cubic-bezier(.34,1.56,.64,1) both}.hero h1 .ln:nth-child(3){animation-delay:.15s}.hero h1 b .ln{animation-delay:.3s}
+@keyframes linepop{0%{opacity:0;transform:translateY(30px) scale(.9) rotate(-2deg)}100%{opacity:1;transform:none}}
+.fan{position:absolute;left:-6%;bottom:4%;width:60%;height:60%;pointer-events:none;z-index:1}
+.fan .fc{position:absolute;left:50%;bottom:0;width:min(118px,11vw);aspect-ratio:63/88;border-radius:8px;border:4px solid #fff;box-shadow:0 10px 24px rgba(43,58,103,.35);overflow:hidden;background:#fff;transform-origin:50% 120%;animation:deal 1s cubic-bezier(.34,1.56,.64,1) both;transition:transform .4s}
+.fan .fc img{width:100%;height:100%;object-fit:cover;display:block}
+.fan .fc:nth-child(1){--r:-28deg;--x:-120%;animation-delay:.6s}.fan .fc:nth-child(2){--r:-14deg;--x:-85%;animation-delay:.7s}.fan .fc:nth-child(3){--r:0deg;--x:-50%;animation-delay:.8s}.fan .fc:nth-child(4){--r:14deg;--x:-15%;animation-delay:.9s}.fan .fc:nth-child(5){--r:28deg;--x:20%;animation-delay:1s}
+@keyframes deal{0%{transform:translate(-50%,40%) rotate(0) scale(.6);opacity:0}100%{transform:translate(var(--x),0) rotate(var(--r));opacity:1}}
+.fan:hover .fc{transform:translate(var(--x),-10px) rotate(calc(var(--r)*1.3))}
+.hero .fcard{display:none}
+.lay{will-change:transform}
+.wave{line-height:0;display:block;width:100%;height:60px;overflow:hidden;background:transparent}.wave svg{width:200%;height:100%;animation:wavemove 10s linear infinite}@keyframes wavemove{to{transform:translateX(-50%)}}
+.wave.wt{margin-bottom:-1px}.wave.wb{margin-top:-1px}
+/* flip cards */
+.pc{perspective:900px;padding:0;border:0;box-shadow:none;background:transparent;transition:none}.pc:hover{box-shadow:none}
+.pc .flip{position:relative;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.34,1.3,.64,1);aspect-ratio:63/120}.pc:hover .flip,.pc.on .flip{transform:rotateY(180deg)}
+.pc .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:10px;box-shadow:0 6px 0 var(--ink);display:flex;flex-direction:column}
+.pc .face.b{transform:rotateY(180deg);background:linear-gradient(160deg,var(--yel),var(--pink) 50%,var(--cyan));align-items:center;justify-content:center;text-align:center;gap:6px;padding:16px}
+.pc .face.b small{font-size:11px;font-weight:900;color:var(--ink);background:#fff;border-radius:999px;padding:2px 10px}.pc .face.b em{font-size:clamp(22px,2.6vw,30px);padding:0}.pc .face.b b{min-height:0;-webkit-line-clamp:3;font-size:13px;padding:0}.pc .face.b .go{font-size:12px;font-weight:900;color:#fff;background:var(--ink);border-radius:999px;padding:6px 14px;margin-top:4px}
+.pc .rk{left:-6px;top:-8px}
+/* step progress line */
+.flow{position:relative}.flowline{position:absolute;left:4%;right:4%;top:-18px;height:6px;background:var(--line);border-radius:999px;overflow:hidden}.flowline i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--pink-2),var(--yel-2),var(--cyan-deep));transform-origin:left;transform:scaleX(0);transition:transform .2s linear}
+@media (max-width:960px){.flowline{display:none}}
+/* parade */
+.parade{overflow:hidden;background:#fff;border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:14px 0}.parade .run{display:inline-flex;gap:40px;animation:ticker 40s linear infinite;align-items:flex-end}.parade img{height:84px;animation:hop 3s ease-in-out infinite}.parade img:nth-child(2n){animation-delay:.4s}.parade img:nth-child(3n){animation-delay:.8s}.parade img:nth-child(5n){animation-delay:1.2s}
+/* magnetic */
+.btn.mag{transition:transform .15s}
+@media (max-width:760px){.fan{left:auto;right:-4%;bottom:auto;top:150px;width:60%;height:120px}.fan .fc{width:58px;bottom:auto;top:0}.fan .fc:nth-child(1){--x:-140%}.fan .fc:nth-child(5){--x:40%}.hero .stage{height:300px}}
+@media (prefers-reduced-motion:reduce){#intro{display:none}.hero{animation:none}.fan .fc{animation:none;transform:translate(var(--x),0) rotate(var(--r));opacity:1}}
 </style>
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
+<div id="intro" aria-hidden="true"><img class="ch" src="/img/chars/chan1.webp" alt=""><img src="/logo.png" alt=""><div class="t">かんたん郵送買取</div></div>
+<div id="prog"></div><canvas id="fx"></canvas>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
   <nav><a href="#flow">流れ</a><a href="#prices">買取価格</a><a href="#terms">条件</a><a href="#faq">よくある質問</a></nav>
@@ -170,7 +211,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
     <p class="sub rv d1">箱に詰めて送るだけ。査定後すぐにお振込み！</p>
     <div class="zero rv d2"><div class="z0"><small>ぜんぶ</small><b>¥0</b></div><ul><li>送料</li><li>査定料</li><li>キャンセル料</li><li>返送料</li><li>振込手数料</li></ul></div>
     <div class="cta rv d2" id="heroCta">
-      <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
+      <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
       <a class="btn o" href="/">🔍 買取価格を調べる</a>
     </div>
     <p class="micro rv d2">友だち追加→カードの写真か枚数を送るだけ。入力フォームはありません。</p>
@@ -182,12 +223,12 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
     </div>
   </div>
   <div class="stage">
-    <div class="blob"></div>
+    <div class="blob lay" data-depth="-1"></div>
     <div class="badge"><span>送料・手数料</span><b>0円</b><span>すべて無料</span></div>
     <span class="sp" style="right:6%;top:2%">✦</span><span class="sp p" style="left:40%;top:24%">✦</span><span class="sp c" style="right:30%;bottom:10%">✦</span>
-    <div class="fcard a"><img src="__FC1__" alt="" onerror="this.remove()"></div><div class="fcard b"><img src="__FC2__" alt="" onerror="this.remove()"></div>
-    <img class="minty rv d2" src="/img/banner_minty.webp" alt="">
-    <img class="chan rv d1" src="/img/banner_chan.webp" alt="">
+    <div class="fan lay" data-depth="2"><div class="fc"><img src="__FC1__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC2__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC3__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC4__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC5__" alt="" onerror="this.parentNode.remove()"></div></div>
+    <img class="minty rv d2 lay" data-depth="3" src="/img/banner_minty.webp" alt="">
+    <img class="chan rv d1 lay" data-depth="1.2" src="/img/banner_chan.webp" alt="">
   </div>
 </div></section>
 <div class="ticker" aria-hidden="true"><span class="lbl">本日の買取価格</span><div class="run">__TICKER____TICKER__</div></div>
@@ -204,21 +245,22 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
 
 <section class="sec" id="flow"><div class="wrap">
   <div class="sh rv"><span class="no">02</span><h2>申込から入金まで、<span class="ul">5ステップ</span>。</h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけ。</p></div>
-  <div class="flow">
+  <div class="flow"><div class="flowline"><i></i></div>
     <div class="st rv s1"><div class="hd"><span class="n">1</span><img src="/img/chars/chan1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>カードの写真（品番が見えるように。まとめ撮りでOK）か、価格表で選んだ内容を送信。傷が分かっていれば先に教えてください</p><span class="t">所要1分</span></div></div>
     <div class="st rv s2 d1"><div class="hd"><span class="n">2</span><img src="/img/chars/minty1.webp" alt=""></div><div class="bd"><h3>お見積り</h3><p>美品での買取金額をLINEでお知らせ</p><span class="t">営業時間内に返信</span></div></div>
     <div class="st rv s3 d2"><div class="hd"><span class="n">3</span><img src="/img/chars/pachiru1.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>お手持ちの箱でOK。佐川急便の着払いで送料0円</p><span class="t">梱包10分</span></div></div>
     <div class="st rv s4 d3"><div class="hd"><span class="n">4</span><img src="/img/chars/mag.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
     <div class="st rv s5 d4"><div class="hd"><span class="n">5</span><img src="/img/chars/melroot1.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
   </div>
-  <div class="ctabox rv"><p class="lead">5ステップで終わります</p><div class="cta"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">お見積りはカード到着まで含めて5日間有効です。</p></div>
+  <div class="ctabox rv"><p class="lead">5ステップで終わります</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">お見積りはカード到着まで含めて5日間有効です。</p></div>
 </div></section>
 
+<div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#fff"/></svg></div>
 <section class="sec prices" id="prices"><div class="wrap">
   <div class="sh rv"><span class="no">03</span><h2>いま、<span class="ul">高く売れる</span>カード。</h2><p>__UPDATED__ 時点の買取価格（美品の場合）。一例です。お手元のカードは検索で調べられます。</p></div>
   <form class="search rv" action="/" method="get"><input type="search" name="q" placeholder="カード名・型番で価格を調べる（例：リザードン）" aria-label="カード名・型番"><button type="submit">調べる</button></form>
   <div class="pgrid" id="pgrid">__TOP__</div>
-  <div class="ctabox rv"><p class="lead">この価格で送れます</p><div class="cta"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a><a class="btn o" href="/">__COUNT__枚の価格表を見る</a></div></div>
+  <div class="ctabox rv"><p class="lead">この価格で送れます</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a><a class="btn o" href="/">__COUNT__枚の価格表を見る</a></div></div>
   <p class="cap">価格表にないカードも買取できます。LINEで写真をお送りください。</p>
 </div></section>
 
@@ -258,7 +300,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
       <p class="pt"><i>✓</i>不安なカードは先に写真を送っていただければ、お見積りの段階で金額をお伝えします</p>
     </div>
   </div>
-  <div class="ctabox rv"><p class="lead">不安はありませんか？</p><div class="cta"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+  <div class="ctabox rv"><p class="lead">不安はありませんか？</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
 </div></section>
 
 <section class="sec cmp"><div class="wrap">
@@ -302,23 +344,25 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
   <p class="cap"><a href="/faq/" style="color:var(--navy)">もっと見る（よくある質問）→</a></p>
 </div></section>
 
+<div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#2B3A67"/></svg></div>
 <section class="sec final"><div class="bg"></div><div class="wrap">
   <div class="chars rv"><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/chan2.webp" alt=""><img src="/img/chars/bachira.webp" alt=""></div>
   <h2 class="rv d1">迷ったら、まず写真を<br class="sp-only">送ってください。</h2>
   <p class="rv d2">1枚からOK。お見積りは無料、納得してから送れます。</p>
   <div class="cta rv d3">
-    <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
+    <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
     <a class="btn o" href="/">🔍 買取価格を調べる</a>
   </div>
   <div class="qr pc-only rv d3"><img src="/img/line_qr.png" alt="LINE友だち追加QRコード"><div><b>スマホで読み取ってください</b>LINE ID：@316mfilq</div></div>
 </div></section>
 
+<div class="parade" aria-hidden="true"><div class="run"><img src="/img/chars/chan1.webp" alt=""><img src="/img/chars/minty1.webp" alt=""><img src="/img/chars/pachiru1.webp" alt=""><img src="/img/chars/mag.webp" alt=""><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/fai1.webp" alt=""><img src="/img/chars/amery1.webp" alt=""><img src="/img/chars/bachira.webp" alt=""><img src="/img/chars/milfine.webp" alt=""><img src="/img/chars/chan2.webp" alt=""><img src="/img/chars/minty2.webp" alt=""><img src="/img/chars/pachiru2.webp" alt=""><img src="/img/chars/melroot2.webp" alt=""><img src="/img/chars/fai2.webp" alt=""><img src="/img/chars/amery2.webp" alt=""><img src="/img/chars/chan3.webp" alt=""><img src="/img/chars/chan1.webp" alt=""><img src="/img/chars/minty1.webp" alt=""><img src="/img/chars/pachiru1.webp" alt=""><img src="/img/chars/mag.webp" alt=""><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/fai1.webp" alt=""><img src="/img/chars/amery1.webp" alt=""><img src="/img/chars/bachira.webp" alt=""><img src="/img/chars/milfine.webp" alt=""><img src="/img/chars/chan2.webp" alt=""><img src="/img/chars/minty2.webp" alt=""><img src="/img/chars/pachiru2.webp" alt=""><img src="/img/chars/melroot2.webp" alt=""><img src="/img/chars/fai2.webp" alt=""><img src="/img/chars/amery2.webp" alt=""><img src="/img/chars/chan3.webp" alt=""></div></div>
 <footer>
   <div><a href="/">買取価格表</a><a href="/guide/">郵送買取のやり方</a><a href="__STORES_URL__">店舗一覧</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div>
   <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
 </footer>
 <div class="bar" id="bar">
-  <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む</a>
+  <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む</a>
   <a class="btn o" href="/">価格を調べる</a>
 </div>
 <script>
@@ -336,9 +380,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
   // 順位バッジ＋カードの3Dチルト
   var cards=document.querySelectorAll('#pgrid .pc');
   cards.forEach(function(el,i){var r=document.createElement('span');r.className='rk';r.textContent=i+1;el.appendChild(r);
-    if(reduce||!matchMedia('(hover:hover)').matches)return;
-    el.addEventListener('mousemove',function(e){var b=el.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;el.style.transform='translateY(-6px) rotateX('+(-y*10)+'deg) rotateY('+(x*12)+'deg)';});
-    el.addEventListener('mouseleave',function(){el.style.transform='';});});
+  });
   // 固定バー：FVのボタンが消えたら出す／入力中は隠す
   var bar=document.getElementById('bar'),hc=document.getElementById('heroCta');
   if(bar&&hc&&'IntersectionObserver' in window){new IntersectionObserver(function(en){bar.classList.toggle('show',!en[0].isIntersecting)},{threshold:0}).observe(hc);}else if(bar){bar.classList.add('show');}
@@ -349,5 +391,36 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
   if(chan&&!reduce&&matchMedia('(hover:hover)').matches){document.querySelector('.hero').addEventListener('mousemove',function(e){var x=(e.clientX/window.innerWidth-.5)*10,y=(e.clientY/window.innerHeight-.5)*6;chan.style.marginRight=(-x)+'px';chan.style.marginBottom=(-y)+'px';});}
   // 季節のキャラ
   var m=new Date().getMonth()+1,k=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';var s=document.getElementById('seasonChar');if(s)s.src=s.getAttribute('src').replace(/[^\/]+\.webp$/,'deco_'+k+'.webp');
+})();
+
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover)').matches;
+  // イントロ（セッション内1回）
+  var intro=document.getElementById('intro');
+  try{if(sessionStorage.getItem('nd_intro')||reduce){intro.remove();}else{sessionStorage.setItem('nd_intro','1');setTimeout(function(){intro.classList.add('out');setTimeout(function(){intro.remove()},800)},1300);}}catch(e){intro.remove();}
+  // 進捗バー
+  var prog=document.getElementById('prog');
+  function onScroll(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);prog.style.transform='scaleX('+p+')';
+    var fl=document.querySelector('.flowline i'),flow=document.querySelector('.flow');if(fl&&flow){var r=flow.getBoundingClientRect(),v=Math.min(1,Math.max(0,(innerHeight-r.top)/(r.height+innerHeight*.4)));fl.style.transform='scaleX('+v+')';}}
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+  // ヒーローのパララックス
+  var hero=document.querySelector('.hero'),lays=document.querySelectorAll('.hero .lay');
+  if(fine&&!reduce){hero.addEventListener('mousemove',function(e){var r=hero.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;lays.forEach(function(l){var d=parseFloat(l.dataset.depth)||1;l.style.translate=(x*12*d)+'px '+(y*8*d)+'px';});});
+    hero.addEventListener('mouseleave',function(){lays.forEach(function(l){l.style.translate='0 0'})});}
+  // キラキラ（キャンバス）
+  var cv=document.getElementById('fx'),ctx=cv.getContext('2d'),ps=[];
+  function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener('resize',size);
+  function spawn(x,y,n,big){for(var i=0;i<n;i++)ps.push({x:x,y:y,vx:(Math.random()-.5)*(big?12:3),vy:(Math.random()-.5)*(big?12:3)-(big?4:1),life:1,s:(big?6:3)+Math.random()*4,c:['#FFE86B','#FFB8DC','#A9F3F4','#C4A8F0','#06C755'][Math.floor(Math.random()*5)],r:Math.random()*6});}
+  function tick(){ctx.clearRect(0,0,cv.width,cv.height);ps=ps.filter(function(p){return p.life>0});ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.15;p.life-=.02;p.r+=.1;ctx.save();ctx.globalAlpha=Math.max(0,p.life);ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.beginPath();for(var i=0;i<4;i++){ctx.lineTo(0,-p.s);ctx.lineTo(p.s*.35,-p.s*.35);ctx.rotate(Math.PI/2);}ctx.closePath();ctx.fill();ctx.restore();});if(ps.length)requestAnimationFrame(tick);}
+  function burst(x,y,n,big){spawn(x,y,n,big);requestAnimationFrame(tick);}
+  if(!reduce){var hr=hero.getBoundingClientRect();setTimeout(function(){burst(innerWidth*.72,hr.top+hr.height*.35,40,true)},reduce?0:1500);
+    setInterval(function(){if(document.hidden)return;var r=hero.getBoundingClientRect();if(r.bottom<0)return;burst(r.left+r.width*(.5+Math.random()*.45),r.top+r.height*(.1+Math.random()*.6),3,false)},900);}
+  // LINEボタン：ホバーで紙吹雪、磁石
+  document.querySelectorAll('.btn.g').forEach(function(b){b.addEventListener('mouseenter',function(e){if(reduce)return;var r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,18,true)});
+    if(fine&&!reduce){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;b.style.transform='translate('+(x*10)+'px,'+(y*8)+'px) scale(1.03)';});b.addEventListener('mouseleave',function(){b.style.transform=''});}});
+  // カーソルのキラキラ（PCのみ）
+  if(fine&&!reduce){var last=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');d.className='cur';d.textContent='✦';d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},700);});}
+  // 価格カード：スマホは1タップ目で裏返す
+  if(!fine){document.querySelectorAll('#pgrid .pc').forEach(function(c){c.addEventListener('click',function(e){if(!c.classList.contains('on')){e.preventDefault();document.querySelectorAll('#pgrid .pc.on').forEach(function(o){o.classList.remove('on')});c.classList.add('on');}});});}
 })();
 </script>

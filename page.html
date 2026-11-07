@@ -268,8 +268,8 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 
 /* ===== たくさん表示（トレトク風：枠なし・小さめ・価格は右寄せ赤） ===== */
 .grid.compact{grid-template-columns:repeat(10,1fr);gap:14px 10px}
-@media (max-width:1100px){.grid.compact{grid-template-columns:repeat(7,1fr)}}@media (max-width:860px){.grid.compact{grid-template-columns:repeat(5,1fr)}}@media (max-width:560px){.grid.compact{grid-template-columns:repeat(4,1fr);gap:10px 6px}}
-.grid.compact .card{border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;padding:0}.grid.compact .card:hover{transform:translateY(-3px);box-shadow:none}
+@media (max-width:1100px){.grid.compact{grid-template-columns:repeat(7,1fr)}}@media (max-width:860px){.grid.compact{grid-template-columns:repeat(5,1fr)}}@media (max-width:560px){.grid.compact{grid-template-columns:repeat(3,1fr);gap:12px 8px}.grid.compact .card .cartbtn{font-size:10px;padding:5px 2px}}
+.grid.compact .card{min-width:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;padding:0}.grid.compact .card:hover{transform:translateY(-3px);box-shadow:none}
 .grid.compact .card .im{border-radius:4px;box-shadow:0 2px 6px rgba(43,58,103,.18);overflow:hidden}
 .grid.compact .card .bxname{display:-webkit-box;padding:2px 0 0;font-size:10px;font-weight:500;color:var(--ink-2);line-height:1.3;min-height:0;-webkit-line-clamp:2;order:3}
 .grid.compact .card .no{padding:0;font-size:10px;color:var(--ink-3);order:4}.grid.compact .card .no span:last-child{display:none}
@@ -386,7 +386,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
         <option value="price-asc">買取価格が安い順</option>
         <option value="name">カード名順</option>
       </select>
-      <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vImg" class="on">画像</button><button type="button" id="vCompact">たくさん</button><button type="button" id="vSimple">シンプル</button></div>
+      <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vCompact" class="on">たくさん</button><button type="button" id="vImg">画像</button><button type="button" id="vSimple">シンプル</button></div>
     </div>
   </div>
   <div class="grid" id="grid"></div>
@@ -504,7 +504,7 @@ const CONFIG = /*__CONFIG__*/{};
 
 /* データは build.js が <script id="site-data"> に埋め込む */
 /* ============================ 状態 ============================ */
-let ITEMS=[], VIEW=[], page=1, mode="img";
+let ITEMS=[], VIEW=[], page=1, mode="compact";
 const state={q:"",cat:"すべて",type:new Set(),grade:new Set(),rarity:new Set(),set:new Set(),sort:"default"};
 const cart=new Map();
 const $=s=>document.querySelector(s);
@@ -642,7 +642,7 @@ function saveView(){try{sessionStorage.setItem(SS_VIEW,JSON.stringify({q:state.q
 function restoreView(){try{const v=JSON.parse(sessionStorage.getItem(SS_VIEW)||"null");if(!v)return false;
   state.q=v.q||"";$("#q").value=state.q;state.sort=v.sort||"default";if($("#sort"))$("#sort").value=state.sort;
   ["type","grade","rarity","set"].forEach(k=>{state[k]=new Set(v[k]||[]);});
-  mode=v.mode==="simple"?"simple":v.mode==="compact"?"compact":"img";["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&mode==="img")||(id==="vCompact"&&mode==="compact")||(id==="vSimple"&&mode==="simple")));
+  mode=v.mode==="simple"?"simple":v.mode==="img"?"img":"compact";["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&mode==="img")||(id==="vCompact"&&mode==="compact")||(id==="vSimple"&&mode==="simple")));
   setCat(CATS().includes(v.cat)?v.cat:"すべて");page=v.page||1;render();
   requestAnimationFrame(()=>window.scrollTo(0,v.y||0));return true;}catch(e){return false;}}
 window.addEventListener("pagehide",saveView);

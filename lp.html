@@ -260,6 +260,20 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 .it .ch{font-style:normal;font-family:"DM Sans",sans-serif;font-weight:900;font-size:24px;color:var(--navy);transition:transform .2s}.it:hover .ch{transform:translateX(4px)}
 .it.big{background:linear-gradient(160deg,#FFF6B8,#FFE86B)}
 @media (max-width:560px){.it{grid-template-columns:104px 1fr 16px;min-height:0;padding:10px 10px 10px 8px}.pics{height:84px}.pics img{width:56px}.it b{font-size:16px}.it .tx span{font-size:11px}.it .tx span br{display:none}}
+/* compact prices (トレトク風) */
+.pgrid{display:grid;grid-template-columns:repeat(10,1fr);gap:20px 10px;perspective:none}@media (max-width:1100px){.pgrid{grid-template-columns:repeat(8,1fr)}}@media (max-width:900px){.pgrid{grid-template-columns:repeat(5,1fr)}}@media (max-width:760px){.pgrid{grid-template-columns:repeat(3,1fr);gap:16px 8px}}
+.pc{display:flex;flex-direction:column;min-width:0;padding:0;border:0;box-shadow:none;background:transparent;color:var(--ink);transition:transform .2s}.pc:hover{transform:translateY(-5px) rotate(0);box-shadow:none}
+.pc .im{aspect-ratio:63/88;border:2px solid var(--ink);border-radius:7px;box-shadow:0 3px 0 var(--ink);overflow:hidden;background:linear-gradient(160deg,#FFFBE0,#E7F9FA 60%,#F2E8FF)}.pc:hover .im{box-shadow:0 6px 0 var(--ink),0 10px 18px rgba(43,58,103,.18)}
+.pc .im img.g{width:28px;height:28px;top:4px;right:4px}
+.pc .im:after{font-size:10px;padding:3px 8px;bottom:5px}
+.pc em{font-size:15px;text-align:right;padding:6px 0 0;line-height:1.1;letter-spacing:-.01em}
+.pc b{font-size:11px;font-weight:700;padding:3px 0 0;min-height:2.6em;line-height:1.3}
+.pc .cd{font-size:10px;padding:0;color:var(--ink-3)}
+.pc .rk{width:26px;height:26px;font-size:11px;left:-6px;top:-8px;border-width:2px}
+.pc.xm{display:none}.pgrid.open .pc.xm{display:flex}.pc.hid{display:none!important}
+.pchips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:-14px 0 22px}.pchips button{font:inherit;font-weight:900;font-size:13px;padding:8px 18px;border:3px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 3px 0 var(--ink);transition:transform .1s}.pchips button:hover{transform:translateY(-2px)}.pchips button.on{background:var(--yel-2);box-shadow:0 1px 0 var(--ink);transform:translateY(2px)}
+.search input{min-width:0}.search button{white-space:nowrap;flex:none}@media (max-width:760px){.search input{height:50px;padding:0 14px;font-size:14px}.search button{height:50px;padding:0 16px;font-size:14px}}
+.pmore{text-align:center;margin:22px 0 6px}.pmore button{font:inherit;font-weight:900;font-size:15px;padding:12px 34px;border:3px solid var(--ink);border-radius:999px;background:var(--cyan,#A9F3F4);color:var(--ink);cursor:pointer;box-shadow:0 5px 0 var(--ink)}.pmore button:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}.pgrid.open+.pmore{display:none}
 </style>
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
 <div id="intro" aria-hidden="true"><img class="ch" src="/img/chars/chan1.webp" alt=""><img src="/logo.png" alt=""><div class="t">かんたん郵送買取</div></div>
@@ -336,9 +350,11 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 
 <div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#fff"/></svg></div>
 <section class="sec prices" id="prices"><div class="wrap">
-  <div class="sh rv"><span class="no">04</span><h2>いま、<span class="ul">高く売れる</span>カード。</h2><p>__UPDATED__ 時点の買取価格（美品の場合）。一例です。お手元のカードは検索で調べられます。</p></div>
+  <div class="sh rv"><span class="no">04</span><h2>いま、<span class="ul">高く売れる</span>カード。</h2><p>__UPDATED__ 時点の買取価格（美品の場合）。高額カードから一例を表示。お手元のカードは検索で調べられます。</p></div>
   <form class="search rv" action="/" method="get"><input type="search" name="q" placeholder="カード名・型番で価格を調べる（例：リザードン）" aria-label="カード名・型番"><button type="submit">調べる</button></form>
+  <div class="pchips rv" id="pchips"><button type="button" class="on" data-k="all">すべて</button><button type="button" data-k="single">シングル</button><button type="button" data-k="psa">PSA鑑定品</button></div>
   <div class="pgrid" id="pgrid">__TOP__</div>
+  <div class="pmore"><button type="button" id="pmore">もっと見る（＋30枚）</button></div>
   <div class="ctabox rv"><p class="lead">この価格で送れます</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a><a class="btn o" href="/">__COUNT__枚の価格表を見る</a></div></div>
   <p class="cap">価格表にないカードも買取できます。LINEで写真をお送りください。</p>
 </div></section>
@@ -457,8 +473,9 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     requestAnimationFrame(step);}
   // 順位バッジ＋カードの3Dチルト
   var cards=document.querySelectorAll('#pgrid .pc');
-  cards.forEach(function(el,i){var r=document.createElement('span');r.className='rk';r.textContent=i+1;el.appendChild(r);
-  });
+  cards.forEach(function(el,i){if(i>2)return;var r=document.createElement('span');r.className='rk';r.textContent=i+1;el.appendChild(r);});
+  var pm=document.getElementById('pmore'),pg=document.getElementById('pgrid');if(pm){pm.addEventListener('click',function(){pg.classList.add('open');});}
+  var chips=document.querySelectorAll('#pchips button');chips.forEach(function(b){b.addEventListener('click',function(){chips.forEach(function(x){x.classList.toggle('on',x===b);});var k=b.dataset.k;cards.forEach(function(el){el.classList.toggle('hid',k!=='all'&&el.dataset.k!==k);});});});
 
   // 検索窓：例がタイプされる
   var inp=document.querySelector('.search input');
@@ -523,7 +540,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
   var fin=document.querySelector('.sec.final');if(fin&&'IntersectionObserver' in window){new IntersectionObserver(function(en,o){if(en[0].isIntersecting){o.disconnect();for(var i=0;i<6;i++)setTimeout(function(){burst(innerWidth*Math.random(),innerHeight*.3,30,true)},i*180);}},{threshold:.4}).observe(fin);}
 
   // 価格カード：3Dチルト（ホロ光沢と一緒に）
-  if(fine&&!reduce){document.querySelectorAll('#pgrid .pc').forEach(function(el){var f=el.querySelector('.face');el.addEventListener('mousemove',function(e){var b=el.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;f.style.transform='rotateX('+(-y*12)+'deg) rotateY('+(x*14)+'deg)';});el.addEventListener('mouseleave',function(){f.style.transform='';});});}
+  if(fine&&!reduce){document.querySelectorAll('#pgrid .pc').forEach(function(el){var f=el.querySelector('.face');if(!f)return;el.addEventListener('mousemove',function(e){var b=el.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;f.style.transform='rotateX('+(-y*12)+'deg) rotateY('+(x*14)+'deg)';});el.addEventListener('mouseleave',function(){f.style.transform='';});});}
   // LINEのチャット：「…」のあとにメッセージが出る
   document.querySelectorAll('.af').forEach(function(af){var b=af.querySelector('.chat .b');if(!b)return;var html=b.innerHTML;b.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';b.style.opacity=1;b.style.transform='none';
     new IntersectionObserver(function(en,o){if(!en[0].isIntersecting)return;o.disconnect();setTimeout(function(){b.innerHTML=html;b.style.transition='none';b.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:350,easing:'ease-out'});},900+Math.random()*600);},{threshold:.5}).observe(af);});

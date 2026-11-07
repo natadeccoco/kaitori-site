@@ -306,6 +306,7 @@ console.log(`article pages: ${arts.length}`);
     const html = lpTpl
       .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
       .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
+      .replace(/__TICKER__/g, top.slice(0, 24).map(r => `<span class="tk"><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span>`).join(""))
       .replace(/__TOP__/g, cards).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
       .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
     write("lp/index.html", wrap(html));

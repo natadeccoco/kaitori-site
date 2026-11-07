@@ -326,7 +326,7 @@ console.log(`article pages: ${arts.length}`);
 for (const name of ["stores", "legal", "privacy", "company"]) {
   let html = read(path.join(SRC, name + ".html"));
   if (!html) continue;
-  html = html.replace(/__COMPANY__/g, esc(CFG.company)).replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__STORES_URL__/g, CFG.storesUrl)
+  html = html.replace(/__COMPANY__/g, esc(CFG.company)).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__STORES_URL__/g, CFG.storesUrl)
     .replace("__HEAD__", headCommon(html.match(/<title>(.*?)<\/title>/)[1], "", `${CFG.siteUrl}/${name}/`, ""));
   write(`${name}/index.html`, wrap(html));
   urls.push({ url: `${CFG.siteUrl}/${name}/`, lastmod: updated.replace(/\//g, "-") });

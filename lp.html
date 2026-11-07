@@ -57,8 +57,8 @@ a{color:inherit}img{max-width:100%}
 .zero ul{list-style:none;margin:0;padding:8px 12px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center;font-weight:900;font-size:13px;color:var(--ink)}.zero li{display:flex;align-items:center;gap:4px;white-space:nowrap}.zero li:before{content:"✓";color:var(--line-green);font-weight:900}
 .hero .cta{margin:24px 0 0}
 .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:26px 0 34px}
-.fact{background:rgba(255,255,255,.85);border:3px solid var(--ink);border-radius:16px;padding:10px 8px;text-align:center;box-shadow:0 4px 0 var(--ink);transition:transform .2s}.fact:hover{transform:translateY(-4px) rotate(-1deg)}
-.fact .k{display:block;font-size:10px;color:var(--ink-2);letter-spacing:.14em;text-transform:uppercase;font-family:"DM Sans",sans-serif;font-weight:900}
+.fact{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 8px 10px;text-align:center;box-shadow:0 4px 0 var(--ink);transition:transform .2s;position:relative;overflow:hidden}.fact:before{content:"";position:absolute;left:0;right:0;top:0;height:6px}.fact.f1:before{background:var(--yel-2)}.fact.f2:before{background:var(--cyan-2)}.fact.f3:before{background:var(--pink-2)}.fact.f4:before{background:var(--lav-2)}.fact .ic{display:block;font-size:22px;line-height:1;margin:2px 0 4px;transition:transform .3s}.fact:hover .ic{transform:scale(1.25) rotate(-8deg)}.fact:hover{transform:translateY(-4px) rotate(-1deg)}
+.fact .k{display:block;font-size:11px;color:var(--ink-2);font-weight:900;font-family:"M PLUS Rounded 1c",sans-serif}
 .fact .v{display:block;font-size:clamp(18px,2.1vw,26px);line-height:1.1;font-weight:900;color:var(--price);margin-top:4px;font-family:"M PLUS Rounded 1c",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}.fact .v small{font-size:.5em;margin-left:2px;color:var(--ink)}
 .fact .n{display:block;font-size:10px;color:var(--ink-2);margin-top:2px;font-weight:700}
 .hero .stage{position:relative;min-height:440px}
@@ -270,10 +270,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     </div>
     <p class="micro rv d2">友だち追加→カードの写真か枚数を送るだけ。入力フォームはありません。</p>
     <div class="facts rv d3">
-      <div class="fact"><span class="k">Payment</span><span class="v">最短当日</span><span class="n">本査定の承諾後</span></div>
-      <div class="fact"><span class="k">Price list</span><span class="v" data-count="__COUNT__">__COUNT__<small>枚</small></span><span class="n">毎日更新</span></div>
-      <div class="fact"><span class="k">Stores</span><span class="v">8<small>店舗</small></span><span class="n">千葉・東京・神奈川</span></div>
-      <div class="fact"><span class="k">Inspection</span><span class="v">1<small>枚ずつ</small></span><span class="n">専門スタッフが検品</span></div>
+      <div class="fact f1"><span class="ic">💴</span><span class="k">入金スピード</span><span class="v">最短当日</span><span class="n">本査定の承諾後</span></div>
+      <div class="fact f2"><span class="ic">📋</span><span class="k">掲載カード</span><span class="v" data-count="__COUNT__">__COUNT__<small>枚</small></span><span class="n">毎日更新</span></div>
+      <div class="fact f3"><span class="ic">🏬</span><span class="k">実店舗</span><span class="v">8<small>店舗</small></span><span class="n">千葉・東京・神奈川</span></div>
+      <div class="fact f4"><span class="ic">🔍</span><span class="k">検品</span><span class="v">1<small>枚ずつ</small></span><span class="n">専門スタッフが確認</span></div>
     </div>
   </div>
   <div class="stage">

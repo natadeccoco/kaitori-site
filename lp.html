@@ -1,165 +1,307 @@
 <title>__TITLE__</title>
 __HEAD__
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Sans:wght@500;700&display=swap">
 <style>
-:root{--bg-2:#F4FAFB;--line:#DDE8EB;--ink:#22303C;--ink-2:#5A6B76;--ink-3:#8C9AA3;--cyan:#A9F3F4;--cyan-deep:#1FA8B8;--yellow:#F7D31A;--price:#E23B47;--navy:#173B5C;--navy-2:#1E4E78;--line-green:#06C755;--lav:#C4A8F0;--pink:#FFB8DC}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#FBFDFF;background-image:radial-gradient(rgba(169,243,244,.35) 1.5px,transparent 1.6px);background-size:22px 22px;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:16px;line-height:1.7}
-a{color:inherit}h1,h2,h3,.num{font-family:"M PLUS Rounded 1c",sans-serif}
-.top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(43,58,103,.08)}.top .in{max-width:1040px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.logo img{height:42px;display:block}
-.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:800;text-decoration:none;border-radius:999px;box-shadow:0 3px 0 #049a42;padding:9px 16px;white-space:nowrap;font-size:14px}
-.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+:root{--paper:#FBF8F1;--paper-2:#F3EEE3;--ink:#1E2A33;--ink-2:#5B6872;--ink-3:#93A0A8;--line:#E3DDD0;--navy:#173B5C;--cyan:#A9F3F4;--cyan-deep:#1FA8B8;--shu:#D7342B;--line-green:#06C755;--lav:#DCCBFF;--pink:#FFD6EC;--yel:#FFF6B8;--ok:#0B7A47}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:16px;line-height:1.9;letter-spacing:.01em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}img{max-width:100%}
+.serif{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif}.en{font-family:"DM Sans","Zen Kaku Gothic New",sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.pc-only{display:block}.sp-only{display:none}@media (max-width:760px){.pc-only{display:none}.sp-only{display:block}}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:rgba(251,248,241,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .in{max-width:1080px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo img{height:40px;display:block}
+.top nav{display:flex;gap:22px;font-size:13px;font-weight:700;color:var(--ink-2)}.top nav a{text-decoration:none}.top nav a:hover{color:var(--navy)}
+.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:900;text-decoration:none;border-radius:999px;padding:10px 18px;white-space:nowrap;font-size:14px;box-shadow:0 3px 0 #049a42}
+@media (max-width:760px){.top nav{display:none}.top .line-btn span{display:none}}
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1)}.rv.on{opacity:1;transform:none}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}*{animation:none!important}}
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:999px;font-weight:900;text-decoration:none;padding:17px 30px;font-size:16px;transition:transform .2s,box-shadow .2s;letter-spacing:.02em;line-height:1.3}
+.btn.g{background:var(--line-green);color:#fff;box-shadow:0 6px 0 #049a42}.btn.g:hover{transform:translateY(-2px);box-shadow:0 8px 0 #049a42}
+.btn.o{background:transparent;color:var(--navy);border:2px solid var(--navy)}.btn.o:hover{background:var(--navy);color:#fff}
+.btn .ar{font-family:"DM Sans",sans-serif;transition:transform .2s}.btn:hover .ar{transform:translateX(3px)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.micro{font-size:12px;color:var(--ink-2);margin:8px 0 0}
+.ctabox{text-align:center;margin-top:44px}.ctabox .lead{font-family:"Shippori Mincho",serif;font-weight:700;font-size:17px;color:var(--navy);margin:0 0 12px}.ctabox .cta{justify-content:center}
 /* hero */
-.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,#FFF6B8 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%)}
-.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:end;padding-top:34px;min-height:440px}
-.hero .eyebrow{display:inline-block;background:var(--navy);color:#fff;font-weight:800;border-radius:999px;padding:5px 16px;font-size:14px;margin-bottom:12px}
-.hero h1{margin:0;font-size:clamp(30px,5.6vw,54px);line-height:1.2;font-weight:900;color:#fff;-webkit-text-stroke:0;paint-order:stroke fill;text-shadow:0 0 0 #fff;letter-spacing:.01em;filter:drop-shadow(0 3px 0 rgba(43,58,103,.9)) drop-shadow(0 0 2px rgba(43,58,103,1))}
-.hero h1 b{color:var(--yellow)}
-.hero .sub{margin:14px 0 0;font-size:clamp(15px,2.2vw,19px);font-weight:700;color:var(--navy);background:rgba(255,255,255,.75);display:inline-block;border-radius:999px;padding:6px 16px}
-.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.pill{display:flex;align-items:center;border:3px solid var(--navy);background:#fff;border-radius:999px;overflow:hidden;box-shadow:0 4px 0 var(--navy);font-weight:900}.pill .k{background:var(--navy);color:#fff;padding:6px 12px;font-size:13px}.pill .v{padding:6px 14px;color:#FF5C9E;font-size:20px;line-height:1.2}.pill .v small{font-size:13px;color:var(--navy);margin-left:3px}
-.hero .cta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 28px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:900;text-decoration:none;padding:15px 24px;font-size:17px;border:3px solid #fff}
-.btn.g{background:var(--line-green);color:#fff;box-shadow:0 5px 0 #049a42,0 10px 24px rgba(0,0,0,.15)}.btn.w{background:#fff;color:var(--navy);border-color:var(--navy);box-shadow:0 5px 0 var(--navy)}
-.hero .chars{position:relative;height:100%;min-height:260px}.hero .chan{position:absolute;right:0;bottom:-8px;height:min(380px,42vw);filter:drop-shadow(0 8px 0 rgba(43,58,103,.2));animation:bob 4s ease-in-out infinite;transform-origin:50% 100%}.hero .minty{position:absolute;left:4%;bottom:12%;width:min(130px,15vw);animation:floaty 3s ease-in-out infinite}
-.hero .sp{position:absolute;color:#FFE86B;font-size:40px;filter:drop-shadow(0 2px 0 #fff);animation:blink 2.4s ease-in-out infinite}.hero .sp.p{color:#FFB3DC;animation-delay:.8s}.hero .sp.b{color:#9DE9EE;animation-delay:1.6s}
-@keyframes bob{0%,100%{transform:translateY(0)}20%{transform:translateY(0) scale(1.03,.97)}30%{transform:translateY(-4%) rotate(-2deg)}40%{transform:translateY(0) scale(1.03,.97)}50%{transform:translateY(-2%) rotate(2deg)}60%{transform:translateY(0)}}
-@keyframes floaty{0%,100%{transform:translateY(0) rotate(6deg)}50%{transform:translateY(-14px) rotate(0)}}@keyframes blink{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}
-@media (max-width:760px){.hero .wrap{grid-template-columns:1fr;min-height:0;padding-top:24px}.hero .chars{min-height:200px}.hero .chan{height:200px;right:-6px}.hero .minty{width:80px;left:10%}.btn{width:100%}.top .line-btn span{display:none}}
-/* sections */
-section.s{padding:44px 0}.s h2{margin:0 0 6px;font-size:clamp(22px,3.6vw,30px);color:var(--navy);text-align:center;font-weight:900}.s .lead{text-align:center;color:var(--ink-2);margin:0 0 22px}
-.pts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.pt{background:#fff;border:2px solid var(--cyan);border-radius:18px;padding:22px 18px 18px;text-align:center;box-shadow:0 4px 14px rgba(43,58,103,.07);position:relative}
-.pt img{height:92px;display:block;margin:0 auto 8px}.pt .n{position:absolute;left:14px;top:12px;background:var(--yellow);color:var(--ink);font-weight:900;border-radius:999px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px}
-.pt h3{margin:0 0 6px;font-size:19px;color:var(--navy)}.pt p{margin:0;font-size:14px;color:var(--ink-2)}
-@media (max-width:760px){.pts{grid-template-columns:1fr}}
-/* prices */
-.s.prices{background:#fff}
-.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media (max-width:760px){.pgrid{grid-template-columns:repeat(2,1fr)}}
-.pc{display:flex;flex-direction:column;border:2px solid #E6EEF2;border-radius:14px;overflow:hidden;text-decoration:none;background:#fff;position:relative}
-.pc img{aspect-ratio:63/88;width:100%;object-fit:contain;background:#fff;display:block}.pc .ph{aspect-ratio:63/88;display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;font-weight:700;font-size:13px;color:var(--ink-2);background:linear-gradient(160deg,#FFFBE0,#E7F9FA 60%,#F2E8FF)}
-.pc b{font-size:13px;padding:8px 8px 0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}.pc span{font-size:11px;color:var(--ink-3);padding:0 8px}.pc em{font-style:normal;font-weight:900;color:var(--price);padding:2px 8px 10px;font-size:18px;font-family:"M PLUS Rounded 1c",sans-serif}
-.pc .g{position:absolute;top:6px;right:6px;width:40px;height:40px}
-.more{text-align:center;margin-top:18px}.more .btn{font-size:16px}
-.note{font-size:12px;color:var(--ink-3);text-align:center;margin-top:10px}
+.hero{position:relative;overflow:hidden;padding:56px 0 0;background:radial-gradient(60% 50% at 85% 20%,rgba(169,243,244,.55) 0,transparent 70%),radial-gradient(50% 45% at 10% 90%,rgba(255,214,236,.5) 0,transparent 70%),var(--paper)}
+.hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:end;min-height:560px}
+.hero .lbl{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:18px}.hero .lbl:before{content:"";width:36px;height:1px;background:var(--ink-2)}
+.hero h1{margin:0;font-size:clamp(34px,5.2vw,58px);line-height:1.2;font-weight:800;letter-spacing:.02em;white-space:nowrap}
+.hero h1 .ac{color:var(--shu);position:relative;z-index:0}.hero h1 .ac:after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.26em;background:var(--cyan);z-index:-1;border-radius:3px}
+.hero .sub{margin:18px 0 0;font-size:clamp(15px,1.8vw,18px);color:var(--ink-2);max-width:34em}
+.zero{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0}.zero span{display:inline-flex;align-items:baseline;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--ink-2)}.zero b{font-family:"Shippori Mincho",serif;font-size:20px;color:var(--shu);line-height:1}
+.hero .cta{margin:26px 0 0}
+.facts{display:flex;margin:28px 0 36px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.fact{flex:1;padding:14px 10px;text-align:center;border-right:1px solid var(--line)}.fact:last-child{border-right:0}
+.fact .k{display:block;font-size:11px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase;font-family:"DM Sans",sans-serif;font-weight:700}
+.fact .v{display:block;font-size:clamp(18px,2.1vw,26px);white-space:nowrap;line-height:1.1;font-weight:800;color:var(--navy);margin-top:4px;font-family:"Shippori Mincho",serif;font-variant-numeric:tabular-nums}.fact .v small{font-size:.5em;margin-left:2px;font-family:"Zen Kaku Gothic New",sans-serif;font-weight:700}
+.fact .n{display:block;font-size:10px;color:var(--ink-3);margin-top:2px}
+.hero .stage{position:relative;min-height:420px}
+.hero .chan{position:absolute;right:0;bottom:-10px;height:min(470px,46vw);filter:drop-shadow(0 10px 0 rgba(23,59,92,.14));transform-origin:50% 100%;animation:bob 4.5s ease-in-out infinite}
+.hero .minty{position:absolute;left:6%;bottom:22%;width:min(130px,13vw);animation:floaty 3.4s ease-in-out infinite}
+.hero .disc{position:absolute;right:8%;top:6%;width:min(300px,30vw);aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,var(--yel),var(--cyan) 50%,var(--lav));opacity:.9;z-index:-1}
+.hero .vt{position:absolute;left:0;top:0;writing-mode:vertical-rl;font-family:"Shippori Mincho",serif;font-size:14px;letter-spacing:.3em;color:var(--ink-2);border-left:1px solid var(--line);padding-left:10px}
+.qr{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:12px;color:var(--ink-2)}.qr img{width:76px;height:76px;image-rendering:pixelated}.qr b{display:block;color:var(--ink);font-size:13px}
+@keyframes bob{0%,100%{transform:translateY(0)}20%{transform:translateY(0) scale(1.02,.98)}30%{transform:translateY(-3%) rotate(-1.5deg)}40%{transform:translateY(0) scale(1.02,.98)}50%{transform:translateY(-1.5%) rotate(1.5deg)}60%{transform:translateY(0)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(6deg)}50%{transform:translateY(-12px) rotate(0)}}
+@media (max-width:760px){.hero{padding-top:32px}.hero .wrap{grid-template-columns:1fr;min-height:0}.hero .stage{min-height:220px}.hero .chan{height:220px;right:-10px}.hero .minty{width:80px;left:4%}.hero .vt{display:none}.btn{width:100%}.facts{flex-wrap:wrap}.fact{flex:1 1 50%;border-bottom:1px solid var(--line)}.fact:nth-child(2n){border-right:0}.zero span{font-size:12px;padding:4px 10px}}
+/* section */
+.sec{padding:88px 0}.sec.tight{padding:64px 0}
+.sh{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline;margin-bottom:36px}
+.sh .no{font-family:"DM Sans",sans-serif;font-weight:700;font-size:13px;letter-spacing:.2em;color:var(--cyan-deep)}
+.sh h2{margin:0;font-size:clamp(25px,3.4vw,36px);font-weight:800;line-height:1.3;letter-spacing:.02em}.sh h2 .en{display:block;font-size:12px;color:var(--ink-3);margin-top:6px;font-weight:700}
+.sh p{grid-column:2;margin:6px 0 0;color:var(--ink-2);max-width:40em}
+/* pains */
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media (max-width:760px){.pains{grid-template-columns:1fr}}
+.pain{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px 20px}
+.pain .q{font-family:"Shippori Mincho",serif;font-weight:800;font-size:18px;color:var(--ink);line-height:1.5;margin:0}.pain .q:before{content:"“";color:var(--ink-3);margin-right:2px}.pain .q:after{content:"”";color:var(--ink-3);margin-left:2px}
+.pain .a{margin:12px 0 0;padding-top:12px;border-top:1px dashed var(--line);font-size:14px;color:var(--ink-2)}.pain .a b{color:var(--navy);display:block;font-size:15px;margin-bottom:2px}.pain .a b:before{content:"→ ";color:var(--shu)}
+/* reasons */
+.reasons{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.rs{background:var(--paper);padding:32px 26px 28px;position:relative}
+.rs .num{font-family:"DM Sans",sans-serif;font-size:13px;letter-spacing:.2em;color:var(--ink-3);font-weight:700}
+.rs h3{margin:10px 0 10px;font-size:21px;font-weight:800;line-height:1.35;font-family:"Shippori Mincho",serif}.rs p{margin:0;font-size:14px;color:var(--ink-2)}
+.rs img{position:absolute;right:14px;top:14px;height:72px;transition:transform .3s}.rs:hover img{transform:translateY(-4px) rotate(-3deg)}
+@media (max-width:760px){.reasons{grid-template-columns:1fr}.rs{padding-right:110px}}
 /* flow */
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;counter-reset:st}@media (max-width:760px){.flow{grid-template-columns:1fr}}
-.st{background:#fff;border:2px dashed var(--cyan);border-radius:16px;padding:18px 14px 16px;text-align:center;position:relative}.st:before{counter-increment:st;content:"STEP " counter(st);display:inline-block;background:var(--navy);color:#fff;font-weight:900;font-size:12px;border-radius:999px;padding:2px 12px;margin-bottom:8px;font-family:"M PLUS Rounded 1c",sans-serif}
-.st .ic{font-size:34px;line-height:1;margin-bottom:6px}.st h3{margin:0 0 4px;font-size:16px;color:var(--navy)}.st p{margin:0;font-size:13px;color:var(--ink-2)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative}
+.flow:before{content:"";position:absolute;left:10%;right:10%;top:34px;height:1px;background:var(--line)}
+.st{padding:0 12px;text-align:center;position:relative}
+.st .dot{width:68px;height:68px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px;position:relative;transition:transform .3s,border-color .3s}.st:hover .dot{transform:scale(1.08);border-color:var(--navy)}
+.st .n{position:absolute;top:-6px;left:50%;transform:translateX(-50%);font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:.2em;color:var(--cyan-deep);font-weight:700}
+.st h3{margin:0 0 4px;font-size:17px;font-weight:800}.st p{margin:0;font-size:13px;color:var(--ink-2)}.st .t{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+@media (max-width:760px){.flow{grid-template-columns:1fr;gap:22px}.flow:before{left:33px;right:auto;top:0;bottom:0;width:1px;height:auto}.st{display:grid;grid-template-columns:68px 1fr;gap:16px;text-align:left;padding:0}.st .dot{margin:0}.st .n{left:0;transform:none;top:-18px}}
+/* prices */
+.sec.prices{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.search{display:flex;gap:8px;max-width:620px;margin:0 auto 34px}.search input{flex:1;height:52px;border:2px solid var(--line);border-radius:999px;padding:0 20px;font:inherit;font-size:15px;background:var(--paper)}.search input:focus{outline:none;border-color:var(--cyan-deep)}.search button{height:52px;border:0;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;padding:0 22px;font:inherit;cursor:pointer}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}@media (max-width:760px){.pgrid{grid-template-columns:repeat(2,1fr);gap:12px}}
+.pc{display:flex;flex-direction:column;text-decoration:none;background:#fff;position:relative;transition:transform .25s}.pc:hover{transform:translateY(-4px)}
+.pc .im{aspect-ratio:63/88;background:var(--paper-2);border-radius:10px;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}.pc .im img{width:100%;height:100%;object-fit:contain;display:block}
+.pc .im img.g{position:absolute;top:8px;right:8px;width:40px;height:40px;object-fit:contain}
+.pc b{font-size:13px;padding:10px 2px 0;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.8em;font-weight:700}.pc span{font-size:11px;color:var(--ink-3);padding:0 2px;font-family:"DM Sans",sans-serif;letter-spacing:.04em}
+.pc em{font-style:normal;font-weight:800;color:var(--shu);padding:2px 2px 0;font-size:20px;font-family:"Shippori Mincho",serif;font-variant-numeric:tabular-nums}
+.pc:after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;background:var(--navy);transform:scaleX(0);transform-origin:left;transition:transform .3s}.pc:hover:after{transform:scaleX(1)}
+.cap{font-size:12px;color:var(--ink-3);text-align:center;margin:16px 0 0}
+/* terms table */
+.sec.cmp{background:var(--paper-2)}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;font-size:15px}
+.tbl th,.tbl td{padding:15px 18px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}.tbl tr:last-child td,.tbl tr:last-child th{border-bottom:0}
+.tbl thead th{background:var(--paper);font-size:13px;color:var(--ink-2);font-weight:700}
+.tbl th.h{width:30%;color:var(--ink-2);font-weight:700;font-size:14px;background:var(--paper)}
+.tbl td.y{color:var(--navy);font-weight:800}.tbl td .ok{display:inline-block;color:var(--shu);font-family:"Shippori Mincho",serif;font-weight:800;margin-right:6px}
+.tbl td small{display:block;font-size:12px;color:var(--ink-3);font-weight:400}
+@media (max-width:640px){.tbl{font-size:13px}.tbl th,.tbl td{padding:12px 10px}}
+/* condition */
+.cond{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start}@media (max-width:760px){.cond{grid-template-columns:1fr}}
+.cond ul{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}.cond li{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}.cond li b{color:var(--ink);font-size:15px}.cond li span{color:var(--ink-2)}
+.promise{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 24px}.promise h3{margin:0 0 10px;font-family:"Shippori Mincho",serif;font-size:19px;color:var(--navy)}.promise p{margin:0 0 8px;font-size:14px;color:var(--ink-2)}.promise p:last-child{margin:0}.promise .pt{display:flex;gap:10px;align-items:flex-start}.promise .pt i{font-style:normal;color:var(--ok);font-weight:900}
 /* trust */
-.s.trust{background:linear-gradient(180deg,#FFF9E6,#FFFFFF)}
-.tr{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}@media (max-width:760px){.tr{grid-template-columns:1fr}}
-.tr ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}.tr li{background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px 16px;font-weight:700;display:flex;gap:10px;align-items:flex-start}.tr li i{font-style:normal;font-size:22px;line-height:1.2}.tr li span{font-weight:400;color:var(--ink-2);display:block;font-size:13px}
-.shops{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.shops a{background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;text-decoration:none;color:var(--navy);font-weight:700}
-.tr .pic{text-align:center}.tr .pic img{max-height:260px;filter:drop-shadow(0 6px 0 rgba(43,58,103,.15))}
+.trust{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}@media (max-width:760px){.trust{grid-template-columns:1fr;gap:28px}}
+.trust dl{margin:0;display:grid;border-top:1px solid var(--line)}.trust .row{display:grid;grid-template-columns:120px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--line)}
+.trust dt{font-size:13px;color:var(--ink-2);font-weight:700;letter-spacing:.04em;padding-top:3px}.trust dd{margin:0;font-weight:700}.trust dd small{display:block;font-weight:400;color:var(--ink-2);font-size:13px}
+.shops{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:6px;font-size:14px;font-family:"Shippori Mincho",serif;font-weight:700}.shops a{text-decoration:none;color:var(--navy);border-bottom:1px solid var(--cyan-deep)}
+.trust .pic{position:relative;text-align:center}.trust .pic img{height:300px;filter:drop-shadow(0 8px 0 rgba(23,59,92,.12))}.trust .pic .ring{position:absolute;left:50%;top:50%;width:280px;height:280px;border-radius:50%;border:1px solid var(--line);transform:translate(-50%,-50%);z-index:-1}.trust .pic .ring.b{width:360px;height:360px;border-style:dashed}
+@media (max-width:760px){.trust .pic img{height:220px}.trust .pic .ring{width:200px;height:200px}.trust .pic .ring.b{width:260px;height:260px}}
+/* after line */
+.after{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media (max-width:760px){.after{grid-template-columns:1fr}}
+.af{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 20px;position:relative}.af .n{font-family:"DM Sans",sans-serif;font-size:11px;letter-spacing:.2em;color:var(--cyan-deep);font-weight:700}.af h3{margin:6px 0 6px;font-size:17px}.af p{margin:0;font-size:14px;color:var(--ink-2)}
+.chat{background:#8CB5D9;border-radius:16px;padding:14px;display:grid;gap:8px;margin-top:14px}.chat .b{max-width:85%;background:#fff;border-radius:14px;padding:8px 12px;font-size:13px;line-height:1.6}.chat .b.me{background:#8DE27E;justify-self:end}
 /* faq */
-.faq details{background:#fff;border:2px solid #E6EEF2;border-radius:14px;padding:12px 16px;margin:8px 0}.faq summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:15px}.faq p{margin:8px 0 2px;font-size:14px;color:var(--ink-2)}
-/* final cta */
-.s.final{background:linear-gradient(115deg,#FFF6B8 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);text-align:center}.final .cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}.final img{height:120px;margin-bottom:6px}
-footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:22px 16px 90px;text-align:center;font-size:13px}footer a{color:var(--navy);margin:0 10px}
-/* sticky bottom bar (mobile) */
-.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-top:2px solid var(--cyan);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px}.bar .btn{flex:1;padding:12px 10px;font-size:15px;border-width:2px}
+.faq{max-width:760px;margin:0 auto}.faq details{border-bottom:1px solid var(--line)}.faq summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 0;font-weight:800;font-size:16px}.faq summary::-webkit-details-marker{display:none}
+.faq summary .q{font-family:"Shippori Mincho",serif;color:var(--shu);margin-right:12px;font-weight:800}.faq summary .pm{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-family:"DM Sans",sans-serif;color:var(--navy);flex:none;transition:transform .3s}.faq details[open] .pm{transform:rotate(45deg)}
+.faq p{margin:0 0 18px;color:var(--ink-2);font-size:15px;padding-left:28px}
+/* final */
+.sec.final{background:var(--navy);color:#fff;text-align:center;position:relative;overflow:hidden}
+.final .bg{position:absolute;inset:-20% -10%;background:radial-gradient(40% 40% at 20% 30%,rgba(169,243,244,.25),transparent 70%),radial-gradient(40% 40% at 80% 70%,rgba(255,214,236,.2),transparent 70%)}
+.final .wrap{position:relative}.final h2{margin:0;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.3}.final p{color:rgba(255,255,255,.8);margin:16px 0 0}
+.final .cta{justify-content:center;margin:30px 0 0}.final .btn.o{color:#fff;border-color:#fff}.final .btn.o:hover{background:#fff;color:var(--navy)}
+.final img{height:130px;margin-bottom:10px;filter:drop-shadow(0 6px 0 rgba(0,0,0,.25))}
+.final .qr{display:inline-flex;margin-top:22px;color:var(--ink-2)}
+footer{background:var(--navy);color:rgba(255,255,255,.8);padding:26px 20px 100px;text-align:center;font-size:13px;border-top:1px solid rgba(255,255,255,.12)}footer a{color:#fff;margin:0 10px;text-decoration:none}footer a:hover{text-decoration:underline}
+/* mobile bar */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(251,248,241,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px;transform:translateY(110%);transition:transform .35s}.bar.show{transform:none}.bar .btn{flex:1;padding:13px 10px;font-size:14px}.bar .btn.o{flex:.7}
 @media (max-width:760px){.bar{display:flex}}
 </style>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
-  <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener">💬 <span>LINEで無料査定</span></a>
+  <nav><a href="#flow">流れ</a><a href="#prices">買取価格</a><a href="#terms">条件</a><a href="#faq">よくある質問</a></nav>
+  <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener">💬 <span>LINEで査定を申し込む</span></a>
 </div></header>
 
 <section class="hero"><div class="wrap">
   <div>
-    <span class="eyebrow">✉ ナタデココ かんたん郵送買取</span>
-    <h1>ポケカ、<b>送るだけ</b>で<br>高価買取。</h1>
-    <p class="sub">箱に詰めて送るだけ。査定後すぐにお振込み！</p>
-    <div class="pills">
-      <div class="pill"><span class="k">送料</span><span class="v">0<small>円</small></span></div>
-      <div class="pill"><span class="k">入金</span><span class="v">最短当日</span></div>
-      <div class="pill"><span class="k">価格表</span><span class="v">毎日更新</span></div>
-      <div class="pill"><span class="k">掲載</span><span class="v">__COUNT__<small>枚</small></span></div>
+    <div class="lbl rv">ポケモンカード専門店ナタデココの郵送買取</div>
+    <h1 class="serif rv d1">ポケカ、<br>箱に詰めて<br><span class="ac">送るだけ</span>。</h1>
+    <p class="sub rv d1">LINEで申し込んで、着払いで送るだけ。店頭と同じ価格で査定し、最短その日にお振込みします。</p>
+    <div class="zero rv d2"><span>送料<b>0</b>円</span><span>査定料<b>0</b>円</span><span>キャンセル料<b>0</b>円</span><span>返送料<b>0</b>円</span></div>
+    <div class="cta rv d2" id="heroCta">
+      <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">LINEで査定を申し込む <span class="ar">→</span></a>
+      <a class="btn o" href="/">買取価格を調べる <span class="ar">→</span></a>
     </div>
-    <div class="cta">
-      <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定を頼む</a>
-      <a class="btn w" href="/">🔍 買取価格を調べる</a>
+    <p class="micro rv d2">友だち追加→カードの写真か枚数を送るだけ。入力フォームはありません。</p>
+    <div class="facts rv d3">
+      <div class="fact"><span class="k">Payment</span><span class="v">最短当日</span><span class="n">本査定の承諾後</span></div>
+      <div class="fact"><span class="k">Price list</span><span class="v" data-count="__COUNT__">__COUNT__<small>枚</small></span><span class="n">毎日更新・__UPDATED__</span></div>
+      <div class="fact"><span class="k">Stores</span><span class="v">8<small>店舗</small></span><span class="n">千葉・東京・神奈川</span></div>
+      <div class="fact"><span class="k">Inspection</span><span class="v">1<small>枚ずつ</small></span><span class="n">専門スタッフが検品</span></div>
     </div>
   </div>
-  <div class="chars">
-    <span class="sp" style="left:6%;top:8%">✦</span><span class="sp p" style="right:40%;top:0">✦</span><span class="sp b" style="left:30%;bottom:8%">✦</span>
-    <img class="minty" src="/img/banner_minty.webp" alt="">
-    <img class="chan" src="/img/banner_chan.webp" alt="">
+  <div class="stage">
+    <div class="disc"></div>
+    <div class="vt">かんたん郵送買取 ── 全国対応</div>
+    <img class="minty rv d2" src="/img/banner_minty.webp" alt="">
+    <img class="chan rv d1" src="/img/banner_chan.webp" alt="">
   </div>
 </div></section>
 
-<section class="s"><div class="wrap">
-  <h2>ナタデココの郵送買取が選ばれる3つの理由</h2>
-  <p class="lead">お店に来られなくても、お店と同じ価格で買い取ります。</p>
-  <div class="pts">
-    <div class="pt"><span class="n">1</span><img src="/img/chars/chan1.webp" alt=""><h3>相場に合わせて毎日更新</h3><p>__COUNT__枚の買取価格をWebで公開。PSA10・旧裏・未開封BOXまで、送る前に金額が分かります。</p></div>
-    <div class="pt"><span class="n">2</span><img src="/img/chars/minty1.webp" alt=""><h3>送料無料・最短当日入金</h3><p>着払いで送るだけ。到着後すぐ査定し、ご承諾いただいたら最短その日にお振込み。本人確認もスマホで完結。</p></div>
-    <div class="pt"><span class="n">3</span><img src="/img/chars/pachiru1.webp" alt=""><h3>首都圏8店舗の専門店</h3><p>千葉・東京・神奈川に実店舗を構えるポケカ専門店が査定。古物商許可のある会社なので安心です。</p></div>
+<section class="sec tight"><div class="wrap">
+  <div class="sh rv"><span class="no">01</span><h2 class="serif">こんなとき、送ってください。<span class="en">For you</span></h2></div>
+  <div class="pains">
+    <div class="pain rv"><p class="q">お店まで持っていくのが重い。近くに専門店がない。</p><p class="a"><b>全国どこからでも、着払いで送るだけ</b>佐川急便の着払い伝票でOK。レターパック・ヤマトでも送れます。</p></div>
+    <div class="pain rv d1"><p class="q">フリマは撮影・出品・発送・やり取りが面倒。</p><p class="a"><b>まとめて1回、手数料なし</b>箱に入れて送れば、こちらで1枚ずつ検品します。売れ残りも値下げ交渉もありません。</p></div>
+    <div class="pain rv d2"><p class="q">送ってから「思ったより安い」と言われるのが不安。</p><p class="a"><b>送る前に価格が分かる。納得できなければ返送無料</b>価格表は毎日公開。本査定の金額に納得できなければキャンセルでき、返送料も当店負担です。</p></div>
   </div>
 </div></section>
 
-<section class="s prices"><div class="wrap">
-  <h2>いま高く売れるカード</h2>
-  <p class="lead">__UPDATED__ 時点の買取価格（美品）。一例です。</p>
-  <div class="pgrid">__TOP__</div>
-  <div class="more"><a class="btn w" href="/">__COUNT__枚の買取価格をすべて見る ›</a></div>
-  <p class="note">価格表にないカードも買取できます。LINEで写真を送ってください。</p>
-</div></section>
-
-<section class="s"><div class="wrap">
-  <h2>申込から入金までの流れ</h2>
-  <p class="lead">やることは「LINEで送る」と「箱に詰めて送る」の2つだけ。</p>
+<section class="sec" id="flow"><div class="wrap">
+  <div class="sh rv"><span class="no">02</span><h2 class="serif">申込から入金まで。<span class="en">How it works</span></h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけです。</p></div>
   <div class="flow">
-    <div class="st"><div class="ic">💬</div><h3>LINEで申込</h3><p>売りたいカードの写真か、価格表で選んだ内容を送信</p></div>
-    <div class="st"><div class="ic">📝</div><h3>お見積り</h3><p>美品での買取金額をお知らせ。納得できたら次へ</p></div>
-    <div class="st"><div class="ic">📦</div><h3>着払いで発送</h3><p>佐川急便の着払い。送料は0円です</p></div>
-    <div class="st"><div class="ic">🔍</div><h3>本査定</h3><p>1枚ずつ検品して最終金額をご連絡。キャンセルも無料</p></div>
-    <div class="st"><div class="ic">💴</div><h3>お振込み</h3><p>スマホで本人確認（eKYC）→最短当日入金</p></div>
+    <div class="st rv"><div class="dot">💬</div><span class="n">STEP 1</span><h3>LINEで申込</h3><p>写真か、価格表で選んだ内容を送信</p><span class="t">所要1分</span></div>
+    <div class="st rv d1"><div class="dot">📝</div><span class="n">STEP 2</span><h3>お見積り</h3><p>美品での買取金額をLINEでお知らせ</p><span class="t">営業時間内に返信</span></div>
+    <div class="st rv d2"><div class="dot">📦</div><span class="n">STEP 3</span><h3>着払いで発送</h3><p>佐川急便の着払い。送料は0円</p><span class="t">梱包10分</span></div>
+    <div class="st rv d3"><div class="dot">🔍</div><span class="n">STEP 4</span><h3>本査定</h3><p>到着後に1枚ずつ検品。結果をLINEで</p><span class="t">到着日の価格で査定</span></div>
+    <div class="st rv d3"><div class="dot">💴</div><span class="n">STEP 5</span><h3>お振込み</h3><p>スマホで本人確認（eKYC）→入金</p><span class="t">最短当日</span></div>
   </div>
-  <div class="more"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定を頼む</a></div>
+  <div class="ctabox rv"><p class="lead">5ステップで終わります。</p><div class="cta"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">お見積りはカード到着まで含めて5日間有効です。</p></div>
 </div></section>
 
-<section class="s trust"><div class="wrap">
-  <h2>実店舗があるから、安心して送れる</h2>
-  <div class="tr">
-    <ul>
-      <li><i>🏬</i><div>千葉・東京・神奈川に8店舗<span>店頭買取も可能。郵送でも店頭と同じ価格です</span><div class="shops">__SHOPS__</div></div></li>
-      <li><i>✅</i><div>古物商許可あり<span>__LICENSE__</span></div></li>
-      <li><i>↩️</i><div>減額に納得できなければキャンセル無料<span>返送料も当店が負担します</span></div></li>
-      <li><i>🔒</i><div>本人確認はスマホで完結<span>古物営業法にもとづくeKYC。身分証の郵送は不要</span></div></li>
+<section class="sec prices" id="prices"><div class="wrap">
+  <div class="sh rv"><span class="no">03</span><h2 class="serif">いま、高く売れるカード。<span class="en">Today's picks</span></h2><p>__UPDATED__ 時点の買取価格（美品の場合）。一例です。お手元のカードは下の検索で調べられます。</p></div>
+  <form class="search rv" action="/" method="get"><input type="search" name="q" placeholder="カード名・型番で価格を調べる（例：リザードン、001/SV-P）" aria-label="カード名・型番"><button type="submit">調べる</button></form>
+  <div class="pgrid">__TOP__</div>
+  <div class="ctabox rv"><p class="lead">この価格で送れます。</p><div class="cta"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">LINEで査定を申し込む <span class="ar">→</span></a><a class="btn o" href="/">__COUNT__枚の価格表を見る <span class="ar">→</span></a></div></div>
+  <p class="cap">価格表にないカードも買取できます。LINEで写真をお送りください。</p>
+</div></section>
+
+<section class="sec cmp" id="terms"><div class="wrap">
+  <div class="sh rv"><span class="no">04</span><h2 class="serif">条件は、ぜんぶ公開。<span class="en">Terms at a glance</span></h2><p>送る前に知っておきたいことを、まとめて書いておきます。</p></div>
+  <table class="tbl rv">
+    <thead><tr><th>項目</th><th>かんたん郵送買取</th><th>店頭買取</th></tr></thead>
+    <tbody>
+      <tr><th class="h">買取価格</th><td class="y"><span class="ok">◎</span>店頭と同じ価格<small>価格表は毎日更新。郵送はカード到着日の価格で査定</small></td><td>価格表のとおり</td></tr>
+      <tr><th class="h">送料</th><td class="y"><span class="ok">◎</span>無料（着払い）<small>佐川急便。レターパック・ヤマトも可</small></td><td>—</td></tr>
+      <tr><th class="h">査定料・キャンセル料</th><td class="y"><span class="ok">◎</span>無料</td><td>無料</td></tr>
+      <tr><th class="h">減額に納得できないとき</th><td class="y"><span class="ok">◎</span>キャンセル無料<small>返送料も当店負担</small></td><td>その場でお返し</td></tr>
+      <tr><th class="h">入金</th><td class="y"><span class="ok">◎</span>最短当日<small>本査定の承諾・本人確認のあと</small></td><td>その場で現金</td></tr>
+      <tr><th class="h">本人確認</th><td>スマホで完結（eKYC）<small>顔写真付き身分証。郵送は不要</small></td><td>店頭で身分証を提示</td></tr>
+      <tr><th class="h">お見積りの有効期限</th><td>到着まで含めて5日間</td><td>—</td></tr>
+      <tr><th class="h">同じカードが多いとき</th><td>在庫状況により減額の場合あり<small>枚数が多いときは先にLINEでご相談を</small></td><td>同左</td></tr>
+      <tr><th class="h">価格表にないカード</th><td>買取可<small>LINEで写真を送ってください</small></td><td>買取可</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section class="sec"><div class="wrap">
+  <div class="sh rv"><span class="no">05</span><h2 class="serif">状態が気になるカードも、まず送ってください。<span class="en">Condition</span></h2><p>価格表の金額は美品の場合です。減額の目安を先に書いておきます。</p></div>
+  <div class="cond">
+    <ul class="rv">
+      <li><b>裏面の白かけ</b><span>四隅や縁の白くなっている部分。もっとも減額に影響します</span></li>
+      <li><b>表面のスレ・線傷</b><span>光にかざすと分かる細かい傷</span></li>
+      <li><b>角のつぶれ・折れ</b><span>封筒にそのまま入れて送ると起きやすいので、スリーブ＋厚紙で</span></li>
+      <li><b>反り</b><span>キラカードに多い。軽い反りは許容されることもあります</span></li>
+      <li><b>PSAのケース</b><span>中のカードは鑑定済みなので、ケースの割れ・ヒビ・深い傷を確認します</span></li>
     </ul>
-    <div class="pic"><img src="/img/chars/chan3.webp" alt=""></div>
+    <div class="promise rv d1">
+      <h3>減額するときの約束</h3>
+      <p class="pt"><i>✓</i>減額がある場合は、どのカードがなぜ減額かをお伝えします</p>
+      <p class="pt"><i>✓</i>納得できなければキャンセル無料。返送料も当店負担です</p>
+      <p class="pt"><i>✓</i>不安なカードは、先に写真を送っていただければお見積りの段階で金額をお伝えします</p>
+    </div>
+  </div>
+  <div class="ctabox rv"><p class="lead">不安はありませんか？</p><div class="cta"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+</div></section>
+
+<section class="sec cmp"><div class="wrap">
+  <div class="sh rv"><span class="no">06</span><h2 class="serif">実店舗があるから、安心して送れる。<span class="en">Trusted shop</span></h2></div>
+  <div class="trust">
+    <dl class="rv">
+      <div class="row"><dt>店舗</dt><dd>千葉・東京・神奈川に8店舗<small>店頭買取も可能。郵送でも店頭と同じ価格です。</small><div class="shops">__SHOPS__</div></dd></div>
+      <div class="row"><dt>古物商許可</dt><dd>あり<small>__LICENSE__</small></dd></div>
+      <div class="row"><dt>査定</dt><dd>ポケカ専門スタッフが1枚ずつ検品<small>価格表は相場に合わせて毎日更新しています。</small></dd></div>
+      <div class="row"><dt>本人確認</dt><dd>スマホで完結<small>古物営業法にもとづくeKYC。身分証の郵送は不要です。</small></dd></div>
+    </dl>
+    <div class="pic rv d1"><span class="ring"></span><span class="ring b"></span><img id="seasonChar" src="/img/chars/chan3.webp" alt=""></div>
   </div>
 </div></section>
 
-<section class="s"><div class="wrap">
-  <h2>よくある質問</h2>
-  <div class="faq">
-    <details><summary>価格表にないカードも売れますか？</summary><p>はい。掲載のないカードも買取しています。LINEで型番が見える写真をお送りください。</p></details>
-    <details><summary>傷があるカードも買い取ってもらえますか？</summary><p>買取できます。状態により減額となることがありますが、減額後の金額に納得できなければキャンセルでき、返送料は当店負担です。</p></details>
-    <details><summary>お見積りはいつまで有効ですか？</summary><p>カードの到着まで含めて5日間です。相場が大きく動いた場合は到着日の価格で再査定となることがあります。</p></details>
-    <details><summary>本人確認には何が必要ですか？</summary><p>顔写真付きの身分証（運転免許証・マイナンバーカード・パスポートなど）をご用意ください。スマホで撮影して完了します。</p></details>
-    <details><summary>PSA10や旧裏、未開封BOXも売れますか？</summary><p>はい。<a href="/cat/psa/">PSA10</a>・<a href="/cat/old/">旧裏</a>・<a href="/cat/box/">未開封BOX</a>それぞれの買取価格一覧を掲載しています。</p></details>
+<section class="sec"><div class="wrap">
+  <div class="sh rv"><span class="no">07</span><h2 class="serif">LINEを追加したら、こうなります。<span class="en">After you add us</span></h2><p>届くのは査定のやり取りと、買取強化のお知らせだけ。いつでもブロックできます。</p></div>
+  <div class="after">
+    <div class="af rv"><span class="n">1</span><h3>友だち追加</h3><p>あいさつと、申込のメニューが届きます。</p><div class="chat"><div class="b">友だち追加ありがとうございます🙌 売りたいカードの写真か、価格表で選んだ内容を送ってください。</div></div></div>
+    <div class="af rv d1"><span class="n">2</span><h3>写真か枚数を送る</h3><p>価格表の「LINEで申込」を押すと、カード名と枚数が入った状態でトークが開きます。</p><div class="chat"><div class="b me">【郵送買取 申込】<br>・リザードンex（SAR）×1<br>・ピカチュウ（P）×2</div></div></div>
+    <div class="af rv d2"><span class="n">3</span><h3>お見積りが届く</h3><p>金額と発送方法をご案内。納得できたら着払いで発送してください。</p><div class="chat"><div class="b">美品で合計◯◯円です。佐川急便の着払いで下記住所へお送りください📦</div></div></div>
   </div>
-  <div class="more"><a href="/faq/" style="font-weight:700;color:var(--navy-2)">もっと見る（よくある質問）›</a></div>
 </div></section>
 
-<section class="s final"><div class="wrap">
-  <img src="/img/chars/melroot1.webp" alt="">
-  <h2>おうちのポケカ、まとめて送ってみませんか？</h2>
-  <p class="lead" style="margin-bottom:0">1枚からOK。まずはLINEで気軽に相談してください。</p>
-  <div class="cta">
-    <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定を頼む</a>
-    <a class="btn w" href="/">🔍 買取価格を調べる</a>
+<section class="sec tight" id="faq"><div class="wrap">
+  <div class="sh rv"><span class="no">08</span><h2 class="serif">よくある質問。<span class="en">FAQ</span></h2></div>
+  <div class="faq rv">
+    <details><summary><span><span class="q">Q</span>価格表にないカードも売れますか？</span><span class="pm">+</span></summary><p>はい。掲載のないカードも買取しています。LINEで型番が見える写真をお送りください。</p></details>
+    <details><summary><span><span class="q">Q</span>スリーブやファイルに入れたままでも送れますか？</span><span class="pm">+</span></summary><p>送れます。スリーブに入れ、厚紙やローダーで挟んで曲がらないように梱包してください。</p></details>
+    <details><summary><span><span class="q">Q</span>1枚だけでも郵送買取できますか？</span><span class="pm">+</span></summary><p>できます。送料や手間を考えると、まとめて送っていただく方がお得です。</p></details>
+    <details><summary><span><span class="q">Q</span>傷があるカードも買い取ってもらえますか？</span><span class="pm">+</span></summary><p>買取できます。状態により減額となることがありますが、減額後の金額に納得できなければキャンセルでき、返送料は当店負担です。</p></details>
+    <details><summary><span><span class="q">Q</span>お見積りはいつまで有効ですか？</span><span class="pm">+</span></summary><p>カードの到着まで含めて5日間です。相場が大きく動いた場合は到着日の価格で再査定となることがあります。</p></details>
+    <details><summary><span><span class="q">Q</span>本人確認には何が必要ですか？</span><span class="pm">+</span></summary><p>顔写真付きの身分証（運転免許証・マイナンバーカード・パスポートなど）をご用意ください。スマホで撮影して完了します。</p></details>
+    <details><summary><span><span class="q">Q</span>未成年でも売れますか？</span><span class="pm">+</span></summary><p>未成年の方の買取については、先にLINEでお問い合わせください。</p></details>
+    <details><summary><span><span class="q">Q</span>PSA10や旧裏、未開封BOXも売れますか？</span><span class="pm">+</span></summary><p>はい。<a href="/cat/psa/">PSA10</a>・<a href="/cat/old/">旧裏</a>・<a href="/cat/box/">未開封BOX</a>それぞれの買取価格一覧を掲載しています。</p></details>
   </div>
+  <p class="cap"><a href="/faq/" style="color:var(--navy);font-weight:700">もっと見る（よくある質問）→</a></p>
+</div></section>
+
+<section class="sec final"><div class="bg"></div><div class="wrap">
+  <img class="rv" src="/img/chars/melroot1.webp" alt="">
+  <h2 class="serif rv d1">迷ったら、まず写真を送ってください。</h2>
+  <p class="rv d2">1枚からOK。お見積りは無料、納得してから送れます。</p>
+  <div class="cta rv d3">
+    <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">LINEで査定を申し込む <span class="ar">→</span></a>
+    <a class="btn o" href="/">買取価格を調べる <span class="ar">→</span></a>
+  </div>
+  <div class="qr pc-only rv d3"><img src="/img/line_qr.png" alt="LINE友だち追加QRコード"><div><b>スマホで読み取ってください</b>LINE ID：@316mfilq</div></div>
 </div></section>
 
 <footer>
   <div><a href="/">買取価格表</a><a href="/guide/">郵送買取のやり方</a><a href="__STORES_URL__">店舗一覧</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div>
-  <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
+  <div style="margin-top:10px;opacity:.7">© __COMPANY__</div>
 </footer>
-<div class="bar">
-  <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定</a>
-  <a class="btn w" href="/">🔍 価格を調べる</a>
+<div class="bar" id="bar">
+  <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで査定を申し込む</a>
+  <a class="btn o" href="/">価格を調べる</a>
 </div>
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // スクロールで静かに現れる
+  var els=document.querySelectorAll('.rv');
+  if(!('IntersectionObserver' in window)||reduce){els.forEach(function(e){e.classList.add('on')});}
+  else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add('on');io.unobserve(x.target);}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});els.forEach(function(e){io.observe(e)});}
+  // 掲載枚数のカウントアップ
+  var c=document.querySelector('[data-count]');
+  if(c&&!reduce){var to=parseInt(c.dataset.count.replace(/,/g,''),10)||0,small=c.querySelector('small')?c.querySelector('small').outerHTML:'',t0=null;
+    function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1400),e=1-Math.pow(1-p,3);c.innerHTML=Math.round(to*e).toLocaleString()+small;if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);}
+  // 固定バー：FVのボタンが画面から消えたら出す。入力中は隠す
+  var bar=document.getElementById('bar'),hc=document.getElementById('heroCta');
+  if(bar&&hc&&'IntersectionObserver' in window){new IntersectionObserver(function(en){bar.classList.toggle('show',!en[0].isIntersecting)},{threshold:0}).observe(hc);}else if(bar){bar.classList.add('show');}
+  document.addEventListener('focusin',function(e){if(e.target.matches('input,textarea'))bar.classList.remove('show')});
+  document.addEventListener('focusout',function(e){if(e.target.matches('input,textarea')&&hc.getBoundingClientRect().bottom<0)bar.classList.add('show')});
+  // 季節のキャラ
+  var m=new Date().getMonth()+1,k=m>=3&&m<=5?'spring':m>=6&&m<=8?'summer':m>=9&&m<=11?'autumn':'winter';var s=document.getElementById('seasonChar');if(s)s.src='/img/chars/deco_'+k+'.webp';
+})();
+</script>

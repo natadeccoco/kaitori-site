@@ -290,6 +290,30 @@ for (const a of arts) {
 }
 console.log(`article pages: ${arts.length}`);
 
+/* ---------- 3d. 誘導LP（/lp/）：広告・X・Shopifyからの着地ページ ---------- */
+{
+  const lpTpl = read(path.join(SRC, "lp.html"));
+  if (lpTpl) {
+    const url = `${CFG.siteUrl}/lp/`;
+    const title = "ポケカ郵送買取｜送料無料・最短当日入金・価格表を毎日公開";
+    const desc = `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。LINEで無料査定。`;
+    const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort((a, b) => b.price - a.price);
+    const pick = []; const seen = new Set();
+    for (const x of top) { const b = baseName(x.name); if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= 8) break; }
+    const cards = pick.map(r => `<a class="pc" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join("");
+    const shops = ["柏", "松戸", "津田沼", "千葉中央", "中野", "お台場", "町田", "横浜"].map(n => `<a href="${CFG.storesUrl}">${n}</a>`).join("");
+    const ld = { "@context": "https://schema.org", "@type": "Service", name: "ポケモンカード郵送買取", provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };
+    const html = lpTpl
+      .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
+      .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
+      .replace(/__TOP__/g, cards).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
+      .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
+    write("lp/index.html", wrap(html));
+    urls.push({ url, lastmod: updated.replace(/\//g, "-") });
+    console.log("lp: ok");
+  }
+}
+
 /* ---------- 4. 固定ページ ---------- */
 for (const name of ["stores", "legal", "privacy"]) {
   let html = read(path.join(SRC, name + ".html"));

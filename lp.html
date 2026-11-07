@@ -1,0 +1,165 @@
+<title>__TITLE__</title>
+__HEAD__
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap">
+<style>
+:root{--bg-2:#F4FAFB;--line:#DDE8EB;--ink:#22303C;--ink-2:#5A6B76;--ink-3:#8C9AA3;--cyan:#A9F3F4;--cyan-deep:#1FA8B8;--yellow:#F7D31A;--price:#E23B47;--navy:#173B5C;--navy-2:#1E4E78;--line-green:#06C755;--lav:#C4A8F0;--pink:#FFB8DC}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#FBFDFF;background-image:radial-gradient(rgba(169,243,244,.35) 1.5px,transparent 1.6px);background-size:22px 22px;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Noto Sans JP",system-ui,sans-serif;font-size:16px;line-height:1.7}
+a{color:inherit}h1,h2,h3,.num{font-family:"M PLUS Rounded 1c",sans-serif}
+.top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);position:sticky;top:0;z-index:20;box-shadow:0 2px 10px rgba(43,58,103,.08)}.top .in{max-width:1040px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo img{height:42px;display:block}
+.line-btn{display:inline-flex;align-items:center;gap:8px;background:var(--line-green);color:#fff;font-weight:800;text-decoration:none;border-radius:999px;box-shadow:0 3px 0 #049a42;padding:9px 16px;white-space:nowrap;font-size:14px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+/* hero */
+.hero{position:relative;overflow:hidden;background:linear-gradient(115deg,#FFF6B8 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%)}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;align-items:end;padding-top:34px;min-height:440px}
+.hero .eyebrow{display:inline-block;background:var(--navy);color:#fff;font-weight:800;border-radius:999px;padding:5px 16px;font-size:14px;margin-bottom:12px}
+.hero h1{margin:0;font-size:clamp(30px,5.6vw,54px);line-height:1.2;font-weight:900;color:#fff;-webkit-text-stroke:0;paint-order:stroke fill;text-shadow:0 0 0 #fff;letter-spacing:.01em;filter:drop-shadow(0 3px 0 rgba(43,58,103,.9)) drop-shadow(0 0 2px rgba(43,58,103,1))}
+.hero h1 b{color:var(--yellow)}
+.hero .sub{margin:14px 0 0;font-size:clamp(15px,2.2vw,19px);font-weight:700;color:var(--navy);background:rgba(255,255,255,.75);display:inline-block;border-radius:999px;padding:6px 16px}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}.pill{display:flex;align-items:center;border:3px solid var(--navy);background:#fff;border-radius:999px;overflow:hidden;box-shadow:0 4px 0 var(--navy);font-weight:900}.pill .k{background:var(--navy);color:#fff;padding:6px 12px;font-size:13px}.pill .v{padding:6px 14px;color:#FF5C9E;font-size:20px;line-height:1.2}.pill .v small{font-size:13px;color:var(--navy);margin-left:3px}
+.hero .cta{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;font-weight:900;text-decoration:none;padding:15px 24px;font-size:17px;border:3px solid #fff}
+.btn.g{background:var(--line-green);color:#fff;box-shadow:0 5px 0 #049a42,0 10px 24px rgba(0,0,0,.15)}.btn.w{background:#fff;color:var(--navy);border-color:var(--navy);box-shadow:0 5px 0 var(--navy)}
+.hero .chars{position:relative;height:100%;min-height:260px}.hero .chan{position:absolute;right:0;bottom:-8px;height:min(380px,42vw);filter:drop-shadow(0 8px 0 rgba(43,58,103,.2));animation:bob 4s ease-in-out infinite;transform-origin:50% 100%}.hero .minty{position:absolute;left:4%;bottom:12%;width:min(130px,15vw);animation:floaty 3s ease-in-out infinite}
+.hero .sp{position:absolute;color:#FFE86B;font-size:40px;filter:drop-shadow(0 2px 0 #fff);animation:blink 2.4s ease-in-out infinite}.hero .sp.p{color:#FFB3DC;animation-delay:.8s}.hero .sp.b{color:#9DE9EE;animation-delay:1.6s}
+@keyframes bob{0%,100%{transform:translateY(0)}20%{transform:translateY(0) scale(1.03,.97)}30%{transform:translateY(-4%) rotate(-2deg)}40%{transform:translateY(0) scale(1.03,.97)}50%{transform:translateY(-2%) rotate(2deg)}60%{transform:translateY(0)}}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(6deg)}50%{transform:translateY(-14px) rotate(0)}}@keyframes blink{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@media (max-width:760px){.hero .wrap{grid-template-columns:1fr;min-height:0;padding-top:24px}.hero .chars{min-height:200px}.hero .chan{height:200px;right:-6px}.hero .minty{width:80px;left:10%}.btn{width:100%}.top .line-btn span{display:none}}
+/* sections */
+section.s{padding:44px 0}.s h2{margin:0 0 6px;font-size:clamp(22px,3.6vw,30px);color:var(--navy);text-align:center;font-weight:900}.s .lead{text-align:center;color:var(--ink-2);margin:0 0 22px}
+.pts{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.pt{background:#fff;border:2px solid var(--cyan);border-radius:18px;padding:22px 18px 18px;text-align:center;box-shadow:0 4px 14px rgba(43,58,103,.07);position:relative}
+.pt img{height:92px;display:block;margin:0 auto 8px}.pt .n{position:absolute;left:14px;top:12px;background:var(--yellow);color:var(--ink);font-weight:900;border-radius:999px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px}
+.pt h3{margin:0 0 6px;font-size:19px;color:var(--navy)}.pt p{margin:0;font-size:14px;color:var(--ink-2)}
+@media (max-width:760px){.pts{grid-template-columns:1fr}}
+/* prices */
+.s.prices{background:#fff}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media (max-width:760px){.pgrid{grid-template-columns:repeat(2,1fr)}}
+.pc{display:flex;flex-direction:column;border:2px solid #E6EEF2;border-radius:14px;overflow:hidden;text-decoration:none;background:#fff;position:relative}
+.pc img{aspect-ratio:63/88;width:100%;object-fit:contain;background:#fff;display:block}.pc .ph{aspect-ratio:63/88;display:flex;align-items:center;justify-content:center;padding:12px;text-align:center;font-weight:700;font-size:13px;color:var(--ink-2);background:linear-gradient(160deg,#FFFBE0,#E7F9FA 60%,#F2E8FF)}
+.pc b{font-size:13px;padding:8px 8px 0;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}.pc span{font-size:11px;color:var(--ink-3);padding:0 8px}.pc em{font-style:normal;font-weight:900;color:var(--price);padding:2px 8px 10px;font-size:18px;font-family:"M PLUS Rounded 1c",sans-serif}
+.pc .g{position:absolute;top:6px;right:6px;width:40px;height:40px}
+.more{text-align:center;margin-top:18px}.more .btn{font-size:16px}
+.note{font-size:12px;color:var(--ink-3);text-align:center;margin-top:10px}
+/* flow */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;counter-reset:st}@media (max-width:760px){.flow{grid-template-columns:1fr}}
+.st{background:#fff;border:2px dashed var(--cyan);border-radius:16px;padding:18px 14px 16px;text-align:center;position:relative}.st:before{counter-increment:st;content:"STEP " counter(st);display:inline-block;background:var(--navy);color:#fff;font-weight:900;font-size:12px;border-radius:999px;padding:2px 12px;margin-bottom:8px;font-family:"M PLUS Rounded 1c",sans-serif}
+.st .ic{font-size:34px;line-height:1;margin-bottom:6px}.st h3{margin:0 0 4px;font-size:16px;color:var(--navy)}.st p{margin:0;font-size:13px;color:var(--ink-2)}
+/* trust */
+.s.trust{background:linear-gradient(180deg,#FFF9E6,#FFFFFF)}
+.tr{display:grid;grid-template-columns:1.1fr .9fr;gap:24px;align-items:center}@media (max-width:760px){.tr{grid-template-columns:1fr}}
+.tr ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}.tr li{background:#fff;border:2px solid var(--line);border-radius:14px;padding:12px 16px;font-weight:700;display:flex;gap:10px;align-items:flex-start}.tr li i{font-style:normal;font-size:22px;line-height:1.2}.tr li span{font-weight:400;color:var(--ink-2);display:block;font-size:13px}
+.shops{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.shops a{background:var(--bg-2);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;text-decoration:none;color:var(--navy);font-weight:700}
+.tr .pic{text-align:center}.tr .pic img{max-height:260px;filter:drop-shadow(0 6px 0 rgba(43,58,103,.15))}
+/* faq */
+.faq details{background:#fff;border:2px solid #E6EEF2;border-radius:14px;padding:12px 16px;margin:8px 0}.faq summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:15px}.faq p{margin:8px 0 2px;font-size:14px;color:var(--ink-2)}
+/* final cta */
+.s.final{background:linear-gradient(115deg,#FFF6B8 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);text-align:center}.final .cta{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px}.final img{height:120px;margin-bottom:6px}
+footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:22px 16px 90px;text-align:center;font-size:13px}footer a{color:var(--navy);margin:0 10px}
+/* sticky bottom bar (mobile) */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(6px);border-top:2px solid var(--cyan);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px}.bar .btn{flex:1;padding:12px 10px;font-size:15px;border-width:2px}
+@media (max-width:760px){.bar{display:flex}}
+</style>
+<header class="top"><div class="in">
+  <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
+  <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener">💬 <span>LINEで無料査定</span></a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow">✉ ナタデココ かんたん郵送買取</span>
+    <h1>ポケカ、<b>送るだけ</b>で<br>高価買取。</h1>
+    <p class="sub">箱に詰めて送るだけ。査定後すぐにお振込み！</p>
+    <div class="pills">
+      <div class="pill"><span class="k">送料</span><span class="v">0<small>円</small></span></div>
+      <div class="pill"><span class="k">入金</span><span class="v">最短当日</span></div>
+      <div class="pill"><span class="k">価格表</span><span class="v">毎日更新</span></div>
+      <div class="pill"><span class="k">掲載</span><span class="v">__COUNT__<small>枚</small></span></div>
+    </div>
+    <div class="cta">
+      <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定を頼む</a>
+      <a class="btn w" href="/">🔍 買取価格を調べる</a>
+    </div>
+  </div>
+  <div class="chars">
+    <span class="sp" style="left:6%;top:8%">✦</span><span class="sp p" style="right:40%;top:0">✦</span><span class="sp b" style="left:30%;bottom:8%">✦</span>
+    <img class="minty" src="/img/banner_minty.webp" alt="">
+    <img class="chan" src="/img/banner_chan.webp" alt="">
+  </div>
+</div></section>
+
+<section class="s"><div class="wrap">
+  <h2>ナタデココの郵送買取が選ばれる3つの理由</h2>
+  <p class="lead">お店に来られなくても、お店と同じ価格で買い取ります。</p>
+  <div class="pts">
+    <div class="pt"><span class="n">1</span><img src="/img/chars/chan1.webp" alt=""><h3>相場に合わせて毎日更新</h3><p>__COUNT__枚の買取価格をWebで公開。PSA10・旧裏・未開封BOXまで、送る前に金額が分かります。</p></div>
+    <div class="pt"><span class="n">2</span><img src="/img/chars/minty1.webp" alt=""><h3>送料無料・最短当日入金</h3><p>着払いで送るだけ。到着後すぐ査定し、ご承諾いただいたら最短その日にお振込み。本人確認もスマホで完結。</p></div>
+    <div class="pt"><span class="n">3</span><img src="/img/chars/pachiru1.webp" alt=""><h3>首都圏8店舗の専門店</h3><p>千葉・東京・神奈川に実店舗を構えるポケカ専門店が査定。古物商許可のある会社なので安心です。</p></div>
+  </div>
+</div></section>
+
+<section class="s prices"><div class="wrap">
+  <h2>いま高く売れるカード</h2>
+  <p class="lead">__UPDATED__ 時点の買取価格（美品）。一例です。</p>
+  <div class="pgrid">__TOP__</div>
+  <div class="more"><a class="btn w" href="/">__COUNT__枚の買取価格をすべて見る ›</a></div>
+  <p class="note">価格表にないカードも買取できます。LINEで写真を送ってください。</p>
+</div></section>
+
+<section class="s"><div class="wrap">
+  <h2>申込から入金までの流れ</h2>
+  <p class="lead">やることは「LINEで送る」と「箱に詰めて送る」の2つだけ。</p>
+  <div class="flow">
+    <div class="st"><div class="ic">💬</div><h3>LINEで申込</h3><p>売りたいカードの写真か、価格表で選んだ内容を送信</p></div>
+    <div class="st"><div class="ic">📝</div><h3>お見積り</h3><p>美品での買取金額をお知らせ。納得できたら次へ</p></div>
+    <div class="st"><div class="ic">📦</div><h3>着払いで発送</h3><p>佐川急便の着払い。送料は0円です</p></div>
+    <div class="st"><div class="ic">🔍</div><h3>本査定</h3><p>1枚ずつ検品して最終金額をご連絡。キャンセルも無料</p></div>
+    <div class="st"><div class="ic">💴</div><h3>お振込み</h3><p>スマホで本人確認（eKYC）→最短当日入金</p></div>
+  </div>
+  <div class="more"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定を頼む</a></div>
+</div></section>
+
+<section class="s trust"><div class="wrap">
+  <h2>実店舗があるから、安心して送れる</h2>
+  <div class="tr">
+    <ul>
+      <li><i>🏬</i><div>千葉・東京・神奈川に8店舗<span>店頭買取も可能。郵送でも店頭と同じ価格です</span><div class="shops">__SHOPS__</div></div></li>
+      <li><i>✅</i><div>古物商許可あり<span>__LICENSE__</span></div></li>
+      <li><i>↩️</i><div>減額に納得できなければキャンセル無料<span>返送料も当店が負担します</span></div></li>
+      <li><i>🔒</i><div>本人確認はスマホで完結<span>古物営業法にもとづくeKYC。身分証の郵送は不要</span></div></li>
+    </ul>
+    <div class="pic"><img src="/img/chars/chan3.webp" alt=""></div>
+  </div>
+</div></section>
+
+<section class="s"><div class="wrap">
+  <h2>よくある質問</h2>
+  <div class="faq">
+    <details><summary>価格表にないカードも売れますか？</summary><p>はい。掲載のないカードも買取しています。LINEで型番が見える写真をお送りください。</p></details>
+    <details><summary>傷があるカードも買い取ってもらえますか？</summary><p>買取できます。状態により減額となることがありますが、減額後の金額に納得できなければキャンセルでき、返送料は当店負担です。</p></details>
+    <details><summary>お見積りはいつまで有効ですか？</summary><p>カードの到着まで含めて5日間です。相場が大きく動いた場合は到着日の価格で再査定となることがあります。</p></details>
+    <details><summary>本人確認には何が必要ですか？</summary><p>顔写真付きの身分証（運転免許証・マイナンバーカード・パスポートなど）をご用意ください。スマホで撮影して完了します。</p></details>
+    <details><summary>PSA10や旧裏、未開封BOXも売れますか？</summary><p>はい。<a href="/cat/psa/">PSA10</a>・<a href="/cat/old/">旧裏</a>・<a href="/cat/box/">未開封BOX</a>それぞれの買取価格一覧を掲載しています。</p></details>
+  </div>
+  <div class="more"><a href="/faq/" style="font-weight:700;color:var(--navy-2)">もっと見る（よくある質問）›</a></div>
+</div></section>
+
+<section class="s final"><div class="wrap">
+  <img src="/img/chars/melroot1.webp" alt="">
+  <h2>おうちのポケカ、まとめて送ってみませんか？</h2>
+  <p class="lead" style="margin-bottom:0">1枚からOK。まずはLINEで気軽に相談してください。</p>
+  <div class="cta">
+    <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定を頼む</a>
+    <a class="btn w" href="/">🔍 買取価格を調べる</a>
+  </div>
+</div></section>
+
+<footer>
+  <div><a href="/">買取価格表</a><a href="/guide/">郵送買取のやり方</a><a href="__STORES_URL__">店舗一覧</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div>
+  <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
+</footer>
+<div class="bar">
+  <a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener">💬 LINEで無料査定</a>
+  <a class="btn w" href="/">🔍 価格を調べる</a>
+</div>

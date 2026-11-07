@@ -314,7 +314,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       </button>
       <a class="line-btn" id="lineAdd" href="#" target="_blank" rel="noopener">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.2 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.8-3.4 7.9-5.9C21.3 14.2 22 12.7 22 11c0-4.4-4.5-8-10-8z"/></svg>
+        <svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>
         <span>友だち追加</span>
       </a>
     </div>
@@ -345,6 +345,8 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
     <img class="ch minty" src="/img/banner_minty.webp" alt="">
     <div class="ph"><b>ポケカ買取強化中！</b><span>送るだけ・送料無料・最短当日入金</span><small>バナー画像（banner.jpg 1800×600px）をここに表示</small></div>
   </div>
+  <div class="sfx-zero"><div class="z0"><small>ぜんぶ</small><b>¥0</b></div><ul><li>送料</li><li>査定料</li><li>キャンセル料</li><li>返送料</li><li>振込手数料</li></ul></div>
+  <div class="sfx-tk" id="sfxTk" aria-hidden="true" hidden><span class="lbl">本日の<br>買取価格</span><div class="run"></div></div>
 
   <div class="searchbox">
     <div class="searchrow">
@@ -387,7 +389,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
       <tfoot><tr><td>合計</td><td></td><td class="r" id="cartN">0</td><td class="r num" id="cartT">¥0</td><td></td></tr></tfoot>
     </table>
     <a class="apply" id="applyBtn" href="#" target="_blank" rel="noopener">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.5 3 2 6.6 2 11c0 3.9 3.5 7.2 8.2 7.9.3.1.8.2.9.5.1.3.1.7 0 1l-.1.9c0 .3-.2 1 .9.5s5.8-3.4 7.9-5.9C21.3 14.2 22 12.7 22 11c0-4.4-4.5-8-10-8z"/></svg>
+      <svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>
       LINEで買取申込へ進む
     </a>
     <div class="subact"><button class="linkbtn" type="button" id="clearBtn">すべて削除</button></div>
@@ -416,7 +418,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
       <img class="season" id="seasonChar" src="/img/chars/deco_autumn.webp" alt="">
       <img class="flogo" src="/logo.png" alt="ナタデココ">
       <p class="tag">千葉・東京・神奈川に8店舗のポケモンカード専門店。<br>お店に来られない方も、送るだけでかんたんに買取。</p>
-      <a href="#" class="ln" id="lineFoot"><i></i>LINEで郵送買取を相談する</a>
+      <a href="#" class="ln" id="lineFoot"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで郵送買取を相談する</a>
       <a href="#" class="x" id="xLink" aria-label="X"><span>𝕏</span> 公式X（買取強化情報）</a>
     </div>
     <div class="fcol links">
@@ -707,6 +709,8 @@ $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;$("#x
 /* ============================ 初期化 ============================ */
 function boot(items){
   ITEMS=items;loadCart();
+  (function(){var tk=$("#sfxTk");if(!tk)return;var top=items.filter(function(x){return x.img&&!/noimage/.test(x.img)&&(x.cat==="ポケモン"||x.cat==="PSA")}).sort(function(a,b){return b.price-a.price}).slice(0,24);if(top.length<6)return;
+    var h=top.map(function(r){return '<a href="'+cardUrl(r.id)+'"><img src="'+esc(r.img)+'" alt="" loading="lazy" onerror="this.remove()"><span><b>'+esc(r.name)+'</b><em>'+yen(r.price)+'</em></span></a>'}).join("");tk.querySelector(".run").innerHTML=h+h;tk.hidden=false;})();
   renderTabs();renderBrowse();renderCart();apply();
 }
 function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);if(alts.length){el.dataset.alt=alts.slice(1).join("|");el.src=alts[0];}else el.remove();}

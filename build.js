@@ -308,7 +308,7 @@ console.log(`article pages: ${arts.length}`);
       .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
       .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
       .replace(/__TICKER__/g, top.slice(0, 24).map(r => `<a class="tk" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()"><span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span></a>`).join(""))
-      .replace(/__FC([1-6])__/g, (m, i) => esc(top[8 + Number(i)] ? top[8 + Number(i)].img : ""))
+      .replace(/__FC([1-9]|1[0-5])__/g, (m, i) => esc(top[8 + Number(i)] ? top[8 + Number(i)].img : ""))
       .replace(/__PICS_([a-z]+)_(\d)__/g, (m, cat, n) => { const map = { pk: "ポケモン", box: "BOX", psa: "PSA", old: "旧裏", kyu: "旧弾", misc: "汎用" };
         let a = items.filter(x => x.img && x.cat === map[cat]).sort((x, y) => y.price - x.price);
         if (cat === "pk") a = a.filter(x => /^(SAR|SR|AR|UR|PROMO|P|HR)$/i.test(x.rarity)); if (!a.length) a = items.filter(x => x.img && x.cat === map[cat]);

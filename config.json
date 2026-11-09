@@ -9,12 +9,11 @@
   "storesUrl": "/stores/",
   "pageSize": 48,
   "categories": [
-    "ポケモン",
+    "シングル",
     "PSA",
     "BOX",
     "旧裏",
-    "旧弾",
-    "汎用"
+    "最低保証"
   ],
   "topRarities": [
     "UR",
@@ -34,5 +33,10 @@
     "kyuura.csv": "旧裏"
   },
   "antiqueLicense": "千葉県公安委員会 許可証の番号：第441120001326号",
-  "company": "株式会社ナタデココ"
+  "company": "株式会社ナタデココ",
+  "catGroups": {
+    "ポケモン": "シングル",
+    "旧弾": "シングル",
+    "汎用": "最低保証"
+  }
 }

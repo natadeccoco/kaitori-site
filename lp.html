@@ -182,7 +182,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
 .hero{background-size:200% 200%;animation:hbg 14s ease-in-out infinite}@keyframes hbg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 .hero .ln{animation:linepop .8s cubic-bezier(.34,1.56,.64,1) both}.hero h1 .ln:nth-child(3){animation-delay:.15s}.hero h1 b .ln{animation-delay:.3s}
 @keyframes linepop{0%{opacity:0;transform:translateY(30px) scale(.9) rotate(-2deg)}100%{opacity:1;transform:none}}
-.fan{position:absolute;left:0;top:4%;width:50%;height:40%;pointer-events:none;z-index:0}
+.fan{position:absolute;left:6%;top:-54%;width:60%;height:40%;pointer-events:none;z-index:0}
 .fan .fc{position:absolute;left:50%;bottom:0;width:min(96px,9vw);aspect-ratio:63/88;border-radius:8px;border:4px solid #fff;box-shadow:0 10px 24px rgba(43,58,103,.35);overflow:hidden;background:#fff;transform-origin:50% 130%;animation:deal 1s cubic-bezier(.34,1.56,.64,1) both;transition:transform .4s}
 .fan .fc img{width:100%;height:100%;object-fit:cover;display:block}
 .fan .fc:nth-child(1){--r:-24deg;--x:-105%;animation-delay:.6s}.fan .fc:nth-child(2){--r:-12deg;--x:-78%;animation-delay:.7s}.fan .fc:nth-child(3){--r:0deg;--x:-50%;animation-delay:.8s}.fan .fc:nth-child(4){--r:12deg;--x:-22%;animation-delay:.9s}.fan .fc:nth-child(5){--r:24deg;--x:5%;animation-delay:1s}
@@ -277,6 +277,12 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 .pics.sup .slv{left:30px;bottom:14px;width:40px;aspect-ratio:63/88;border-radius:5px;background:linear-gradient(160deg,#A9F3F4,#6fd6dc);z-index:2;transform:rotate(-4deg) translateY(-6px)}
 .pics.sup .slv:after{content:"";position:absolute;left:6px;top:6px;right:6px;height:14px;border-radius:3px;background:rgba(255,255,255,.55)}
 .it:hover .pics.sup .mat{transform:rotate(-12deg) translate(-4px,-2px)}.it:hover .pics.sup .case{transform:rotate(10deg) translate(4px,-6px)}.it:hover .pics.sup .slv{transform:rotate(-2deg) translateY(-14px)}
+.pics .slab{position:absolute;bottom:0;width:74px;height:110px;border-radius:6px;background:linear-gradient(160deg,rgba(255,255,255,.95),rgba(230,240,245,.9));border:2px solid #fff;box-shadow:0 6px 14px rgba(43,58,103,.3),inset 0 0 0 1px rgba(43,58,103,.12);overflow:hidden;transition:transform .3s}
+.pics .slab i{position:absolute;left:0;right:0;top:0;height:22px;background:#fff;border-bottom:2px solid #E5262D;font-style:normal;font-family:"DM Sans",sans-serif;font-weight:900;font-size:10px;letter-spacing:.06em;color:#1a1a1a;display:flex;align-items:center;justify-content:center;gap:4px}
+.pics .slab i:before{content:"";width:6px;height:6px;border-radius:50%;background:#E5262D}
+.pics .slab img{position:absolute;left:7px;right:7px;top:26px;bottom:7px;width:auto;height:auto;max-width:calc(100% - 14px);max-height:calc(100% - 33px);margin:auto;border-radius:3px;border:0;box-shadow:none;transform:none!important}
+.pics .slab:nth-child(1){left:0;transform:rotate(-10deg);z-index:1}.pics .slab:nth-child(2){left:40px;transform:rotate(8deg) translateY(-4px);z-index:2}
+.it:hover .pics .slab:nth-child(1){transform:rotate(-16deg) translate(-6px,-4px)}.it:hover .pics .slab:nth-child(2){transform:rotate(12deg) translate(6px,-8px)}
 .it:hover .pics img:nth-child(1){transform:rotate(-16deg) translate(-6px,-4px)}.it:hover .pics img:nth-child(2){transform:rotate(12deg) translate(6px,-8px)}.it:hover .pics.three img:nth-child(2){transform:translateY(-14px)}
 .it .tx{display:flex;flex-direction:column;min-width:0}.it b{font-family:"M PLUS Rounded 1c",sans-serif;font-size:18px;color:var(--navy);line-height:1.3;margin-bottom:4px}.it .tx span{font-size:12px;color:var(--ink-2);line-height:1.55}
 .it .ch{font-style:normal;font-family:"DM Sans",sans-serif;font-weight:900;font-size:24px;color:var(--navy);transition:transform .2s}.it:hover .ch{transform:translateX(4px)}
@@ -316,7 +322,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
       <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
       <a class="btn o" href="/">🔍 買取価格を調べる</a>
     </div>
-    <p class="micro rv d2">友だち追加→カードの写真か枚数を送るだけ。入力フォームはありません。</p>
+    <p class="micro rv d2">友だち追加→リッチメニューから申込→箱に詰めて送るだけ。</p>
     <div class="facts rv d3">
       <div class="fact f1"><span class="ic">💴</span><span class="k">入金スピード</span><span class="v">最短当日</span><span class="n">本査定の承諾後</span></div>
       <div class="fact f2"><span class="ic">🏆</span><span class="k">買取実績</span><span class="v" data-count="10">10<small>万件以上</small></span><span class="n">累計</span></div>
@@ -329,7 +335,6 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     <div class="badge"><span>送料・手数料</span><b>0円</b><span>すべて無料</span></div>
     <span class="sp" style="right:6%;top:2%">✦</span><span class="sp p" style="left:40%;top:24%">✦</span><span class="sp c" style="right:30%;bottom:10%">✦</span>
     <div class="fan lay" data-depth="2"><div class="fc"><img src="__FC1__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC2__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC3__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC4__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC5__" alt="" onerror="this.parentNode.remove()"></div></div>
-    <img class="minty rv d2 lay" data-depth="3" src="/img/banner_minty.webp" alt="">
     <img class="chan rv d1 lay" data-depth="1.2" src="/img/banner_chan.webp" alt="">
   </div>
 </div></section>

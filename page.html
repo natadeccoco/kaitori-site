@@ -107,7 +107,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .cattabs .tab.on{background:linear-gradient(160deg,var(--cyan),#8EE3EC);border-color:#8EE3EC;color:var(--navy);box-shadow:0 3px 0 var(--cyan-deep)}
 .cattabs .tab[data-cat="PSA"].on{background:linear-gradient(160deg,#FFF6C9,#FFE27A);border-color:#FFE27A;box-shadow:0 3px 0 var(--yellow-deep)}
 .cattabs .tab[data-cat="BOX"].on{background:linear-gradient(160deg,#FFE2F1,#FFB8DC);border-color:#FFB8DC;box-shadow:0 3px 0 #E06FA8}
-.cattabs .tab[data-cat="旧裏"].on,.cattabs .tab[data-cat="旧弾"].on{background:linear-gradient(160deg,#ECE3FF,#CDB8FF);border-color:#CDB8FF;box-shadow:0 3px 0 #8E6FD9}
+.cattabs .tab[data-cat="旧裏"].on,.cattabs .tab[data-cat="最低保証"].on{background:linear-gradient(160deg,#ECE3FF,#CDB8FF);border-color:#CDB8FF;box-shadow:0 3px 0 #8E6FD9}
 .cattabs .tab.on .tc{opacity:.9}
 @media (max-width:560px){.cattabs .tab{min-width:78px;padding:8px 10px;font-size:14px}}
 
@@ -512,14 +512,15 @@ const yen=n=>"¥"+n.toLocaleString("ja-JP");
 const norm=s=>(s||"").toLowerCase().replace(/[\s\-\/_・]/g,"").replace(/[Ａ-Ｚａ-ｚ０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const GROUPS=[["type","商品種別から探す"],["grade","グレード種別から探す"],["rarity","レアリティから探す"],["set","収録弾から探す"]];
-const CATS=()=>["すべて",...CONFIG.categories,...[...new Set(ITEMS.map(i=>i.cat))].filter(c=>!CONFIG.categories.includes(c))];
+const GRP=c=>(CONFIG.catGroups&&CONFIG.catGroups[c])||c;   // 表示用のまとめ（ポケモン＋旧弾→シングル、汎用→最低保証）
+const CATS=()=>["すべて",...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
 function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.cat===c));apply();}
 
 function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-")c[v]=(c[v]||0)+1;});return c;}
 
 /* ============================ 描画 ============================ */
 function renderTabs(){
-  const c=counts("cat",ITEMS);
+  const c={};ITEMS.forEach(i=>{const g=GRP(i.cat);c[g]=(c[g]||0)+1;});
   ["#tabs","#cattabs"].forEach(sel=>{
     const t=$(sel);t.innerHTML="";
     CATS().forEach(cat=>{
@@ -538,7 +539,7 @@ function chipEl(key,val,label,cnt){
 }
 function renderFilterPanel(){
   const p=$("#fpanel");p.innerHTML="";
-  const base=ITEMS.filter(i=>state.cat==="すべて"||i.cat===state.cat);
+  const base=ITEMS.filter(i=>state.cat==="すべて"||GRP(i.cat)===state.cat);
   GROUPS.forEach(([key,label])=>{
     const c=counts(key,base);const keys=Object.keys(c);if(!keys.length)return;
     keys.sort((a,b)=>c[b]-c[a]);
@@ -551,10 +552,10 @@ function renderFilterPanel(){
 }
 function renderBrowse(){
   const wrap=$("#browseGroups");wrap.innerHTML="";
-  const base=ITEMS.filter(i=>state.cat==="すべて"||i.cat===state.cat);
+  const base=ITEMS.filter(i=>state.cat==="すべて"||GRP(i.cat)===state.cat);
   const order={type:null,grade:null,rarity:CONFIG.topRarities,set:null};
   { // カテゴリーから探す
-    const c=counts("cat",ITEMS);const g=document.createElement("div");g.innerHTML=`<h3>カテゴリーから探す</h3><div class="chips"></div>`;
+    const c={};ITEMS.forEach(i=>{const gg=GRP(i.cat);c[gg]=(c[gg]||0)+1;});const g=document.createElement("div");g.innerHTML=`<h3>カテゴリーから探す</h3><div class="chips"></div>`;
     const box=g.querySelector(".chips");
     CATS().filter(k=>k!=="すべて").forEach(k=>{const b=document.createElement("button");b.className="chip";b.type="button";b.innerHTML=`${esc(k)}<span class="c">${c[k]||0}</span>`;b.onclick=()=>{GROUPS.forEach(([kk])=>state[kk].clear());state.q="";$("#q").value="";setCat(k);scrollToList();};box.appendChild(b);});
     wrap.appendChild(g);
@@ -579,7 +580,7 @@ function resetFilters(){GROUPS.forEach(([k])=>state[k].clear());state.q="";$("#q
 function filtered(){
   const q=norm(state.q);
   let out=ITEMS.filter(it=>{
-    if(state.cat!=="すべて"&&it.cat!==state.cat)return false;
+    if(state.cat!=="すべて"&&GRP(it.cat)!==state.cat)return false;
     for(const [k] of GROUPS){ if(state[k].size&&!state[k].has(it[k])) return false; }
     if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" ")); if(!hay.includes(q)) return false; }
     return true;
@@ -595,13 +596,13 @@ function cardUrl(id){return (CONFIG.base||"/")+"card/"+encodeURIComponent(id)+"/
 function cardHTML(it){
   const q=cart.get(it.id)?.qty||0;
   const ph=`<div class="ph"><div class="n">${esc(it.name)}</div><div class="r"><span>${esc(it.code)}</span><span>${esc(it.rarity)}</span></div></div>`;
-  const catTag=(it.cat!==CONFIG.categories[0]&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat)}</span>`:"";
+  const catTag=(it.cat!=="ポケモン"&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat==="汎用"?"最低保証":it.cat)}</span>`:"";
   const img=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:"";
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
   return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
     <a class="im" href="${cardUrl(it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${catTag}<span class="qty">${q}</span></a>
     <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
-    <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!==CONFIG.categories[0]?it.cat:""].filter(Boolean).join("　"))}</span></div>
+    <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　"))}</span></div>
     <div class="pr num">${yen(it.price)}</div>
     <button class="cartbtn" type="button" data-add="${esc(it.id)}" aria-label="${esc(it.name)} をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
   </div>`;
@@ -687,7 +688,7 @@ let MODAL_ID=null,MODAL_Q=1;
 function openItem(id){
   const it=ITEMS.find(i=>i.id===id);if(!it)return;MODAL_ID=id;MODAL_Q=1;
   $("#iname").textContent=it.name;
-  $("#imeta").textContent=[it.code,it.set,it.rarity!=="-"?it.rarity:"",it.grade!=="素体"?"["+it.grade+"]":"",it.cat!==CONFIG.categories[0]?it.cat:""].filter(Boolean).join("　");
+  $("#imeta").textContent=[it.code,it.set,it.rarity!=="-"?it.rarity:"",it.grade!=="素体"?"["+it.grade+"]":"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　");
   $("#iprice").innerHTML=`${yen(it.price)}<small>買取価格（美品）</small>`;
   $("#iim").innerHTML=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:`<div class="ph">${esc(it.name)}</div>`;
   $("#iqty").textContent=MODAL_Q;
@@ -731,7 +732,7 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
   const data=JSON.parse(document.getElementById("site-data").textContent);
   const u=$("#updated");if(u&&data.updated)u.textContent="価格更新日 "+data.updated;
   boot(data.items);
-  const sp=new URLSearchParams(location.search);const qc=sp.get("cat");if(qc&&CATS().includes(qc)){setCat(qc);}
+  const sp=new URLSearchParams(location.search);const qc0=sp.get("cat"),qc=qc0?GRP(qc0):"";if(qc&&CATS().includes(qc)){setCat(qc);}
   const qs=sp.get("set");if(qs&&ITEMS.some(i=>i.set===qs)){state.set.add(qs);apply();scrollToList();}   // 弾ページからの遷移（?set=収録弾名）
   const qq=sp.get("q");if(qq){$("#q").value=qq;state.q=qq;apply();scrollToList();}   // カードページ「同じポケモンを探す」からの遷移（?q=名前）
   // カード個別ページからの遷移（#add=ID）

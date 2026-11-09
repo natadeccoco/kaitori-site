@@ -5,7 +5,8 @@
 const fs = require("fs"), path = require("path");
 const lib = require("./lib.js");
 const CFG = JSON.parse(fs.readFileSync("config.json", "utf8"));
-lib.setConfig({ categories: CFG.categories });
+const RAW_CATS = ["ポケモン", "PSA", "BOX", "旧裏", "旧弾", "汎用"];   // データ上のカテゴリ（表示のまとめ方は config.catGroups）
+lib.setConfig({ categories: RAW_CATS });
 const ROOT = __dirname, DATA = ROOT, DIST = path.join(ROOT, "dist"), SRC = ROOT;
 const esc = lib.esc;
 const yen = n => "¥" + Number(n).toLocaleString("ja-JP");
@@ -72,10 +73,10 @@ function seriesScore(i) {
 }
 { const idx = {}; items.forEach(i => { let sc = seriesScore(i); if (i.cat === "BOX") { idx[i.set] = (idx[i.set] || 0) + 1; sc -= idx[i.set] * 0.001; } i.order = sc; }); }
 const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson && JSON.parse(sheetJson).updated) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
-console.log(`items: ${items.length}`, Object.fromEntries(CFG.categories.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
+console.log(`items: ${items.length}`, Object.fromEntries(RAW_CATS.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 
 /* ---------- 2. 価格表ページ ---------- */
-const clientCfg = { base: BASE, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
+const clientCfg = { base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
 const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }) => ({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }));
 const dataJson = JSON.stringify({ updated, items: slim }).replace(/</g, "\\u003c");
 const headCommon = (title, desc, url, image) => `<meta property="og:type" content="website">
@@ -188,7 +189,7 @@ function speciesCards(it) {
 
 /* ---------- 3. カード個別ページ ---------- */
 const cardTpl = read(path.join(SRC, "card.html"));
-const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c === "旧弾" ? "旧弾（eカード等）" : c === "汎用" ? "汎用・サプライ" : c;
+const catLabel = c => c === "ポケモン" ? "シングルカード" : c === "PSA" ? "PSA10鑑定品" : c === "BOX" ? "未開封BOX" : c === "旧弾" ? "旧弾（eカード等）" : c === "汎用" ? "最低保証・サプライ" : c;
 const urls = [];
 for (const it of items) {
   const rel = `card/${encodeURIComponent(it.id)}/`;
@@ -272,10 +273,10 @@ for (const p of packs) {
 packPage("pack/", {
   title: "収録弾ごとの買取価格一覧", desc: `ポケモンカードを収録弾（パック）ごとにまとめた買取価格一覧。${packs.length}弾を掲載、毎日更新。`, crumb: `<span>収録弾から探す</span>`, eyebrow: "収録弾から探す", h1: "収録弾ごとの買取価格一覧",
   lede: `${packs.length}の収録弾を掲載しています。弾を選ぶとそのカードの買取価格一覧が開きます。`, stats: `<span class="stat">${packs.length}弾</span><span class="stat">${items.length}件</span>`, listUrl: "/", cards: packs.slice(0, 12).map(p => p.items[0]),
-  textTitle: "収録弾の一覧", text: `<div class="links">${packIndexLinks}</div>`, others: CFG.categories.map(c => `<a href="/cat/${catSlugOf(c)}/">${esc(catLabel(c))}</a>`).join("")
+  textTitle: "収録弾の一覧", text: `<div class="links">${packIndexLinks}</div>`, others: RAW_CATS.map(c => `<a href="/cat/${catSlugOf(c)}/">${esc(catLabel(c))}</a>`).join("")
 });
 // カテゴリごと
-for (const c of CFG.categories) {
+for (const c of RAW_CATS) {
   const a = items.filter(x => x.cat === c).sort((x, y) => y.price - x.price); if (!a.length) continue;
   const top = a[0], t = CAT_TEXT[c] || [catLabel(c) + "の買取について", ""];
   const catPacks = packs.filter(p => p.items.some(x => x.cat === c)).slice(0, 20).map(packLink).join("");
@@ -285,10 +286,10 @@ for (const c of CFG.categories) {
     lede: `${esc(catLabel(c))}の買取価格です。<b>${esc(top.name)}</b> ${esc(yen(top.price))} など ${a.length}件を掲載（${esc(updated)}更新）。`,
     stats: `<span class="stat">${a.length}件</span><span class="stat">最高 ${esc(yen(top.price))}</span>`, listUrl: `/?cat=${encodeURIComponent(c)}`, cards: a.slice(0, 60),
     textTitle: t[0], text: t[1] + (catPacks ? `<p><b>収録弾から探す</b></p><div class="links">${catPacks}</div>` : ""),
-    others: CFG.categories.filter(x => x !== c).map(x => `<a href="/cat/${catSlugOf(x)}/">${esc(catLabel(x))}</a>`).join("") + `<a href="/pack/">収録弾から探す ›</a>`
+    others: RAW_CATS.filter(x => x !== c).map(x => `<a href="/cat/${catSlugOf(x)}/">${esc(catLabel(x))}</a>`).join("") + `<a href="/pack/">収録弾から探す ›</a>`
   });
 }
-console.log(`pack pages: ${packs.length}, cat pages: ${CFG.categories.length}`);
+console.log(`pack pages: ${packs.length}, cat pages: ${RAW_CATS.length}`);
 
 /* ---------- 3c. 文章ページ（articles/*.json → /<slug>/） ---------- */
 const artTpl = read(path.join(SRC, "article.html"));
@@ -348,6 +349,7 @@ console.log(`article pages: ${arts.length}`);
         if (cat === "old") { const st = ["フシギバナ", "リザードン", "カメックス"].map(n => items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV") && /マークあり/.test(x.name)) || items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV"))).filter(Boolean); if (st.length === 3) return st.map(x => `<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.remove()">`).join(""); }   // 旧裏は御三家
         if (!a.length) a = items.filter(x => x.img && x.cat === map[cat]);
         const pick = []; const seen = new Set(); for (const x of a) { const b = baseName(x.name); if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= Number(n)) break; }
+        if (cat === "psa") return pick.map(x => `<span class="slab"><i>PSA 10</i><img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></span>`).join("");   // 鑑定ケース風
         return pick.map(x => `<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.remove()">`).join(""); })
       .replace(/__TOP__/g, cards).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
       .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));

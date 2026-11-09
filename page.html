@@ -722,7 +722,7 @@ $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;$("#x
 /* ============================ 初期化 ============================ */
 function boot(items){
   ITEMS=items;loadCart();
-  (function(){var tk=$("#sfxTk");if(!tk)return;var top=items.filter(function(x){return x.img&&!/noimage/.test(x.img)&&(x.cat==="ポケモン"||x.cat==="PSA")}).sort(function(a,b){return b.price-a.price}).slice(0,24);if(top.length<6)return;
+  (function(){var tk=$("#sfxTk");if(!tk)return;var top=items.filter(function(x){return x.img&&!/noimage/.test(x.img)&&(x.cat==="ポケモン"||x.cat==="PSA")}).sort(function(a,b){return ((b.order||0)-(a.order||0))||(b.price-a.price)}).slice(0,24);if(top.length<6)return;
     var h=top.map(function(r){return '<a href="'+cardUrl(r.id)+'"><img src="'+esc(r.img)+'" alt="" loading="lazy" onerror="this.remove()"><span><b>'+esc(r.name)+'</b><em>'+yen(r.price)+'</em></span></a>'}).join("");tk.querySelector(".run").innerHTML=h+h;tk.hidden=false;})();
   renderTabs();renderBrowse();renderCart();apply();
 }

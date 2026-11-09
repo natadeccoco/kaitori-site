@@ -94,13 +94,13 @@ a{color:inherit}img{max-width:100%}
 .pain .a{margin:18px 0 0;font-size:14px;color:var(--ink-2)}.pain .a b{color:var(--navy);display:block;font-size:16px;margin-bottom:2px;font-family:"M PLUS Rounded 1c",sans-serif}.pain .a b:before{content:"→ ";color:var(--price)}
 .pain img{position:absolute;right:-6px;top:-30px;height:70px;transform:rotate(8deg)}
 /* flow */
-.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;counter-reset:st}
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:st}
 .st{background:#fff;border:3px solid var(--ink);border-radius:22px;overflow:hidden;box-shadow:0 6px 0 var(--ink);transition:transform .25s;display:flex;flex-direction:column}.st:hover{transform:translateY(-6px)}
 .st .hd{position:relative;height:118px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:0;overflow:hidden}
 .st.s1 .hd{background:linear-gradient(160deg,#FFF6B8,#FFE86B)}.st.s2 .hd{background:linear-gradient(160deg,#C9F7D5,#A9F3F4)}.st.s3 .hd{background:linear-gradient(160deg,#FFD6EC,#FFB8DC)}.st.s4 .hd{background:linear-gradient(160deg,#DCCBFF,#C4A8F0)}.st.s5 .hd{background:linear-gradient(160deg,#B8F4F4,#5FD8DF)}
 .st .hd img{height:104px;filter:drop-shadow(0 4px 0 rgba(43,58,103,.2));transition:transform .3s;transform-origin:50% 100%;position:relative;z-index:1}.st:hover .hd img{transform:translateY(-4px) rotate(-4deg)}
 .st .n{position:absolute;left:10px;top:10px;width:38px;height:38px;border-radius:50%;background:var(--ink);color:#fff;font-family:"DM Sans",sans-serif;font-weight:900;font-size:18px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:2px 2px 0 rgba(0,0,0,.2)}.st .n:before{content:"STEP";font-size:7px;position:absolute;top:3px;letter-spacing:.05em}.st .n{padding-top:6px;z-index:2}
-.st .bd{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.st .bd{padding:14px 14px 16px;display:flex;flex-direction:column;gap:6px;flex:1}.st .bd p small{display:block;margin-top:4px;font-size:12px;color:var(--ink-3);font-weight:700}
 .st h3{margin:0;font-size:17px;font-weight:900;font-family:"M PLUS Rounded 1c",sans-serif;color:var(--navy)}.st p{margin:0;font-size:12px;color:var(--ink-2);line-height:1.6;flex:1}.st .t{align-self:flex-start;font-size:11px;font-weight:900;color:var(--ink);background:var(--yel);border-radius:999px;padding:2px 10px;border:2px solid var(--ink)}
 @media (max-width:960px){.flow{grid-template-columns:repeat(2,1fr)}.st:last-child{grid-column:1/-1;flex-direction:row}.st:last-child .hd{width:40%;height:auto}}
 @media (max-width:560px){.flow{grid-template-columns:1fr;gap:16px}.st{flex-direction:row}.st .hd{width:34%;height:auto;min-height:130px;align-items:flex-end;justify-content:flex-end;padding-right:6px}.st .hd img{height:84px}.st:last-child .hd{width:34%}.st .n{width:34px;height:34px;font-size:15px}}
@@ -359,20 +359,19 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 </div></section>
 
 <section class="sec" id="flow"><div class="wrap">
-  <div class="sh rv"><span class="no">03</span><h2>申込から入金まで、<span class="ul">5ステップ</span>。</h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけ。</p></div>
+  <div class="sh rv"><span class="no">03</span><h2>申込から入金まで、<span class="ul">4ステップ</span>。</h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけ。</p></div>
   <div class="flow"><div class="flowline"><i></i></div>
-    <div class="st rv s1"><div class="hd"><span class="n">1</span><img src="/img/chars/chan1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>カードの写真（品番が見えるように。まとめ撮りでOK）か、価格表で選んだ内容を送信。傷が分かっていれば先に教えてください</p><span class="t">所要1分</span></div></div>
-    <div class="st rv s2 d1"><div class="hd"><span class="n">2</span><img src="/img/chars/minty1.webp" alt=""></div><div class="bd"><h3>お見積り</h3><p>美品での買取金額をLINEでお知らせ</p><span class="t">営業時間内に返信</span></div></div>
-    <div class="st rv s3 d2"><div class="hd"><span class="n">3</span><span class="drop"><i></i><i></i><i></i></span><img src="/img/chars/pachiru1.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>お手持ちの箱でOK。佐川急便の着払いで送料0円</p><span class="t">梱包10分</span></div></div>
-    <div class="st rv s4 d3"><div class="hd"><span class="n">4</span><img src="/img/chars/mag.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
-    <div class="st rv s5 d4"><div class="hd"><span class="n">5</span><img src="/img/chars/melroot1.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
+    <div class="st rv s1"><div class="hd"><span class="n">1</span><img src="/img/chars/chan1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
+    <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><span class="drop"><i></i><i></i><i></i></span><img src="/img/chars/pachiru1.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>お手持ちの箱でOK。佐川急便の着払いで送料0円<br><small>その他の発送方法でもOK</small></p><span class="t">梱包10分</span></div></div>
+    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><img src="/img/chars/mag.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
+    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><img src="/img/chars/melroot1.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
   </div>
-  <div class="ctabox rv"><p class="lead">5ステップで終わります</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">お見積りはカード到着まで含めて5日間有効です。</p></div>
+  <div class="ctabox rv"><p class="lead">4ステップで終わります</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">買取価格はカード到着日の買取表の価格で査定します。</p></div>
 </div></section>
 
 <div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#fff"/></svg></div>
 <section class="sec prices" id="prices"><div class="wrap">
-  <div class="sh rv"><span class="no">04</span><h2>いま、<span class="ul">高く売れる</span>カード。</h2><p>__UPDATED__ 時点の買取価格（美品の場合）。高額カードから一例を表示。お手元のカードは検索で調べられます。</p></div>
+  <div class="sh rv"><span class="no">04</span><h2><span class="ul">強化買取中</span>のカード。</h2><p>いま特に力を入れて買い取っているカードです。__UPDATED__ 時点の買取価格（美品の場合）。お手元のカードは検索で調べられます。</p></div>
   <form class="search rv" action="/" method="get"><input type="search" name="q" placeholder="カード名・型番で価格を調べる（例：リザードン）" aria-label="カード名・型番"><button type="submit">調べる</button></form>
   <div class="pchips rv" id="pchips"><button type="button" class="on" data-k="all">すべて</button><button type="button" data-k="single">シングル</button><button type="button" data-k="psa">PSA鑑定品</button></div>
   <div class="pgrid" id="pgrid">__TOP__</div>
@@ -392,7 +391,6 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
       <tr><th class="h">減額に納得できないとき</th><td class="y"><span class="ok">◎</span>キャンセル無料<small>返送料も当店負担</small></td><td>その場でお返し</td></tr>
       <tr><th class="h">入金</th><td class="y"><span class="ok">◎</span>最短当日<small>本査定の承諾・本人確認のあと</small></td><td>その場で現金</td></tr>
       <tr><th class="h">本人確認</th><td>スマホで完結（eKYC）<small>顔写真付き身分証。郵送は不要</small></td><td>店頭で身分証を提示</td></tr>
-      <tr><th class="h">お見積りの有効期限</th><td>到着まで含めて5日間</td><td>—</td></tr>
       <tr><th class="h">同じカードが多いとき</th><td>在庫状況により減額の場合あり<small>枚数が多いときは先にLINEでご相談を</small></td><td>同左</td></tr>
       <tr><th class="h">価格表にないカード</th><td>買取可<small>LINEで写真を送ってください</small></td><td>買取可</td></tr>
     </tbody>
@@ -414,7 +412,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
       <h3>減額するときの約束</h3>
       <p class="pt"><i>✓</i>減額がある場合は、どのカードがなぜ減額かをお伝えします</p>
       <p class="pt"><i>✓</i>納得できなければキャンセル無料。返送料も当店負担です</p>
-      <p class="pt"><i>✓</i>不安なカードは先に写真を送っていただければ、お見積りの段階で金額をお伝えします</p>
+      <p class="pt"><i>✓</i>状態が不安なカードは、LINEで写真を送っていただければ事前に目安をお伝えします</p>
     </div>
   </div>
   <div class="ctabox rv"><p class="lead">不安はありませんか？</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
@@ -433,9 +431,9 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec"><div class="wrap">
   <div class="sh rv"><span class="no">08</span><h2>LINEを追加したら、<span class="ul">こうなります</span>。</h2><p>届くのは査定のやり取りと、買取強化のお知らせだけ。いつでもブロックできます。</p></div>
   <div class="after">
-    <div class="af rv"><span class="n">1</span><h3>友だち追加</h3><p>あいさつと、申込のメニューが届きます。</p><div class="chat"><div class="b">友だち追加ありがとうございます🙌 売りたいカードの写真か、価格表で選んだ内容を送ってください。</div></div></div>
-    <div class="af rv d1"><span class="n">2</span><h3>写真か枚数を送る</h3><p>価格表の「LINEで申込」を押すと、カード名と枚数が入った状態でトークが開きます。</p><div class="chat"><div class="b me">【郵送買取 申込】<br>・リザードンex（SAR）×1<br>・ピカチュウ（P）×2</div></div></div>
-    <div class="af rv d2"><span class="n">3</span><h3>お見積りが届く</h3><p>金額と発送方法をご案内。納得できたら着払いで発送してください。</p><div class="chat"><div class="b">美品で合計◯◯円です。佐川急便の着払いで下記住所へお送りください📦</div></div></div>
+    <div class="af rv"><span class="n">1</span><h3>友だち追加</h3><p>あいさつと、リッチメニューが表示されます。</p><div class="chat"><div class="b">友だち追加ありがとうございます🙌 郵送買取は下のメニュー「宅配買取」からお申込みください。</div></div></div>
+    <div class="af rv d1"><span class="n">2</span><h3>リッチメニューから申込</h3><p>「宅配買取」を押して、案内に沿って申込内容を送ります。</p><div class="chat"><div class="b me">【宅配買取 申込】<br>お名前・点数・送る予定日を送信</div></div></div>
+    <div class="af rv d2"><span class="n">3</span><h3>発送のご案内が届く</h3><p>送り先と着払いの出し方をご案内。箱に詰めて送ってください。</p><div class="chat"><div class="b">受付しました！佐川急便の着払いで下記住所へお送りください📦 到着後に1枚ずつ査定してLINEでご連絡します。</div></div></div>
   </div>
 </div></section>
 
@@ -447,11 +445,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     <details><summary><span><span class="q">Q</span>スリーブやファイルに入れたままでも送れますか？</span><span class="pm">+</span></summary><p>送れます。スリーブのまま、厚紙やローダーで挟んで曲がらないように梱包してください。お送りいただいたスリーブ・ファイルは返送できませんのでご了承ください。</p></details>
     <details><summary><span><span class="q">Q</span>1枚だけでも郵送買取できますか？</span><span class="pm">+</span></summary><p>できます。1枚からお気軽にお送りください。</p></details>
     <details><summary><span><span class="q">Q</span>傷があるカードも買い取ってもらえますか？</span><span class="pm">+</span></summary><p>買取できます。状態により減額となることがありますが、減額後の金額に納得できなければキャンセルでき、返送料は当店負担です。</p></details>
-    <details><summary><span><span class="q">Q</span>お見積りはいつまで有効ですか？</span><span class="pm">+</span></summary><p>カードの到着まで含めて5日間です。相場が大きく動いた場合は到着日の価格で再査定となることがあります。</p></details>
     <details><summary><span><span class="q">Q</span>本人確認には何が必要ですか？</span><span class="pm">+</span></summary><p>顔写真付きの身分証（運転免許証・マイナンバーカード・パスポートなど）をご用意ください。スマホで撮影して完了します。</p></details>
     <details><summary><span><span class="q">Q</span>未成年でも売れますか？</span><span class="pm">+</span></summary><p>未成年の方の買取については、先にLINEでお問い合わせください。</p></details>
     <details><summary><span><span class="q">Q</span>カード以外のグッズやサプライも売れますか？</span><span class="pm">+</span></summary><p>はい。未開封BOX・パックやデッキシールドなどのサプライ、ぬいぐるみなどのポケモン関連グッズも買取実績があります。LINEでご相談ください。</p></details>
-    <details><summary><span><span class="q">Q</span>写真を撮らずに、そのまま送ってもいいですか？</span><span class="pm">+</span></summary><p>大丈夫です。お見積りが不要な場合は、LINEで「そのまま送ります」とお知らせのうえ、着払いでお送りください。到着後に本査定の金額をお知らせします。</p></details>
+    <details><summary><span><span class="q">Q</span>写真を撮らずに、そのまま送ってもいいですか？</span><span class="pm">+</span></summary><p>大丈夫です。LINEのリッチメニューからお申込みのうえ、そのまま着払いでお送りください。到着後に1枚ずつ査定し、カード到着日の買取表の価格で金額をお知らせします。</p></details>
     <details><summary><span><span class="q">Q</span>PSA9以下やBGS・ARSなどの鑑定品も売れますか？</span><span class="pm">+</span></summary><p>はい。PSA以外の鑑定品も対象です。センタリングは考慮していないので、カードの状態がきれいならPSA9以下でも満額査定になる場合があります。</p></details>
     <details><summary><span><span class="q">Q</span>PSA10や旧裏、未開封BOXも売れますか？</span><span class="pm">+</span></summary><p>はい。<a href="/cat/psa/">PSA10</a>・<a href="/cat/old/">旧裏</a>・<a href="/cat/box/">未開封BOX</a>それぞれの買取価格一覧を掲載しています。</p></details>
   </div>
@@ -462,7 +459,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec final"><div class="bg"></div><div class="wrap">
   <div class="chars rv"><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/chan2.webp" alt=""><img src="/img/chars/bachira.webp" alt=""></div>
   <h2 class="rv d1">迷ったら、まず写真を<br class="sp-only">送ってください。</h2>
-  <p class="rv d2">1枚からOK。お見積りは無料、納得してから送れます。</p>
+  <p class="rv d2">1枚からOK。査定は無料、納得できなければ返送も無料です。</p>
   <div class="cta rv d3">
     <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
     <a class="btn o" href="/">🔍 買取価格を調べる</a>

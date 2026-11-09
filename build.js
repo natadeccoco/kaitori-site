@@ -331,7 +331,7 @@ console.log(`article pages: ${arts.length}`);
     const kyoka = items.filter(x => x.img && /強化買取/.test(x.tab || "")).sort((a, b) => b.price - a.price);
     const src = (kyoka.length ? kyoka : hotPool.slice().sort((a, b) => b.price - a.price)).concat(top.slice().sort((a, b) => (b.order - a.order) || (b.price - a.price)));   // 続きは新しいシリーズ優先
     const pick = []; const seen = new Set();
-    for (const x of src) { const b = baseName(x.name) + "|" + x.cat; if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= 60) break; }
+    for (const x of src) { const b = baseName(x.name) + "|" + x.cat; if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= 90) break; }
     const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${/^PSA/i.test(r.grade || "") || r.cat === "PSA" ? "psa" : "single"}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
     const shops = ["柏", "松戸", "津田沼", "千葉中央", "中野", "お台場", "町田", "横浜"].map(n => `<a href="${CFG.storesUrl}">${n}</a>`).join("");
     const ld = { "@context": "https://schema.org", "@type": "Service", name: "ポケモンカード郵送買取", provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };

@@ -76,7 +76,7 @@ page = page.replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("<!--__HEAD__-->", headCommon(CFG.siteName + "｜ポケモンカード買取価格表", "ポケモンカードの買取価格表。シングル・PSA10・未開封BOX・旧裏を毎日更新。", CFG.siteUrl + "/", CFG.siteUrl + "/ogp.png") + `
 <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>`);
 const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(SRC, "site_fx.html")) : "";   // 全ページ共通の仕上げ（LINEアイコン・進捗バー・キラキラ・キャラ反応）
-const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${body.includes("id=\"sfx\"") ? "" : SITE_FX}\n</body>\n</html>\n`;
+const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 write("index.html", wrap(page));
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */

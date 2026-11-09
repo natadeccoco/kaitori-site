@@ -154,7 +154,7 @@ a{color:inherit}img{max-width:100%}
 footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:26px 20px 100px;text-align:center;font-size:13px;font-weight:700}footer a{color:var(--navy);margin:0 10px;text-decoration:none}footer a:hover{text-decoration:underline}
 /* mobile bar */
 .bar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);backdrop-filter:blur(8px);border-top:3px solid var(--ink);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:none;gap:8px;transform:translateY(110%);transition:transform .35s cubic-bezier(.34,1.56,.64,1)}.bar.show{transform:none}.bar .btn{flex:1;padding:12px 10px;font-size:14px;border-width:3px;animation:none}.bar .btn.o{flex:.7}
-@media (max-width:760px){.bar{display:flex}}
+@media (max-width:760px){.flo{display:none!important}.bar{display:flex}}
 
 /* ===== wow layer ===== */
 #intro{position:fixed;inset:0;z-index:100;background:linear-gradient(115deg,#FFF6B8 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding-bottom:200px;transition:transform .7s cubic-bezier(.7,0,.3,1),opacity .4s;transform-origin:50% 0;overflow:hidden}

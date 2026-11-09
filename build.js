@@ -320,8 +320,8 @@ console.log(`article pages: ${arts.length}`);
     const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort((a, b) => b.price - a.price);
     // 注目カード（ティッカー・ヒーローの扇・オープニング用）: 強化買取タブ ＋ MEGAの2万円以上。毎日ビルド時にシャッフル、さらにページ側でも読み込みごとにシャッフル
     const isSAR = x => /^SAR$/i.test(x.rarity || "");
-    let hotPool = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || (x.tab === "MEGA" && isSAR(x) && x.price >= 20000)));
-    if (hotPool.length < 12) hotPool = hotPool.concat(items.filter(x => x.img && x.tab === "MEGA" && isSAR(x) && x.price < 20000 && !hotPool.includes(x)).sort((a, b) => b.price - a.price).slice(0, 12 - hotPool.length));   // 2万以上のSARが少ないときはSARの高い順で補う
+    let hotPool = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || ((x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price >= 10000)));   // MEGA/SVのSAR・1万円以上
+    if (hotPool.length < 20) hotPool = hotPool.concat(items.filter(x => x.img && (x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price < 10000 && !hotPool.includes(x)).sort((a, b) => b.price - a.price).slice(0, 20 - hotPool.length));
     const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
     let hot = shuffle(hotPool.slice());
     if (hot.length < 8) hot = hot.concat(top.filter(x => !hotPool.includes(x)).slice(0, 8 - hot.length));

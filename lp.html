@@ -334,7 +334,6 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     <div class="blob lay" data-depth="-1"></div>
     <div class="badge"><span>送料・手数料</span><b>0円</b><span>すべて無料</span></div>
     <span class="sp" style="right:6%;top:2%">✦</span><span class="sp p" style="left:40%;top:24%">✦</span><span class="sp c" style="right:30%;bottom:10%">✦</span>
-    <div class="fan lay" data-depth="2"><div class="fc"><img src="__FC1__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC2__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC3__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC4__" alt="" onerror="this.parentNode.remove()"></div><div class="fc"><img src="__FC5__" alt="" onerror="this.parentNode.remove()"></div></div>
     <img class="chan rv d1 lay" data-depth="1.2" src="/img/banner_chan.webp" alt="">
   </div>
 </div></section>
@@ -556,7 +555,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   function say(el,arr){var r=el.getBoundingClientRect(),b=document.createElement('div');b.className='say';b.textContent=arr[Math.floor(Math.random()*arr.length)];document.body.appendChild(b);b.style.position='fixed';b.style.left=Math.max(8,Math.min(innerWidth-240,r.left+r.width*.3))+'px';b.style.top=(r.top-52)+'px';setTimeout(function(){b.remove()},1800);
     el.classList.remove('spin');void el.offsetWidth;el.classList.add('spin');burst(r.left+r.width/2,r.top+r.height/2,14,true);}
   // ヒーローの空いたところをクリック：カードが飛ぶ
-  hero.addEventListener('click',function(e){if(e.target.closest('a,button,img,.zero,.facts'))return;if(!fanImgs.length)return;for(var k=0;k<3;k++){(function(k){var d=document.createElement('div');d.className='toss';d.innerHTML='<img src="'+fanImgs[Math.floor(Math.random()*fanImgs.length)]+'" alt="">';document.body.appendChild(d);var x=e.clientX,y=e.clientY,vx=(Math.random()-.5)*14,vy=-9-Math.random()*6,rot=0,vr=(Math.random()-.5)*20,t0=null;
+  hero.addEventListener('click',function(e){if(e.target.closest('a,button,img,.zero,.facts'))return;var imgs=cardImgs();if(!imgs.length)return;for(var k=0;k<3;k++){(function(k){var d=document.createElement('div');d.className='toss';d.innerHTML='<img src="'+imgs[Math.floor(Math.random()*imgs.length)]+'" alt="">';document.body.appendChild(d);var x=e.clientX,y=e.clientY,vx=(Math.random()-.5)*14,vy=-9-Math.random()*6,rot=0,vr=(Math.random()-.5)*20,t0=null;
       function f(){x+=vx;y+=vy;vy+=.45;rot+=vr;d.style.transform='translate('+(x-35)+'px,'+(y-48)+'px) rotate('+rot+'deg)';if(y<innerHeight+100)requestAnimationFrame(f);else d.remove();}requestAnimationFrame(f);})(k);}burst(e.clientX,e.clientY,10,true);});
   // 進捗バーの上を走るナタデココちゃん
   // セクションごとのひとこと（PC）

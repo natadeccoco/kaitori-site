@@ -53,6 +53,24 @@ items.forEach(i => { if (/noimage/.test(i.img)) i.img = ""; });
   }
   console.log(`自前画像 ${local} / 外部URLのまま ${items.filter(i => /^https?:\/\/static\.mycalinks/.test(i.img)).length}`);
 }
+// おすすめ順＝最新シリーズを上位に（MEGA → SV → ソード&シールド → サン&ムーン → XY → BW以前）。同じシリーズ内では価格の高い順
+function seriesScore(i) {
+  const e = String(i.exp || "").trim(), tab = i.tab || "", set = i.set || "";
+  const num = (m) => 0;   // シリーズ単位でまとめ、シリーズ内は価格順（弾ごとに分けたい場合は m[1] を使う）
+  let m;
+  if ((m = e.match(/^M(\d+)?/)) && !/^MC|^MF/.test(e)) return 900 + num(m);
+  if (/^M[CF]/.test(e)) return 900;
+  if ((m = e.match(/^SV(\d+)?/i))) return 800 + num(m);
+  if ((m = e.match(/^SM(\d+)?/i))) return 600 + num(m);
+  if ((m = e.match(/^S(\d+)?/i))) return 700 + num(m);
+  if ((m = e.match(/^XY(\d+)?/i)) || /^CP/.test(e)) return 500 + num(m);
+  if (/^BW/i.test(e)) return 400;
+  const byTab = { "MEGA": 900, "SV": 800, "SS": 700, "SM": 600, "XY": 500, "BW以前": 400 };
+  if (byTab[tab]) return byTab[tab];
+  if (i.cat === "BOX") { const bySet = { "MEGA": 900, "SV": 800, "SS": 700, "SM": 600, "XY": 500 }; return bySet[set] || 300; }
+  return 0;
+}
+{ const idx = {}; items.forEach(i => { let sc = seriesScore(i); if (i.cat === "BOX") { idx[i.set] = (idx[i.set] || 0) + 1; sc -= idx[i.set] * 0.001; } i.order = sc; }); }
 const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson && JSON.parse(sheetJson).updated) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
 console.log(`items: ${items.length}`, Object.fromEntries(CFG.categories.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 

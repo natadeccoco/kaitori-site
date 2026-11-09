@@ -25,13 +25,13 @@ img[src*="/img/chars/"]{cursor:pointer}.sfx-spin{animation:sfxspin .7s cubic-bez
 .sfx-tk a:after{content:"✦";color:#FFB8DC;margin-left:14px}
 @media (prefers-reduced-motion:reduce){.sfx-tk .run,.sfx-cur{animation:none}}
 </style>
-<div id="sfx-prog"></div><img id="sfx-run" src="/img/chars/chan1.webp" alt=""><canvas id="sfx"></canvas>
+<div id="sfx-prog"></div><canvas id="sfx"></canvas>
 <script>
 (function(){
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover)').matches;
   // 進捗バー＋走るナタデココちゃん
   var prog=document.getElementById('sfx-prog'),rn=document.getElementById('sfx-run');
-  function onScroll(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);prog.style.transform='scaleX('+p+')';rn.style.left=(20+p*(innerWidth-40))+'px';}
+  function onScroll(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);prog.style.transform='scaleX('+p+')';if(rn)rn.style.left=(20+p*(innerWidth-40))+'px';}
   addEventListener('scroll',onScroll,{passive:true});onScroll();
   // キラキラ
   var cv=document.getElementById('sfx'),ctx=cv.getContext('2d'),ps=[];

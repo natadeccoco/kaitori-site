@@ -152,7 +152,6 @@ function cardFaq(it) {
   const pair = findPair(it);
   if (pair) q.push([it.cat === "PSA" ? `鑑定なし（素体）の${b}の買取価格は？` : `PSA10鑑定済みの${b}の買取価格は？`, `${yen(pair.price)}（${updated}時点）で買取しています。詳しくは${pair.name}${pair.code ? "（" + pair.code + "）" : ""}のページをご覧ください。`]);
   q.push(["送料や手数料はかかりますか？", "かかりません。佐川急便の着払いでお送りください（レターパック・ヤマト運輸も可）。本査定のご承諾後、最短当日にお振込みします。"]);
-  q.push([`${b}を複数枚売りたいのですが`, "在庫状況により減額となる場合があります。枚数が多い場合は、先にLINEで枚数をお知らせいただくとスムーズです。"]);
   const html = `<section class="faqs"><h2>よくある質問</h2>` + q.map(([a, c]) => `<details><summary>${esc(a)}</summary><p>${esc(c)}</p></details>`).join("") + `</section>`;
   const ld = { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: q.map(([a, c]) => ({ "@type": "Question", name: a, acceptedAnswer: { "@type": "Answer", text: c } })) };
   return { html, ld };

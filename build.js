@@ -299,6 +299,13 @@ console.log(`article pages: ${arts.length}`);
     const title = "ポケカ郵送買取｜箱に詰めて送るだけ・送料0円・最短当日入金";
     const desc = `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。LINEで無料査定。`;
     const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort((a, b) => b.price - a.price);
+    // 注目カード（ティッカー・ヒーローの扇・オープニング用）: 強化買取タブ ＋ MEGAの2万円以上。毎日ビルド時にシャッフル、さらにページ側でも読み込みごとにシャッフル
+    const hotPool = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || (x.tab === "MEGA" && x.price >= 20000)));
+    const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+    let hot = shuffle(hotPool.slice());
+    if (hot.length < 8) hot = hot.concat(top.filter(x => !hotPool.includes(x)).slice(0, 8 - hot.length));
+    const hotAt = i => hot[i % hot.length];
+    const hotJson = JSON.stringify(hot.map(r => ({ id: r.id, n: r.name, p: yen(r.price), img: r.img })));
     const pick = []; const seen = new Set();
     for (const x of top) { const b = baseName(x.name); if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= 60) break; }
     const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${/^PSA/i.test(r.grade || "") || r.cat === "PSA" ? "psa" : "single"}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
@@ -307,8 +314,9 @@ console.log(`article pages: ${arts.length}`);
     const html = lpTpl
       .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
       .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
-      .replace(/__TICKER__/g, top.slice(0, 24).map(r => `<a class="tk" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()"><span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span></a>`).join(""))
-      .replace(/__FC([1-9]|1[0-5])__/g, (m, i) => esc(top[8 + Number(i)] ? top[8 + Number(i)].img : ""))
+      .replace(/__TICKER__/g, Array.from({ length: 24 }, (_, i) => hotAt(i)).map(r => `<a class="tk" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()"><span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span></a>`).join(""))
+      .replace(/__HOTPOOL__/g, () => hotJson)
+      .replace(/__FC([1-9]|1[0-5])__/g, (m, i) => esc(hotAt(Number(i) - 1).img))
       .replace(/__PICS_([a-z]+)_(\d)__/g, (m, cat, n) => { const map = { pk: "ポケモン", box: "BOX", psa: "PSA", old: "旧裏", kyu: "旧弾", misc: "汎用" };
         let a = items.filter(x => x.img && x.cat === map[cat]).sort((x, y) => y.price - x.price);
         if (cat === "pk") a = a.filter(x => /^(SAR|SR|AR|UR|PROMO|P|HR)$/i.test(x.rarity)); if (!a.length) a = items.filter(x => x.img && x.cat === map[cat]);

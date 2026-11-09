@@ -318,7 +318,9 @@ console.log(`article pages: ${arts.length}`);
     const desc = `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。LINEで無料査定。`;
     const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort((a, b) => b.price - a.price);
     // 注目カード（ティッカー・ヒーローの扇・オープニング用）: 強化買取タブ ＋ MEGAの2万円以上。毎日ビルド時にシャッフル、さらにページ側でも読み込みごとにシャッフル
-    const hotPool = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || (x.tab === "MEGA" && x.price >= 20000)));
+    const isSAR = x => /^SAR$/i.test(x.rarity || "");
+    let hotPool = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || (x.tab === "MEGA" && isSAR(x) && x.price >= 20000)));
+    if (hotPool.length < 12) hotPool = hotPool.concat(items.filter(x => x.img && x.tab === "MEGA" && isSAR(x) && x.price < 20000 && !hotPool.includes(x)).sort((a, b) => b.price - a.price).slice(0, 12 - hotPool.length));   // 2万以上のSARが少ないときはSARの高い順で補う
     const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
     let hot = shuffle(hotPool.slice());
     if (hot.length < 8) hot = hot.concat(top.filter(x => !hotPool.includes(x)).slice(0, 8 - hot.length));
@@ -337,9 +339,9 @@ console.log(`article pages: ${arts.length}`);
       .replace(/__FC([1-9]|1[0-5])__/g, (m, i) => esc(hotAt(Number(i) - 1).img))
       .replace(/__PICS_([a-z]+)_(\d)__/g, (m, cat, n) => { const map = { pk: "ポケモン", box: "BOX", psa: "PSA", old: "旧裏", kyu: "旧弾", misc: "汎用" };
         let a = items.filter(x => x.img && x.cat === map[cat]).sort((x, y) => y.price - x.price);
-        if (cat === "box") { const nw = items.filter(x => x.img && x.cat === "BOX" && /MEGA/i.test(x.set || "") && !/デッキ/.test(x.name)); if (nw.length) a = nw; }   // BOXは最新シリーズ（シート順）
-        if (cat === "pk") { const nw = a.filter(x => x.tab === "MEGA" && /^(SAR|SR|AR|UR|FUR|HR|PROMO|P)$/i.test(x.rarity)); a = nw.length ? nw : a.filter(x => /^(SAR|SR|AR|UR|PROMO|P|HR)$/i.test(x.rarity)); }   // シングルは最新シリーズ（MEGA）
-        if (cat === "psa") { const nw = a.filter(x => /^M\d/i.test(x.exp || "")); if (nw.length) a = nw; }   // 鑑定品も最新シリーズ
+        if (cat === "box") { const nw = items.filter(x => x.img && x.cat === "BOX" && /MEGA/i.test(x.set || "") && !/デッキ|FUTURISTIC/i.test(x.name)); if (nw.length) a = nw; }   // BOXは最新シリーズ（シート順）
+        if (cat === "pk") { const nw = a.filter(x => x.tab === "MEGA" && /^SAR$/i.test(x.rarity)); a = nw.length ? nw : a.filter(x => /^(SAR|SR|AR|UR|PROMO|P|HR)$/i.test(x.rarity)); }   // シングルは最新シリーズ（MEGA）
+        if (cat === "psa") { const nw = a.filter(x => /^M\d/i.test(x.exp || "") && /^SAR$/i.test(x.rarity || "")); if (nw.length) a = nw; }   // 鑑定品も最新シリーズ
         if (cat === "old") { const st = ["フシギバナ", "リザードン", "カメックス"].map(n => items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV") && /マークあり/.test(x.name)) || items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV"))).filter(Boolean); if (st.length === 3) return st.map(x => `<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.remove()">`).join(""); }   // 旧裏は御三家
         if (!a.length) a = items.filter(x => x.img && x.cat === map[cat]);
         const pick = []; const seen = new Set(); for (const x of a) { const b = baseName(x.name); if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= Number(n)) break; }

@@ -11,7 +11,7 @@ permissions:
   id-token: write
 concurrency:
   group: pages
-  cancel-in-progress: false
+  cancel-in-progress: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,6 +31,8 @@ jobs:
           node fetch_images.js
       - name: サイト生成
         run: node build.js
+      - name: 公開用の画像を軽くする（デプロイのタイムアウト対策）
+        run: node shrink_images.js
       - name: データ・画像の変更をコミット
         run: |
           git config user.name "kaitori-bot"
@@ -50,4 +52,4 @@ jobs:
       - id: deployment
         uses: actions/deploy-pages@v4
         with:
-          timeout: 1800000   # 30分（サイトが大きくなり10分のデフォルトで打ち切られたため）
+          timeout: 600000   # 上限の10分（画像を軽くして収める）

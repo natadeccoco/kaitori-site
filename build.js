@@ -99,6 +99,7 @@ const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<he
 write("index.html", wrap(page));
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */
+const psaBadge = r => /^PSA\s*10$/i.test(r.grade || "") ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : "";
 const CAT_SLUG = { "ポケモン": "pk", PSA: "psa", BOX: "box", "旧裏": "old", "旧弾": "kyu", "汎用": "misc" };
 const packSlugBySet = (() => { const m = new Map(); const g = new Map(); for (const it of items) { if (!it.set || it.cat === "汎用") continue; if (!g.has(it.set)) g.set(it.set, []); g.get(it.set).push(it); }
   for (const [set, a] of g) { if (a.length < 3) continue; const exps = [...new Set(a.map(x => x.exp).filter(e => /^[A-Za-z0-9+\-]+$/.test(e)))]; m.set(set, exps.length === 1 ? exps[0].toLowerCase().replace("+", "p") : "p-" + lib.hashId(set)); } return m; })();
@@ -141,7 +142,7 @@ function cardVariants(it) {
   const b = baseName(it.name);
   const vs = (byBase.get(b) || []).filter(x => x.id !== it.id).sort((x, y) => y.price - x.price).slice(0, 12);
   if (!vs.length) return "";
-  return `<h2 class="rel">同じ名前のカード（別バージョン・別弾）</h2><div class="rels">` + vs.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<b>${esc(r.name)}</b><span>${esc([r.code, r.cat === "PSA" ? r.grade : r.cat === "BOX" ? "BOX" : ""].filter(Boolean).join(" "))}</span><em>${esc(yen(r.price))}</em></a>`).join("") + `</div>`;
+  return `<h2 class="rel">同じ名前のカード（別バージョン・別弾）</h2><div class="rels">` + vs.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc([r.code, r.cat === "PSA" ? r.grade : r.cat === "BOX" ? "BOX" : ""].filter(Boolean).join(" "))}</span><em>${esc(yen(r.price))}</em></a>`).join("") + `</div>`;
 }
 function cardFaq(it) {
   const b = baseName(it.name), full = it.name + (it.code ? "（" + it.code + "）" : "");
@@ -184,7 +185,7 @@ function speciesCards(it) {
   if (!a.length) return "";
   a.sort((x, y) => y.price - x.price);
   const label = sps.map(sp => sp.ja).join("・");
-  return `<h2 class="rel">${esc(label)}のほかのカード <a class="more" href="/?q=${encodeURIComponent(sps[0].ja)}">すべて見る（${a.length + vIds.size - 1}枚）›</a></h2><div class="rels">` + a.slice(0, 12).map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<b>${esc(r.name)}</b><span>${esc([r.code, r.cat === "PSA" ? r.grade : ""].filter(Boolean).join(" "))}</span><em>${esc(yen(r.price))}</em></a>`).join("") + `</div>`;
+  return `<h2 class="rel">${esc(label)}のほかのカード <a class="more" href="/?q=${encodeURIComponent(sps[0].ja)}">すべて見る（${a.length + vIds.size - 1}枚）›</a></h2><div class="rels">` + a.slice(0, 12).map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc([r.code, r.cat === "PSA" ? r.grade : ""].filter(Boolean).join(" "))}</span><em>${esc(yen(r.price))}</em></a>`).join("") + `</div>`;
 }
 
 /* ---------- 3. カード個別ページ ---------- */
@@ -215,7 +216,7 @@ for (const it of items) {
     .replace(/__IMG__/g, it.img ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="eager" data-alt="${esc((it.imgAlt || []).join("|"))}" onerror="imgErr(this)">` : `<div class="ph"><span>${esc(it.name)}</span></div>`)
     .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
     .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/#add=${encodeURIComponent(it.id)}&back=1`)
-    .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
+    .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
     .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company))
     .replace(/__PACK_LINK__/g, it.set && packSlugBySet.has(it.set) ? `<a class="sec" href="/pack/${packSlugBySet.get(it.set)}/">${esc(it.set)}の買取価格一覧 ›</a>` : "")
     .replace(/__CAT_URL__/g, `/cat/${CAT_SLUG[it.cat] || "c"}/`);

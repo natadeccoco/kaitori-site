@@ -546,7 +546,14 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
   var tipEl=document.getElementById('tip'),tipB=document.getElementById('tipb'),tips={flow:'やることは2つだけ！LINEで送る→箱で送る📦',prices:'乗せると「詳細を見る」が出るよ👀',terms:'条件はぜんぶ書いてあるよ。返送料も0円！',trust:'8店舗、ぜんぶ本当にあるお店だよ🏬',faq:'分からないことはLINEで聞いてね💬'};
   if(tipEl&&'IntersectionObserver' in window){var tio=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting&&tips[x.target.id]){tipB.textContent=tips[x.target.id];tipEl.classList.add('show');clearTimeout(tipEl._t);tipEl._t=setTimeout(function(){tipEl.classList.remove('show')},3500);}})},{threshold:.25});Object.keys(tips).forEach(function(id){var el=document.getElementById(id);if(el)tio.observe(el)});}
   // 最後のセクションで紙吹雪
-  var fin=document.querySelector('.sec.final');if(fin&&'IntersectionObserver' in window){new IntersectionObserver(function(en,o){if(en[0].isIntersecting){o.disconnect();for(var i=0;i<6;i++)setTimeout(function(){burst(innerWidth*Math.random(),innerHeight*.3,30,true)},i*180);}},{threshold:.4}).observe(fin);}
+  // 最後まで来たら：カードの噴水（下から次々カードが舞い上がる）
+  var fin=document.querySelector('.sec.final');
+  function cardImgs(){var a=fanImgs.slice();document.querySelectorAll('.ticker img,#pgrid .pc img.ft,#pgrid .pc .im img').forEach(function(i){if(i.src&&a.indexOf(i.src)<0)a.push(i.src)});return a;}
+  function fountain(n,x0,spread){var imgs=cardImgs();if(!imgs.length)return;for(var k=0;k<n;k++){(function(k){setTimeout(function(){var d=document.createElement('div');d.className='toss';d.innerHTML='<img src="'+imgs[Math.floor(Math.random()*imgs.length)]+'" alt="">';document.body.appendChild(d);
+      var x=x0+(Math.random()-.5)*spread,y=innerHeight+60,vx=(Math.random()-.5)*7,vy=-(17+Math.random()*7),rot=(Math.random()-.5)*40,vr=(Math.random()-.5)*14;
+      function f(){x+=vx;y+=vy;vy+=.42;rot+=vr;d.style.transform='translate('+(x-35)+'px,'+(y-48)+'px) rotate('+rot+'deg)';if(y<innerHeight+120)requestAnimationFrame(f);else d.remove();}requestAnimationFrame(f);
+      if(k%3===0)burst(x,innerHeight*.55,6,false);},k*90);})(k);}}
+  if(fin&&'IntersectionObserver' in window){new IntersectionObserver(function(en,o){if(en[0].isIntersecting){o.disconnect();if(reduce)return;fountain(14,innerWidth*.5,innerWidth*.3);setTimeout(function(){fountain(8,innerWidth*.2,innerWidth*.2);fountain(8,innerWidth*.8,innerWidth*.2)},700);}},{threshold:.4}).observe(fin);}
 
   // 価格カード：3Dチルト（ホロ光沢と一緒に）
   if(fine&&!reduce){document.querySelectorAll('#pgrid .pc').forEach(function(el){var f=el.querySelector('.face');if(!f)return;el.addEventListener('mousemove',function(e){var b=el.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;f.style.transform='rotateX('+(-y*12)+'deg) rotateY('+(x*14)+'deg)';});el.addEventListener('mouseleave',function(){f.style.transform='';});});}

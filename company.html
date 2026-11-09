@@ -28,7 +28,7 @@ h2 + .sub{margin:-8px 0 18px;color:var(--ink-2);font-size:14px}
 /* message */
 .msg{background:var(--bg-2);border:3px solid var(--navy);border-radius:22px;padding:26px 28px;display:flex;gap:22px;align-items:flex-start;box-shadow:0 7px 0 var(--navy);position:relative}
 .msg img{width:96px;flex:none}.msg p{margin:0 0 10px;font-size:15.5px}.msg p:last-child{margin:0}.msg .q{font-family:"M PLUS Rounded 1c",sans-serif;font-size:20px;color:var(--navy);margin-bottom:12px}
-.msg .q .ul{background:linear-gradient(transparent 60%,var(--yel) 60%)}
+.msg .q .ul,.msg .ul{background:linear-gradient(transparent 60%,var(--yel) 60%);font-weight:700}.msg.greet p{margin:0 0 14px}.msg .sign{text-align:right;font-weight:700;color:var(--navy);margin-top:18px!important}
 @media (max-width:640px){.msg{flex-direction:column;align-items:center;padding:22px 18px}.msg img{width:76px}.msg .q{font-size:17px}}
 /* values */
 .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}@media (max-width:640px){.vals{grid-template-columns:1fr}}
@@ -43,8 +43,9 @@ td a{color:var(--navy-2);font-weight:700}
 @media (max-width:560px){th,td{display:block;width:auto;border:0}th{padding:12px 16px 0;font-size:12px;background:transparent}td{padding:2px 16px 12px;border-bottom:1px solid var(--line)}tr:last-child td{border-bottom:0}}
 /* biz */
 .biz{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media (max-width:640px){.biz{grid-template-columns:1fr}}
-.biz a{display:block;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--navy);border-radius:20px;overflow:hidden;box-shadow:0 6px 0 var(--navy);transition:transform .2s}.biz a:hover{transform:translateY(-4px)}
+.biz a,.biz .soon{display:block;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--navy);border-radius:20px;overflow:hidden;box-shadow:0 6px 0 var(--navy);transition:transform .2s}.biz a:hover{transform:translateY(-4px)}
 .biz .ph{height:120px;background:linear-gradient(135deg,#FFF6C9,#B8F4F4);display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}.biz .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}.biz .ph i{position:relative;font-style:normal;filter:drop-shadow(0 3px 0 rgba(255,255,255,.9))}
+.biz .soon{color:var(--ink);opacity:.92}.biz .soon .ph{background:linear-gradient(135deg,#FFF6C9,#DCCBFF)}.biz .soon .ph img.chr{position:static;width:auto;height:104px;object-fit:contain;margin-top:14px;filter:drop-shadow(0 4px 0 rgba(23,59,92,.15))}.biz .tag{position:absolute;right:10px;top:10px;background:var(--navy);color:#fff;font-size:11px;font-weight:900;border-radius:999px;padding:3px 10px;letter-spacing:.1em}.biz .soon .go{color:var(--ink-2);letter-spacing:.12em;font-family:"DM Sans",sans-serif}
 .biz .bd{padding:14px 16px 16px}.biz b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;font-size:17px;color:var(--navy);margin-bottom:4px}.biz p{margin:0 0 8px;font-size:13.5px;color:var(--ink-2)}.biz .go{font-size:13px;font-weight:900;color:var(--navy-2)}
 /* shops */
 .area{margin:14px 0 6px;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px}.area:before{content:"";width:12px;height:12px;border-radius:50%;background:var(--cyan);border:2px solid var(--navy)}
@@ -59,15 +60,16 @@ td a{color:var(--navy-2);font-weight:700}
 .contact svg.li{width:34px;height:34px;margin-bottom:6px}.contact i{font-style:normal;font-size:30px;margin-bottom:4px}
 .cap{font-size:12.5px;color:var(--ink-2);margin-top:12px}
 /* cta band */
-.band{margin:56px -16px 0;background:linear-gradient(135deg,#FFF6C9,#B8F4F4 50%,#DCCBFF);padding:40px 16px 0;text-align:center;position:relative;overflow:hidden;border-top:3px solid var(--navy)}
+.band{margin:56px -16px 0;background:linear-gradient(135deg,#FFF6C9,#B8F4F4 50%,#DCCBFF);padding:40px 16px 34px;text-align:center;position:relative;overflow:hidden;border-top:3px solid var(--navy)}
 .band h3{font-family:"M PLUS Rounded 1c",sans-serif;font-size:24px;margin:0 0 6px;color:var(--navy)}.band p{margin:0 0 18px;color:var(--navy);font-weight:700}
-.band .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:26px}.band .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:900;border:3px solid var(--navy);border-radius:999px;padding:12px 26px;background:#fff;color:var(--navy);box-shadow:0 5px 0 var(--navy)}.band .btn.g{background:#06C755;color:#fff;border-color:#06C755;box-shadow:0 5px 0 #049a42}.band .btn svg{width:24px;height:24px}
+.band .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:0}.band .btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:900;border:3px solid var(--navy);border-radius:999px;padding:12px 26px;background:#fff;color:var(--navy);box-shadow:0 5px 0 var(--navy)}.band .btn.g{background:#06C755;color:#fff;border-color:#06C755;box-shadow:0 5px 0 #049a42}.band .btn svg{width:24px;height:24px}
 .parade{display:flex;justify-content:center;align-items:flex-end;gap:4px;height:120px;overflow:hidden}.parade img{height:100px;animation:bob 2.8s ease-in-out infinite}.parade img:nth-child(2n){animation-delay:-.7s;height:88px}.parade img:nth-child(3n){animation-delay:-1.4s}
 @media (max-width:640px){.parade img{height:64px}.parade img:nth-child(2n){height:56px}}
 /* reveal */
 .rv{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}.rv.on{opacity:1;transform:none}
 .rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
 @media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.hero .ch,.sp,.parade img{animation:none}}
+#sfx-prog,#sfx-run{display:none!important}
 footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text-align:center;font-size:13px;padding:22px 16px}footer a{color:#fff;margin:0 10px}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&family=DM+Sans:wght@700;900&display=swap">
@@ -85,18 +87,17 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
   <div class="st rv d2"><b><span data-count="10" data-raw="1">0</span><small>万件〜</small></b><span>買取実績（累計）</span></div>
 </div>
 <main>
-<h2 class="rv"><span class="no">01</span>ごあいさつ</h2>
-<div class="msg rv"><img src="/img/chars/chan2.webp" alt="">
+<h2 class="rv"><span class="no">01</span>代表挨拶</h2>
+<div class="msg greet rv"><img src="/img/chars/chan2.webp" alt="">
   <div>
-  <p class="q">「ポケカを売るのも買うのも、<span class="ul">いちばん気持ちよくできるお店</span>」へ。</p>
-  <p>ナタデココは、千葉・東京・神奈川に8店舗を構えるポケモンカード専門店です。2022年の創業から、この目標をずっと追いかけてきました。</p>
-  <p>店頭買取・郵送買取・通販のどれを使っても同じ価格、同じ丁寧さでお応えします。大切に集めてきたカードを安心してお任せいただけるよう、専門スタッフが1枚ずつ査定しています。</p>
+  <p>平素は格別のお引き立てを賜り、誠にありがとうございます。</p>
+  <p>株式会社ナタデココは、2022年12月、千葉県柏市の小さな一店舗から始まりました。現在は千葉・東京・神奈川に8店舗を構え、店頭と郵送、そして通販を通じて、毎日たくさんのポケモンカードをお預かりし、お届けしています。</p>
+  <p>私たちが大切にしているのは、<span class="ul">「売るときも、買うときも、いちばん気持ちのいいお店であること」</span>です。</p>
+  <p>トレーディングカードは、ただの紙ではありません。子どものころに初めて手にした一枚、友だちと交換した一枚、何年も探し続けてやっと出会えた一枚。そのすべてに、持ち主の時間と思い出が重なっています。だからこそ私たちは、1枚ずつ丁寧に査定し、なぜその価格なのかをきちんとお伝えし、納得いただけなければ無理にお譲りいただかないことを約束しています。</p>
+  <p>「ナタデココなら安心」と思っていただける場所を、ひとつずつ増やしていくこと。そのために社員一同、今日も一枚一枚に向き合っています。</p>
+  <p>今後とも、変わらぬご支援とご愛顧を賜りますようお願い申し上げます。</p>
+  <p class="sign">株式会社ナタデココ<br>代表取締役　野田 湖子<br>代表取締役　野田 裕介</p>
   </div>
-</div>
-<div class="vals">
-  <div class="val rv"><img src="/img/chars/minty2.webp" alt=""><span class="n">VALUE 01</span><b>店頭も郵送も、同じ価格</b><p>価格表は毎朝更新。お店に持ち込んでも、箱で送っても、同じ価格で買い取ります。</p></div>
-  <div class="val rv d1"><img src="/img/chars/pachiru2.webp" alt=""><span class="n">VALUE 02</span><b>1枚ずつ、人の目で査定</b><p>専門スタッフが白かけ・傷・反りを1枚ずつ確認。減額の理由はかならずお伝えします。</p></div>
-  <div class="val rv d2"><img src="/img/chars/fai1.webp" alt=""><span class="n">VALUE 03</span><b>納得できなければ、返送無料</b><p>査定額にご納得いただけなければキャンセルOK。返送料も当店負担です。</p></div>
 </div>
 
 <h2 class="rv"><span class="no">02</span>会社情報</h2>
@@ -108,7 +109,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 <tr><th>事業内容</th><td>ポケモンカードゲームの販売・買取（店頭／郵送）、オンライン通販、オリジナルパックの企画・販売</td></tr>
 <tr><th>店舗数</th><td>8店舗（千葉4・東京3・神奈川1）</td></tr>
 <tr><th>古物商許可</th><td>__LICENSE__</td></tr>
-<tr><th>公式サイト</th><td><a href="https://pokemon-card.shop/" target="_blank" rel="noopener">pokemon-card.shop（通販）</a>／<a href="/">かんたん郵送買取（買取価格表）</a></td></tr>
+<tr><th>公式サイト</th><td><a href="/">かんたん郵送買取（買取価格表）</a>／オンライン通販（準備中）</td></tr>
 <tr><th>公式X</th><td><a href="__XURL__" target="_blank" rel="noopener">__XURL__</a></td></tr>
 </table>
 
@@ -116,7 +117,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 <div class="biz">
   <a class="rv" href="__STORES_URL__"><div class="ph"><img src="/img/stores/kashiwa.jpg" alt="" loading="lazy" onerror="this.remove()"><i>🏬</i></div><div class="bd"><b>店頭販売・買取</b><p>8店舗でシングルカード・BOX・鑑定品の販売と買取。その場で現金お支払い。</p><span class="go">店舗一覧 →</span></div></a>
   <a class="rv d1" href="/lp/"><div class="ph"><i>📦</i></div><div class="bd"><b>郵送買取</b><p>箱に詰めて送るだけ。送料・返送料・振込手数料は当店負担、最短当日入金。</p><span class="go">郵送買取について →</span></div></a>
-  <a class="rv d2" href="https://pokemon-card.shop/" target="_blank" rel="noopener"><div class="ph"><i>🛒</i></div><div class="bd"><b>オンライン通販</b><p>全店の在庫からお届け。オリジナルパック（オリパ）も販売しています。</p><span class="go">通販サイト →</span></div></a>
+  <div class="rv d2 soon"><div class="ph"><img class="chr" src="/img/chars/chan2.webp" alt=""><span class="tag">準備中</span></div><div class="bd"><b>オンライン通販</b><p>全店の在庫からお届けする通販サイトを準備しています。オープンまで少々お待ちください。</p><span class="go">COMING SOON</span></div></div>
 </div>
 
 <h2 class="rv"><span class="no">04</span>店舗</h2>
@@ -152,7 +153,6 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
   <h3>ポケカ、売るならナタデココ。</h3>
   <p>箱に詰めて送るだけ。送料0円・最短当日入金。</p>
   <div class="btns"><a class="btn g" href="__LINE_ADD__" target="_blank" rel="noopener"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む</a><a class="btn" href="/">買取価格表を見る</a></div>
-  <div class="parade"><img src="/img/chars/chan3.webp" alt=""><img src="/img/chars/minty1.webp" alt=""><img src="/img/chars/pachiru1.webp" alt=""><img src="/img/chars/fai2.webp" alt=""><img src="/img/chars/mag.webp" alt=""><img src="/img/chars/amery1.webp" alt=""><img src="/img/chars/milfine.webp" alt=""><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/bachira.webp" alt=""></div>
 </div>
 </main>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"株式会社ナタデココ","url":"https://pokemon-card.shop/","email":"natadecoco@pokemon-card.shop","telephone":"+81-4-7170-0605","foundingDate":"2022-12","numberOfEmployees":{"@type":"QuantitativeValue","value":40},"address":{"@type":"PostalAddress","postalCode":"277-0005","addressRegion":"千葉県","addressLocality":"柏市","streetAddress":"柏1-1-11 ファミリかしわ4階","addressCountry":"JP"},"sameAs":["__XURL__"]}</script>

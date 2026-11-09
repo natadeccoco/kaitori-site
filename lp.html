@@ -62,6 +62,11 @@ a{color:inherit}img{max-width:100%}
 .fact .v{display:block;font-size:clamp(18px,2.1vw,26px);line-height:1.1;font-weight:900;color:var(--price);margin-top:4px;font-family:"M PLUS Rounded 1c",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}.fact .v small{font-size:.5em;margin-left:2px;color:var(--ink)}
 .fact .n{display:block;font-size:10px;color:var(--ink-2);margin-top:2px;font-weight:700}
 .hero .stage{position:relative;min-height:440px}
+.stage .brand{position:absolute;left:50%;top:-58%;transform:translateX(-50%);width:min(440px,34vw);text-align:center;z-index:1}
+.stage .brand img{width:100%;display:block;filter:drop-shadow(0 6px 0 rgba(43,58,103,.18))}
+.stage .brand span{display:inline-block;margin-top:2px;background:var(--ink);color:#fff;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(16px,1.6vw,22px);letter-spacing:.14em;padding:8px 26px;border-radius:999px;box-shadow:0 4px 0 #1b2750}
+@media (max-width:760px){.stage .brand{display:none}}
+
 .hero .chan{position:absolute;right:0;bottom:-10px;height:min(480px,46vw);filter:drop-shadow(0 10px 0 rgba(43,58,103,.25));transform-origin:50% 100%;animation:bob 4s ease-in-out infinite;z-index:2}
 .hero .minty{position:absolute;left:0;bottom:2%;width:min(130px,13vw);animation:floaty 3.2s ease-in-out infinite;z-index:3}
 .hero .blob{position:absolute;right:4%;top:4%;width:min(360px,34vw);aspect-ratio:1;background:linear-gradient(135deg,var(--yel),var(--pink) 50%,var(--lav));animation:blob 8s ease-in-out infinite;opacity:.85}
@@ -339,6 +344,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     </div>
   </div>
   <div class="stage">
+    <div class="brand rv"><img src="/logo.png" alt="ナタデココ"><span>かんたん郵送買取</span></div>
     <div class="blob lay" data-depth="-1"></div>
     <div class="badge"><span>送料・手数料</span><b>0円</b><span>すべて無料</span></div>
     <span class="sp" style="right:6%;top:2%">✦</span><span class="sp p" style="left:40%;top:24%">✦</span><span class="sp c" style="right:30%;bottom:10%">✦</span>
@@ -348,7 +354,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <div class="ticker" aria-hidden="true"><span class="lbl">本日の買取価格</span><div class="run">__TICKER____TICKER__</div></div>
 
 <section class="sec tight"><div class="wrap">
-  <div class="sh rv"><span class="no">01</span><h2>こんなとき、<span class="ul">送ってください</span>。</h2><p>お取引はすべてネットで完結。即日査定・送料無料・到着後すぐにお振込み。</p></div>
+  <div class="sh rv"><span class="no">01</span><h2>こんな<span class="ul">お悩み</span>、ありませんか？</h2><p>お取引はすべてネットで完結。即日査定・送料無料・到着後すぐにお振込み。</p></div>
   <div class="pains">
     <div class="pain rv"><img src="/img/chars/fai1.webp" alt=""><span class="chk">Check 1</span><p class="bub">遊ばなくなったカードが、お家にある。</p><p class="a"><b>仕分け不要。スリーブやファイルのままでOK</b>レアリティごとに分けたり、スリーブから出したりしなくて大丈夫。箱に入れて送ってください。</p></div>
     <div class="pain rv d1"><img src="/img/chars/pachiru2.webp" alt=""><span class="chk">Check 2</span><p class="bub">頼れるショップが、近くにない。</p><p class="a"><b>全国どこからでも、着払いで送るだけ</b>千葉・東京・神奈川の8店舗と同じ価格で、専門スタッフが査定します。</p></div>

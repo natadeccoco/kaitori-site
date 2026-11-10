@@ -28,7 +28,7 @@ h2 + .sub{margin:-8px 0 18px;color:var(--ink-2);font-size:14px}
 /* message */
 .msg{background:var(--bg-2);border:3px solid var(--navy);border-radius:22px;padding:26px 28px;display:flex;gap:22px;align-items:flex-start;box-shadow:0 7px 0 var(--navy);position:relative}
 .msg img{width:96px;flex:none}.msg p{margin:0 0 10px;font-size:15.5px}.msg p:last-child{margin:0}.msg .q{font-family:"M PLUS Rounded 1c",sans-serif;font-size:20px;color:var(--navy);margin-bottom:12px}
-.msg .q .ul,.msg .ul{background:linear-gradient(transparent 60%,var(--yel) 60%);font-weight:700}.msg.greet p{margin:0 0 14px}.msg .sign{text-align:right;font-weight:700;color:var(--navy);margin-top:18px!important}
+.msg .q .ul,.msg .ul{background:linear-gradient(transparent 60%,var(--yel) 60%);font-weight:700}.msg.greet p{margin:0 0 14px}.msg .ceo{flex:none;width:280px;text-align:center}.msg .ceo img{width:260px;height:260px;border-radius:50%;object-fit:cover;border:4px solid #fff;box-shadow:0 0 0 3px var(--navy),0 6px 0 3px rgba(23,59,92,.15)}.msg .ceo b{display:inline-block;margin-top:16px;background:var(--yel);color:var(--navy);font-family:"M PLUS Rounded 1c",sans-serif;font-size:20px;padding:6px 20px;border-radius:999px;border:2px solid var(--navy)}.msg .ceo span{display:block;margin-top:10px;font-size:16px;font-weight:700;color:var(--navy);line-height:1.4}@media (max-width:640px){.msg .ceo{width:auto}.msg .ceo img{width:200px;height:200px}}.msg .sign{text-align:right;font-weight:700;color:var(--navy);margin-top:18px!important}
 @media (max-width:640px){.msg{flex-direction:column;align-items:center;padding:22px 18px}.msg img{width:76px}.msg .q{font-size:17px}}
 /* values */
 .vals{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px}@media (max-width:640px){.vals{grid-template-columns:1fr}}
@@ -89,6 +89,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 <main>
 <h2 class="rv"><span class="no">01</span>代表挨拶</h2>
 <div class="msg greet rv">
+  <div class="ceo"><img src="/img/ceo.webp" alt="代表取締役 野田裕介"><b>私が社長です</b><span>代表取締役<br>野田 裕介</span></div>
   <div>
   <p>平素は格別のお引き立てを賜り、誠にありがとうございます。</p>
   <p>株式会社ナタデココは、千葉県柏市の小さな一店舗から始まりました。現在は千葉・東京・神奈川に8店舗を構え、店頭と郵送、そして通販を通じて、毎日たくさんのポケモンカードをお預かりし、お届けしています。</p>

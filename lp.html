@@ -319,7 +319,21 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 .search input{min-width:0}.search button{white-space:nowrap;flex:none}@media (max-width:760px){.search input{height:50px;padding:0 14px;font-size:14px}.search button{height:50px;padding:0 16px;font-size:14px}}
 .pmore{text-align:center;margin:22px 0 6px}.pmore button{font:inherit;font-weight:900;font-size:15px;padding:12px 34px;border:3px solid var(--ink);border-radius:999px;background:var(--cyan,#A9F3F4);color:var(--ink);cursor:pointer;box-shadow:0 5px 0 var(--ink)}.pmore button:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
 </style>
-<style>/* hero = バナーそのまま */
+<style>/* STEPの動き */
+.fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
+.fx1 i{width:7px;height:7px;border-radius:50%;background:#fff;animation:fx1dot 1.2s ease-in-out infinite}.fx1 i:nth-child(2){animation-delay:.2s}.fx1 i:nth-child(3){animation-delay:.4s}
+@keyframes fx1pop{0%,10%{transform:scale(0);opacity:0}20%,80%{transform:scale(1);opacity:1}90%,100%{transform:scale(0);opacity:0}}@keyframes fx1dot{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
+.fx3{position:absolute;left:14px;bottom:10px;width:50px;height:70px;z-index:0}
+.fx3 b{position:absolute;left:4px;top:8px;width:40px;height:56px;border-radius:4px;border:2px solid var(--ink);background:linear-gradient(135deg,var(--pink),var(--cyan) 60%,var(--yel))}
+.fx3 i{position:absolute;left:0;top:0;font-size:26px;font-style:normal;animation:fx3scan 2.6s ease-in-out infinite;filter:drop-shadow(0 2px 0 rgba(0,0,0,.2))}
+.fx3 em{position:absolute;right:-6px;top:-4px;font-style:normal;font-weight:900;font-size:16px;color:#fff;background:#06C755;border:2px solid var(--ink);border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;animation:fx3ok 2.6s ease-in-out infinite}
+@keyframes fx3scan{0%{transform:translate(0,0)}30%{transform:translate(18px,10px)}60%{transform:translate(4px,32px)}85%,100%{transform:translate(22px,36px)}}@keyframes fx3ok{0%,80%{transform:scale(0)}90%,100%{transform:scale(1)}}
+.fx4{position:absolute;right:16px;bottom:14px;width:60px;height:80px;z-index:0}
+.fx4 i{position:absolute;left:50%;bottom:0;width:24px;height:24px;margin-left:-12px;border-radius:50%;background:var(--yel);border:2px solid var(--ink);color:var(--ink);font-style:normal;font-weight:900;font-size:13px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 0 var(--ink);animation:fx4up 2.4s ease-out infinite}.fx4 i:nth-child(2){animation-delay:.8s}.fx4 i:nth-child(3){animation-delay:1.6s}
+.fx4 b{position:absolute;left:50%;top:-6px;transform:translateX(-50%);white-space:nowrap;background:var(--ink);color:#fff;font-size:11px;font-weight:900;border-radius:999px;padding:2px 9px;animation:fx4tag 2.4s ease-in-out infinite}
+@keyframes fx4up{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:1;transform:translateY(-8px) scale(1)}100%{transform:translateY(-56px) scale(.9);opacity:0}}@keyframes fx4tag{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.12)}}
+@media (prefers-reduced-motion:reduce){.fx1,.fx1 i,.fx3 i,.fx3 em,.fx4 i,.fx4 b{animation:none}}
+/* hero = バナーそのまま */
 .hero{padding:24px 0 26px}
 .hero .wrap{display:block;min-height:0;max-width:1180px;margin:0 auto;padding:0 16px}
 .banner{position:relative;aspect-ratio:3/1;border-radius:22px;overflow:hidden;border:3px solid var(--ink);box-shadow:0 8px 0 var(--ink),0 18px 40px rgba(43,58,103,.2);background:linear-gradient(120deg,#FFF9C4 0%,#A9F3F4 55%,#E5D2FF 100%)}
@@ -385,10 +399,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec" id="flow"><div class="wrap">
   <div class="sh rv"><span class="no">03</span><h2>申込から入金まで、<span class="ul">4ステップ</span>。</h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけ。</p></div>
   <div class="flow"><div class="flowline"><i></i></div>
-    <div class="st rv s1"><div class="hd"><span class="n">1</span><img src="/img/chars/chan1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
+    <div class="st rv s1"><div class="hd"><span class="n">1</span><span class="fx1"><i></i><i></i><i></i></span><img src="/img/chars/chan1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
     <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><span class="drop"><i></i><i></i><i></i></span><img src="/img/chars/pachiru1.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>お手持ちの箱でOK。佐川急便の着払いで送料0円<br><small>その他の発送方法でもOK</small></p><span class="t">梱包10分</span></div></div>
-    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><img src="/img/chars/mag.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
-    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><img src="/img/chars/melroot1.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
+    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><span class="fx3"><b></b><i>🔍</i><em>✓</em></span><img src="/img/chars/mag.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
+    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><span class="fx4"><i>¥</i><i>¥</i><i>¥</i><b>入金</b></span><img src="/img/chars/melroot1.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
   </div>
   <div class="ctabox rv"><p class="lead">4ステップで終わります</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">買取価格はカード到着日の買取表の価格で査定します。</p></div>
 </div></section>

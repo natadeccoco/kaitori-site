@@ -187,6 +187,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padd
 #prog{position:fixed;left:0;top:0;height:4px;width:100%;z-index:60;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--pink-2),var(--yel-2),var(--cyan-deep),var(--lav-2));pointer-events:none}
 #fx{position:fixed;inset:0;pointer-events:none;z-index:50}
 .cur{position:fixed;left:0;top:0;pointer-events:none;z-index:70;transform:translate(-50%,-50%);animation:curfade .8s forwards;width:18px;height:18px}
+.cur.logo{width:min(280px,42vw)!important;height:auto!important;animation:logopop 1.5s cubic-bezier(.2,.8,.2,1) forwards;z-index:71;filter:drop-shadow(0 6px 0 rgba(43,58,103,.2))}@keyframes logopop{0%{opacity:0;transform:translate(-50%,-50%) scale(.3) rotate(-8deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.08) rotate(2deg)}70%{opacity:1;transform:translate(-50%,-60%) scale(1)}100%{opacity:0;transform:translate(-50%,-90%) scale(.9)}}
 .cur.star{width:auto;height:auto;font-size:18px;line-height:1;color:#FFE86B;text-shadow:0 0 6px #fff,0 1px 0 #2B3A67}
 .cur.bub{border-radius:50%;border:2px solid #fff;box-shadow:0 2px 0 rgba(43,58,103,.35);background:radial-gradient(circle at 35% 30%,#fff 0 18%,var(--c) 20% 70%,rgba(255,255,255,0) 72%)}
 .cur.bub.p{--c:#FFB3DC}.cur.bub.c{--c:#9DE9EE}.cur.bub.l{--c:#D4BDFF}.cur.bub.y{--c:#FFE98A}
@@ -549,7 +550,10 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   document.querySelectorAll('.btn.g').forEach(function(b){b.addEventListener('mouseenter',function(e){if(reduce)return;var r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,18,true)});
     if(fine&&!reduce){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;b.style.transform='translate('+(x*10)+'px,'+(y*8)+'px) scale(1.03)';});b.addEventListener('mouseleave',function(){b.style.transform=''});}});
   // カーソルのキラキラ（PCのみ）
-  if(fine&&!reduce){var last=0,curKinds=['bub p','bub c','bub l','bub y','star','cube','bub p','bub c'],ci=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');var k=curKinds[ci++%curKinds.length];d.className='cur '+k;if(k==='star')d.textContent='✦';d.style.left=(e.clientX+(Math.random()-.5)*10)+'px';d.style.top=(e.clientY+(Math.random()-.5)*10)+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},800);});}
+  if(fine&&!reduce){var last=0,curKinds=['bub p','bub c','bub l','bub y','star','bub p','bub c','bub l'],ci=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');var k=curKinds[ci++%curKinds.length];d.className='cur '+k;if(k==='star')d.textContent='✦';d.style.left=(e.clientX+(Math.random()-.5)*10)+'px';d.style.top=(e.clientY+(Math.random()-.5)*10)+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},800);});
+    // すごく動かすとロゴがポンと出る
+    var px=null,py=null,dist=0,dT=0,logoLast=0;addEventListener('mousemove',function(e){var t=Date.now();if(px!==null){if(t-dT>400){dist=0;}dist+=Math.hypot(e.clientX-px,e.clientY-py);}px=e.clientX;py=e.clientY;dT=t;
+      if(dist>2200&&t-logoLast>4000){logoLast=t;dist=0;var im=document.createElement('img');im.className='cur logo';im.src=''+document.querySelector('.top .logo img, header img').getAttribute('src')+'';im.alt='';im.style.left=e.clientX+'px';im.style.top=e.clientY+'px';document.body.appendChild(im);if(typeof burst==='function')burst(e.clientX,e.clientY,24,true);setTimeout(function(){im.remove()},1500);}});}
 
   // ---------- 楽しい仕掛け ----------
   var fanImgs=[].slice.call(document.querySelectorAll('.fan .fc img')).map(function(i){return i.src});

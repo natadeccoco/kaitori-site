@@ -497,6 +497,7 @@ for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=poo
 var at=function(i){return pool[i%pool.length]};
 var fan=document.querySelectorAll('.fan .fc img');fan.forEach(function(im,i){im.src=at(i).img;});
 var cb=document.querySelectorAll('#intro .cb img.ft');cb.forEach(function(im,i){im.src=at(fan.length+i).img;});
+document.querySelectorAll('.drop i').forEach(function(el,i){el.style.backgroundImage='url("'+at(i+20).img+'")';el.style.backgroundSize='cover';el.style.backgroundPosition='center';});var f3=document.querySelector('.fx3 b');if(f3){f3.style.backgroundImage='url("'+at(23).img+'")';f3.style.backgroundSize='cover';f3.style.backgroundPosition='center';}
 var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=at(i);a.href=a.href.replace(/\/card\/[^\/]+\//,'/card/'+encodeURIComponent(r.id)+'/');var im=a.querySelector('img');if(im)im.src=r.img;var b=a.querySelector('b'),e=a.querySelector('em');if(b)b.textContent=r.n;if(e)e.textContent=r.p;});
 }catch(e){}})();
 </script>

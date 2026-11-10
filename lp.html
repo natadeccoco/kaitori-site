@@ -320,6 +320,32 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 .pchips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:-14px 0 22px}.pchips button{font:inherit;font-weight:900;font-size:13px;padding:8px 18px;border:3px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 3px 0 var(--ink);transition:transform .1s}.pchips button:hover{transform:translateY(-2px)}.pchips button.on{background:var(--yel-2);box-shadow:0 1px 0 var(--ink);transform:translateY(2px)}
 .search input{min-width:0}.search button{white-space:nowrap;flex:none}@media (max-width:760px){.search input{height:50px;padding:0 14px;font-size:14px}.search button{height:50px;padding:0 16px;font-size:14px}}
 .pmore{text-align:center;margin:22px 0 6px}.pmore button{font:inherit;font-weight:900;font-size:15px;padding:12px 34px;border:3px solid var(--ink);border-radius:999px;background:var(--cyan,#A9F3F4);color:var(--ink);cursor:pointer;box-shadow:0 5px 0 var(--ink)}.pmore button:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+
+/* 05 4つの約束 */
+.pgrid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}@media (max-width:960px){.pgrid4{grid-template-columns:repeat(2,1fr)}}@media (max-width:560px){.pgrid4{grid-template-columns:1fr;gap:14px}}
+.pm4{background:#fff;border:3px solid var(--ink);border-radius:22px;box-shadow:0 7px 0 var(--ink);overflow:hidden;text-align:center;padding:0 18px 22px;transition:transform .2s}.pm4:hover{transform:translateY(-5px)}
+.pm4 .hd{position:relative;height:118px;margin:0 -18px 54px;border-bottom:3px solid var(--ink);background:repeating-linear-gradient(135deg,rgba(255,255,255,.35) 0 12px,transparent 12px 26px)}
+.pm4.g .hd{background-color:#9EDB8A}.pm4.y .hd{background-color:#F3D55A}.pm4.r .hd{background-color:#F59A8C}.pm4.b .hd{background-color:#94C6F2}
+.pm4 .k{display:inline-block;margin-top:14px;background:var(--ink);color:#fff;font-weight:900;font-size:15px;letter-spacing:.08em;padding:6px 20px;border-radius:999px}
+.pm4 .av{position:absolute;left:50%;bottom:-46px;transform:translateX(-50%);width:92px;height:92px;border-radius:50%;background:#fff;border:3px solid var(--ink);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pm4 .av img{width:88%;height:88%;object-fit:contain;animation:floaty 3.4s ease-in-out infinite}
+.pm4 b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:27px;line-height:1.25;margin:0 0 10px;letter-spacing:.01em}
+.pm4 b em{display:block;font-style:normal;font-size:.8em}
+.pm4.g b{color:#2E9C3A}.pm4.y b{color:#D99A00}.pm4.r b{color:#E0472F}.pm4.b b{color:#3A82D6}
+.pm4 small{display:block;font-size:13px;color:var(--ink-2);line-height:1.7;font-weight:700}
+.pm4 hr{border:0;border-top:2px dashed #cfd6e6;margin:14px 0 12px}
+.pm4 .ex{font-size:12.5px;color:var(--ink-2);line-height:1.7;font-weight:700;margin:0}.pm4 .ex strong{display:block;color:var(--ink);font-size:13.5px}
+.pm4 .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:0 0 12px}.pm4 .tags i{font-style:normal;font-size:12px;font-weight:900;color:#B07A00;border:2px solid #E8B400;border-radius:999px;padding:2px 10px;background:#FFF9DF}
+@media (max-width:560px){.pm4 b{font-size:23px}}
+/* 02 写真 */
+.pics.photo{display:flex;align-items:center;justify-content:center}.pics.photo img{position:static;width:100%;max-width:118px;height:88px;aspect-ratio:auto;object-fit:cover;border-radius:10px;border:3px solid #fff;transform:rotate(-3deg)}.it:hover .pics.photo img{transform:rotate(0) scale(1.05)}
+/* 06 スタッフ丸アイコン */
+.tcard:has(img.av) h3{padding-right:84px;min-height:64px}.tcard img.av{height:78px;width:78px;border-radius:50%;border:3px solid var(--ink);background:#fff;filter:none;box-shadow:0 4px 0 rgba(43,58,103,.2)}
+/* 03 新キャラ */
+.st .hd{height:150px}.st .hd img{height:138px}.st.s3 .hd img{animation:stwalk 1.6s ease-in-out infinite}.st.s4 .hd img{animation:stlook 3s ease-in-out infinite}
+@keyframes stwalk{0%,100%{transform:translateX(-4px) rotate(-2deg)}25%{transform:translate(0,-6px) rotate(0)}50%{transform:translateX(4px) rotate(2deg)}75%{transform:translate(0,-6px) rotate(0)}}@keyframes stlook{0%,100%{transform:rotate(0)}30%{transform:rotate(-3deg) translateY(-3px)}60%{transform:rotate(2deg)}}
+@media (prefers-reduced-motion:reduce){.st .hd img{animation:none!important}}
+@media (max-width:560px){.st .hd img{height:104px}}
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -343,7 +369,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 .banner .ch{position:absolute;pointer-events:none;filter:drop-shadow(0 .6vw 0 rgba(43,58,103,.22))}
 .banner .ch.chan{right:1.7%;bottom:-4%;height:87%;width:auto;transform-origin:50% 100%;animation:bchan 4s ease-in-out infinite}
 .banner .ch.minty{right:25.6%;bottom:20%;width:7.8%;height:auto;animation:bminty 3s ease-in-out infinite}
-.banner .hot{position:absolute;left:51.5%;bottom:8%;width:23%;height:16%;border-radius:999px}
+.banner .hot{position:absolute;left:35.5%;top:76.3%;width:24.4%;height:17%;border-radius:999px;transition:transform .2s,background .2s}.banner .hot.find{left:8.3%;top:77%;width:24.6%;height:15%}.banner .hot:hover{background:rgba(255,255,255,.18)}
 @keyframes bchan{0%,100%{transform:translateY(0) rotate(0)}20%{transform:translateY(0) scale(1.03,.97)}30%{transform:translateY(-3.5%) rotate(-2deg)}40%{transform:translateY(0) scale(1.03,.97)}50%{transform:translateY(-1.8%) rotate(2deg)}60%{transform:translateY(0)}}
 @keyframes bminty{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-10%) rotate(3deg)}}
 .hero .cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
@@ -362,14 +388,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 
 <section class="hero"><div class="wrap">
   <div class="banner rv">
-    <img class="bg" src="/banner.jpg?v=4" alt="ポケカ 送るだけ買取">
+    <img class="bg" src="/img/banner_lp.jpg?v=1" alt="ポケカ 送るだけ買取">
     <img class="ch chan" src="/img/banner_chan.webp" alt="">
-    <img class="ch minty" src="/img/banner_minty.webp" alt="">
     <a class="hot" href="__LINE_ADD__" target="_blank" rel="noopener" aria-label="LINEで申込"></a>
-  </div>
-  <div class="cta rv d1" id="heroCta">
-    <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで申込！ <span class="ar">→</span></a>
-    <a class="btn o" href="/">🔍 買取価格を調べる</a>
+    <a class="hot find" href="/" aria-label="買取価格を調べる"></a>
   </div>
   <p class="micro rv d1">友だち追加→リッチメニューから申込→箱に詰めて送るだけ。</p>
 </div></section>
@@ -378,10 +400,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec tight"><div class="wrap">
   <div class="sh rv"><span class="no">01</span><h2>こんな<span class="ul">お悩み</span>、ありませんか？</h2><p>お取引はすべてネットで完結。即日査定・送料無料・到着後すぐにお振込み。</p></div>
   <div class="pains">
-    <div class="pain rv"><img src="/img/chars/fai1.webp" alt=""><span class="chk">Check 1</span><p class="bub">遊ばなくなったカードが、お家にある。</p><p class="a"><b>仕分け不要。スリーブやファイルのままでOK</b>レアリティごとに分けたり、スリーブから出したりしなくて大丈夫。箱に入れて送ってください。</p></div>
-    <div class="pain rv d1"><img src="/img/chars/pachiru2.webp" alt=""><span class="chk">Check 2</span><p class="bub">頼れるショップが、近くにない。</p><p class="a"><b>全国どこからでも、着払いで送るだけ</b>千葉・東京・神奈川の8店舗と同じ価格で、専門スタッフが査定します。</p></div>
-    <div class="pain rv d2"><img src="/img/chars/amery1.webp" alt=""><span class="chk">Check 3</span><p class="bub">フリマサイトに出品するのが大変。</p><p class="a"><b>まとめて1回、手数料なし</b>撮影・出品・値下げ交渉・発送のやり取りはありません。1枚ずつこちらで検品します。</p></div>
-    <div class="pain rv d3"><img src="/img/chars/melroot2.webp" alt=""><span class="chk">Check 4</span><p class="bub">発送前に、いくらで売れるのか知りたい。</p><p class="a"><b>送る前に買取表で価格が分かる。納得できなければ返送無料</b>買取表は毎日更新。送る前に買取表で価格をチェックしてください。買取表にないカードはそのまま送っていただくか、LINEでお問い合わせください。減額に納得できなければキャンセル無料です。</p></div>
+    <div class="pain rv"><img src="/img/chars/minty1.webp" alt=""><span class="chk">Check 1</span><p class="bub">遊ばなくなったカードが、お家にある。</p><p class="a"><b>仕分け不要。スリーブやファイルのままでOK</b>レアリティごとに分けたり、スリーブから出したりしなくて大丈夫。箱に入れて送ってください。</p></div>
+    <div class="pain rv d1"><img src="/img/chars/pachiru1.webp" alt=""><span class="chk">Check 2</span><p class="bub">頼れるショップが、近くにない。</p><p class="a"><b>全国どこからでも、着払いで送るだけ</b>千葉・東京・神奈川の8店舗と同じ価格で、専門スタッフが査定します。</p></div>
+    <div class="pain rv d2"><img src="/img/chars/fai1.webp" alt=""><span class="chk">Check 3</span><p class="bub">フリマサイトに出品するのが大変。</p><p class="a"><b>まとめて1回、手数料なし</b>撮影・出品・値下げ交渉・発送のやり取りはありません。1枚ずつこちらで検品します。</p></div>
+    <div class="pain rv d3"><img src="/img/chars/amery1.webp" alt=""><span class="chk">Check 4</span><p class="bub">発送前に、いくらで売れるのか知りたい。</p><p class="a"><b>送る前に買取表で価格が分かる。納得できなければ返送無料</b>買取表は毎日更新。送る前に買取表で価格をチェックしてください。買取表にないカードはそのまま送っていただくか、LINEでお問い合わせください。</p></div>
   </div>
 </div></section>
 
@@ -392,8 +414,8 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
     <a class="it rv d1" href="/cat/box/"><span class="pics">__PICS_box_2__</span><span class="tx"><b>未開封BOX・パック</b><span>BOX・スペシャルBOX・<br>パックなど買取します</span></span><i class="ch">›</i></a>
     <a class="it rv d2" href="/cat/psa/"><span class="pics">__PICS_psa_2__</span><span class="tx"><b>鑑定品</b><span>PSA・BGS・ARS<br>PSA9以下もOK</span></span><i class="ch">›</i></a>
     <a class="it rv d3" href="/cat/old/"><span class="pics three">__PICS_old_3__</span><span class="tx"><b>旧裏・旧弾</b><span>1996年〜の旧裏面<br>e・ADV・PCG・DPも</span></span><i class="ch">›</i></a>
-    <a class="it rv d4" href="/cat/misc/"><span class="pics sup"><i class="mat"></i><i class="case"></i><i class="slv"></i></span><span class="tx"><b>サプライ・グッズ</b><span>プレイマット・スリーブ<br>デッキケースなども買取</span></span><i class="ch">›</i></a>
-    <a class="it rv d4 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics three">__PICS_kyu_3__</span><span class="tx"><b>大量・まとめ売り</b><span>仕分け不要。スリーブやファイルのまま<br>箱に詰めて送ってください</span></span><i class="ch">›</i></a>
+    <a class="it rv d4" href="/cat/misc/"><span class="pics photo"><img src="/img/supply.webp" alt="サプライ・グッズ" loading="lazy"></span><span class="tx"><b>サプライ・グッズ</b><span>プレイマット・スリーブ<br>デッキケースなども買取</span></span><i class="ch">›</i></a>
+    <a class="it rv d4 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics photo"><img src="/img/bulk.webp" alt="大量・まとめ売り" loading="lazy"></span><span class="tx"><b>大量・まとめ売り</b><span>仕分け不要。スリーブやファイルのまま<br>箱に詰めて送ってください</span></span><i class="ch">›</i></a>
   </div>
   <p class="cap">価格表にないものも買取できます。迷ったらLINEで写真を送ってください。</p>
 </div></section>
@@ -401,10 +423,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec" id="flow"><div class="wrap">
   <div class="sh rv"><span class="no">03</span><h2>申込から入金まで、<span class="ul">4ステップ</span>。</h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけ。</p></div>
   <div class="flow"><div class="flowline"><i></i></div>
-    <div class="st rv s1"><div class="hd"><span class="n">1</span><span class="fx1"><i></i><i></i><i></i></span><img src="/img/chars/chan1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
-    <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><span class="drop"><i></i><i></i><i></i></span><img src="/img/chars/pachiru1.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>お手持ちの箱でOK。佐川急便の着払いで送料0円<br><small>その他の発送方法でもOK</small></p><span class="t">梱包10分</span></div></div>
-    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><span class="fx3"><b></b><i>🔍</i><em>✓</em></span><img src="/img/chars/mag.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
-    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><span class="fx4"><i>¥</i><i>¥</i><i>¥</i><b>入金</b></span><img src="/img/chars/melroot1.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
+    <div class="st rv s1"><div class="hd"><span class="n">1</span><span class="fx1"><i></i><i></i><i></i></span><img src="/img/step1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
+    <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><img src="/img/step2.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>お手持ちの箱でOK。佐川急便の着払いで送料0円<br><small>その他の発送方法でもOK</small></p><span class="t">梱包10分</span></div></div>
+    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><img src="/img/step3.webp" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
+    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><span class="fx4"><i>¥</i><i>¥</i><i>¥</i><b>入金</b></span><img src="/img/step4.webp" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
   </div>
   <div class="ctabox rv"><p class="lead">4ステップで終わります</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">買取価格はカード到着日の買取表の価格で査定します。</p></div>
 </div></section>
@@ -413,7 +435,6 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 <section class="sec prices" id="prices"><div class="wrap">
   <div class="sh rv"><span class="no">04</span><h2><span class="ul">強化買取中</span>のカード。</h2><p>いま特に力を入れて買い取っているカードです。__UPDATED__ 時点の買取価格（美品の場合）。お手元のカードは検索で調べられます。</p></div>
   <form class="search rv" action="/" method="get"><input type="search" name="q" placeholder="カード名・型番で価格を調べる（例：リザードン）" aria-label="カード名・型番"><button type="submit">調べる</button></form>
-  <div class="pchips rv" id="pchips"><button type="button" class="on" data-k="all">すべて</button><button type="button" data-k="single">シングル</button><button type="button" data-k="psa">PSA鑑定品</button></div>
   <div class="pgrid" id="pgrid">__TOP__</div>
   <div class="pmore"><button type="button" id="pmore">もっと見る（＋30枚）</button></div>
   <div class="ctabox rv"><p class="lead">この価格で送れます</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a><a class="btn o" href="/">__COUNT__枚の価格表を見る</a></div></div>
@@ -421,16 +442,12 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 </div></section>
 
 <section class="sec cmp" id="terms"><div class="wrap">
-  <div class="sh rv"><span class="no">05</span><h2>郵送買取の<span class="ul">条件</span>。</h2><p>送る前に知っておきたいことをまとめました。</p></div>
-  <div class="tmgrid">
-    <div class="tcd rv d0 y"><span class="ic">💴</span><span class="k">買取価格</span><b>店頭と同じ価格</b><small>価格表は毎日更新。郵送はカード到着日の価格で査定</small></div>
-    <div class="tcd rv d1 c"><span class="ic">📦</span><span class="k">送料</span><b>無料（着払い）</b><small>佐川急便。レターパック・ヤマトも可</small></div>
-    <div class="tcd rv d2 p"><span class="ic">🧾</span><span class="k">査定料・キャンセル料・振込手数料</span><b>すべて無料</b><small>買取金額から差し引くこともありません</small></div>
-    <div class="tcd rv d3 l"><span class="ic">↩️</span><span class="k">減額に納得できないとき</span><b>キャンセル無料</b><small>返送料も当店負担</small></div>
-    <div class="tcd rv d0 y"><span class="ic">⚡</span><span class="k">入金</span><b>最短当日</b><small>本査定の承諾・本人確認のあと</small></div>
-    <div class="tcd rv d1 c"><span class="ic">📱</span><span class="k">本人確認</span><b>スマホで完結（eKYC）</b><small>顔写真付き身分証。郵送は不要</small></div>
-    <div class="tcd rv d2 p"><span class="ic">🗂️</span><span class="k">同じカードが多いとき</span><b>在庫状況により減額の場合あり</b><small>枚数が多いときは先にLINEでご相談を</small></div>
-    <div class="tcd rv d3 l"><span class="ic">🔍</span><span class="k">価格表にないカード</span><b>買取可</b><small>そのまま送っていただくか、LINEでお問い合わせください</small></div>
+  <div class="sh rv"><span class="no">05</span><h2>郵送買取、<span class="ul">4つの約束</span>。</h2><p>店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。はじめてでも安心して送れます。</p></div>
+  <div class="pgrid4">
+    <div class="pm4 g rv d0"><div class="hd"><span class="k">買取価格</span><span class="av"><img src="/img/chars/minty2.webp" alt=""></span></div><b>店頭と同じ価格</b><small>価格表は毎日更新。郵送はカード到着日の価格で査定</small><hr><p class="ex"><strong>価格表にないカードも買取OK</strong>そのまま送るか、LINEでお問い合わせください</p></div>
+    <div class="pm4 y rv d1"><div class="hd"><span class="k">手数料</span><span class="av"><img src="/img/chars/pachiru2.webp" alt=""></span></div><b>すべて無料</b><span class="tags"><i>送料（着払い）</i><i>査定料</i><i>振込手数料</i><i>キャンセル料</i></span><small>減額に納得できなければキャンセル可。返送料も当店負担</small></div>
+    <div class="pm4 r rv d2"><div class="hd"><span class="k">本人確認</span><span class="av"><img src="/img/chars/fai2.webp" alt=""></span></div><b>スマホで完結<em>（eKYC）</em></b><small>顔写真付き身分証で。郵送は不要</small></div>
+    <div class="pm4 b rv d3"><div class="hd"><span class="k">入金</span><span class="av"><img src="/img/chars/amery2.webp" alt=""></span></div><b>最短当日</b><small>本査定の承諾・本人確認のあと、すぐにお振込み</small></div>
   </div>
 </div></section>
 
@@ -439,13 +456,13 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
   <div class="mosaic"><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.00s"><img src="/img/stores/kashiwa.jpg" alt="柏本店" loading="lazy"><span><small>千葉</small>柏本店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.06s"><img src="/img/stores/matsudo.jpg" alt="松戸店" loading="lazy"><span><small>千葉</small>松戸店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.12s"><img src="/img/stores/tsudanuma.jpg" alt="津田沼店" loading="lazy"><span><small>千葉</small>津田沼店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.18s"><img src="/img/stores/chibachuo.jpg" alt="千葉中央店" loading="lazy"><span><small>千葉</small>千葉中央店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.24s"><img src="/img/stores/nakano.jpg" alt="中野店" loading="lazy"><span><small>東京</small>中野店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.30s"><img src="/img/stores/odaiba.jpg" alt="お台場店" loading="lazy"><span><small>東京</small>お台場店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.36s"><img src="/img/stores/machida.jpg" alt="町田店" loading="lazy"><span><small>東京</small>町田店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.42s"><img src="/img/stores/yokohama.jpg" alt="横浜店" loading="lazy"><span><small>神奈川</small>横浜店</span></a></div>
   <div class="tgrid">
     <div class="tcard rv"><div class="seal">古物商<br>許可</div><h3>古物営業法にもとづく許可店</h3><p>__LICENSE__</p><small>古物営業法により、本人確認（eKYC）を行っています。身分証の郵送は不要です。</small></div>
-    <div class="tcard rv d1"><img src="/img/chars/mag.webp" alt=""><h3>専門スタッフが<b>1枚ずつ</b>検品</h3><p>毎日お店でポケカを見ているスタッフが、裏面の白かけ・スレ・反りまで1枚ずつ確認します。</p><small>減額がある場合は、どのカードがなぜ減額かをお伝えします。</small></div>
-    <div class="tcard rv d2"><img id="seasonChar" src="/img/chars/chan3.webp" alt=""><h3>価格表は<b>毎日</b>更新</h3><p>相場に合わせて毎朝更新。<span data-count2="__COUNT__">__COUNT__</span>枚の買取価格を、送る前にWebで確認できます。</p><small>店頭に持ち込んでも、郵送でも同じ価格です。</small></div>
+    <div class="tcard rv d1"><img class="av" src="/img/staff_card.webp" alt=""><h3>専門スタッフが<b>1枚ずつ</b>検品</h3><p>毎日お店でポケカを見ているスタッフが、裏面の白かけ・スレ・反りまで1枚ずつ確認します。</p><small>減額がある場合は、どのカードがなぜ減額かをお伝えします。</small></div>
+    <div class="tcard rv d2"><img class="av" src="/img/staff_pc.webp" alt=""><h3>価格表は<b>毎日</b>更新</h3><p>相場に合わせて毎朝更新。<span data-count2="__COUNT__">__COUNT__</span>枚の買取価格を、送る前にWebで確認できます。</p><small>店頭に持ち込んでも、郵送でも同じ価格です。</small></div>
   </div>
 </div></section>
 
 <section class="sec"><div class="wrap">
-  <div class="sh rv"><span class="no">07</span><h2>LINEを追加したら、<span class="ul">こうなります</span>。</h2><p>届くのは査定のやり取りと、買取強化のお知らせだけ。いつでもブロックできます。</p></div>
+  <div class="sh rv"><span class="no">07</span><h2>LINEを追加したら、<span class="ul">こうなります</span>。</h2><p>届くのは査定のやり取りと、買取強化のお知らせだけ。</p></div>
   <div class="after">
     <div class="af rv"><span class="n">1</span><h3>友だち追加</h3><p>あいさつと、リッチメニューが表示されます。</p><div class="chat"><div class="b">友だち追加ありがとうございます🙌 郵送買取は下のメニュー「宅配買取」からお申込みください。</div></div></div>
     <div class="af rv d1"><span class="n">2</span><h3>リッチメニューから申込</h3><p>「宅配買取」を押して、案内に沿って申込内容を送ります。</p><div class="chat"><div class="b me">【宅配買取 申込】<br>お名前・点数・送る予定日を送信</div></div></div>
@@ -473,7 +490,7 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 
 <div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#2B3A67"/></svg></div>
 <section class="sec final"><div class="bg"></div><div class="wrap">
-  <div class="chars rv"><img src="/img/chars/melroot1.webp" alt=""><img src="/img/chars/chan2.webp" alt=""><img src="/img/chars/bachira.webp" alt=""></div>
+  <div class="chars rv"><img src="/img/chars/chan2.webp" alt=""></div>
   <h2 class="rv d1">迷ったら、まず写真を<br class="sp-only">送ってください。</h2>
   <p class="rv d2">1枚からOK。査定は無料、納得できなければ返送も無料です。</p>
   <div class="cta rv d3">

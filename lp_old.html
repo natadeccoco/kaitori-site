@@ -1,7 +1,7 @@
 <title>__TITLE__</title>
 __HEAD__
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Sans:wght@700;900&family=DotGothic16&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Sans:wght@700;900&family=DotGothic16&family=Press+Start+2P&display=swap">
 <style>
 :root{--bg:#FBFDFF;--ink:#2B3A67;--ink-2:#5A6B76;--ink-3:#8C9AA3;--line:#E6EEF2;--cyan:#A9F3F4;--cyan-2:#5FD8DF;--cyan-deep:#1FA8B8;--pink:#FFB8DC;--pink-2:#FF7FB2;--yel:#FFE86B;--yel-2:#F7D31A;--lav:#DCCBFF;--lav-2:#C4A8F0;--mint:#C9F7D5;--price:#E23B47;--line-green:#06C755;--navy:#173B5C}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
@@ -458,6 +458,74 @@ footer{background:linear-gradient(180deg,#FFE7B0,#DCE8FA)}
 .r3 .im img{border-radius:8px;border:3px solid #fff;box-shadow:0 0 0 2px var(--ink)}
 .st.s1 .hd{background:linear-gradient(160deg,#FFF1CF,#FFE07A)}.st.s3 .hd{background:linear-gradient(160deg,#FFE3DC,#F7B7A8)}.st.s4 .hd{background:linear-gradient(160deg,#E3ECFB,#BFD6F6)}.st.s5 .hd{background:linear-gradient(160deg,#E6F3DC,#BFE0A8)}
 .catstrip li{border-radius:8px}.catstrip li.hl{background:#FFE07A}
+
+/* ===== 旧裏：ドット液晶（携帯ゲーム機）テーマ ===== */
+:root{--gb0:#0F380F;--gb1:#306230;--gb2:#8BAC0F;--gb3:#9BBC0F;--gbl:#CADC9F;--body:#C9C6BC;--mg:#9A2257;
+ --bg:#E4E6D6;--ink:#0F380F;--navy:#0F380F;--ink-2:#2E4A22;--ink-3:#5B7448;--price:#0F380F;--yel:#9BBC0F;--yel-2:#8BAC0F;--pink-2:#9A2257;--cyan-deep:#306230;--lav:#CADC9F;--wm:"1996";--wmc:rgba(15,56,15,.07)}
+body{background-color:#E4E6D6;background-image:radial-gradient(rgba(15,56,15,.10) 1px,transparent 1.2px);background-size:8px 8px}
+.pix,.sh h2,.final h2,.r3 em,.pc em,.catstrip li,.btn.o,.pain .bub,.it b,.st h3,.pm4 b,.tcard h3,.af h3,.sp4 h3,.clist h3,.otip h3,.faq summary,.ticker b,.ticker em,.ctabox .lead{font-family:"DotGothic16",monospace!important;font-weight:400!important}
+.sh .no,.r3 .cr,.pain .chk,.otip .tg,.st .n,.af .n{font-family:"Press Start 2P",monospace!important;font-weight:400!important;letter-spacing:0}
+.sh .no{background:var(--mg);color:#fff;border-radius:0;box-shadow:4px 4px 0 var(--gb0);font-size:10px;padding:6px 10px}
+.sh h2{letter-spacing:.02em}.sh h2 .ul{background:linear-gradient(transparent 55%,var(--gb3) 55%,var(--gb3) 95%,transparent 95%)}
+.top{background:var(--body);box-shadow:0 3px 0 var(--gb0)}
+.top nav a{font-family:"DotGothic16",monospace;font-weight:400;font-size:14px}
+#prog{background:var(--gb1)}
+#intro{background:var(--gb3)}#intro .t{font-family:"DotGothic16",monospace;font-weight:400;color:var(--gb0)}
+#intro .cb{background:linear-gradient(135deg,var(--gbl),var(--gb2));border-radius:4px}
+.hero{background:var(--body)}.hero:before{background:radial-gradient(rgba(0,0,0,.06) 1px,transparent 1.2px) 0 0/6px 6px}
+.banner{background:var(--body);border-radius:10px}
+.banner .prods{left:67%;top:8%;width:13%;height:58%}
+.banner .prods img{width:62%;border-radius:4px;border-color:var(--gbl)}
+.banner .stamp{background:var(--mg);border-radius:50%;font-family:"Press Start 2P",monospace}.banner .stamp b{font-family:"DotGothic16",monospace;font-weight:400}
+.micro{font-family:"DotGothic16",monospace;font-weight:400}
+.catstrip li{border-radius:0;background:var(--gbl);box-shadow:4px 4px 0 var(--gb0)}.catstrip li.hl{background:var(--gb3)}
+.ticker{background:var(--gb0);border-color:var(--gb2)}.ticker .lbl{background:var(--gb3);color:var(--gb0)}.ticker em{color:var(--gb3)!important}.ticker b{color:var(--gbl)}
+/* 角を四角く・ドットの影 */
+.pain,.it,.st,.pm4,.tcard,.af,.sp4,.r3 a,.clist li,.otip,.pc .face,.pc .im,.shop,.faq details,.search input,.search button,.pmore button,.pchips button,.chat,.chat .b,.zero,.pain .bub,.pm4 .av,.tcard img.av{border-radius:0!important}
+.pain,.it,.st,.pm4,.tcard,.af,.sp4,.r3 a,.shop,.faq details{box-shadow:6px 6px 0 var(--gb0)!important}
+.pc .face{box-shadow:4px 4px 0 var(--gb0)!important}
+.btn.o{border-radius:0;border-color:var(--gb0);box-shadow:6px 6px 0 var(--gb0);background:var(--gbl);color:var(--gb0)}
+.btn.g{border-radius:999px}
+.pain .chk{background:var(--gb3);border-radius:0;font-size:9px;padding:6px 8px}
+.pain .bub{background:var(--gbl);border:2px solid var(--gb0)}.pain .bub:after{border-top-color:var(--gbl)}
+.pain .a b{color:var(--gb0)}
+/* セクション背景 */
+.sec.items{background:linear-gradient(180deg,#DDE3C6,#E4E6D6)}
+.sec.cmp{background:#DCE2C3}
+.it.big{background:var(--gb3)}
+.st.s1 .hd{background:var(--gbl)}.st.s3 .hd{background:#B7CC7A}.st.s4 .hd{background:var(--gb3)}.st.s5 .hd{background:#ADC25A}
+.st .hd{background-image:repeating-linear-gradient(0deg,rgba(15,56,15,.06) 0 2px,transparent 2px 4px)!important}
+.flowline{background:var(--gbl)}.flowline i{background:repeating-linear-gradient(90deg,var(--gb0) 0 10px,var(--gb1) 10px 20px)}
+.sec.prices{background:#F0F1E6}
+.pc .im{background:var(--gbl)}
+.pchips button.on{background:var(--gb0);color:var(--gb3)}
+.pm4 .hd{background-color:var(--gb3)!important}.pm4.g .hd{background-color:#B7CC7A!important}.pm4.r .hd{background-color:#ADC25A!important}.pm4.b .hd{background-color:var(--gbl)!important}
+.pm4 b,.pm4.g b,.pm4.y b,.pm4.r b,.pm4.b b{color:var(--gb0)!important}.pm4 .tags i{border-color:var(--gb1);color:var(--gb0);background:var(--gbl);border-radius:0}
+.tcard:before{background:var(--gb3)}
+.tcard h3 b{color:var(--mg)}
+.chat{background:#7F9A62}
+.faq summary .q{background:var(--mg);border-radius:0}
+/* TOP3・チェックをゲーム画面ふうに */
+.sec.rank3,.sec.chk{background:var(--gb3)!important;position:relative}
+.sec.rank3:before,.sec.chk:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(15,56,15,.07) 0 2px,transparent 2px 4px),repeating-linear-gradient(90deg,rgba(15,56,15,.05) 0 2px,transparent 2px 4px);pointer-events:none;z-index:0}
+.sec.chk>.wrap{position:relative;z-index:1}
+.sec.rank3 .sh p,.sec.chk .sh p{color:var(--gb0)}
+.r3 a{background:var(--gbl)}.r3 .cr{border-radius:0;background:var(--gbl)}.r3 a:nth-child(1) .cr{background:#fff}.r3 a:nth-child(1) .cr:before{content:"\25B6  "}.r3 a:nth-child(3) .cr{background:#B7CC7A}
+.r3 .im img{border:3px solid var(--gb0);box-shadow:none}
+.cardill .cd{background:var(--gbl);border-radius:0;box-shadow:8px 8px 0 var(--gb0)}
+.cardill .art{border-radius:0;background:linear-gradient(135deg,var(--gb3),#fff 45%,var(--gb2))}
+.cardill .ln{background:rgba(15,56,15,.3);border-radius:0}
+.cardill .pt,.clist li>b{background:var(--mg);border-radius:0;font-family:"Press Start 2P",monospace;font-size:11px}
+.clist li{background:var(--gbl);box-shadow:4px 4px 0 var(--gb0)}
+.otip{background:var(--gbl);border-color:var(--gb0)}.otip .tg{background:var(--gb0);color:var(--gb3);font-size:10px}
+/* 最後のCTA */
+.sec.final{background:var(--gb0)}.wave:has(+.sec.final) path{fill:#0F380F}
+.final h2,.final p{color:var(--gb3)}
+.final .qr{border-radius:0}
+footer{background:var(--body)}
+/* 点滅カーソル */
+.sh h2:after{content:"_";display:inline-block;margin-left:.1em;color:var(--mg);animation:gbblink 1s steps(1) infinite}
+@keyframes gbblink{50%{opacity:0}}
 
 </style>
 <style>/* STEPの動き */

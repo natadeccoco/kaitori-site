@@ -528,6 +528,24 @@ footer{background:var(--body)}
 @keyframes gbblink{50%{opacity:0}}
 
 img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
+
+/* ===== ミニゲーム ===== */
+.sec.game{background:var(--body);border-top:3px solid var(--gb0);border-bottom:3px solid var(--gb0)}
+.gbox{max-width:760px;margin:0 auto;background:#5E6270;border-radius:18px 18px 60px 18px;padding:26px 26px 18px;box-shadow:0 8px 0 #A7A398,inset 0 0 0 4px #4A4D58}
+.gscr{position:relative;background:var(--gb3);box-shadow:inset 0 0 0 5px #8BAC0F;line-height:0;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+.gscr:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(15,56,15,.06) 0 2px,transparent 2px 4px);pointer-events:none}
+#gcv{width:100%;height:auto;display:block;image-rendering:pixelated;image-rendering:crisp-edges}
+.gmsg{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--gb0);line-height:1.4;text-align:center;pointer-events:none}
+.gmsg b{font-family:"Press Start 2P",monospace;font-weight:400;font-size:clamp(12px,2.4vw,20px);animation:gbblink 1s steps(1) infinite}
+.gmsg span{font-family:"DotGothic16",monospace;font-size:clamp(11px,1.8vw,15px)}
+.gmsg.hide{display:none}
+.gctl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:16px}
+.ghelp{font-family:"Press Start 2P",monospace;font-size:10px;color:#C9C6BC;letter-spacing:.04em}
+.gbtn{width:58px;height:58px;border-radius:50%;border:0;background:var(--mg);color:#E4E6D6;font-family:"Press Start 2P",monospace;font-size:16px;box-shadow:0 5px 0 #5E1434;cursor:pointer;order:2}
+.gbtn:active{transform:translateY(4px);box-shadow:0 1px 0 #5E1434}
+.gover{text-align:center;margin-top:22px}.gover p{font-family:"DotGothic16",monospace;font-size:18px;margin:0 0 14px}.gover b{font-family:"Press Start 2P",monospace;font-weight:400;color:var(--mg)}.gover .cta{justify-content:center}
+@media (max-width:560px){.gbox{padding:16px 14px 12px;border-radius:12px 12px 36px 12px}.ghelp{font-size:8px}.gbtn{width:48px;height:48px}}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -564,7 +582,7 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 <div id="prog"></div><canvas id="fx"></canvas>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
-  <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">状態の見かた</a><a href="#faq">よくある質問</a></nav>
+  <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">状態の見かた</a><a href="#game">ゲーム</a><a href="#faq">よくある質問</a></nav>
   <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg><span>LINEで査定を申し込む</span></a>
 </div></header>
 
@@ -680,6 +698,18 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
     <div class="af rv d1"><span class="n">2</span><h3>リッチメニューから申込</h3><p>「宅配買取」を押して、案内に沿って申込内容を送ります。</p><div class="chat"><div class="b me">【宅配買取 申込】<br>お名前・点数・送る予定日を送信</div></div></div>
     <div class="af rv d2"><span class="n">3</span><h3>発送のご案内が届く</h3><p>送り先と着払いの出し方をご案内。箱に詰めて送ってください。</p><div class="chat"><div class="b">受付しました！佐川急便の着払いで下記住所へお送りください📦 到着後に1枚ずつ査定してLINEでご連絡します。</div></div></div>
   </div>
+</div></section>
+
+
+<section class="sec tight game" id="game"><div class="wrap">
+  <div class="sh rv"><span class="no">GAME</span><h2>ひと休み。<span class="ul">ジャンプでよけろ</span>！</h2><p>スペースキー（スマホは画面をタップ）でジャンプ。段ボールとカードの山をよけて、ハイスコアをねらおう。</p></div>
+  <div class="gbox rv">
+    <div class="gscr"><canvas id="gcv" width="320" height="120" aria-label="ジャンプゲーム"></canvas>
+      <div class="gmsg" id="gmsg"><b>PRESS SPACE</b><span>スペース／タップでスタート</span></div>
+    </div>
+    <div class="gctl"><button type="button" class="gbtn" id="gjump" aria-label="ジャンプ">A</button><span class="ghelp">SPACE / ↑ / TAP でジャンプ</span></div>
+  </div>
+  <div class="gover" id="gover" hidden><p>スコア <b id="gsc">0</b>！ 昔のカード、送ってみませんか？</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
 </div></section>
 
 <section class="sec tight" id="faq"><div class="wrap">
@@ -826,5 +856,69 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
     new IntersectionObserver(function(en,o){if(!en[0].isIntersecting)return;o.disconnect();setTimeout(function(){b.innerHTML=html;b.style.transition='none';b.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:350,easing:'ease-out'});},900+Math.random()*600);},{threshold:.5}).observe(af);});
   // タブを離れるとタイトルが呼びかける
   var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'📦 ポケカ、送るだけ！｜ナタデココ':t0;});
+})();
+</script>
+
+<script>
+(function(){
+  var cv=document.getElementById('gcv');if(!cv)return;
+  var cx=cv.getContext('2d');cx.imageSmoothingEnabled=false;
+  var W=320,H=120,GY=100;
+  var C0='#0F380F',C1='#306230',C2='#8BAC0F',C3='#9BBC0F';
+  var msg=document.getElementById('gmsg'),over=document.getElementById('gover'),gsc=document.getElementById('gsc');
+  var spr=new Image();spr.src='/img/gb/chan1.webp';
+  var PH=30,PW=22;   // プレイヤーの大きさ（ドット）
+  var hi=0;try{hi=+localStorage.getItem('nd_gb_hi')||0}catch(e){}
+  var st='idle',p,obs,clouds,speed,score,t,spawn,last,raf;
+  function reset(){p={x:24,y:GY-PH,vy:0,on:true};obs=[];clouds=[{x:60,y:20},{x:200,y:34}];speed=2.4;score=0;t=0;spawn=60;}
+  reset();
+  function jump(){if(st==='idle'||st==='over'){start();return;}if(p.on){p.vy=-5.6;p.on=false;}}
+  function start(){reset();st='run';msg.classList.add('hide');over.hidden=true;last=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);}
+  function end(){st='over';if(score>hi){hi=Math.floor(score);try{localStorage.setItem('nd_gb_hi',hi)}catch(e){}}
+    msg.innerHTML='<b>GAME OVER</b><span>スペース／タップでもう一回</span>';msg.classList.remove('hide');gsc.textContent=Math.floor(score);over.hidden=false;draw();}
+  function addObs(){var k=Math.random();var o;
+    if(score>250&&k<.22){o={x:W+4,w:12,h:8,y:GY-34-Math.floor(Math.random()*8),fly:1};}           // 飛んでくるカード
+    else if(k<.55){o={x:W+4,w:16,h:14,y:0,box:1};}                                                  // 段ボール
+    else{var n=2+Math.floor(Math.random()*3);o={x:W+4,w:11,h:6*n,y:0,stack:n};}                    // カードの山
+    if(!o.fly)o.y=GY-o.h;obs.push(o);
+    if(!o.fly&&Math.random()<.25&&score>120){var o2={x:W+4+o.w+2,w:16,h:14,box:1};o2.y=GY-o2.h;obs.push(o2);}}
+  function hit(a,b){return a.x+4<b.x+b.w&&a.x+PW-4>b.x&&a.y+4<b.y+b.h&&a.y+PH-2>b.y;}
+  function loop(now){var dt=Math.min(2,(now-last)/16.67);last=now;t+=dt;
+    if(st==='run'){
+      speed=Math.min(6.5,2.4+score/400);score+=dt*speed*.18;
+      p.vy+=.32*dt;p.y+=p.vy*dt;if(p.y>=GY-PH){p.y=GY-PH;p.vy=0;p.on=true;}
+      spawn-=dt;if(spawn<=0){addObs();spawn=Math.max(38,90-score/12)+Math.random()*50;}
+      obs.forEach(function(o){o.x-=speed*dt*(o.fly?1.15:1);});obs=obs.filter(function(o){return o.x+o.w>-4;});
+      clouds.forEach(function(c){c.x-=speed*.2*dt;if(c.x<-30){c.x=W+Math.random()*60;c.y=12+Math.random()*30;}});
+      for(var i=0;i<obs.length;i++){if(hit(p,obs[i])){draw();end();return;}}
+    }
+    draw();if(st==='run')raf=requestAnimationFrame(loop);}
+  function pad(n){n=Math.floor(n);return ('00000'+n).slice(-5);}
+  function draw(){
+    cx.fillStyle=C3;cx.fillRect(0,0,W,H);
+    cx.fillStyle=C2;clouds.forEach(function(c){cx.fillRect(c.x,c.y,18,3);cx.fillRect(c.x+4,c.y-3,9,3);});
+    // 地面
+    cx.fillStyle=C0;cx.fillRect(0,GY,W,2);
+    cx.fillStyle=C1;for(var gx=-(t*speed)%24;gx<W;gx+=24){cx.fillRect(gx,GY+5,3,1);cx.fillRect(gx+12,GY+9,2,1);}
+    // 障害物
+    obs.forEach(function(o){
+      if(o.box){cx.fillStyle=C0;cx.fillRect(o.x,o.y,o.w,o.h);cx.fillStyle=C2;cx.fillRect(o.x+1,o.y+1,o.w-2,o.h-2);cx.fillStyle=C1;cx.fillRect(o.x+o.w/2-1,o.y+1,2,o.h-2);cx.fillRect(o.x+1,o.y+4,o.w-2,1);}
+      else if(o.stack){for(var i=0;i<o.stack;i++){var yy=o.y+i*6;cx.fillStyle=C0;cx.fillRect(o.x+(i%2),yy,o.w,6);cx.fillStyle=i%2?C2:'#CADC9F';cx.fillRect(o.x+(i%2)+1,yy+1,o.w-2,4);}}
+      else{var fl=Math.floor(t/6)%2;cx.fillStyle=C0;cx.fillRect(o.x,o.y+fl,o.w,o.h);cx.fillStyle='#CADC9F';cx.fillRect(o.x+1,o.y+1+fl,o.w-2,o.h-2);cx.fillStyle=C1;cx.fillRect(o.x+3,o.y+3+fl,o.w-6,2);}
+    });
+    // プレイヤー（走るとき上下にゆれる）
+    var bob=(st==='run'&&p.on)?(Math.floor(t/4)%2):0;
+    if(spr.complete&&spr.naturalWidth){var r=spr.naturalWidth/spr.naturalHeight;PW=Math.round(PH*r);cx.drawImage(spr,p.x,Math.round(p.y)-bob,PW,PH);}
+    else{cx.fillStyle=C0;cx.fillRect(p.x,p.y,PW,PH);}
+    // スコア
+    cx.fillStyle=C0;cx.font='8px "Press Start 2P", monospace';cx.textAlign='right';
+    cx.fillText('HI '+pad(hi)+'  '+pad(score),W-6,12);
+  }
+  spr.onload=draw;draw();
+  // 操作：画面が見えているときだけスペースを使う
+  var vis=false;if('IntersectionObserver' in window){new IntersectionObserver(function(e){vis=e[0].isIntersecting;if(!vis&&st==='run'){/* そのまま */}},{threshold:.5}).observe(cv);}
+  addEventListener('keydown',function(e){if(!vis)return;if(e.code==='Space'||e.code==='ArrowUp'||e.key===' '){var tg=e.target;if(tg&&/INPUT|TEXTAREA|SELECT/.test(tg.tagName))return;e.preventDefault();jump();}});
+  var sc=cv.parentNode;sc.addEventListener('pointerdown',function(e){e.preventDefault();jump();});
+  document.getElementById('gjump').addEventListener('pointerdown',function(e){e.preventDefault();jump();});
 })();
 </script>

@@ -1,7 +1,7 @@
 <title>__TITLE__</title>
 __HEAD__
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Sans:wght@700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700;800;900&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=DM+Sans:wght@700;900&family=Rajdhani:wght@600;700&display=swap">
 <style>
 :root{--bg:#FBFDFF;--ink:#2B3A67;--ink-2:#5A6B76;--ink-3:#8C9AA3;--line:#E6EEF2;--cyan:#A9F3F4;--cyan-2:#5FD8DF;--cyan-deep:#1FA8B8;--pink:#FFB8DC;--pink-2:#FF7FB2;--yel:#FFE86B;--yel-2:#F7D31A;--lav:#DCCBFF;--lav-2:#C4A8F0;--mint:#C9F7D5;--price:#E23B47;--line-green:#06C755;--navy:#173B5C}
 *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:76px}
@@ -452,6 +452,100 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 .sh .no{background:#E2671B}
 .catstrip li.hl{background:#FFB23E}
 
+/* ===== BOX：黒×ネオングリーンのゲーム機ダッシュボード風 ===== */
+:root{--xg:#3BE04B;--xg2:#107C10;--xbg:#0E0F10;--xs1:#16181A;--xs2:#1D2023;--xl:rgba(255,255,255,.10);--xa:#3BE04B;--xb:#F04B3B;--xx:#2F8CFF;--xy:#FFB900;
+ --bg:#0E0F10;--ink:#E9ECEE;--ink-2:#A8B0B6;--ink-3:#7C858C;--navy:#FFFFFF;--price:#3BE04B;--yel:#3BE04B;--yel-2:#3BE04B;--pink-2:#3BE04B;--cyan-deep:#107C10;--lav:#1D2023;--wm:"BOX";--wmc:rgba(59,224,75,.05)}
+body{background:#0E0F10;background-image:radial-gradient(rgba(255,255,255,.035) 1px,transparent 1.2px);background-size:22px 22px;color:var(--ink)}
+.xf,.sh .no,.r3 .cr,.r3 em,.pc em,.pain .chk,.st .n,.af .n,.sp4 .vis .n,.ticker em{font-family:"Rajdhani","DM Sans",sans-serif!important;font-weight:700!important}
+.top{background:rgba(14,15,16,.92);backdrop-filter:blur(8px);box-shadow:0 1px 0 var(--xl),0 0 30px rgba(59,224,75,.08)}
+.top nav a{color:#D8DCDF}.top nav a:hover{background:rgba(59,224,75,.14);color:#fff}
+#prog{background:var(--xg);box-shadow:0 0 12px var(--xg)}
+#intro{background:radial-gradient(60% 60% at 50% 50%,rgba(16,124,16,.5),transparent 70%),#0B0C0D}#intro .t{color:#fff}
+#intro .cb{background:#1D2023;border-color:var(--xg);box-shadow:0 0 20px rgba(59,224,75,.4)}
+.hero{background:radial-gradient(50% 80% at 70% 50%,rgba(16,124,16,.25),transparent 70%),#0B0C0D}.hero:before{background:none}
+.banner{background:#0B0C0D;border:2px solid rgba(59,224,75,.6);border-radius:10px;box-shadow:0 0 0 1px rgba(255,255,255,.06),0 0 40px rgba(59,224,75,.25)}
+.banner .prods{left:66%;top:16%;width:18%;height:56%}
+.banner .prods img{border:2px solid rgba(255,255,255,.85);border-radius:6px;box-shadow:0 0 24px rgba(59,224,75,.45)}
+.banner .stamp{background:var(--xg);color:#0B0C0D;border-color:#0B0C0D;box-shadow:0 0 0 .25vw var(--xg),0 0 30px rgba(59,224,75,.7)}
+.micro{color:#8A939A}
+.catstrip li{background:var(--xs2);color:#fff;border:1px solid var(--xl);border-radius:6px;box-shadow:none}
+.catstrip li:hover{border-color:var(--xg);box-shadow:0 0 0 1px var(--xg),0 0 18px rgba(59,224,75,.35);transform:scale(1.04)}
+.catstrip li.hl{background:var(--xg);color:#0B0C0D;border-color:var(--xg)}
+.ticker{background:#000;border-color:#1D2023}.ticker .lbl{background:var(--xg);color:#0B0C0D}.ticker em{color:var(--xg)!important}
+/* セクション */
+.sec,.sec.items,.sec.cmp,.sec.prices,.sec.rank3,.sec.chk{background:transparent}
+.sec.items,.sec.cmp{background:var(--xs1)!important}
+.sec.prices{background:#0B0C0D!important;border-color:var(--xl)}
+.sec.rank3{background:radial-gradient(60% 70% at 50% 60%,rgba(16,124,16,.35),transparent 70%),#0B0C0D!important;border-color:var(--xl)}
+.sec.chk{background:var(--xs1)!important;border-color:var(--xl)}
+.sec.chk:before,.sec.chk:after{background:repeating-linear-gradient(135deg,var(--xg) 0 18px,#0B0C0D 18px 36px);border-color:#000;opacity:.85}
+.wave svg path{fill:#0B0C0D}
+.sh h2{color:#fff}.sh p{color:var(--ink-2)}
+.sh h2 .ul{background:none;color:var(--xg);text-shadow:0 0 18px rgba(59,224,75,.45)}
+.sh .no{background:var(--xg);color:#0B0C0D;border-radius:4px;letter-spacing:.12em;box-shadow:0 0 16px rgba(59,224,75,.5)}
+/* タイル（カード類） */
+.pain,.it,.st,.pm4,.tcard,.af,.sp4,.r3 a,.faq details,.shop,.pc .face,.clist li{background:var(--xs2)!important;border:1px solid var(--xl)!important;border-radius:8px!important;box-shadow:0 10px 30px rgba(0,0,0,.35)!important;color:var(--ink)}
+.pain:hover,.it:hover,.st:hover,.pm4:hover,.tcard:hover,.sp4:hover,.r3 a:hover,.pc:hover .face{border-color:var(--xg)!important;box-shadow:0 0 0 1px var(--xg),0 0 28px rgba(59,224,75,.35)!important}
+.it.big{background:linear-gradient(135deg,#107C10,#0B3F0B)!important}
+.it b,.st h3,.pm4 b,.tcard h3,.af h3,.sp4 h3,.r3 b,.pc b{color:#fff!important}
+.it .ch{color:var(--xg)}
+.pain .bub{background:#262A2E;color:#fff}.pain .bub:after{border-top-color:#262A2E}
+.pain .a b{color:#fff}.pain .chk{background:var(--xg);color:#0B0C0D;border-radius:4px}
+.st .hd{background:linear-gradient(160deg,#1F2A20,#123014)!important;border-bottom:1px solid var(--xl)}
+.st .n{background:var(--xg);color:#0B0C0D}
+.st .t{background:#262A2E;color:var(--xg);border-color:var(--xg)}
+.flowline{background:#262A2E}.flowline i{background:var(--xg);box-shadow:0 0 10px var(--xg)}
+.pm4 .hd{background-color:#1F2A20!important;border-bottom:1px solid var(--xl)}
+.pm4.g .hd{box-shadow:inset 0 -4px 0 var(--xa)}.pm4.y .hd{box-shadow:inset 0 -4px 0 var(--xy)}.pm4.r .hd{box-shadow:inset 0 -4px 0 var(--xb)}.pm4.b .hd{box-shadow:inset 0 -4px 0 var(--xx)}
+.pm4 .k{background:#0B0C0D;color:#fff}
+.pm4 .av{background:#0B0C0D;border-color:var(--xl)}
+.pm4.g b{color:var(--xa)!important}.pm4.y b{color:var(--xy)!important}.pm4.r b{color:var(--xb)!important}.pm4.b b{color:var(--xx)!important}
+.pm4 .tags i{background:#262A2E;color:var(--xy);border-color:var(--xy)}
+.pm4 small,.pm4 .ex,.tcard p,.tcard small,.af p,.sp4 p,.pain .a{color:var(--ink-2)!important}
+.pm4 .ex strong{color:#fff}
+.tcard:before{background:radial-gradient(circle,rgba(59,224,75,.35),transparent 70%)}
+.tcard h3 b{color:var(--xg)}
+.seal{color:var(--xg)!important;border-color:var(--xg)!important}
+.shop span{background:#0B0C0D;color:#fff;border-color:var(--xl)}
+.chat{background:#262A2E;border-color:var(--xl)}
+.faq summary{color:#fff}.faq summary .q{background:var(--xg);color:#0B0C0D}.faq p{color:var(--ink-2)}.faq .pm{color:var(--xg)}
+.search input{background:#1D2023;color:#fff;border-color:var(--xl)}.search button{background:var(--xg);color:#0B0C0D;border-color:var(--xg)}
+.pchips button{background:#1D2023;color:#fff;border-color:var(--xl);box-shadow:none}.pchips button.on{background:var(--xg);color:#0B0C0D;border-color:var(--xg)}
+.pmore button{background:#1D2023;color:#fff;border:1px solid var(--xg);box-shadow:0 0 18px rgba(59,224,75,.25)}
+.pc .im{background:#fff;border-color:var(--xl)}
+.pc .rk{background:var(--xg);color:#0B0C0D;border-color:#0B0C0D}
+.btn.o{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.45);box-shadow:none;border-radius:8px}.btn.o:hover{border-color:var(--xg);box-shadow:0 0 0 1px var(--xg),0 0 22px rgba(59,224,75,.4)}
+.ctabox .lead{color:#fff}.ctabox .lead:before,.ctabox .lead:after{color:var(--xg)}
+.cap,.cap a{color:var(--ink-2)!important}
+/* TOP3 */
+.r3 .cr{background:#262A2E!important;color:#fff;border:1px solid var(--xl)}.r3 a:nth-child(1) .cr{background:var(--xg)!important;color:#0B0C0D}.r3 a:nth-child(1) .cr:before{content:"🏆 "}
+.r3 a:nth-child(1){border-color:var(--xg)!important;box-shadow:0 0 0 1px var(--xg),0 0 40px rgba(59,224,75,.35)!important}
+.r3 .im{background:radial-gradient(closest-side,rgba(59,224,75,.25),transparent)}
+.r3 em{color:var(--xg)}.rank3 .cap a{color:var(--xg)!important}
+/* 送る前にチェック */
+.sp4 .vis{background:linear-gradient(160deg,#1F2A20,#123014)!important;border-bottom:1px solid var(--xl)}
+.sp4 .vis .n{background:var(--xg);color:#0B0C0D}
+.sp4 li{background:#262A2E;color:#fff;border-color:var(--xl)}
+/* 最後のCTA・フッター */
+.sec.final{background:radial-gradient(50% 70% at 50% 40%,rgba(16,124,16,.45),transparent 70%),#0B0C0D!important}
+.final .bg{display:none}
+footer{background:#0B0C0D;color:#8A939A;border-top:1px solid var(--xl)}footer a{color:#C8CDD1}
+.bar{background:rgba(14,15,16,.95);border-top-color:var(--xl)}
+.flo span{background:#1D2023}
+/* 実績解除トースト */
+.ach{position:fixed;left:50%;bottom:24px;z-index:150;display:flex;align-items:center;gap:12px;background:rgba(22,24,26,.96);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:8px 24px 8px 8px;box-shadow:0 12px 40px rgba(0,0,0,.6),0 0 24px rgba(59,224,75,.25);transform:translate(-50%,140%);transition:transform .5s cubic-bezier(.34,1.56,.64,1);pointer-events:none;color:#fff}
+.ach.on{transform:translate(-50%,0)}
+.ach .tr{width:44px;height:44px;border-radius:50%;background:var(--xg);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 18px rgba(59,224,75,.6)}
+.ach small{display:block;font-size:11px;color:#9BA3A9;letter-spacing:.06em}.ach b{font-size:15px}
+.ach .pt{font-family:"Rajdhani",sans-serif;font-weight:700;color:var(--xg);margin-left:8px;font-size:16px}
+@media (max-width:760px){.ach{bottom:86px}}
+
+.wave:has(+.sec.final) path,.wave svg path{fill:#0B0C0D!important}
+.final .btn.o{background:transparent!important;color:#fff!important;border:2px solid rgba(255,255,255,.5)!important}
+.final .qr,.final .qr div,.final .qr b{color:#0B0C0D!important}
+.shop span small{background:var(--xg)!important;color:#0B0C0D!important}
+footer div,footer{color:#8A939A}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -629,6 +723,18 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
   <div><a href="/">買取価格表</a><a href="/guide/">郵送買取のやり方</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div>
   <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
 </footer>
+
+<div class="ach" id="ach" aria-live="polite"><span class="tr">🏆</span><span><small>実績解除</small><b id="achT">BOXの買取ページを見つけた</b><span class="pt" id="achP">+10</span></span></div>
+<script>
+(function(){var el=document.getElementById('ach');if(!el)return;var q=[],busy=false,done={};
+  function show(t,p){q.push([t,p]);run();}
+  function run(){if(busy||!q.length)return;busy=true;var x=q.shift();document.getElementById('achT').textContent=x[0];document.getElementById('achP').textContent='+'+x[1];el.classList.add('on');setTimeout(function(){el.classList.remove('on');setTimeout(function(){busy=false;run();},600);},3200);}
+  setTimeout(function(){show('BOXの買取ページを見つけた',10);},1800);
+  if('IntersectionObserver' in window){[['prices','BOXの買取価格をチェックした',20],['check','送る前の準備はバッチリ',30],['faq','よくある質問を読んだ',10]].forEach(function(a){var t=document.getElementById(a[0]);if(!t)return;new IntersectionObserver(function(e,o){if(e[0].isIntersecting&&!done[a[0]]){done[a[0]]=1;o.disconnect();show(a[1],a[2]);}},{threshold:.25}).observe(t);});}
+  document.querySelectorAll('a[href*="line.me"]').forEach(function(a){a.addEventListener('click',function(){show('LINEで申込へ進んだ',100);});});
+})();
+</script>
+
 <div class="bar" id="bar">
   <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む</a>
   <a class="btn o" href="/cat/box/">価格を調べる</a>

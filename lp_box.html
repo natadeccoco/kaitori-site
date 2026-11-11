@@ -452,6 +452,107 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 .sh .no{background:#E2671B}
 .catstrip li.hl{background:#FFB23E}
 
+
+/* ===== BOX：自販機×ゲーセン（UFOキャッチャー）テーマ ===== */
+:root{--vr:#E63A2E;--vr2:#B8261C;--vb:#2F6FE0;--vy:#FFC93C;--vled:#FF5A3C;
+ --bg:#F4F6FA;--yel:#FFC93C;--yel-2:#FFC93C;--pink:#FFC1BA;--pink-2:#E63A2E;--cyan:#CFE0FF;--cyan-2:#7FA8F0;--cyan-deep:#2F6FE0;--lav:#E9EFFB;--lav-2:#A9BEEA;--price:#E63A2E;--wm:"BOX";--wmc:rgba(47,111,224,.06)}
+body{background-color:#F4F6FA;background-image:radial-gradient(rgba(47,111,224,.12) 1.4px,transparent 1.6px);background-size:22px 22px}
+.top{background:#fff;box-shadow:0 4px 0 var(--vr),0 6px 14px rgba(43,58,103,.08)}
+#prog{background:linear-gradient(90deg,var(--vr),var(--vy),var(--vb))}
+#intro{background:linear-gradient(180deg,#fff,#E9EFFB)}#intro .cb{background:linear-gradient(135deg,#fff,#E9EFFB);border-radius:10px;width:150px;height:150px;left:-75px;top:-75px}
+.hero{background:linear-gradient(180deg,#fff,#EEF2F8)}.hero:before{background:repeating-linear-gradient(90deg,rgba(43,58,103,.03) 0 2px,transparent 2px 22px)}
+.banner{background:#fff}
+.banner .prods{display:none}
+.hero .banner .ch.chan{height:62%;right:.4%;z-index:3}
+.banner .stamp{left:87.5%;top:6%;background:var(--vr)}
+/* 自販機 */
+.vm{position:absolute;left:63%;top:5%;width:20%;height:90%;z-index:2;background:linear-gradient(180deg,var(--vr),var(--vr2));border:.25vw solid var(--ink);border-radius:1vw 1vw .4vw .4vw;box-shadow:0 .5vw 0 var(--ink),inset 0 0 0 .3vw rgba(255,255,255,.25);display:flex;flex-direction:column;padding:.6vw}
+@media (min-width:1180px){.vm{border-width:3px;border-radius:12px 12px 5px 5px;box-shadow:0 6px 0 var(--ink),inset 0 0 0 4px rgba(255,255,255,.25);padding:7px}}
+.vm .vt{color:#fff;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;text-align:center;font-size:clamp(7px,1.15vw,14px);line-height:1.1;margin-bottom:.4vw;letter-spacing:.06em}
+.vm .vt b{color:var(--vy)}
+.vm .vw{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:.35vw;background:linear-gradient(160deg,#EAF6FF,#BFD8F2);border:.2vw solid var(--ink);border-radius:.4vw;padding:.35vw;position:relative;overflow:hidden}
+.vm .vw:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.7) 45%,transparent 55%);background-size:300% 100%;animation:vmshine 4s ease-in-out infinite;pointer-events:none}
+@keyframes vmshine{0%{background-position:130% 0}60%,100%{background-position:-60% 0}}
+.vm .sl{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.2vw;min-height:0}
+.vm .sl img{width:100%;flex:1;min-height:0;object-fit:contain;filter:drop-shadow(0 .2vw .2vw rgba(0,0,0,.25))}
+.vm .sl .pr{width:100%;background:#111;color:var(--vled);font-family:"DM Sans",monospace;font-weight:900;font-size:clamp(5px,.75vw,10px);text-align:center;border-radius:2px;letter-spacing:.02em;line-height:1.5;text-shadow:0 0 4px var(--vled)}
+.vm .sl .bt{width:38%;aspect-ratio:2/1;border-radius:999px;background:#4C4C4C;box-shadow:0 1px 0 #000}
+.vm .sl.on .bt{background:var(--vy);box-shadow:0 0 .6vw var(--vy)}
+.vm .vo{margin-top:.4vw;height:16%;background:#222;border:.2vw solid var(--ink);border-radius:.3vw;color:#fff;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(7px,1vw,13px);display:flex;align-items:center;justify-content:center;gap:.4vw;overflow:hidden;position:relative}
+.vm .vo img{position:absolute;height:80%;left:50%;transform:translate(-50%,-160%);transition:transform .45s cubic-bezier(.5,0,.75,0)}
+.vm .vo.drop img{transform:translate(-50%,8%)}
+.vm .vo span{transition:opacity .2s}.vm .vo.drop span{opacity:0}
+/* カテゴリ帯・ティッカー */
+.catstrip li{border-radius:10px;border-color:var(--ink)}.catstrip li.hl{background:var(--vr);color:#fff}
+.ticker{background:#111}.ticker .lbl{background:var(--vr);color:#fff}.ticker em{color:var(--vled)!important;text-shadow:0 0 6px var(--vled);font-family:"DM Sans",monospace}
+.sh .no{background:var(--vr)}
+.sh h2 .ul{background:linear-gradient(transparent 62%,var(--vy) 62%,var(--vy) 92%,transparent 92%)}
+.sec.items{background:linear-gradient(180deg,#EAF0FA,#F4F6FA)}
+.sec.cmp{background:linear-gradient(180deg,#FFF1EF,#EAF0FA)}
+.sec.rank3{background:repeating-linear-gradient(90deg,rgba(43,58,103,.03) 0 2px,transparent 2px 22px),linear-gradient(180deg,#fff,#EAF0FA);border-bottom:3px solid var(--ink)}
+.sec.chk{background:#FFF7E3}
+.sec.chk:before,.sec.chk:after{background:repeating-linear-gradient(135deg,var(--vr) 0 18px,#fff 18px 36px)}
+.it.big{background:linear-gradient(160deg,#FFE9E6,#FFC1BA)}
+.pain .bub{background:#E9EFFB}
+.st.s1 .hd{background:linear-gradient(160deg,#FFF4D6,#FFE08A)}.st.s3 .hd{background:linear-gradient(160deg,#FFE9E6,#FFC1BA)}.st.s4 .hd{background:linear-gradient(160deg,#E9EFFB,#BFD3F7)}.st.s5 .hd{background:linear-gradient(160deg,#E4F7EC,#B7E8C9)}
+/* 価格は自販機の値札ふう */
+.pc em{display:block;background:#111;color:var(--vled)!important;text-shadow:0 0 6px var(--vled);font-family:"DM Sans",monospace!important;text-align:center!important;border-radius:4px;margin-top:6px;padding:4px 0!important}
+.pc .face{border-radius:12px}
+.r3 em{display:inline-block;background:#111;color:var(--vled);text-shadow:0 0 8px var(--vled);font-family:"DM Sans",monospace;padding:2px 14px;border-radius:6px;margin-top:6px}
+.r3 a:nth-child(1) .cr{background:var(--vy)}
+.r3 .im{background:radial-gradient(closest-side,rgba(47,111,224,.18),transparent)}
+.sec.final{background:#1D2A52}
+.wave:has(+.sec.final) path{fill:#1D2A52}
+footer{background:linear-gradient(180deg,#EAF0FA,#DCE6F8)}
+/* UFOキャッチャー */
+.ufab{position:fixed;left:18px;bottom:18px;z-index:45;display:flex;align-items:center;gap:10px;border:3px solid var(--ink);background:#fff;color:var(--ink);padding:8px 16px 8px 10px;border-radius:14px;box-shadow:0 5px 0 var(--ink);cursor:pointer;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:14px;line-height:1.2;text-align:left;animation:gfab 2.4s ease-in-out infinite}
+.ufab .gi{width:36px;height:36px;border-radius:50%;background:var(--vr);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 3px 0 var(--vr2)}
+.ufab b{display:block;font-size:10px;color:var(--vr);letter-spacing:.1em}
+@keyframes gfab{0%,100%{translate:0 0}50%{translate:0 -4px}}
+@media (max-width:760px){.ufab{bottom:84px;left:10px;font-size:12px}}
+.umodal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:14px}
+.umodal[hidden]{display:none}
+.umodal .ubg{position:absolute;inset:0;background:rgba(29,42,82,.7)}
+.uwin{position:relative;width:min(560px,100%);max-height:calc(100vh - 28px);overflow:auto;background:linear-gradient(180deg,#FF6FA8,#E63A2E);border:4px solid var(--ink);border-radius:26px 26px 14px 14px;box-shadow:0 8px 0 var(--ink);padding:16px 16px 18px}
+.uwin .ux{position:absolute;right:12px;top:10px;width:36px;height:36px;border-radius:50%;border:3px solid var(--ink);background:#fff;font-size:18px;cursor:pointer}
+.uwin .uttl{margin:0 0 10px;text-align:center;color:#fff;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:22px;letter-spacing:.08em;text-shadow:0 3px 0 var(--vr2)}
+.uwin .uttl small{display:block;font-size:12px;letter-spacing:.04em;opacity:.9}
+.uglass{position:relative;height:330px;background:linear-gradient(160deg,rgba(234,246,255,.95),rgba(191,216,242,.95));border:4px solid var(--ink);border-radius:12px;overflow:hidden}
+.uglass:after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 40%,transparent 50%);pointer-events:none}
+.urail{position:absolute;left:0;right:0;top:10px;height:8px;background:#9AA4B5;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.uclaw{position:absolute;top:14px;left:0;width:70px;margin-left:-35px;z-index:3}
+.uclaw .rope{position:absolute;left:50%;top:0;width:4px;margin-left:-2px;height:20px;background:#555}
+.uclaw .head{position:absolute;left:50%;top:20px;width:34px;height:20px;margin-left:-17px;background:var(--vy);border:3px solid var(--ink);border-radius:8px 8px 4px 4px}
+.uclaw .arm{position:absolute;top:34px;width:8px;height:34px;background:#C9CED6;border:3px solid var(--ink);border-radius:4px;transform-origin:top center;transition:transform .35s}
+.uclaw .arm.l{left:14px;transform:rotate(28deg)}.uclaw .arm.r{right:14px;transform:rotate(-28deg)}
+.uclaw.close .arm.l{transform:rotate(6deg)}.uclaw.close .arm.r{transform:rotate(-6deg)}
+.uclaw .got{position:absolute;left:50%;top:52px;width:56px;margin-left:-28px;display:none}.uclaw.has .got{display:block}
+.ufloor{position:absolute;left:0;right:0;bottom:0;height:90px;display:flex;align-items:flex-end;justify-content:space-around;padding:0 8px 6px 96px;background:linear-gradient(180deg,transparent,rgba(43,58,103,.08))}
+.ufloor img{width:15%;filter:drop-shadow(0 4px 4px rgba(0,0,0,.25));transition:opacity .2s}
+.uhole{position:absolute;left:8px;bottom:6px;width:76px;height:80px;border:3px dashed var(--ink);border-radius:8px;background:rgba(255,255,255,.4);display:flex;align-items:flex-end;justify-content:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:12px;padding-bottom:4px;z-index:1}
+.uctl{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.ubtn{width:84px;height:84px;border-radius:50%;border:4px solid var(--ink);background:radial-gradient(circle at 35% 30%,#FFE58A,var(--vy) 60%,#D99A00);box-shadow:0 7px 0 var(--ink);font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:16px;color:var(--ink);cursor:pointer}
+.ubtn:active{transform:translateY(5px);box-shadow:0 2px 0 var(--ink)}
+.ubtn:disabled{filter:grayscale(.6);opacity:.7}
+.umsg{white-space:pre-line;flex:1;background:#111;color:var(--vled);text-shadow:0 0 6px var(--vled);border:3px solid var(--ink);border-radius:10px;padding:10px 12px;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:14px;line-height:1.5;min-height:62px}
+.uwon{display:none;margin-top:14px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:14px;text-align:center}
+.uwon.on{display:block;animation:popin .5s cubic-bezier(.34,1.56,.64,1)}
+.uwon img{height:110px;object-fit:contain}
+.uwon b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;font-size:16px;margin:6px 0 2px}
+.uwon em{display:inline-block;font-style:normal;background:#111;color:var(--vled);text-shadow:0 0 8px var(--vled);font-family:"DM Sans",monospace;font-weight:900;font-size:24px;padding:2px 14px;border-radius:6px;margin-bottom:10px}
+.uwon .cta{justify-content:center}
+
+
+/* ゲームボタンはヘッダーに置く */
+.top .in{gap:10px}
+.gfab,.ufab{position:static!important;animation:none!important;box-shadow:0 3px 0 var(--ink)!important;padding:5px 12px 5px 6px!important;font-size:12px!important;margin-left:auto;white-space:nowrap;flex:none}
+.gfab{box-shadow:3px 3px 0 var(--gb0)!important}
+.gfab .gi,.ufab .gi{width:26px!important;height:26px!important;font-size:12px!important}
+.gfab b,.ufab b{font-size:8px!important}
+.top nav a{white-space:nowrap;padding:6px 9px}
+@media (max-width:1000px){.top nav{display:none}}
+@media (max-width:760px){.gfab,.ufab{bottom:auto!important;left:auto!important;padding:4px!important;border-radius:50%!important}.gfab>span:last-child,.ufab>span:last-child{display:none}}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -489,6 +590,7 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
   <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">送る前に</a><a href="#faq">よくある質問</a></nav>
+  <button type="button" class="ufab" id="uopen" aria-label="UFOキャッチャーで遊ぶ"><span class="gi">🕹</span><span><b>GAME</b>UFOキャッチャー</span></button>
   <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg><span>LINEで査定を申し込む</span></a>
 </div></header>
 
@@ -496,12 +598,13 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
   <div class="banner rv">
     <img class="bg" src="/img/banner_box.jpg?v=1" alt="ポケカBOX 送るだけ買取">
     <span class="stamp"><b>BOX</b><small>高価買取中</small></span>
+    <div class="vm" aria-hidden="true"><div class="vt">ナタデココ <b>BOX</b> 買取機</div><div class="vw"><div class="sl"><img src="__HOTIMG0__" alt=""><span class="pr">¥---</span><i class="bt"></i></div><div class="sl"><img src="__HOTIMG1__" alt=""><span class="pr">¥---</span><i class="bt"></i></div><div class="sl"><img src="__HOTIMG2__" alt=""><span class="pr">¥---</span><i class="bt"></i></div><div class="sl"><img src="__HOTIMG3__" alt=""><span class="pr">¥---</span><i class="bt"></i></div><div class="sl"><img src="__HOTIMG4__" alt=""><span class="pr">¥---</span><i class="bt"></i></div><div class="sl"><img src="__HOTIMG5__" alt=""><span class="pr">¥---</span><i class="bt"></i></div></div><div class="vo"><span>▼ 買取口 ▼</span><img alt=""></div></div>
     <div class="prods box"><img src="__HOTIMG0__" alt=""><img src="__HOTIMG1__" alt=""><img src="__HOTIMG2__" alt=""></div>
     <img class="ch chan" src="/img/banner_chan.webp" alt="">
     <a class="hot" href="__LINE_ADD__" target="_blank" rel="noopener" aria-label="LINEで申込"></a>
     <a class="hot find" href="/cat/box/" aria-label="買取価格を調べる"></a>
   </div>
-  <ul class="catstrip rv d1"><li class="hl"><i>📦</i>未開封BOX専門</li><li><i>🆕</i>最新弾</li><li><i>💎</i>絶版BOX</li><li><i>✨</i>ハイクラス</li><li><i>🗃️</i>カートン</li><li><i>🎴</i>バラパック</li></ul>
+  <ul class="catstrip rv d1"><li class="hl"><i>🥤</i>未開封BOX専門</li><li><i>🆕</i>最新弾</li><li><i>💎</i>絶版BOX</li><li><i>✨</i>ハイクラス</li><li><i>🗃️</i>カートン</li><li><i>🎴</i>バラパック</li></ul>
 </div></section>
 <div class="ticker" aria-hidden="true"><span class="lbl">BOX買取価格</span><div class="run">__TICKER____TICKER__</div></div>
 
@@ -629,11 +732,66 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
   <div><a href="/">買取価格表</a><a href="/guide/">郵送買取のやり方</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div>
   <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
 </footer>
+
+<div class="umodal" id="umodal" hidden><div class="ubg" data-uc></div><div class="uwin" role="dialog" aria-modal="true" aria-label="UFOキャッチャー">
+  <button type="button" class="ux" data-uc aria-label="閉じる">×</button>
+  <p class="uttl">BOXキャッチャー<small>ボタンを押してBOXをつかもう！</small></p>
+  <div class="uglass" id="uglass"><div class="urail"></div>
+    <div class="uclaw" id="uclaw"><span class="rope" id="urope"></span><span class="head"></span><span class="arm l"></span><span class="arm r"></span><img class="got" id="ugot" alt=""></div>
+    <div class="uhole">GET口</div>
+    <div class="ufloor" id="ufloor"></div>
+  </div>
+  <div class="uctl"><div class="umsg" id="umsg">ボタンで アームがおりるよ！</div><button type="button" class="ubtn" id="ubtn">PUSH!</button></div>
+  <div class="uwon" id="uwon"><img id="uwImg" alt=""><b id="uwName"></b><em id="uwPrice"></em><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+</div></div>
+
 <div class="bar" id="bar">
   <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む</a>
   <a class="btn o" href="/cat/box/">価格を調べる</a>
 </div>
 <script id="hotpool" type="application/json">__HOTPOOL__</script>
+<script>
+(function(){
+  var pool=[];try{pool=JSON.parse(document.getElementById('hotpool').textContent||'[]')}catch(e){}
+  // 自販機：スロットに価格を入れて、ときどき「ガコン」と落とす
+  var sl=document.querySelectorAll('.vm .sl'),vo=document.querySelector('.vm .vo');
+  var shown=[];sl.forEach(function(s,i){var im=s.querySelector('img');var src=im.getAttribute('src');var it=pool.filter(function(p){return p.img===src||im.src===p.img})[0]||pool[i%Math.max(1,pool.length)];shown.push(it);if(it){if(!src||/__/.test(src))im.src=it.img;s.querySelector('.pr').textContent=it.p;}});
+  if(vo&&shown.length){var k=0;setInterval(function(){sl.forEach(function(s){s.classList.remove('on')});var i=k++%sl.length;sl[i].classList.add('on');var it=shown[i];if(!it)return;var im=vo.querySelector('img');vo.classList.remove('drop');im.src=it.img;setTimeout(function(){vo.classList.add('drop')},350);},2600);}
+  // UFOキャッチャー
+  var md=document.getElementById('umodal');if(!md)return;
+  var gl=document.getElementById('uglass'),claw=document.getElementById('uclaw'),rope=document.getElementById('urope'),fl=document.getElementById('ufloor'),btn=document.getElementById('ubtn'),msg=document.getElementById('umsg'),won=document.getElementById('uwon'),got=document.getElementById('ugot');
+  var x=0,dir=1,raf=null,st='idle',prizes=[],tries=0;
+  function setup(){fl.innerHTML='';prizes=[];var pk=pool.slice().sort(function(){return Math.random()-.5}).slice(0,5);
+    pk.forEach(function(p){var im=new Image();im.src=p.img;im.alt='';fl.appendChild(im);prizes.push({el:im,it:p});});
+    won.classList.remove('on');claw.classList.remove('close','has');rope.style.height='20px';rope.style.top='0px';claw.style.top='14px';msg.textContent='ボタンで アームがおりるよ！';btn.disabled=false;st='move';x=0;dir=1;loop();}
+  function loop(){cancelAnimationFrame(raf);if(st!=='move')return;var W=gl.clientWidth;x+=dir*2.2;if(x>W-40){x=W-40;dir=-1;}if(x<100){x=100;dir=1;}claw.style.left=x+'px';raf=requestAnimationFrame(loop);}
+  function drop(){if(st!=='move')return;st='drop';btn.disabled=true;cancelAnimationFrame(raf);msg.textContent='ウィーン…';
+    var H=gl.clientHeight,depth=H-150;
+    claw.style.transition='top .9s linear';rope.style.transition='top .9s linear,height .9s linear';
+    claw.style.top=(14+depth)+'px';rope.style.top=(-depth)+'px';rope.style.height=(20+depth)+'px';
+    setTimeout(function(){claw.classList.add('close');
+      var gr=gl.getBoundingClientRect(),best=null,bd=1e9;prizes.forEach(function(p){if(p.el.style.opacity==='0')return;var r=p.el.getBoundingClientRect();var c=r.left-gr.left+r.width/2;var d=Math.abs(c-x);if(d<bd){bd=d;best=p;}});
+      var ok=best&&bd<40;
+      setTimeout(function(){if(ok){best.el.style.opacity='0';got.src=best.it.img;claw.classList.add('has');}
+        claw.style.top='14px';rope.style.top='0px';rope.style.height='20px';
+        setTimeout(function(){claw.style.transition='';rope.style.transition='';
+          if(!ok){msg.textContent='ざんねん！ もういちど！';claw.classList.remove('close');st='move';btn.disabled=false;loop();return;}
+          msg.textContent='つかんだ！ GET口へ…';var start=x,t0=performance.now();
+          (function mv(t){var q=Math.min(1,(t-t0)/900);claw.style.left=(start+(46-start)*q)+'px';if(q<1){requestAnimationFrame(mv);return;}
+            claw.classList.remove('close','has');
+            msg.textContent='GET！ '+best.it.n+'\n買取価格 '+best.it.p+'！';
+            document.getElementById('uwImg').src=best.it.img;document.getElementById('uwName').textContent=best.it.n+' をGET！';document.getElementById('uwPrice').textContent='買取 '+best.it.p;won.classList.add('on');
+            st='won';btn.disabled=false;btn.textContent='もう一回';})(t0);
+        },950);},450);},950);}
+  btn.addEventListener('click',function(){if(st==='won'){btn.textContent='PUSH!';setup();return;}drop();});
+  function openU(){md.hidden=false;document.documentElement.style.overflow='hidden';btn.textContent='PUSH!';setup();}
+  function closeU(){md.hidden=true;document.documentElement.style.overflow='';cancelAnimationFrame(raf);st='idle';}
+  document.getElementById('uopen').addEventListener('click',openU);
+  md.querySelectorAll('[data-uc]').forEach(function(b){b.addEventListener('click',closeU)});
+  addEventListener('keydown',function(e){if(md.hidden)return;if(e.key==='Escape')closeU();if(e.key===' '||e.key==='Enter'){e.preventDefault();btn.click();}});
+})();
+</script>
+
 <script>
 (function(){try{var pool=JSON.parse(document.getElementById('hotpool').textContent||'[]');if(pool.length<2)return;
 for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t;}

@@ -640,6 +640,17 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 #intro .tb .nx{position:absolute;right:3%;bottom:6%;font-size:.7em;animation:gbblink 1s steps(1) infinite;display:none}#intro .tb .nx.on{display:block}
 #intro .skip{position:absolute;right:16px;bottom:16px;z-index:6;font-family:"Press Start 2P",monospace;font-size:11px;background:#0F380F;color:#9BBC0F;border:0;padding:8px 12px;cursor:pointer;box-shadow:4px 4px 0 #306230}
 
+
+/* ゲームボタンはヘッダーに置く */
+.top .in{gap:10px}
+.gfab,.ufab{position:static!important;animation:none!important;box-shadow:0 3px 0 var(--ink)!important;padding:5px 12px 5px 6px!important;font-size:12px!important;margin-left:auto;white-space:nowrap;flex:none}
+.gfab{box-shadow:3px 3px 0 var(--gb0)!important}
+.gfab .gi,.ufab .gi{width:26px!important;height:26px!important;font-size:12px!important}
+.gfab b,.ufab b{font-size:8px!important}
+.top nav a{white-space:nowrap;padding:6px 9px}
+@media (max-width:1000px){.top nav{display:none}}
+@media (max-width:760px){.gfab,.ufab{bottom:auto!important;left:auto!important;padding:4px!important;border-radius:50%!important}.gfab>span:last-child,.ufab>span:last-child{display:none}}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -684,7 +695,8 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 <div id="prog"></div><canvas id="fx"></canvas>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
-  <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">状態の見かた</a><a href="#game">ゲーム</a><a href="#faq">よくある質問</a></nav>
+  <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">状態の見かた</a><a href="#faq">よくある質問</a></nav>
+  <button type="button" class="gfab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi">▶</span><span><b>GAME</b>ミニゲームで遊ぶ</span></button>
   <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg><span>LINEで査定を申し込む</span></a>
 </div></header>
 
@@ -835,7 +847,6 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
   <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
 </footer>
 
-<button type="button" class="gfab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi">▶</span><span><b>GAME</b>ミニゲームで遊ぶ</span></button>
 <div class="gmodal" id="gmodal" hidden><div class="gbg" data-close></div><div class="gwin" role="dialog" aria-modal="true" aria-label="ジャンプゲーム">
   <button type="button" class="gx" data-close aria-label="閉じる">×</button>
   <p class="gttl">ナタデココちゃんの <b>ミニゲーム</b></p>

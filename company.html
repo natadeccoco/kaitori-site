@@ -160,5 +160,5 @@ var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.querySelectorAll('[data-count]').forEach(function(c){var to=parseInt(String(c.dataset.count).replace(/,/g,''),10)||0,fmt=function(n){return c.dataset.raw?String(n):n.toLocaleString();};if(reduce||!to){c.textContent=fmt(to);return;}var done=false;var o=new IntersectionObserver(function(es){if(!es[0].isIntersecting||done)return;done=true;var t0=null;function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1300),e=1-Math.pow(1-p,3);c.textContent=fmt(Math.round(to*e));if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);o.disconnect();});o.observe(c);});
 })();
 </script>
-<footer><div><a href="/">買取価格表</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div><div style="margin-top:10px;opacity:.75">© __COMPANY__</div></footer>
+<footer><div><a href="/">買取価格表</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/recruit/">採用情報</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div><div style="margin-top:10px;opacity:.75">© __COMPANY__</div></footer>
 </body></html>

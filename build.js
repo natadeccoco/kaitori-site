@@ -411,7 +411,7 @@ console.log(`article pages: ${arts.length}`);
 }
 
 /* ---------- 4. 固定ページ ---------- */
-for (const name of ["stores", "legal", "privacy", "company"]) {
+for (const name of ["stores", "legal", "privacy", "company", "recruit"]) {
   let html = read(path.join(SRC, name + ".html"));
   if (!html) continue;
   html = html.replace(/__COMPANY__/g, esc(CFG.company)).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__STORES_URL__/g, CFG.storesUrl)

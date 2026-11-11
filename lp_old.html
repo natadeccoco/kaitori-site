@@ -559,6 +559,45 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 .gover{text-align:center;margin-top:22px}.gover p{font-family:"DotGothic16",monospace;font-size:18px;margin:0 0 14px}.gover b{font-family:"Press Start 2P",monospace;font-weight:400;color:var(--mg)}.gover .cta{justify-content:center}
 @media (max-width:560px){.gbox{padding:16px 14px 12px;border-radius:12px 12px 36px 12px}.ghelp{font-size:8px}.gbtn{width:48px;height:48px}}
 
+
+/* ===== ミニゲーム：バトル ===== */
+.gtabs{display:flex;justify-content:center;gap:10px;margin:0 0 14px}
+.gtab{font-family:"DotGothic16",monospace;font-size:16px;padding:6px 18px;border:3px solid var(--gb0);background:var(--gbl);color:var(--gb0);cursor:pointer;box-shadow:4px 4px 0 var(--gb0)}
+.gtab.on{background:var(--gb0);color:var(--gb3)}
+.bscr{position:relative;aspect-ratio:10/8;background:#E0EBC8;box-shadow:inset 0 0 0 5px #8BAC0F;overflow:hidden;font-family:"DotGothic16",monospace;color:var(--gb0);-webkit-user-select:none;user-select:none;cursor:pointer;touch-action:manipulation}
+.bscr:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(15,56,15,.05) 0 2px,transparent 2px 4px);pointer-events:none}
+.bfoe{position:absolute;left:0;right:0;top:3%;height:36%}
+.bme{position:absolute;left:0;right:0;top:36%;height:34%}
+.bst{position:absolute;width:46%;font-size:clamp(12px,2.2vw,19px);line-height:1.25}
+.bst.foe{left:5%;top:8%}.bst.me{right:5%;top:22%}
+.bst b{font-weight:400;letter-spacing:.06em}.bst .lv{margin-left:.6em}.bst .lv i{font-style:normal}
+.bst .hp{display:flex;align-items:center;gap:6px;margin-top:4px;padding-left:8%;border-left:3px solid var(--gb0);border-bottom:3px solid var(--gb0);padding-bottom:4px}
+.bst.me .hp{border-left:0;border-right:3px solid var(--gb0);padding-left:0;padding-right:8%}
+.bst .hp em{font-style:normal;font-family:"Press Start 2P",monospace;font-size:clamp(7px,1.2vw,10px);background:var(--gb0);color:var(--gb3);padding:2px 4px}
+.bst .hpb{flex:1;height:clamp(6px,1vw,9px);border:2px solid var(--gb0);border-radius:6px;background:#E0EBC8;overflow:hidden}
+.bst .hpb i{display:block;height:100%;width:100%;background:var(--gb1);transition:width .6s steps(12)}
+.bst .num{display:block;text-align:right;font-family:"Press Start 2P",monospace;font-size:clamp(8px,1.3vw,12px);margin-top:4px}.bst .num i{font-style:normal}
+.bmon{position:absolute;display:flex;align-items:flex-end;justify-content:center}
+.bmon.foe{right:7%;top:0;width:34%;height:100%}.bmon.me{left:7%;bottom:0;width:30%;height:100%}
+.bmon img{position:relative;z-index:1;max-height:92%;max-width:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+.bmon.me img{transform:scaleX(-1)}
+.bmon .pad{position:absolute;left:4%;right:4%;bottom:2%;height:22%;border-radius:50%;border:3px solid var(--gb1);background:var(--gb2);opacity:.7}
+.bmon.hit img{animation:bhit .5s steps(2) 2}.bmon.atk.foe img{animation:batkF .35s ease}.bmon.atk.me img{animation:batkM .35s ease}
+.bmon.out img{animation:bout .6s steps(6) forwards}.bmon.in img{animation:bin .6s steps(6)}
+@keyframes bhit{50%{opacity:0}}
+@keyframes batkF{50%{translate:-18% 6%}}@keyframes batkM{50%{translate:18% -6%}}
+@keyframes bout{to{translate:0 60%;opacity:0}}@keyframes bin{from{translate:60% 0;opacity:0}}
+.bscr.flash{animation:bflash .3s steps(2) 2}@keyframes bflash{50%{filter:invert(1)}}
+.bbox{position:absolute;left:2.5%;right:2.5%;bottom:3%;height:26%;background:#F2F6E6;border:4px double var(--gb0);border-radius:6px;padding:2.4% 4%;font-size:clamp(13px,2.4vw,21px);line-height:1.55}
+.bbox p{margin:0;white-space:pre-wrap}
+.bnext{position:absolute;right:3%;bottom:6%;font-size:.7em;animation:gbblink 1s steps(1) infinite;visibility:hidden}
+.bnext.on{visibility:visible}
+.bmenu{position:absolute;right:2%;top:-6%;bottom:-6%;width:52%;margin:0;padding:3% 4%;list-style:none;display:grid;grid-template-columns:1fr 1fr;align-content:center;gap:6% 6%;background:#F2F6E6;border:4px double var(--gb0);border-radius:6px}
+.bmenu[hidden]{display:none}
+.bmenu li{position:relative;padding-left:1.1em;cursor:pointer}
+.bmenu li.on:before{content:"▶";position:absolute;left:0}
+@media (max-width:560px){.bbox{height:30%}.bmenu{width:60%}}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -749,7 +788,9 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 <button type="button" class="gfab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi">▶</span><span><b>GAME</b>ミニゲームで遊ぶ</span></button>
 <div class="gmodal" id="gmodal" hidden><div class="gbg" data-close></div><div class="gwin" role="dialog" aria-modal="true" aria-label="ジャンプゲーム">
   <button type="button" class="gx" data-close aria-label="閉じる">×</button>
-  <p class="gttl">ナタデココちゃんの <b>ジャンプでよけろ！</b></p>
+  <p class="gttl">ナタデココちゃんの <b>ミニゲーム</b></p>
+  <div class="gtabs" role="tablist"><button type="button" class="gtab on" data-g="jump">▶ ジャンプ</button><button type="button" class="gtab" data-g="battle">▶ バトル</button></div>
+  <div class="gpanel" id="gp-jump">
   <div class="gbox">
     <div class="gscr"><canvas id="gcv" width="320" height="120" aria-label="ジャンプゲーム"></canvas>
       <div class="gmsg" id="gmsg"><button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span></div>
@@ -757,7 +798,94 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
     <div class="gctl"><span class="ghelp">SPACE / ↑ / TAP でジャンプ</span><button type="button" class="gbtn" id="gjump" aria-label="ジャンプ">A</button></div>
   </div>
   <div class="gover" id="gover" hidden><p>スコア <b id="gsc">0</b>！ 昔のカード、送ってみませんか？</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+  </div>
+  <div class="gpanel" id="gp-battle" hidden>
+    <div class="gbox">
+      <div class="bscr" id="bscr">
+        <div class="bfoe">
+          <div class="bst foe"><b id="bfName">ファイ</b><span class="lv">:L<i id="bfLv">12</i></span><div class="hp"><em>HP</em><span class="hpb"><i id="bfBar"></i></span></div></div>
+          <div class="bmon foe"><span class="pad"></span><img id="bfImg" alt=""></div>
+        </div>
+        <div class="bme">
+          <div class="bmon me"><span class="pad"></span><img id="bmImg" alt=""></div>
+          <div class="bst me"><b>ナタデココ</b><span class="lv">:L<i>50</i></span><div class="hp"><em>HP</em><span class="hpb"><i id="bmBar"></i></span></div><span class="num"><i id="bmHp">60</i>/ 60</span></div>
+        </div>
+        <div class="bbox"><p id="btxt"></p><span class="bnext" id="bnext">▼</span>
+          <ul class="bmenu" id="bmenu" hidden>
+            <li data-m="0">さてい</li><li data-m="1">はこづめ</li><li data-m="2">スリーブ</li><li data-m="3">おふりこみ</li>
+          </ul>
+        </div>
+      </div>
+      <div class="gctl"><span class="ghelp">↑↓←→ でえらぶ / SPACE・ENTER・TAP でけってい</span><button type="button" class="gbtn" id="bA" aria-label="けってい">A</button></div>
+    </div>
+    <div class="gover" id="bover" hidden><p id="bovT">なかまに なった！</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+  </div>
+
 </div></div>
+
+
+<script>
+(function(){
+  var scr=document.getElementById('bscr');if(!scr)return;
+  var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
+  var $=function(id){return document.getElementById(id)};
+  var FOES=[
+    {n:'ミンティ',img:'minty1',hp:44,atk:[7,11],moves:['はっぱで ぺちっ','くるくる ダンス'],lv:11},
+    {n:'パチル',img:'pachiru1',hp:50,atk:[8,12],moves:['ビリビリ','もふもふ タックル'],lv:13},
+    {n:'ファイ',img:'fai1',hp:48,atk:[9,13],moves:['ほのおの いき','めらめら パンチ'],lv:14},
+    {n:'アメリー',img:'amery1',hp:46,atk:[7,12],moves:['あわあわ','ゆめみる ステップ'],lv:12},
+    {n:'メルルート',img:'melroot1',hp:52,atk:[8,13],moves:['つばさで ばさっ','ねむねむ ビーム'],lv:15}];
+  var MOVES=[
+    {n:'さてい',d:[11,16],hit:.95,t:'さていした！'},
+    {n:'はこづめ',d:[17,24],hit:.7,t:'はこに つめた！'},
+    {n:'スリーブ',guard:1,t:'スリーブで みを まもった！'},
+    {n:'おふりこみ',heal:[16,22],t:'おふりこみで げんきが でた！'}];
+  var foe,fHP,mHP,MH=60,guard=false,busy=false,sel=0,state='off',q=[],typing=null,waitNext=null;
+  var fI=$('bfImg'),mI=$('bmImg'),menu=$('bmenu'),txt=$('btxt'),nx=$('bnext'),items=menu.querySelectorAll('li');
+  mI.src=GB+'chan1.webp';
+  function r(a){return a[0]+Math.floor(Math.random()*(a[1]-a[0]+1));}
+  function bars(){$('bfBar').style.width=Math.max(0,fHP/foe.hp*100)+'%';$('bmBar').style.width=Math.max(0,mHP/MH*100)+'%';$('bmHp').textContent=Math.max(0,mHP);}
+  var cur='',curCb=null;
+  function done(){clearInterval(typing);typing=null;txt.textContent=cur;nx.classList.add('on');waitNext=curCb||null;}
+  function say(s,cb){clearInterval(typing);nx.classList.remove('on');waitNext=null;cur=s;curCb=cb;txt.textContent='';var i=0;typing=setInterval(function(){txt.textContent=s.slice(0,++i);if(i>=s.length)done();},35);}
+  function next(){if(typing){done();return;}if(!waitNext)return;nx.classList.remove('on');var cb=waitNext;waitNext=null;cb();}
+  function anim(el,c,ms){el.classList.remove(c);void el.offsetWidth;el.classList.add(c);setTimeout(function(){el.classList.remove(c)},ms||600);}
+  function showMenu(){state='menu';menu.hidden=false;txt.textContent='どうする？';paint();}
+  function paint(){items.forEach(function(li,i){li.classList.toggle('on',i===sel)});}
+  function start(){fI.parentNode.classList.remove('out');mI.parentNode.classList.remove('out');foe=FOES[Math.floor(Math.random()*FOES.length)];fHP=foe.hp;mHP=MH;guard=false;
+    fI.src=GB+foe.img+'.webp';$('bfName').textContent=foe.n;$('bfLv').textContent=foe.lv;bars();$('bover').hidden=true;menu.hidden=true;
+    anim(fI.parentNode,'in',700);state='msg';
+    say('あっ！ やせいの '+foe.n+'が\nとびだしてきた！',function(){say('いけっ！ ナタデココちゃん！',showMenu);});}
+  function choose(i){if(state!=='menu')return;state='msg';menu.hidden=true;var m=MOVES[i];
+    say('ナタデココちゃんの\n'+m.n+'！',function(){
+      if(m.guard){guard=true;say(m.t,foeTurn);return;}
+      if(m.heal){var h=r(m.heal);mHP=Math.min(MH,mHP+h);bars();say(m.t,foeTurn);return;}
+      anim($('bmImg').parentNode,'atk',400);
+      if(Math.random()>m.hit){setTimeout(function(){say('しかし うまく きまらなかった！',foeTurn)},350);return;}
+      var d=r(m.d),crit=Math.random()<.12;if(crit)d=Math.round(d*1.5);
+      setTimeout(function(){anim(fI.parentNode,'hit',1000);fHP-=d;bars();
+        say((crit?'きゅうしょに あたった！\n':'')+foe.n+'に '+d+'の ダメージ！',function(){if(fHP<=0)win();else foeTurn();});},380);
+    });}
+  function foeTurn(){var mv=foe.moves[Math.floor(Math.random()*foe.moves.length)];
+    say('やせいの '+foe.n+'の\n'+mv+'！',function(){anim(fI.parentNode,'atk',400);
+      setTimeout(function(){var d=r(foe.atk);if(guard){d=Math.ceil(d/3);guard=false;}anim(scr,'flash',700);anim(mI.parentNode,'hit',1000);mHP-=d;bars();
+        say('ナタデココちゃんに '+d+'の ダメージ！',function(){if(mHP<=0)lose();else showMenu();});},380);});}
+  function win(){fI.parentNode.classList.add('out');say('やせいの '+foe.n+'は\nたおれた！',function(){say(foe.n+'は ナタデココの\nなかまに なった！',function(){state='end';$('bovT').textContent=foe.n+'が なかまに なった！ 昔のカードも、ナタデココで買取します。';$('bover').hidden=false;say('Aで もういちど あそぶ',function(){start();});});});}
+  function lose(){mI.parentNode.classList.add('out');say('ナタデココちゃんは つかれて\nねむって しまった…',function(){state='end';$('bovT').textContent='おしい！ 昔のカードは、ナタデココで買取します。';$('bover').hidden=false;say('Aで もういちど あそぶ',function(){start();});});}
+  function act(){if(state==='menu')choose(sel);else next();}
+  scr.addEventListener('pointerdown',function(e){var li=e.target.closest('.bmenu li');if(li&&state==='menu'){sel=+li.dataset.m;paint();choose(sel);return;}e.preventDefault();act();});
+  $('bA').addEventListener('pointerdown',function(e){e.preventDefault();act();});
+  addEventListener('keydown',function(e){var md=$('gmodal');if(!md||md.hidden||$('gp-battle').hidden)return;
+    var k=e.key;if(k==='Escape')return;
+    if(/^Arrow/.test(k)){e.preventDefault();e.stopImmediatePropagation();if(state==='menu'){if(k==='ArrowLeft'||k==='ArrowRight')sel=sel^1;else sel=sel^2;paint();}return;}
+    if(k===' '||k==='Enter'||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();act();}},true);
+  // タブ切り替え
+  var tabs=document.querySelectorAll('.gtab');
+  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.toggle('on',x===t)});var b=t.dataset.g==='battle';
+    $('gp-battle').hidden=!b;$('gp-jump').hidden=b;if(b&&window.ndJumpStop)ndJumpStop();if(b&&state!=='menu'&&state!=='msg')start();if(b){var s=document.getElementById('gstart');}});});
+  window.ndBattleStart=start;
+})();
+</script>
 
 <div class="bar" id="bar">
   <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む</a>
@@ -940,6 +1068,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   var md=document.getElementById('gmodal'),op=document.getElementById('gopen');
   function openG(){md.hidden=false;document.documentElement.style.overflow='hidden';st='idle';reset();over.hidden=true;msg.innerHTML='<button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;draw();setTimeout(function(){var b=document.getElementById('gstart');if(b)b.focus();},50);}
   function closeG(){md.hidden=true;document.documentElement.style.overflow='';cancelAnimationFrame(raf);if(st==='run')st='idle';}
+  window.ndJumpStop=function(){cancelAnimationFrame(raf);if(st==='run'){st='idle';msg.innerHTML='<button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;}};
   op.addEventListener('click',openG);
   document.querySelectorAll('a[href="#game"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openG();});});
   md.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeG);});

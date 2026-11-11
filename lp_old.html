@@ -598,6 +598,48 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 .bmenu li.on:before{content:"▶";position:absolute;left:0}
 @media (max-width:560px){.bbox{height:30%}.bmenu{width:60%}}
 
+
+/* ===== オープニング：対戦開始の演出 ===== */
+#intro.gbi{background:#9BBC0F;padding:0;display:block;font-family:"DotGothic16",monospace;color:#0F380F;overflow:hidden;transition:opacity .5s}
+#intro.gbi.out{transform:none;opacity:0}
+#intro.gbi:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(15,56,15,.06) 0 2px,transparent 2px 4px);pointer-events:none;z-index:5}
+#intro.gbi.fl{animation:gbiflash .9s steps(1) 1}
+@keyframes gbiflash{0%,33%,66%{background:#0F380F}16%,50%,83%{background:#E0EBC8}100%{background:#9BBC0F}}
+#intro .wipe{position:absolute;inset:0;display:flex;flex-direction:column;z-index:3;pointer-events:none}
+#intro .wipe i{flex:1;background:#0F380F;transform:scaleX(0);transform-origin:left}
+#intro .wipe i:nth-child(even){transform-origin:right}
+#intro.go .wipe i{animation:gbiwipe .7s steps(10) forwards}
+#intro.go .wipe i:nth-child(n){animation-delay:calc(var(--k)*0s)}
+@keyframes gbiwipe{to{transform:scaleX(1)}}
+#intro.open .wipe{animation:gbiopen .35s steps(5) forwards}
+@keyframes gbiopen{to{opacity:0}}
+#intro .bt{position:absolute;left:50%;top:50%;width:min(720px,94vw);aspect-ratio:10/9;transform:translate(-50%,-50%);background:#E0EBC8;box-shadow:inset 0 0 0 6px #8BAC0F;opacity:0}
+#intro.open .bt{opacity:1}
+#intro .bs{position:absolute;width:48%;font-size:clamp(13px,2.6vw,22px);line-height:1.3}
+#intro .bs b{font-weight:400;letter-spacing:.05em}#intro .bs .lv{margin-left:.5em}
+#intro .bs .hp{display:flex;align-items:center;gap:6px;margin-top:4px;padding:0 0 4px 8%;border-left:3px solid #0F380F;border-bottom:3px solid #0F380F}
+#intro .bs.me .hp{border-left:0;border-right:3px solid #0F380F;padding:0 8% 4px 0}
+#intro .bs .hp em{font-style:normal;font-family:"Press Start 2P",monospace;font-size:clamp(7px,1.3vw,10px);background:#0F380F;color:#9BBC0F;padding:2px 4px}
+#intro .bs .hp>span{flex:1;height:clamp(6px,1.1vw,9px);border:2px solid #0F380F;border-radius:6px;overflow:hidden}
+#intro .bs .hp i{display:block;height:100%;width:100%;background:#306230}
+#intro .bfo{position:absolute;left:0;right:0;top:4%;height:40%}
+#intro .bfo .bs{left:5%;top:8%}
+#intro .bmy{position:absolute;left:0;right:0;top:40%;height:34%}
+#intro .bmy .bs{right:5%;top:30%}
+#intro .mon{position:absolute;display:flex;align-items:flex-end;justify-content:center}
+#intro .bfo .mon{right:6%;top:0;width:34%;height:100%;transform:translateX(-190%)}
+#intro .bmy .mon{left:6%;bottom:0;width:32%;height:100%;transform:translateX(220%)}
+#intro.open .mon{transition:transform 1s steps(14);transform:none}
+#intro .mon .pad{position:absolute;left:2%;right:2%;bottom:0;height:20%;border-radius:50%;border:3px solid #306230;background:#8BAC0F;opacity:.7}
+#intro .mon img{position:relative;z-index:1;max-height:94%;max-width:92%;image-rendering:pixelated;image-rendering:crisp-edges}
+#intro .mon img.cd{max-height:96%;border:3px solid #0F380F;border-radius:4px;filter:grayscale(1) sepia(1) hue-rotate(45deg) saturate(2.2) contrast(1.15) brightness(.95)}
+#intro .mon img.ch2{transform:scaleX(-1)}
+#intro .bs{opacity:0}#intro.st .bs{opacity:1}
+#intro .tb{position:absolute;left:2.5%;right:2.5%;bottom:3%;height:24%;background:#F2F6E6;border:4px double #0F380F;border-radius:6px;padding:2.5% 4%;font-size:clamp(14px,2.8vw,24px);line-height:1.55}
+#intro .tb p{margin:0;white-space:pre-wrap}
+#intro .tb .nx{position:absolute;right:3%;bottom:6%;font-size:.7em;animation:gbblink 1s steps(1) infinite;display:none}#intro .tb .nx.on{display:block}
+#intro .skip{position:absolute;right:16px;bottom:16px;z-index:6;font-family:"Press Start 2P",monospace;font-size:11px;background:#0F380F;color:#9BBC0F;border:0;padding:8px 12px;cursor:pointer;box-shadow:4px 4px 0 #306230}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -630,7 +672,15 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 @media (prefers-reduced-motion:reduce){.banner .ch{animation:none}}
 </style>
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
-<div id="intro" aria-hidden="true"><div class="deck rise"><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC7__" alt="" onerror="this.remove()"></div><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC8__" alt="" onerror="this.remove()"></div><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC9__" alt="" onerror="this.remove()"></div><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC10__" alt="" onerror="this.remove()"></div><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC11__" alt="" onerror="this.remove()"></div><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC12__" alt="" onerror="this.remove()"></div><div class="cb"><img class="bk" src="/logo.png" alt=""><img class="ft" src="__FC13__" alt="" onerror="this.remove()"></div></div><img class="ch" src="/img/gb/chan1.webp" alt=""><img src="/logo.png" alt=""><div class="t">かんたん郵送買取</div></div>
+<div id="intro" class="gbi" aria-hidden="true">
+  <div class="wipe"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="bt">
+    <div class="bfo"><span class="bs"><b class="nm">旧裏カード</b><span class="lv">:L96</span><span class="hp"><em>HP</em><span><i></i></span></span></span><div class="mon"><span class="pad"></span><img class="cd" alt=""></div></div>
+    <div class="bmy"><div class="mon"><span class="pad"></span><img class="ch2" src="/img/gb/chan1.webp" alt=""></div><span class="bs me"><b>ナタデココ</b><span class="lv">:L50</span><span class="hp"><em>HP</em><span><i></i></span></span></span></div>
+    <div class="tb"><p></p><span class="nx">▼</span></div>
+  </div>
+  <button type="button" class="skip">SKIP ▶</button>
+</div>
 <div id="prog"></div><canvas id="fx"></canvas>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
@@ -893,6 +943,25 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 </div>
 <script id="hotpool" type="application/json">__HOTPOOL__</script>
 <script>
+(function(){var it=document.getElementById('intro');if(!it||!it.classList.contains('gbi'))return;
+  var bars=it.querySelectorAll('.wipe i');bars.forEach(function(b,i){b.style.animationDelay=(i%2?0.03:0)+i*0.02+'s';});
+  var pool=[];try{pool=JSON.parse(document.getElementById('hotpool').textContent||'[]')}catch(e){}
+  var c=pool.length?pool[Math.floor(Math.random()*pool.length)]:null;
+  var nm=c?String(c.n).split(/[ 　(（]/)[0].replace(/^＿の/,''):'旧裏カード';
+  if(c){it.querySelector('img.cd').src=c.img;}
+  it.querySelector('.nm').textContent=nm.slice(0,8);
+  var p=it.querySelector('.tb p'),nx=it.querySelector('.nx'),T=[];
+  function type(s,cb){var i=0;nx.classList.remove('on');p.textContent='';var t=setInterval(function(){p.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(t);nx.classList.add('on');if(cb)T.push(setTimeout(cb,900));}},45);T.push(t);}
+  T.push(setTimeout(function(){it.classList.add('fl');},150));
+  T.push(setTimeout(function(){it.classList.add('go');},1050));
+  T.push(setTimeout(function(){it.classList.add('open');},1900));
+  T.push(setTimeout(function(){it.classList.add('st');type('あっ！ やせいの '+nm+'が\nとびだしてきた！',function(){type('ナタデココちゃん！\nたかく かいとりだ！');});},3000));
+  window.__ndIntroEnd=function(){T.forEach(function(x){clearTimeout(x);clearInterval(x)});it.classList.add('out');setTimeout(function(){it.remove()},600);};
+  it.querySelector('.skip').addEventListener('click',window.__ndIntroEnd);
+})();
+</script>
+
+<script>
 (function(){try{var pool=JSON.parse(document.getElementById('hotpool').textContent||'[]');if(pool.length<2)return;
 for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t;}
 var at=function(i){return pool[i%pool.length]};
@@ -944,7 +1013,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches,fine=matchMedia('(hover:hover)').matches;
   // イントロ（セッション内1回）
   var intro=document.getElementById('intro');
-  try{if(sessionStorage.getItem('nd_intro')||reduce){intro.remove();}else{sessionStorage.setItem('nd_intro','1');setTimeout(function(){intro.classList.add('out');setTimeout(function(){intro.remove()},800)},2300);}}catch(e){intro.remove();}
+  try{if(sessionStorage.getItem('nd_intro')||reduce){intro.remove();}else{sessionStorage.setItem('nd_intro','1');setTimeout(function(){if(window.__ndIntroEnd)__ndIntroEnd();else{intro.classList.add('out');setTimeout(function(){intro.remove()},800)}},7600);}}catch(e){intro.remove();}
   // 進捗バー
   var prog=document.getElementById('prog');
   function onScroll(){var h=document.documentElement,p=h.scrollTop/(h.scrollHeight-h.clientHeight||1);prog.style.transform='scaleX('+p+')';var rn=document.getElementById('runner');if(rn)rn.style.left=(20+p*(innerWidth-40))+'px';

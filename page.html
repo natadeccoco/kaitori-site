@@ -65,7 +65,7 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .banner.has .ph{display:none}
 .banner .ch{width:auto;height:auto;inset:auto;object-fit:unset;pointer-events:none;filter:drop-shadow(0 .6vw 0 rgba(43,58,103,.22))}
 .banner .ch.chan{right:1.7%;bottom:-4%;height:87%;transform-origin:50% 100%;animation:bchan 4s ease-in-out infinite}
-.banner .ch.minty{right:25.6%;bottom:20%;width:7.8%;animation:bminty 3s ease-in-out infinite}
+.banner .hot{position:absolute;left:51.7%;top:77%;width:24.4%;height:17%;border-radius:999px;z-index:3;transition:background .2s}.banner .hot:hover{background:rgba(255,255,255,.18)}
 .banner:not(.has) .ch{display:none}
 @keyframes bchan{0%,100%{transform:translateY(0) rotate(0)}20%{transform:translateY(0) scale(1.03,.97)}30%{transform:translateY(-3.5%) rotate(-2deg)}40%{transform:translateY(0) scale(1.03,.97)}50%{transform:translateY(-2%) rotate(2deg)}60%{transform:translateY(0)}}
 @keyframes bminty{0%,100%{transform:translateY(0) rotate(8deg)}50%{transform:translateY(-18%) rotate(0deg)}}
@@ -284,7 +284,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 .modal .close{position:absolute;top:10px;right:10px;border:0;background:var(--bg-2);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:18px}
 .steps{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
 .steps li{display:grid;grid-template-columns:44px 1fr 64px;gap:12px;align-items:center;background:var(--bg-2);border-radius:14px;padding:10px 12px}
-.steps li img{height:60px;width:64px;object-fit:contain;justify-self:end}
+.steps li img{height:78px;width:72px;object-fit:contain;justify-self:end}
 .steps .n{width:44px;height:44px;border-radius:50%;background:linear-gradient(160deg,var(--lav),var(--cyan));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;line-height:1;text-shadow:0 1px 2px rgba(0,0,0,.2)}
 .steps .n small{font-size:8px;letter-spacing:.1em}
 .steps b{display:block;font-size:15px}
@@ -352,9 +352,9 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
   <div class="tabs" id="tabs"></div>
 
   <div class="banner" id="banner">
-    <img src="banner.jpg?v=4" alt="ポケカ 送るだけ買取" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+    <img src="banner.jpg?v=5" alt="ポケカ 送るだけ買取" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
     <img class="ch chan" src="/img/banner_chan.webp" alt="">
-    <img class="ch minty" src="/img/banner_minty.webp" alt="">
+    <a class="hot" id="bannerLine" href="#" target="_blank" rel="noopener" aria-label="LINEで申込"></a>
     <div class="ph"><b>ポケカ買取強化中！</b><span>送るだけ・送料無料・最短当日入金</span><small>バナー画像（banner.jpg 1800×600px）をここに表示</small></div>
   </div>
   <div class="sfx-zero"><div class="z0"><small>ぜんぶ</small><b>¥0</b></div><ul><li>送料</li><li>査定料</li><li>キャンセル料</li><li>返送料</li><li>振込手数料</li></ul></div>
@@ -486,11 +486,10 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
     <h2 id="howtoTitle">かんたん郵送買取 ご利用方法</h2>
     <p style="margin:0;color:var(--ink-2);font-size:13px">お取引は全てネットで完結。即日査定・送料無料・到着後即日入金！</p>
     <ol class="steps">
-      <li><span class="n"><small>STEP</small>1</span><div><b>ご依頼（LINE）</b><p>価格表でカードを選んで「LINEで買取申込へ進む」を押すか、売りたいカードの写真をLINEでお送りください。品番が見えるように撮っていただけると助かります。</p></div><img src="/img/chars/chan1.webp" alt=""></li>
-      <li><span class="n"><small>STEP</small>2</span><div><b>お見積り</b><p>美品での買取金額をご連絡します。傷があるとわかっている場合はあらかじめお知らせください。</p></div><img src="/img/chars/minty2.webp" alt=""></li>
-      <li><span class="n"><small>STEP</small>3</span><div><b>お申込・ご発送</b><p>ご納得いただけたら申込フォームにご入力のうえ、佐川急便の着払いでご発送ください（レターパック・ヤマトも可）。お見積りの有効期限は到着まで含めて5日間です。</p></div><img src="/img/chars/pachiru1.webp" alt=""></li>
-      <li><span class="n"><small>STEP</small>4</span><div><b>本査定</b><p>届いたカードを検品し、最終金額をご連絡します。減額後の金額にご納得いただけない場合はキャンセルも可能です（返送料は当店負担）。</p></div><img src="/img/chars/fai1.webp" alt=""></li>
-      <li><span class="n"><small>STEP</small>5</span><div><b>本人確認・お振込</b><p>古物営業法にもとづき eKYC（スマホで本人確認）を行い、その後遅滞なくお振込みします。顔写真付き身分証が必要です。</p></div><img src="/img/chars/melroot1.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>1</span><div><b>LINEで申込</b><p>価格表でカードを選んで「LINEで買取申込へ進む」を押すか、LINEのリッチメニューからお申込みください。先に写真を送っていただければ、事前にお見積りもできます。</p></div><img src="/img/step1.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>2</span><div><b>着払いで発送</b><p>お手持ちの箱でOK。佐川急便の着払いで送料0円（レターパック・ヤマトも可）。スリーブやファイルのままで大丈夫です。</p></div><img src="/img/step2.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>3</span><div><b>本査定</b><p>到着後に1枚ずつ検品し、カード到着日の価格で最終金額をLINEでご連絡します。減額に納得できなければキャンセル可（返送料は当店負担）。</p></div><img src="/img/step3.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>4</span><div><b>お振込み</b><p>古物営業法にもとづき、スマホで本人確認（eKYC・顔写真付き身分証）のあと、最短当日にお振込みします。</p></div><img src="/img/step4.webp" alt=""></li>
     </ol>
     <p style="margin:14px 0 0;text-align:center;font-size:13px"><a href="/guide/">梱包のしかた・価格の考え方など、くわしいガイドはこちら ›</a>　<a href="/faq/">よくある質問 ›</a></p>
   </div>
@@ -718,7 +717,7 @@ $("#howtoBtn").onclick=openHow;$("#howtoLink").onclick=openHow;
 $("#howtoClose").onclick=()=>$("#howto").hidden=true;
 $("#howto").addEventListener("click",e=>{if(e.target.id==="howto")$("#howto").hidden=true;});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#howto").hidden=true;closeItem();}});
-$("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;$("#xLink").href=CONFIG.xUrl;
+$("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;if($("#bannerLine"))$("#bannerLine").href=CONFIG.lineAddUrl;$("#xLink").href=CONFIG.xUrl;
 
 /* ============================ 初期化 ============================ */
 function boot(items){

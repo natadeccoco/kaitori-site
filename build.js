@@ -380,6 +380,11 @@ console.log(`article pages: ${arts.length}`);
       .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
       .replace(/__TICKER__/g, Array.from({ length: 24 }, (_, i) => hotAt(i)).map(r => `<a class="tk" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()"><span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span></a>`).join(""))
       .replace(/__HOTPOOL__/g, () => hotJson)
+      .replace(/__PACKPOOL__/g, () => { const pk = items.filter(x => x.img && x.cat === "ポケモン");
+        const hit = shuffle(pk.filter(x => /^(SAR|SR|AR|UR|HR|MUR|BWR)$/i.test(x.rarity || "") && x.price >= 3000).sort(byPrice).slice(0, 80)).slice(0, 40);
+        const com = shuffle(pk.filter(x => x.price > 0 && x.price < 1500).slice()).slice(0, 40);
+        const m = r => ({ n: r.name, p: yen(r.price), img: r.img });
+        return JSON.stringify({ hit: hit.map(m), com: com.map(m) }); })
       .replace(/__FC([1-9]|1[0-5])__/g, (m, i) => esc(hotAt(Number(i) - 1).img))
       .replace(/__HOTIMG(\d+)__/g, (m, i) => esc(hotAt(Number(i)).img))
       .replace(/__VP_([a-z]+)_(\d)(_slab)?__/g, (m, key, n, slab) => { const f = V.vpics[key]; if (!f) return ""; const a = f(Number(n));

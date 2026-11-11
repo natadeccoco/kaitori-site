@@ -681,6 +681,13 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 .hero .micro{text-align:center;margin:10px 0 0}
 @media (max-width:760px){.hero{padding:12px 0 18px}.hero .wrap{padding:0 12px}.banner{border-radius:14px;border-width:2px;box-shadow:0 5px 0 var(--ink)}.hero .cta{margin-top:14px}}
 @media (prefers-reduced-motion:reduce){.banner .ch{animation:none}}
+
+/* ===== カーソルのキラキラ：ドット液晶版 ===== */
+.cur{animation-timing-function:steps(5)!important}
+.cur.bub{width:6px!important;height:6px!important;border-radius:0!important;border:0!important;background:var(--c)!important;box-shadow:6px 0 0 var(--c),-6px 0 0 var(--c),0 6px 0 var(--c),0 -6px 0 var(--c)!important}
+.cur.bub.p{--c:#0F380F}.cur.bub.c{--c:#306230}.cur.bub.l{--c:#8BAC0F}.cur.bub.y{--c:#9A2257}
+.cur.star{font-family:"Press Start 2P",monospace!important;font-size:12px!important;color:#306230!important;text-shadow:2px 2px 0 #9BBC0F!important}
+.cur.wl{font-family:"DotGothic16",monospace!important;font-weight:400!important;font-size:24px!important;background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:#0F380F!important;-webkit-text-stroke:0!important;filter:none!important;text-shadow:2px 2px 0 #9BBC0F,-1px -1px 0 #E0EBC8!important;animation-timing-function:steps(8)!important}
 </style>
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
 <div id="intro" class="gbi" aria-hidden="true">
@@ -692,7 +699,7 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
   </div>
   <button type="button" class="skip">SKIP ▶</button>
 </div>
-<div id="prog"></div><canvas id="fx"></canvas>
+<div id="prog"></div><span id="runner" hidden></span><canvas id="fx"></canvas>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
   <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">状態の見かた</a><a href="#faq">よくある質問</a></nav>
@@ -1037,7 +1044,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   // キラキラ（キャンバス）
   var cv=document.getElementById('fx'),ctx=cv.getContext('2d'),ps=[];
   function size(){cv.width=innerWidth;cv.height=innerHeight}size();addEventListener('resize',size);
-  function spawn(x,y,n,big){for(var i=0;i<n;i++)ps.push({x:x,y:y,vx:(Math.random()-.5)*(big?12:3),vy:(Math.random()-.5)*(big?12:3)-(big?4:1),life:1,s:(big?6:3)+Math.random()*4,c:['#FFE86B','#FFB8DC','#A9F3F4','#C4A8F0','#06C755'][Math.floor(Math.random()*5)],r:Math.random()*6});}
+  function spawn(x,y,n,big){for(var i=0;i<n;i++)ps.push({x:x,y:y,vx:(Math.random()-.5)*(big?12:3),vy:(Math.random()-.5)*(big?12:3)-(big?4:1),life:1,s:(big?6:3)+Math.random()*4,c:['#0F380F','#306230','#8BAC0F','#9A2257','#0F380F'][Math.floor(Math.random()*5)],r:Math.random()*6});}
   function tick(){ctx.clearRect(0,0,cv.width,cv.height);ps=ps.filter(function(p){return p.life>0});ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.15;p.life-=.02;p.r+=.1;ctx.save();ctx.globalAlpha=Math.max(0,p.life);ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.beginPath();for(var i=0;i<4;i++){ctx.lineTo(0,-p.s);ctx.lineTo(p.s*.35,-p.s*.35);ctx.rotate(Math.PI/2);}ctx.closePath();ctx.fill();ctx.restore();});if(ps.length)requestAnimationFrame(tick);}
   function burst(x,y,n,big){spawn(x,y,n,big);requestAnimationFrame(tick);}
   if(!reduce){var hr=hero.getBoundingClientRect();setTimeout(function(){burst(innerWidth*.72,hr.top+hr.height*.35,40,true)},reduce?0:1500);
@@ -1046,7 +1053,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   document.querySelectorAll('.btn.g').forEach(function(b){b.addEventListener('mouseenter',function(e){if(reduce)return;var r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,18,true)});
     if(fine&&!reduce){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;b.style.transform='translate('+(x*10)+'px,'+(y*8)+'px) scale(1.03)';});b.addEventListener('mouseleave',function(){b.style.transform=''});}});
   // カーソルのキラキラ（PCのみ）
-  if(fine&&!reduce){var last=0,curKinds=['bub p','bub c','bub l','bub y','star','bub p','bub c','bub l'],ci=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');var k=curKinds[ci++%curKinds.length];d.className='cur '+k;if(k==='star')d.textContent='✦';d.style.left=(e.clientX+(Math.random()-.5)*10)+'px';d.style.top=(e.clientY+(Math.random()-.5)*10)+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},800);});
+  if(fine&&!reduce){var last=0,curKinds=['bub p','bub c','bub l','bub y','star','bub p','bub c','bub l'],ci=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');var k=curKinds[ci++%curKinds.length];d.className='cur '+k;if(k==='star')d.textContent='+';d.style.left=(e.clientX+(Math.random()-.5)*10)+'px';d.style.top=(e.clientY+(Math.random()-.5)*10)+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},800);});
     // すごく動かすと「natadecoco」の文字がぷくぷく出る
     var px=null,py=null,dist=0,dT=0,wLast=0,mx=0,my=0,WORD='natadecoco',COLS=['#FF8FD0','#4FDDEB','#B391FF','#FF8FD0','#4FDDEB','#B391FF','#FF8FD0','#4FDDEB','#B391FF','#FFB23E'];addEventListener('mousemove',function(e){var t=Date.now();mx=e.clientX;my=e.clientY;if(px!==null){if(t-dT>400){dist=0;}dist+=Math.hypot(e.clientX-px,e.clientY-py);}px=e.clientX;py=e.clientY;dT=t;
       if(dist>1800&&t-wLast>4000){wLast=t;dist=0;var ox=mx,oy=my;WORD.split('').forEach(function(ch,k){setTimeout(function(){var d=document.createElement('span');d.className='cur wl';d.textContent=ch;d.style.setProperty('--c',COLS[k]);d.style.left=(ox+(k-4.5)*14)+'px';d.style.top=(oy-18+Math.sin(k*1.1)*4)+'px';d.style.setProperty('--r',((Math.random()-.5)*12)+'deg');document.body.appendChild(d);setTimeout(function(){d.remove()},1600);},k*55);});if(typeof burst==='function')burst(mx,my,6,true);}});}

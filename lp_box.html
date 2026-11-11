@@ -415,6 +415,43 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 .bxi.pkg i:nth-child(2){display:none}
 .bxi.many i:nth-child(1){left:0;bottom:0;width:56px;height:40px}.bxi.many i:nth-child(2){left:44px;bottom:0;width:56px;height:40px}.bxi.many i:nth-child(3){left:22px;bottom:34px;width:56px;height:40px}
 
+/* ===== カテゴリ強調（共通） ===== */
+.catstrip{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin:18px 0 0;padding:0;list-style:none}
+.catstrip li{display:flex;align-items:center;gap:6px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:6px 16px;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:15px;color:var(--navy);box-shadow:0 4px 0 var(--ink);transition:transform .2s}
+.catstrip li:hover{transform:translateY(-3px) rotate(-2deg)}.catstrip li i{font-style:normal;font-size:18px}
+.catstrip li.hl{background:var(--yel);}
+@media (max-width:560px){.catstrip{gap:6px;margin-top:12px}.catstrip li{font-size:12px;padding:4px 10px;border-width:2px;box-shadow:0 3px 0 var(--ink)}.catstrip li i{font-size:14px}}
+.banner .stamp{position:absolute;left:87%;top:3%;width:10.5%;aspect-ratio:1;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;line-height:1.05;color:#fff;border:.25vw solid #fff;box-shadow:0 .4vw 0 var(--ink),0 0 0 .25vw var(--ink);z-index:3;transform:rotate(-12deg);animation:stampw 3s ease-in-out infinite}
+.banner .stamp b{font-size:clamp(14px,2.4vw,30px)}.banner .stamp small{font-size:clamp(7px,.95vw,12px);margin-top:.2em}
+@keyframes stampw{0%,100%{transform:rotate(-12deg) scale(1)}50%{transform:rotate(-6deg) scale(1.06)}}
+.sec.rank3{padding-top:56px;padding-bottom:40px;position:relative;overflow:hidden}
+.r3{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:22px;align-items:end;max-width:900px;margin:0 auto}
+.r3 a{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:0 7px 0 var(--ink);padding:30px 16px 18px;position:relative;transition:transform .25s}
+.r3 a:hover{transform:translateY(-6px) rotate(-1deg)}
+.r3 a:nth-child(1){order:2;padding-top:40px}.r3 a:nth-child(2){order:1}.r3 a:nth-child(3){order:3}
+.r3 .cr{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-family:"DM Sans",sans-serif;font-weight:900;font-size:15px;letter-spacing:.06em;background:#C9CED6;color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:4px 16px;white-space:nowrap;box-shadow:0 3px 0 var(--ink)}
+.r3 a:nth-child(1) .cr{background:#FFD24A;font-size:18px;padding:6px 20px}.r3 a:nth-child(1) .cr:before{content:"👑 "}.r3 a:nth-child(3) .cr{background:#E8B07A}
+.r3 .im{display:flex;align-items:center;justify-content:center;height:200px;width:100%}.r3 a:nth-child(1) .im{height:250px}
+.r3 .im img{max-height:100%;max-width:100%;object-fit:contain;filter:drop-shadow(0 8px 10px rgba(43,58,103,.25));border-radius:6px}
+.r3 b{margin-top:12px;font-size:14px;line-height:1.4;text-align:center;font-weight:900;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.8em}
+.r3 em{font-style:normal;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;color:var(--price);font-size:26px;line-height:1.2}.r3 a:nth-child(1) em{font-size:34px}
+.r3 em small{font-size:.5em;color:var(--ink-2);margin-left:2px}
+@media (max-width:560px){.r3{gap:8px}.r3 a{padding:22px 6px 10px;border-radius:12px;border-width:2px}.r3 .im{height:110px}.r3 a:nth-child(1) .im{height:140px}.r3 b{font-size:10.5px}.r3 em{font-size:15px}.r3 a:nth-child(1) em{font-size:18px}.r3 .cr{font-size:11px;padding:2px 8px;top:-16px}.r3 a:nth-child(1) .cr{font-size:12px;padding:3px 10px}}
+.rank3 .cap a{color:var(--navy);font-weight:900}
+/* 背景の大きな文字 */
+.sec.items,.sec.cmp,.sec.rank3,#flow{position:relative;overflow-x:clip}
+.sec.items>.wrap,.sec.cmp>.wrap,.sec.rank3>.wrap,#flow>.wrap{position:relative;z-index:1}
+.sec.items:after,.sec.cmp:after,.sec.rank3:after,#flow:after{content:var(--wm);position:absolute;right:-2%;top:4%;font-family:"DM Sans",sans-serif;font-weight:900;font-size:clamp(120px,22vw,300px);line-height:.85;letter-spacing:-.03em;color:var(--wmc);pointer-events:none;z-index:0}
+#flow:after,.sec.cmp:after{right:auto;left:-2%;top:auto;bottom:2%}
+
+:root{--wm:"BOX";--wmc:rgba(217,174,110,.16)}
+.banner .stamp{background:#E2671B}
+.sec.rank3{background:repeating-linear-gradient(90deg,rgba(150,105,50,.05) 0 3px,transparent 3px 14px),#F8E7C6;border-bottom:3px solid var(--ink)}
+.r3 .im{background:radial-gradient(closest-side,rgba(255,179,62,.25),transparent)}
+.st.s1 .hd{background:linear-gradient(160deg,#FFF1D0,#FFD98F)}.st.s3 .hd{background:linear-gradient(160deg,#FFE6CC,#FFBE8A)}.st.s4 .hd{background:linear-gradient(160deg,#F7E3C0,#E9C48A)}.st.s5 .hd{background:linear-gradient(160deg,#FFF0D6,#F6C978)}
+.sh .no{background:#E2671B}
+.catstrip li.hl{background:#FFB23E}
+
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -458,17 +495,25 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 <section class="hero"><div class="wrap">
   <div class="banner rv">
     <img class="bg" src="/img/banner_box.jpg?v=1" alt="ポケカBOX 送るだけ買取">
+    <span class="stamp"><b>BOX</b><small>高価買取中</small></span>
     <div class="prods box"><img src="__HOTIMG0__" alt=""><img src="__HOTIMG1__" alt=""><img src="__HOTIMG2__" alt=""></div>
     <img class="ch chan" src="/img/banner_chan.webp" alt="">
     <a class="hot" href="__LINE_ADD__" target="_blank" rel="noopener" aria-label="LINEで申込"></a>
     <a class="hot find" href="/cat/box/" aria-label="買取価格を調べる"></a>
   </div>
-  <p class="micro rv d1">友だち追加→リッチメニューから申込→BOXを箱に詰めて送るだけ。</p>
+  <ul class="catstrip rv d1"><li class="hl"><i>📦</i>未開封BOX専門</li><li><i>🆕</i>最新弾</li><li><i>💎</i>絶版BOX</li><li><i>✨</i>ハイクラス</li><li><i>🗃️</i>カートン</li><li><i>🎴</i>バラパック</li></ul>
 </div></section>
 <div class="ticker" aria-hidden="true"><span class="lbl">BOX買取価格</span><div class="run">__TICKER____TICKER__</div></div>
 
+<section class="sec tight rank3"><div class="wrap">
+  <div class="sh rv"><span class="no">TOP3</span><h2>いま高く売れる<span class="ul">BOX</span>。</h2><p>__UPDATED__ 時点のBOX買取価格 TOP3（未開封）。</p></div>
+  <div class="r3">__RANK3__</div>
+  <p class="cap"><a href="#prices">BOXの買取価格をもっと見る ↓</a></p>
+</div></section>
+
+
 <section class="sec tight"><div class="wrap">
-  <div class="sh rv"><span class="no">01</span><h2>こんな<span class="ul">お悩み</span>、ありませんか？</h2><p>未開封のBOX・パックは、そのまま送るだけ。お取引はすべてネットで完結します。</p></div>
+  <div class="sh rv"><span class="no">01</span><h2>BOXで、こんな<span class="ul">お悩み</span>ありませんか？</h2><p>未開封のBOX・パックは、そのまま送るだけ。お取引はすべてネットで完結します。</p></div>
   <div class="pains">
     <div class="pain rv"><img src="/img/chars/minty1.webp" alt=""><span class="chk">Check 1</span><p class="bub">積んだBOXが、部屋を圧迫している。</p><p class="a"><b>未開封のまま、箱に詰めて送るだけ</b>1箱から何箱でもまとめてOK。シュリンク（ビニール）ははがさずにお送りください。</p></div>
     <div class="pain rv d1"><img src="/img/chars/pachiru1.webp" alt=""><span class="chk">Check 2</span><p class="bub">BOXは重くて、お店まで運べない。</p><p class="a"><b>着払いで送料0円。家から出すだけ</b>佐川急便の着払いでお送りください。千葉・東京・神奈川の8店舗と同じ価格で査定します。</p></div>
@@ -491,7 +536,7 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 </div></section>
 
 <section class="sec" id="flow"><div class="wrap">
-  <div class="sh rv"><span class="no">03</span><h2>申込から入金まで、<span class="ul">4ステップ</span>。</h2><p>やることは「LINEで送る」と「箱に詰めて送る」の二つだけ。</p></div>
+  <div class="sh rv"><span class="no">03</span><h2>BOXの申込から入金まで、<span class="ul">4ステップ</span>。</h2><p>やることは「LINEで送る」と「BOXを箱に詰めて送る」の二つだけ。</p></div>
   <div class="flow"><div class="flowline"><i></i></div>
     <div class="st rv s1"><div class="hd"><span class="n">1</span><span class="fx1"><i></i><i></i><i></i></span><img src="/img/step1.webp" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
     <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><img src="/img/step2.webp" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>BOXがぐらつかないよう緩衝材で梱包。佐川急便の着払いで送料0円<br><small>その他の発送方法でもOK</small></p><span class="t">梱包10分</span></div></div>
@@ -524,7 +569,7 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 </div></section>
 
 <section class="sec cmp" id="terms"><div class="wrap">
-  <div class="sh rv"><span class="no">06</span><h2>郵送買取、<span class="ul">4つの約束</span>。</h2><p>店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。はじめてでも安心して送れます。</p></div>
+  <div class="sh rv"><span class="no">06</span><h2>BOX郵送買取、<span class="ul">4つの約束</span>。</h2><p>店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。はじめてでも安心して送れます。</p></div>
   <div class="pgrid4">
     <div class="pm4 g rv d0"><div class="hd"><span class="k">買取価格</span><span class="av"><img src="/img/chars/minty2.webp" alt=""></span></div><b>店頭と同じ価格</b><small>価格表は毎日更新。郵送はカード到着日の価格で査定</small><hr><p class="ex"><strong>価格表にないカードも買取OK</strong>そのまま送るか、LINEでお問い合わせください</p></div>
     <div class="pm4 y rv d1"><div class="hd"><span class="k">手数料</span><span class="av"><img src="/img/chars/pachiru2.webp" alt=""></span></div><b>すべて無料</b><span class="tags"><i>送料（着払い）</i><i>査定料</i><i>振込手数料</i><i>キャンセル料</i></span><small>減額に納得できなければキャンセル可。返送料も当店負担</small></div>
@@ -534,7 +579,7 @@ footer{background:linear-gradient(180deg,#FBE7CB,#EED2A1)}
 </div></section>
 
 <section class="sec cmp" id="trust"><div class="wrap">
-  <div class="sh rv"><span class="no">07</span><h2>実店舗があるから、<span class="ul">安心して送れる</span>。</h2><p>千葉・東京・神奈川の8店舗で毎日ポケカを売り買いしている専門店です。郵送でも、店頭と同じ価格・同じスタッフが査定します。</p></div>
+  <div class="sh rv"><span class="no">07</span><h2>実店舗があるから、<span class="ul">BOXも安心して送れる</span>。</h2><p>千葉・東京・神奈川の8店舗で毎日ポケカを売り買いしている専門店です。郵送でも、店頭と同じ価格・同じスタッフが査定します。</p></div>
   <div class="mosaic"><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.00s"><img src="/img/stores/kashiwa.jpg" alt="柏本店" loading="lazy"><span><small>千葉</small>柏本店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.06s"><img src="/img/stores/matsudo.jpg" alt="松戸店" loading="lazy"><span><small>千葉</small>松戸店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.12s"><img src="/img/stores/tsudanuma.jpg" alt="津田沼店" loading="lazy"><span><small>千葉</small>津田沼店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.18s"><img src="/img/stores/chibachuo.jpg" alt="千葉中央店" loading="lazy"><span><small>千葉</small>千葉中央店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.24s"><img src="/img/stores/nakano.jpg" alt="中野店" loading="lazy"><span><small>東京</small>中野店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.30s"><img src="/img/stores/odaiba.jpg" alt="お台場店" loading="lazy"><span><small>東京</small>お台場店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.36s"><img src="/img/stores/machida.jpg" alt="町田店" loading="lazy"><span><small>東京</small>町田店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.42s"><img src="/img/stores/yokohama.jpg" alt="横浜店" loading="lazy"><span><small>神奈川</small>横浜店</span></a></div>
   <div class="tgrid">
     <div class="tcard rv"><div class="seal">古物商<br>許可</div><h3>古物営業法にもとづく許可店</h3><p>__LICENSE__</p><small>古物営業法により、本人確認（eKYC）を行っています。身分証の郵送は不要です。</small></div>

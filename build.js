@@ -395,6 +395,7 @@ console.log(`article pages: ${arts.length}`);
         const pk = uniq(a, Number(n), x => baseName(x.name));
         if (cat === "psa") return pk.map(x => `<span class="slab"><i>PSA 10</i><img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></span>`).join("");   // 鑑定ケース風
         return pk.map(imgTag).join(""); })
+      .replace(/__RANK3__/g, () => pick.filter(r => V.key !== "old" || r.cat === "旧裏").sort(byPrice).slice(0, 3).map((r, i) => `<a href="/card/${encodeURIComponent(r.id)}/"><span class="cr">No.${i + 1}</span><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()"></span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></a>`).join(""))
       .replace(/__TOP__/g, cards).replace(/__TOPN__/g, String(pick.length)).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
       .replace(/__CATCOUNT_([a-z]+)__/g, (m, c) => ({ box: withImg("BOX").length, old: items.filter(x => x.cat === "旧裏").length, kyu: items.filter(x => x.cat === "旧弾").length }[c] || 0).toLocaleString())
       .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));

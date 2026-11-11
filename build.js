@@ -310,53 +310,97 @@ for (const a of arts) {
 }
 console.log(`article pages: ${arts.length}`);
 
-/* ---------- 3d. 誘導LP（/lp/）：広告・X・Shopifyからの着地ページ ---------- */
+/* ---------- 3d. 誘導LP（/lp/ ・ /lp/box/ ・ /lp/old/）：広告・X・Shopifyからの着地ページ ---------- */
 {
-  const lpTpl = read(path.join(SRC, "lp.html"));
-  if (lpTpl) {
-    const url = `${CFG.siteUrl}/lp/`;
-    const title = "ポケカ郵送買取｜箱に詰めて送るだけ・送料0円・最短当日入金";
-    const desc = `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。LINEで無料査定。`;
-    const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort((a, b) => b.price - a.price);
-    // 注目カード（ティッカー・ヒーローの扇・オープニング用）: 強化買取タブ ＋ MEGAの2万円以上。毎日ビルド時にシャッフル、さらにページ側でも読み込みごとにシャッフル
-    const isSAR = x => /^SAR$/i.test(x.rarity || "");
-    let hotPool = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || ((x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price >= 10000)));   // MEGA/SVのSAR・1万円以上
-    if (hotPool.length < 20) hotPool = hotPool.concat(items.filter(x => x.img && (x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price < 10000 && !hotPool.includes(x)).sort((a, b) => b.price - a.price).slice(0, 20 - hotPool.length));
-    const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-    let hot = shuffle(hotPool.slice());
-    if (hot.length < 8) hot = hot.concat(top.filter(x => !hotPool.includes(x)).slice(0, 8 - hot.length));
+  const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  const isSAR = x => /^SAR$/i.test(x.rarity || "");
+  const isPsaItem = x => /^PSA/i.test(x.grade || "") || x.cat === "PSA";
+  const imgTag = x => `<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.remove()">`;
+  const byPrice = (a, b) => b.price - a.price;
+  const uniq = (arr, n, key = x => x.name) => { const out = [], seen = new Set(); for (const x of arr) { const k = key(x); if (seen.has(k)) continue; seen.add(k); out.push(x); if (out.length >= n) break; } return out; };
+  const withImg = c => items.filter(x => x.img && x.cat === c);
+  const isOldMain = x => /拡張パック第1弾|ポケモンジャングル|化石の秘密|ロケット団|リーダーズスタジアム|闇からの挑戦|金銀新世界へ|遺跡をこえて|めざめる伝説|闇そして光へ/.test(x.set || "");
+  const variants = [
+    { key: "main", tpl: "lp.html", out: "lp/index.html", path: "/lp/",
+      title: "ポケカ郵送買取｜箱に詰めて送るだけ・送料0円・最短当日入金",
+      desc: `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。LINEで無料査定。`,
+      pool() {
+        const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort(byPrice);
+        let hp = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || ((x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price >= 10000)));   // MEGA/SVのSAR・1万円以上
+        if (hp.length < 20) hp = hp.concat(items.filter(x => x.img && (x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price < 10000 && !hp.includes(x)).sort(byPrice).slice(0, 20 - hp.length));
+        let hot = shuffle(hp.slice()); if (hot.length < 8) hot = hot.concat(top.filter(x => !hp.includes(x)).slice(0, 8 - hot.length));
+        const kyoka = items.filter(x => x.img && /強化買取/.test(x.tab || "")).sort(byPrice);
+        const src = (kyoka.length ? kyoka : hp.slice().sort(byPrice)).concat(top.slice().sort((a, b) => (b.order - a.order) || (b.price - a.price)));   // 続きは新しいシリーズ優先
+        const list = uniq(src.filter(x => !isPsaItem(x)), 90, x => baseName(x.name) + "|" + x.cat);   // LPの強化買取は素体のみ
+        return { hot, list, k: r => isPsaItem(r) ? "psa" : "single" };
+      }, vpics: {} },
+    { key: "box", tpl: "lp_box.html", out: "lp/box/index.html", path: "/lp/box/",
+      title: "ポケカBOX郵送買取｜未開封BOX・パックを送るだけ・送料0円・最短当日入金",
+      desc: "未開封のポケモンカードBOX・パックを箱に詰めて送るだけ。送料無料・最短当日入金。最新弾から絶版BOXまで買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。",
+      pool() {
+        const all = withImg("BOX").sort(byPrice);
+        const hot = shuffle(all.slice(0, 30));
+        return { hot, list: uniq(all, 120), k: r => /MEGA|SV/.test(r.set || "") ? "new" : "old" };
+      },
+      vpics: {
+        new: n => uniq(withImg("BOX").filter(x => /MEGA/.test(x.set) && !/デッキ|FUTURISTIC/i.test(x.name)), n),
+        sv: n => uniq(withImg("BOX").filter(x => x.set === "SV").sort(byPrice), n),
+        zep: n => uniq(withImg("BOX").filter(x => x.set === "SM" || x.set === "SS").sort(byPrice), n),
+        sp: n => uniq(withImg("BOX").filter(x => /30th|151|シャイニー|ユニバース|イーブイ|25th|クライマックス|GXウルトラ|タッグオール|ドリームリーグ|テラスタルフェス/i.test(x.name)).sort(byPrice), n),
+      } },
+    { key: "old", tpl: "lp_old.html", out: "lp/old/index.html", path: "/lp/old/",
+      title: "旧裏ポケカ郵送買取｜昔のポケモンカードを送るだけ・送料0円・最短当日入金",
+      desc: "旧裏（1996年〜）やe・ADV・PCG・DPなど昔のポケモンカードを、ファイルのまま送るだけ。傷ありもOK。送料無料・最短当日入金。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。",
+      pool() {
+        const old = withImg("旧裏").sort(byPrice), kyu = withImg("旧弾").sort(byPrice);
+        const hot = shuffle(old.slice(0, 36));
+        return { hot, list: uniq(old, 60).concat(uniq(kyu, 60)), k: r => r.cat === "旧裏" ? "old" : "kyu" };
+      },
+      vpics: {
+        main: n => { const st = ["フシギバナ", "リザードン", "カメックス"].map(m => items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(m + " LV") && /マークあり/.test(x.name)) || items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(m + " LV"))).filter(Boolean); return st.length >= n ? st.slice(0, n) : uniq(withImg("旧裏").filter(isOldMain).sort(byPrice), n); },
+        promo: n => uniq(withImg("旧裏").filter(x => /プロモ|通信交換|とりかえっこ|プレミアムファイル|サザン/.test(x.set)).sort(byPrice), n),
+        kyu: n => uniq(withImg("旧弾").sort(byPrice), n, x => baseName(x.name)),
+        sheet: n => uniq(withImg("旧裏").filter(x => /拡張シート|クイックスターター|イントロパック/.test(x.set)).sort(byPrice), n),
+        tr: n => uniq(withImg("旧裏").filter(x => isOldMain(x)).sort(byPrice).slice(20), n, x => baseName(x.name)),
+      } },
+  ];
+  for (const V of variants) {
+    const lpTpl = read(path.join(SRC, V.tpl));
+    if (!lpTpl) continue;
+    const url = `${CFG.siteUrl}${V.path}`, title = V.title, desc = V.desc;
+    const { hot, list: pick, k: kOf } = V.pool();
+    if (!hot.length) { console.log(`lp(${V.key}): 画像付き商品がないためスキップ`); continue; }
     const hotAt = i => hot[i % hot.length];
     const hotJson = JSON.stringify(hot.map(r => ({ id: r.id, n: r.name, p: yen(r.price), img: r.img })));
-    // 「強化買取中」セクション: 強化買取タブがあればそれ、なければ注目カード（MEGA SAR）を価格順に
-    const kyoka = items.filter(x => x.img && /強化買取/.test(x.tab || "")).sort((a, b) => b.price - a.price);
-    const src = (kyoka.length ? kyoka : hotPool.slice().sort((a, b) => b.price - a.price)).concat(top.slice().sort((a, b) => (b.order - a.order) || (b.price - a.price)));   // 続きは新しいシリーズ優先
-    const pick = []; const seen = new Set();
-    const isPsaItem = x => /^PSA/i.test(x.grade || "") || x.cat === "PSA";   // LPの強化買取は素体のみ
-    for (const x of src) { if (isPsaItem(x)) continue; const b = baseName(x.name) + "|" + x.cat; if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= 90) break; }
-    const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${/^PSA/i.test(r.grade || "") || r.cat === "PSA" ? "psa" : "single"}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
+    const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${kOf(r)}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
     const shops = ["柏", "松戸", "津田沼", "千葉中央", "中野", "お台場", "町田", "横浜"].map(n => `<a href="${CFG.storesUrl}">${n}</a>`).join("");
-    const ld = { "@context": "https://schema.org", "@type": "Service", name: "ポケモンカード郵送買取", provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };
+    const ld = { "@context": "https://schema.org", "@type": "Service", name: title.split("｜")[0], provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };
     const html = lpTpl
       .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
       .replace("__HEAD__", headCommon(title, desc, url, CFG.siteUrl + "/ogp.png") + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>`)
       .replace(/__TICKER__/g, Array.from({ length: 24 }, (_, i) => hotAt(i)).map(r => `<a class="tk" href="/card/${encodeURIComponent(r.id)}/"><img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()"><span><b>${esc(r.name)}</b><em>${esc(yen(r.price))}</em></span></a>`).join(""))
       .replace(/__HOTPOOL__/g, () => hotJson)
       .replace(/__FC([1-9]|1[0-5])__/g, (m, i) => esc(hotAt(Number(i) - 1).img))
+      .replace(/__HOTIMG(\d+)__/g, (m, i) => esc(hotAt(Number(i)).img))
+      .replace(/__VP_([a-z]+)_(\d)(_slab)?__/g, (m, key, n, slab) => { const f = V.vpics[key]; if (!f) return ""; const a = f(Number(n));
+        if (slab) return a.map(x => `<span class="slab"><i>PSA 10</i><img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></span>`).join("");
+        return a.map(imgTag).join(""); })
       .replace(/__PICS_([a-z]+)_(\d)__/g, (m, cat, n) => { const map = { pk: "ポケモン", box: "BOX", psa: "PSA", old: "旧裏", kyu: "旧弾", misc: "汎用" };
-        let a = items.filter(x => x.img && x.cat === map[cat]).sort((x, y) => y.price - x.price);
+        let a = items.filter(x => x.img && x.cat === map[cat]).sort(byPrice);
         if (cat === "box") { const nw = items.filter(x => x.img && x.cat === "BOX" && /MEGA/i.test(x.set || "") && !/デッキ|FUTURISTIC/i.test(x.name)); if (nw.length) a = nw; }   // BOXは最新シリーズ（シート順）
         if (cat === "pk") { const nw = a.filter(x => x.tab === "MEGA" && /^SAR$/i.test(x.rarity)); a = nw.length ? nw : a.filter(x => /^(SAR|SR|AR|UR|PROMO|P|HR)$/i.test(x.rarity)); }   // シングルは最新シリーズ（MEGA）
         if (cat === "psa") { const nw = a.filter(x => /^M\d/i.test(x.exp || "") && /^SAR$/i.test(x.rarity || "")); if (nw.length) a = nw; }   // 鑑定品も最新シリーズ
-        if (cat === "old") { const st = ["フシギバナ", "リザードン", "カメックス"].map(n => items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV") && /マークあり/.test(x.name)) || items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV"))).filter(Boolean); if (st.length === 3) return st.map(x => `<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.remove()">`).join(""); }   // 旧裏は御三家
+        if (cat === "old") { const st = V.key === "main" ? ["フシギバナ", "リザードン", "カメックス"].map(n => items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV") && /マークあり/.test(x.name)) || items.find(x => x.img && x.cat === "旧裏" && x.name.startsWith(n + " LV"))).filter(Boolean) : []; if (st.length === 3) return st.map(imgTag).join(""); }   // 旧裏は御三家
         if (!a.length) a = items.filter(x => x.img && x.cat === map[cat]);
-        const pick = []; const seen = new Set(); for (const x of a) { const b = baseName(x.name); if (seen.has(b)) continue; seen.add(b); pick.push(x); if (pick.length >= Number(n)) break; }
-        if (cat === "psa") return pick.map(x => `<span class="slab"><i>PSA 10</i><img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></span>`).join("");   // 鑑定ケース風
-        return pick.map(x => `<img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.remove()">`).join(""); })
-      .replace(/__TOP__/g, cards).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
+        const pk = uniq(a, Number(n), x => baseName(x.name));
+        if (cat === "psa") return pk.map(x => `<span class="slab"><i>PSA 10</i><img src="${esc(x.img)}" alt="" loading="lazy" onerror="this.parentNode.remove()"></span>`).join("");   // 鑑定ケース風
+        return pk.map(imgTag).join(""); })
+      .replace(/__TOP__/g, cards).replace(/__TOPN__/g, String(pick.length)).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
+      .replace(/__CATCOUNT_([a-z]+)__/g, (m, c) => ({ box: withImg("BOX").length, old: items.filter(x => x.cat === "旧裏").length, kyu: items.filter(x => x.cat === "旧弾").length }[c] || 0).toLocaleString())
       .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
-    write("lp/index.html", wrap(html));
+    write(V.out, wrap(html));
     urls.push({ url, lastmod: updated.replace(/\//g, "-") });
-    console.log("lp: ok");
+    console.log(`lp(${V.key}): ok ${pick.length}件`);
   }
 }
 

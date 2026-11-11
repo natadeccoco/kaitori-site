@@ -878,10 +878,12 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
 (function(){
   var cv=document.getElementById('gcv');if(!cv)return;
   var cx=cv.getContext('2d');cx.imageSmoothingEnabled=false;
+  // 公開先のフォルダ（/kaitori-site など）に合わせて画像の場所を決める
+  var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
   var W=320,H=120,GY=100;
   var C0='#0F380F',C1='#306230',C2='#8BAC0F',C3='#9BBC0F';
   var msg=document.getElementById('gmsg'),over=document.getElementById('gover'),gsc=document.getElementById('gsc');
-  var spr=new Image();spr.src='/img/gb/chan1.webp';
+  var spr=new Image();spr.src=GB+'chan1.webp';
   var PH=30,PW=22;   // プレイヤーの大きさ（ドット）
   var hi=0;try{hi=+localStorage.getItem('nd_gb_hi')||0}catch(e){}
   var st='idle',p,obs,clouds,speed,score,t,spawn,last,raf;
@@ -892,8 +894,8 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   function end(){st='over';if(score>hi){hi=Math.floor(score);try{localStorage.setItem('nd_gb_hi',hi)}catch(e){}}
     msg.innerHTML='<b>GAME OVER</b><button type="button" class="gstart" id="gstart">▶ RETRY</button>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;gsc.textContent=Math.floor(score);over.hidden=false;draw();}
   // 襲ってくるのはナタデココのキャラたち（ドット絵）
-  var foes=[{n:'minty1',h:20},{n:'pachiru1',h:24},{n:'fai1',h:22},{n:'amery1',h:26},{n:'melroot1',h:22}].map(function(f){var im=new Image();im.src='/img/gb/'+f.n+'.webp';f.im=im;return f;});
-  var flyer={n:'pachiru2',h:14};flyer.im=new Image();flyer.im.src='/img/gb/pachiru2.webp';
+  var foes=[{n:'minty1',h:20},{n:'pachiru1',h:24},{n:'fai1',h:22},{n:'amery1',h:26},{n:'melroot1',h:22}].map(function(f){var im=new Image();im.src=GB+f.n+'.webp';f.im=im;return f;});
+  var flyer={n:'pachiru2',h:14};flyer.im=new Image();flyer.im.src=GB+'pachiru2.webp';
   function sz(f){var im=f.im,r=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:1;return {w:Math.round(f.h*r),h:f.h};}
   function addObs(){var o;
     if(score>250&&Math.random()<.22){var d=sz(flyer);o={f:flyer,x:W+4,w:d.w,h:d.h,y:GY-34-Math.floor(Math.random()*8),fly:1};}

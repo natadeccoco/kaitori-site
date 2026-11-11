@@ -28,7 +28,9 @@ Googleスプレッドシート「ナタデココ買取表」(ID 1gtUjjGDQvFAE2PR
 | 新しいタブをサイトに載せる | Apps Script `site_data.gs` の `SITE_TABS` に追加 → 新バージョンでデプロイ | 次回更新 |
 | バナー画像を差し替える | `banner.jpg`（1800×600）を上書き | pushで自動 |
 | 画像が違うカードを直す | `image_overrides.csv` に1行追加（カテゴリ,名前,画像パス。`-` で画像なし） | pushで自動 |
-| 文言・デザイン | `page.html`（価格表）、`card.html`（カード個別）、`stores.html`（店舗）、`legal.html`、`privacy.html` | pushで自動 |
+| 文言・デザイン | `page.html`（価格表）、`card.html`（カード個別）、`stores.html`（店舗）、`company.html`（会社概要）、`recruit.html`（採用情報）、`legal.html`、`privacy.html` | pushで自動 |
+| LPの文言・デザイン | `lp.html`（/lp/ 総合）、`lp_box.html`（/lp/box/ BOX版）、`lp_old.html`（/lp/old/ 旧裏版）。**3つは別々のファイルなので、それぞれ直接編集する** | pushで自動 |
+| 採用条件を入れる | `recruit.html` の `【あとで入力】`（class="tbd"）を書き換える | pushで自動 |
 | LINE・X・古物商番号・会社名 | `config.json` | pushで自動 |
 | 独自ドメイン切替 | `config.json` の `siteUrl` を `https://kaitori.pokemon-card.shop` に戻す ＋ GitHub Settings → Pages → Custom domain | pushで自動 |
 
@@ -41,7 +43,10 @@ Googleスプレッドシート「ナタデココ買取表」(ID 1gtUjjGDQvFAE2PR
 - `lib.js` … 共通関数（CSV読み込み、正規化、ID生成）
 - `page.html` … 価格表アプリ（検索・カテゴリタブ・カート・LINE申込）
 - `card.html` … カード個別ページの雛形（SEO用・OGP・構造化データ）
-- `stores.html` `legal.html` `privacy.html` … 固定ページ
+- `stores.html` `legal.html` `privacy.html` `company.html` `recruit.html` … 固定ページ（build.js の固定ページ一覧に名前を足すと増やせる）
+- `lp.html` `lp_box.html` `lp_old.html` … 誘導LP 3種（総合／BOX版＝カラー携帯ゲーム機のショップ画面・パック開封ゲーム／旧裏版＝ドット液晶・ジャンプ＆バトルゲーム）。中の `__TOP__` `__HOTPOOL__` `__PACKPOOL__` などは build.js が価格データで埋める
+- `site_fx.html` … 価格表・会社概要などに共通で差し込む演出（マウスのキラキラ等）。LPには入らない
+- `img/gb/` `img/gbc/` … 旧裏版（緑4色）・BOX版（カラー）のドット絵キャラ。元は `img/chars/` などのカラー絵
 - `config.json` … サイトURL・LINE ID/友だち追加URL・X・古物商許可・会社名・カテゴリ
 - `site_data.gs` … スプレッドシート側 Apps Script（既にインストール済み。同じ内容を置いてあるだけ）
 - `fetch_data.sh` … GAS から JSON を取得（失敗時は前回のデータを使う）
@@ -59,14 +64,24 @@ Googleスプレッドシート「ナタデココ買取表」(ID 1gtUjjGDQvFAE2PR
 - Secrets: `SITE_DATA_URL`（GAS WebアプリURL）
 - Apps Script: 買取表スプレッドシートに紐づくプロジェクト。`doGet` の先頭に `action=sitedata` の分岐あり
 
-## 5. 残タスク（2026-10-27時点）
+## 5. 残タスク（2026-11-11時点）
+
+0. 採用情報ページ（/recruit/）の募集条件・応募フォームURLを入れる
 
 1. 公式LINEのIDと友だち追加URL → `config.json` の `lineId` / `lineAddUrl`（今は仮）
 2. DNS: `kaitori.pokemon-card.shop` の CNAME を `natadeccoco.github.io` に向ける → GitHub Pages の Custom domain に設定 → `config.json` の `siteUrl` を戻す
 3. 店舗写真 `img/stores/<id>.jpg`（kashiwa, matsudo, tsudanuma, chibachuo, nakano, odaiba, machida, yokohama）任意
 4. Shopify のメニューに「買取価格表」のリンクを追加
 
-## 6. 注意
+## 6. 編集を分担するとき
+
+- 編集する人は GitHub の Settings → Collaborators で招待する（招待された人は自分のGitHubアカウントが必要）
+- 変更はすべて履歴に残り、まずい変更は Commits から前の状態に戻せる
+- 同じファイルを同時に直すと上書きし合うので、触るファイルを声かけしてから作業する
+- 短時間に何度もアップすると途中の公開処理が止まる（最後の分は反映される）。まとめて1回で上げるのがよい
+- LPの3ファイルは別物。総合LP（lp.html）を直しても、BOX版・旧裏版には自動では反映されない
+
+## 7. 注意
 
 - スプレッドシートはお客様も見るため、内部情報（仕入れ基準・他社価格など）の列は置かない
 - `site_data.gs` が出す列は見出し名のホワイトリストだけ。列を増やしてもサイトには出ない

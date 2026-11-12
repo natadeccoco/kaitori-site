@@ -626,7 +626,7 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 
 /* ===== オープニング：対戦開始の演出 ===== */
 #intro.gbi{background:#9BBC0F;padding:0;display:block;font-family:"DotGothic16",monospace;color:#0F380F;overflow:hidden;transition:opacity .5s}
-#intro.gbi.out{transform:none;opacity:0}
+#intro.gbi.out{transform:none;opacity:0}#intro.gbi{transition:opacity .45s steps(5)}
 #intro.gbi:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(15,56,15,.06) 0 2px,transparent 2px 4px);pointer-events:none;z-index:5}
 #intro.gbi.fl{animation:gbiflash .9s steps(1) 1}
 @keyframes gbiflash{0%,33%,66%{background:#0F380F}16%,50%,83%{background:#E0EBC8}100%{background:#9BBC0F}}
@@ -729,11 +729,6 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
 <div id="intro" class="gbi" aria-hidden="true">
   <div class="wipe"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="bt">
-    <div class="bfo"><span class="bs"><b class="nm">旧裏カード</b><span class="lv">:L96</span><span class="hp"><em>HP</em><span><i></i></span></span></span><div class="mon"><span class="pad"></span><img class="cd" alt=""></div></div>
-    <div class="bmy"><div class="mon"><span class="pad"></span><img class="ch2" src="/img/gb/chan1.webp" alt=""></div><span class="bs me"><b>ナタデココ</b><span class="lv">:L50</span><span class="hp"><em>HP</em><span><i></i></span></span></span></div>
-    <div class="tb"><p></p><span class="nx">▼</span></div>
-  </div>
   <button type="button" class="skip">SKIP ▶</button>
 </div>
 <div id="prog"></div><span id="runner" hidden></span><canvas id="fx"></canvas>
@@ -1010,8 +1005,8 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   var scr=document.getElementById('sscr');if(!scr)return;
   var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
   var $=function(id){return document.getElementById(id)};
-  // 絵柄：0=ナタデココちゃん 1=7 2=ファイ 3=パチル 4=ミンティ 5=アメリー 6=カード
-  var SYM=[{img:'chan1',pay:300,n:'ナタデココちゃん'},{t:'7',pay:100,n:'セブン'},{img:'fai1',pay:30,n:'ファイ'},{img:'pachiru1',pay:20,n:'パチル'},{img:'minty1',pay:15,n:'ミンティ'},{img:'amery1',pay:10,n:'アメリー'},{c:1,pay:6,n:'カード'}];
+  // 絵柄：0=ナタデココちゃん 1=7 2=ファイ 3=パチル 4=ミンティ 5=アメリー 6=メルルート
+  var SYM=[{img:'chan1',pay:300,n:'ナタデココちゃん'},{t:'7',pay:100,n:'セブン'},{img:'fai1',pay:30,n:'ファイ'},{img:'pachiru1',pay:20,n:'パチル'},{img:'minty1',pay:15,n:'ミンティ'},{img:'amery1',pay:10,n:'アメリー'},{img:'melroot1',pay:6,n:'メルルート'}];
   var STRIPS=[[0,6,4,5,2,6,3,1,6,5,4,6,2,3,5,6],[6,5,0,3,6,4,2,6,5,1,6,3,4,6,2,5],[4,6,2,5,6,0,3,6,1,5,6,4,2,6,3,5]];
   var LINES=[[1,1,1],[0,0,0],[2,2,2],[0,1,2],[2,1,0]];
   var reels=[].slice.call(scr.querySelectorAll('.sreel')),stops=[].slice.call(scr.querySelectorAll('.sstop')),mach=$('smach');
@@ -1069,14 +1064,11 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   var pool=[];try{pool=JSON.parse(document.getElementById('hotpool').textContent||'[]')}catch(e){}
   var c=pool.length?pool[Math.floor(Math.random()*pool.length)]:null;
   var nm=c?String(c.n).split(/[ 　(（]/)[0].replace(/^＿の/,''):'旧裏カード';
-  if(c){it.querySelector('img.cd').src=c.img;}
-  it.querySelector('.nm').textContent=nm.slice(0,8);
-  var p=it.querySelector('.tb p'),nx=it.querySelector('.nx'),T=[];
-  function type(s,cb){var i=0;nx.classList.remove('on');p.textContent='';var t=setInterval(function(){p.textContent=s.slice(0,++i);if(i>=s.length){clearInterval(t);nx.classList.add('on');if(cb)T.push(setTimeout(cb,900));}},45);T.push(t);}
+  var T=[];
   T.push(setTimeout(function(){it.classList.add('fl');},150));
   T.push(setTimeout(function(){it.classList.add('go');},1050));
-  T.push(setTimeout(function(){it.classList.add('open');},1900));
-  T.push(setTimeout(function(){it.classList.add('st');type('あっ！ やせいの '+nm+'が\nとびだしてきた！',function(){type('ナタデココちゃん！\nたかく かいとりだ！');});},3000));
+  // エンカウントの演出（フラッシュ→横線のワイプ）だけ。終わったらそのままLPへ
+  T.push(setTimeout(function(){if(window.__ndIntroEnd)window.__ndIntroEnd();},1950));
   window.__ndIntroEnd=function(){T.forEach(function(x){clearTimeout(x);clearInterval(x)});it.classList.add('out');setTimeout(function(){it.remove()},600);};
   it.querySelector('.skip').addEventListener('click',window.__ndIntroEnd);
 })();

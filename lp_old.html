@@ -639,7 +639,11 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 
 /* ===== オープニング：対戦開始の演出 ===== */
 #intro.gbi{background:#9BBC0F;padding:0;display:block;font-family:"DotGothic16",monospace;color:#0F380F;overflow:hidden;transition:opacity .5s}
-#intro.gbi.out{transform:none;opacity:0}#intro.gbi{transition:opacity .45s steps(5)}
+#intro.gbi.out{transform:none;opacity:0}
+#intro.gbi.rev{background:transparent!important;animation:none!important}
+#intro.gbi.rev:after{display:none}
+#intro.gbi.go.rev .wipe i{transform:scaleX(1);animation:gbiunwipe 1s steps(12) forwards}
+@keyframes gbiunwipe{from{transform:scaleX(1)}to{transform:scaleX(0)}}#intro.gbi{transition:opacity .45s steps(5)}
 #intro.gbi:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(15,56,15,.06) 0 2px,transparent 2px 4px);pointer-events:none;z-index:5}
 #intro.gbi.fl{animation:gbiflash .9s steps(1) 1}
 @keyframes gbiflash{0%,33%,66%{background:#0F380F}16%,50%,83%{background:#E0EBC8}100%{background:#9BBC0F}}
@@ -1090,7 +1094,9 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   T.push(setTimeout(function(){it.classList.add('fl');},150));
   T.push(setTimeout(function(){it.classList.add('go');},1050));
   // エンカウントの演出（フラッシュ→横線のワイプ）だけ。終わったらそのままLPへ
-  T.push(setTimeout(function(){if(window.__ndIntroEnd)window.__ndIntroEnd();},1950));
+  // 暗転でひと呼吸おいてから、横線がほどけるようにLPが見えてくる
+  T.push(setTimeout(function(){it.classList.add('rev');},2550));
+  T.push(setTimeout(function(){if(window.__ndIntroEnd)window.__ndIntroEnd();},3900));
   window.__ndIntroEnd=function(){T.forEach(function(x){clearTimeout(x);clearInterval(x)});it.classList.add('out');setTimeout(function(){it.remove()},600);};
   it.querySelector('.skip').addEventListener('click',window.__ndIntroEnd);
 })();

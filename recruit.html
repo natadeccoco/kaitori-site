@@ -89,6 +89,34 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 .apply a small{font-weight:400;font-size:12px;color:var(--ink-2);margin-top:3px}.apply a i{font-style:normal;font-size:30px;margin-bottom:4px}
 .tabs2{display:flex;gap:8px;margin:0 0 12px}.tabs2 button{font:inherit;font-weight:900;font-size:14px;border:3px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 18px;cursor:pointer;box-shadow:0 3px 0 var(--navy)}.tabs2 button.on{background:var(--navy);color:#fff}
 .req[hidden]{display:none}
+
+.af{background:#fff;border:3px solid var(--navy);border-radius:22px;padding:26px 24px 22px;box-shadow:0 6px 0 var(--navy);display:grid;gap:18px}
+.af fieldset{border:0;margin:0;padding:0;min-width:0}
+.af legend,.af .fl{font-weight:900;font-size:14.5px;color:var(--navy);display:block}
+.af legend{margin-bottom:8px;padding:0}
+.af em{font-style:normal;font-size:11px;background:#E8443A;color:#fff;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:1px}
+.af legend small{font-weight:400;color:var(--ink-2);margin-left:8px;font-size:12px}
+.af input[type=text],.af input[type=tel],.af input[type=email],.af input[type=number],.af textarea{display:block;width:100%;margin-top:7px;font:inherit;font-weight:400;font-size:16px;color:var(--ink);background:var(--bg-2);border:2px solid var(--line);border-radius:12px;padding:12px 14px;box-sizing:border-box}
+.af textarea{resize:vertical;line-height:1.7}
+.af input:focus,.af textarea:focus{outline:0;border-color:var(--navy);background:#fff;box-shadow:0 0 0 4px rgba(169,243,244,.7)}
+.af input.bad,.af textarea.bad{border-color:#E8443A!important;background:#FFF4F3!important}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media (max-width:640px){.row2{grid-template-columns:1fr}.af{padding:20px 16px 18px}}
+.ops{display:flex;flex-wrap:wrap;gap:8px}
+.ops label{cursor:pointer}.ops input{position:absolute;opacity:0;pointer-events:none}
+.ops span{display:block;border:2px solid var(--line);background:var(--bg-2);border-radius:999px;padding:9px 16px;font-size:14.5px;font-weight:700;color:var(--ink-2);transition:.12s}
+.ops input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff}
+.ops input:focus-visible+span{box-shadow:0 0 0 4px rgba(169,243,244,.9)}
+.ops.bad span{border-color:#E8443A}
+.ck{display:flex;gap:10px;align-items:flex-start;font-size:14px;line-height:1.6;cursor:pointer}
+.ck input{width:20px;height:20px;margin:2px 0 0;flex:none;accent-color:var(--navy)}
+.ck.bad span{color:#C62F26}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+.aerr{margin:0;background:#FFF4F3;border:2px solid #E8443A;color:#B3261E;border-radius:12px;padding:10px 14px;font-size:14px;font-weight:700}
+.asub{justify-self:center;border:0;cursor:pointer;font:inherit;font-weight:900;font-size:18px;padding:16px 44px;border-radius:999px;background:#06C755;color:#fff;box-shadow:0 6px 0 #049a42;transition:transform .1s,box-shadow .1s}.asub:hover{transform:translateY(2px);box-shadow:0 4px 0 #049a42}
+.asub[disabled]{opacity:.6;cursor:default}
+.af .cap{text-align:center;margin:0}
+.adone{text-align:center;background:#fff;border:3px solid var(--navy);border-radius:22px;padding:30px 20px;box-shadow:0 6px 0 var(--navy)}
+.adone img{height:110px}.adone h3{margin:8px 0 6px;color:var(--navy);font-size:22px}.adone p{margin:0;color:var(--ink-2)}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&family=DM+Sans:wght@700;900&display=swap">
 <header class="top"><a class="logo" href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
@@ -121,39 +149,41 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 
 <h2 class="rv"><span class="no">02</span>募集している仕事</h2>
 <div class="jobs">
-  <div class="job rv"><div class="hd"><img src="/img/chars/chan1.webp" alt=""><div><small>アルバイト</small><b>店舗スタッフ</b></div></div>
-    <ul><li>接客・レジ</li><li>買取の受付・査定のサポート</li><li>シングルカードやBOXの品出し・ショーケースの陳列</li><li>店内の清掃・整理</li></ul></div>
-  <div class="job rv d1"><div class="hd"><img src="/img/chars/chan3.webp" alt=""><div><small>正社員</small><b>店舗スタッフ</b></div></div>
-    <ul><li>店頭での接客・買取査定</li><li>スタッフのシフト管理・育成</li><li>売上・在庫の管理</li><li>ゆくゆくは店長として店舗運営</li></ul></div>
+  <div class="job rv"><div class="hd"><img src="/img/chars/chan1.webp" alt=""><div><small>アルバイト・パート</small><b>販売・接客・買取スタッフ</b></div></div>
+    <ul><li>接客・販売、レジ（お会計）</li><li>商品のご案内、品出し、在庫管理</li><li>SNSの更新やPOPづくり</li><li>慣れてきたら、買取査定や価格設定、商品の企画も</li></ul></div>
+  <div class="job rv d1"><div class="hd"><img src="/img/chars/chan3.webp" alt=""><div><small>正社員</small><b>販売・接客・買取スタッフ</b></div></div>
+    <ul><li>接客・販売・買取（商品案内、レジ、カードやグッズの査定）</li><li>売場づくり（品出し、陳列、在庫管理）</li><li>ゆくゆくはスタッフの育成、シフト・売上の管理</li><li>価格設定や、オリパなどの商品企画にも挑戦できます</li></ul></div>
 </div>
+<p class="cap rv">トレカ業界が未経験の方も歓迎です。カードの知識は、入ってから覚えられます。</p>
 
 <h2 class="rv"><span class="no">03</span>募集要項</h2>
 <div class="tabs2 rv" role="tablist"><button type="button" class="on" data-r="a">アルバイト</button><button type="button" data-r="b">正社員</button></div>
 <table class="rv req" id="req-a">
-<tr><th>職種</th><td>店舗スタッフ（アルバイト）</td></tr>
-<tr><th>勤務地</th><td>柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>）</small></td></tr>
-<tr><th>時給</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>勤務時間</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>勤務日数</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>応募資格</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>待遇・福利厚生</th><td><span class="tbd">【あとで入力】</span></td></tr>
+<tr><th>職種</th><td>販売・接客・買取スタッフ（アルバイト・パート）</td></tr>
+<tr><th>募集中の店舗</th><td>柏本店・津田沼店・お台場店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>。ほかの店舗をご希望の方もご相談ください）</small></td></tr>
+<tr><th>時給</th><td><b>柏本店・津田沼店：1,300円〜</b><br><b>お台場店：1,350円</b>＋短時間シフト手当 1,300円／回（2時間の勤務で4,000円）<br>昇給あり</td></tr>
+<tr><th>勤務時間</th><td><b>柏本店・津田沼店：</b>12:00〜20:00 の間で実働4〜8時間<br><b>お台場店：</b>平日（月〜金）13:00〜18:00 の間で2時間（例：13〜15時／14〜16時／15〜17時／16〜18時）<br><small>休憩は法定どおり</small></td></tr>
+<tr><th>勤務日数</th><td><b>柏本店・津田沼店：</b>週2〜5日（土日祝に勤務できる方歓迎）<br><b>お台場店：</b>週1日からOK<br><small>シフト制。前月に翌月分の希望シフトを提出します</small></td></tr>
+<tr><th>応募資格</th><td>高卒以上・18歳以上（高校生の方はご応募いただけません）<br>未経験歓迎。ポケカのコレクター・プレイヤーの方、人と話すのが好きな方、歓迎です<br><small>柏本店は、1年以上勤務できる方</small></td></tr>
+<tr><th>待遇・福利厚生</th><td>交通費支給（1日500円まで）／制服貸与／髪色・ピアス自由／正社員登用制度あり<br>社会保険（雇用保険・労災保険・健康保険・厚生年金）<br>敷地内禁煙</td></tr>
+<tr><th>試用期間</th><td>1か月（条件は同じ）</td></tr>
 </table>
 <table class="rv req" id="req-b" hidden>
-<tr><th>職種</th><td>店舗スタッフ（正社員）</td></tr>
-<tr><th>勤務地</th><td>柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>）</small></td></tr>
-<tr><th>給与</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>勤務時間</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>休日・休暇</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>応募資格</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>待遇・福利厚生</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>試用期間</th><td><span class="tbd">【あとで入力】</span></td></tr>
+<tr><th>職種</th><td>販売・接客・買取スタッフ（正社員）</td></tr>
+<tr><th>勤務地</th><td>柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店のいずれか<br><small>通いやすさやご希望を考慮して決定します（各店の住所は <a href="__STORES_URL__">店舗一覧</a>）</small></td></tr>
+<tr><th>給与</th><td><b>月給 267,750円</b><br><small>固定残業代 33,750円（20時間相当分）を含みます。20時間を超える残業代は追加で支給します</small><br>昇給あり</td></tr>
+<tr><th>勤務時間</th><td>実働1日8時間（変形労働時間制・シフト制）<br><small>勤務の時間帯は、配属の店舗により異なります</small></td></tr>
+<tr><th>休日・休暇</th><td>年間休日115日<br>週休2日制（月9日休み・シフト制）／夏季休暇3日／冬期休暇4日／有給休暇</td></tr>
+<tr><th>応募資格</th><td>学歴不問・第二新卒歓迎・トレカ業界未経験OK<br>接客の経験を活かしたい方、ホビー業界に挑戦したい方、ポケモンカードが好きな方、歓迎です</td></tr>
+<tr><th>待遇・福利厚生</th><td>社会保険完備（雇用保険・労災保険・健康保険・厚生年金）<br>通勤手当（月額25,000円まで）<br>敷地内禁煙</td></tr>
+<tr><th>試用期間</th><td>1か月（条件は同じ）</td></tr>
 </table>
 
 <h2 class="rv"><span class="no">04</span>応募から採用まで</h2>
 <div class="flow4">
-  <div class="rv"><i>✉️</i><b>応募</b><p>下のボタンからご応募ください</p></div>
+  <div class="rv"><i>✉️</i><b>応募</b><p>下の応募フォームからご応募ください</p></div>
   <div class="rv d1"><i>📞</i><b>ご連絡</b><p>担当者から面接日程をご連絡します</p></div>
-  <div class="rv d2"><i>🤝</i><b>面接</b><p><span class="tbd">【あとで入力】</span></p></div>
+  <div class="rv d2"><i>🤝</i><b>面接</b><p>正社員は、1次がオンライン（30〜60分）、2次が店舗または本社での対面です</p></div>
   <div class="rv d3"><i>🎉</i><b>採用</b><p>勤務開始日などをご相談します</p></div>
 </div>
 
@@ -174,11 +204,34 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 </ul>
 
 <h2 class="rv" id="apply"><span class="no">06</span>応募する</h2>
-<div class="apply">
-  <a class="rv" href="#apply"><i>📝</i>応募フォーム<small><span class="tbd">【あとで入力】</span></small></a>
-  <a class="rv d1" href="mailto:natadecoco@pokemon-card.shop?subject=%E6%8E%A1%E7%94%A8%E5%BF%9C%E5%8B%9F"><i>📧</i>メールで応募<small>natadecoco@pokemon-card.shop<br>件名に「採用応募」と、希望の店舗・職種をお書きください</small></a>
-</div>
-<p class="cap">お電話でのお問い合わせ：04-7170-0605（本社）</p>
+<form class="af rv" id="af" novalidate>
+  <fieldset><legend>希望の働き方 <em>必須</em></legend>
+    <div class="ops"><label><input type="radio" name="type" value="アルバイト" required><span>アルバイト</span></label><label><input type="radio" name="type" value="正社員"><span>正社員</span></label></div></fieldset>
+  <fieldset><legend>希望の店舗 <em>必須</em><small>いくつでも</small></legend>
+    <div class="ops"><label><input type="checkbox" name="store" value="柏本店"><span>柏本店</span></label><label><input type="checkbox" name="store" value="松戸店"><span>松戸店</span></label><label><input type="checkbox" name="store" value="津田沼店"><span>津田沼店</span></label><label><input type="checkbox" name="store" value="千葉中央店"><span>千葉中央店</span></label><label><input type="checkbox" name="store" value="中野店"><span>中野店</span></label><label><input type="checkbox" name="store" value="お台場店"><span>お台場店</span></label><label><input type="checkbox" name="store" value="町田店"><span>町田店</span></label><label><input type="checkbox" name="store" value="横浜店"><span>横浜店</span></label><label><input type="checkbox" name="store" value="どこでも"><span>どこでも</span></label></div></fieldset>
+  <div class="row2">
+    <label class="fl">お名前 <em>必須</em><input type="text" name="name" autocomplete="name" required maxlength="40" placeholder="山田 太郎"></label>
+    <label class="fl">ふりがな <em>必須</em><input type="text" name="kana" required maxlength="40" placeholder="やまだ たろう"></label>
+  </div>
+  <div class="row2">
+    <label class="fl">電話番号 <em>必須</em><input type="tel" name="tel" autocomplete="tel" required maxlength="20" inputmode="tel" placeholder="090-1234-5678"></label>
+    <label class="fl">メールアドレス <em>必須</em><input type="email" name="email" autocomplete="email" required maxlength="80" placeholder="example@example.com"></label>
+  </div>
+  <div class="row2">
+    <label class="fl">年齢 <em>必須</em><input type="number" name="age" required min="18" max="80" inputmode="numeric" placeholder="25"></label>
+    <label class="fl">お住まいの最寄り駅<input type="text" name="station" maxlength="40" placeholder="柏駅"></label>
+  </div>
+  <label class="fl">勤務できる曜日・時間帯<input type="text" name="shift" maxlength="120" placeholder="例：平日の午後と、土日は終日"></label>
+  <label class="fl">自己PR・ご質問など<textarea name="pr" rows="5" maxlength="1000" placeholder="接客の経験、ポケカの経験、聞いてみたいことなど、自由にお書きください"></textarea></label>
+  <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <label class="ck"><input type="checkbox" name="adult" required><span>18歳以上で、高校生ではありません</span></label>
+  <label class="ck"><input type="checkbox" name="agree" required><span><a href="/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します（ご入力いただいた内容は、採用の選考とご連絡だけに使います）</span></label>
+  <p class="aerr" id="aerr" role="alert" hidden></p>
+  <button type="submit" class="btn g asub" id="asub">この内容で応募する</button>
+  <p class="cap">履歴書は、あとからご案内します。この時点では必要ありません。</p>
+</form>
+<div class="adone" id="adone" hidden><img src="/img/chars/chan2.webp" alt=""><h3>ご応募ありがとうございます</h3><p id="adoneT">内容を確認して、担当者からご連絡します。</p></div>
+<p class="cap">お電話でのお問い合わせ：04-7170-0605（本社）／メール：<a href="mailto:natadecoco@pokemon-card.shop?subject=%E6%8E%A1%E7%94%A8%E5%BF%9C%E5%8B%9F">natadecoco@pokemon-card.shop</a></p>
 
 <div class="band rv">
   <h3>ポケカが好きなあなたを、待っています。</h3>
@@ -192,6 +245,38 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 (function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.12});document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
 var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.querySelectorAll('[data-count]').forEach(function(c){var to=parseInt(String(c.dataset.count).replace(/,/g,''),10)||0,fmt=function(n){return c.dataset.raw?String(n):n.toLocaleString();};if(reduce||!to){c.textContent=fmt(to);return;}var done=false;var o=new IntersectionObserver(function(es){if(!es[0].isIntersecting||done)return;done=true;var t0=null;function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1300),e=1-Math.pow(1-p,3);c.textContent=fmt(Math.round(to*e));if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);o.disconnect();});o.observe(c);});
+})();
+</script>
+<script>
+/* 応募フォーム：ENDPOINT に受け取り先（Apps Script のURL）を入れると、そこへ直接送信します。
+   空のあいだは、応募者のメールアプリを開いて本文に内容を入れる方式で動きます。 */
+(function(){var f=document.getElementById('af');if(!f)return;
+  var ENDPOINT='';var TO='natadecoco@pokemon-card.shop';
+  var err=document.getElementById('aerr'),btn=document.getElementById('asub');
+  function v(n){var e=f.elements[n];return e&&e.value?String(e.value).trim():'';}
+  function mark(el,bad){if(el)el.classList.toggle('bad',!!bad);}
+  f.addEventListener('submit',function(ev){ev.preventDefault();if(v('website'))return;
+    var bad=[],type=f.querySelector('input[name=type]:checked'),stores=[].slice.call(f.querySelectorAll('input[name=store]:checked')).map(function(x){return x.value});
+    var g=f.querySelectorAll('.ops');mark(g[0],!type);mark(g[1],!stores.length);if(!type)bad.push('希望の働き方');if(!stores.length)bad.push('希望の店舗');
+    [['name','お名前'],['kana','ふりがな'],['tel','電話番号'],['email','メールアドレス'],['age','年齢']].forEach(function(a){var e=f.elements[a[0]],ok=!!v(a[0]);
+      if(ok&&a[0]==='email')ok=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('email'));
+      if(ok&&a[0]==='tel')ok=v('tel').replace(/[^0-9]/g,'').length>=10;
+      if(ok&&a[0]==='age')ok=+v('age')>=18&&+v('age')<=80;
+      mark(e,!ok);if(!ok)bad.push(a[1]);});
+    ['adult','agree'].forEach(function(n){var e=f.elements[n];mark(e.closest('.ck'),!e.checked);if(!e.checked)bad.push(n==='adult'?'年齢の確認':'プライバシーポリシーへの同意');});
+    if(bad.length){err.textContent='次の項目をご確認ください：'+bad.join('、');err.hidden=false;var first=f.querySelector('.bad');if(first)first.scrollIntoView({behavior:'smooth',block:'center'});return;}
+    err.hidden=true;
+    var d={type:type.value,store:stores.join('・'),name:v('name'),kana:v('kana'),tel:v('tel'),email:v('email'),age:v('age'),station:v('station'),shift:v('shift'),pr:v('pr')};
+    function done(t){f.hidden=true;var o=document.getElementById('adone');if(t)document.getElementById('adoneT').textContent=t;o.hidden=false;o.scrollIntoView({behavior:'smooth',block:'center'});}
+    if(ENDPOINT){btn.disabled=true;btn.textContent='送信しています…';
+      fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok)done();else throw 0;})
+      .catch(function(){btn.disabled=false;btn.textContent='この内容で応募する';err.textContent='送信できませんでした。少し時間をおいてもう一度お試しいただくか、お電話・メールでご連絡ください。';err.hidden=false;});
+      return;}
+    var body=['【採用応募】','','希望の働き方：'+d.type,'希望の店舗：'+d.store,'お名前：'+d.name+'（'+d.kana+'）','年齢：'+d.age,'電話番号：'+d.tel,'メール：'+d.email,'最寄り駅：'+d.station,'勤務できる曜日・時間帯：'+d.shift,'','自己PR・ご質問：',d.pr].join('\n');
+    location.href='mailto:'+TO+'?subject='+encodeURIComponent('採用応募（'+d.type+'・'+d.store+'）'+d.name)+'&body='+encodeURIComponent(body);
+    done('メールアプリが開きます。そのまま送信すると応募が完了します。開かない場合は、お電話かメールでご連絡ください。');
+  });
+  f.addEventListener('input',function(e){var t=e.target;if(t.classList)t.classList.remove('bad');var c=t.closest&&t.closest('.ops,.ck');if(c)c.classList.remove('bad');});
 })();
 </script>
 <footer><div><a href="/">買取価格表</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/recruit/">採用情報</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div><div style="margin-top:10px;opacity:.75">© __COMPANY__</div></footer>

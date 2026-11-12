@@ -89,6 +89,8 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 .apply a small{font-weight:400;font-size:12px;color:var(--ink-2);margin-top:3px}.apply a i{font-style:normal;font-size:30px;margin-bottom:4px}
 .tabs2{display:flex;gap:8px;margin:0 0 12px}.tabs2 button{font:inherit;font-weight:900;font-size:14px;border:3px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 18px;cursor:pointer;box-shadow:0 3px 0 var(--navy)}.tabs2 button.on{background:var(--navy);color:#fff}
 .req[hidden]{display:none}
+.wt{border-collapse:collapse;border:0;border-radius:0;box-shadow:none;width:100%;font-size:13.5px;margin:2px 0 6px}.wt td{display:table-cell!important;border:0!important;border-bottom:1px dashed var(--line)!important;padding:5px 6px!important;background:transparent}.wt tr:last-child td{border-bottom:0!important}.wt td:first-child{font-weight:700;color:var(--navy);white-space:nowrap;width:6.5em}.wt td:nth-child(2){font-weight:900;white-space:nowrap}.wt td:nth-child(3){color:var(--ink-2)}
+.note{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px}.hl{background:linear-gradient(transparent 60%,var(--yel) 60%);font-weight:900}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&family=DM+Sans:wght@700;900&display=swap">
 <header class="top"><a class="logo" href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
@@ -132,28 +134,37 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 <table class="rv req" id="req-a">
 <tr><th>職種</th><td>店舗スタッフ（アルバイト）</td></tr>
 <tr><th>勤務地</th><td>柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>）</small></td></tr>
-<tr><th>時給</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>勤務時間</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>勤務日数</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>応募資格</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>待遇・福利厚生</th><td><span class="tbd">【あとで入力】</span></td></tr>
+<tr><th>時給</th><td><table class="wt">
+<tr><td>柏本店</td><td>1,300円〜</td><td>12:00〜20:00</td></tr>
+<tr><td>松戸店</td><td>1,300円〜</td><td>10:00〜20:00</td></tr>
+<tr><td>津田沼店</td><td>1,300円〜</td><td>12:00〜20:00</td></tr>
+<tr><td>千葉中央店</td><td>1,300円〜</td><td>12:00〜20:00</td></tr>
+<tr><td>中野店</td><td>1,350円〜</td><td>13:00〜21:00</td></tr>
+<tr><td>お台場店</td><td>1,350円〜</td><td>平日 10:45〜20:30／土日祝 10:45〜21:30</td></tr>
+<tr><td>町田店</td><td><span class="tbd">【確認中】</span></td><td></td></tr>
+<tr><td>横浜店</td><td>1,350円〜</td><td>シフト制</td></tr>
+</table><span class="note">昇給あり。右の時間帯はお店の勤務時間帯です。</span></td></tr>
+<tr><th>勤務時間</th><td>上の表の時間帯の中で、実働4〜8時間（シフト制）<br>休憩は法定どおり<span class="note"><span class="hl">お台場店は平日13:00〜18:00の「2時間だけ」シフトも募集中！</span><br>時給1,350円＋短時間シフト手当1,300円／回で、2時間で4,000円。</span></td></tr>
+<tr><th>勤務日数</th><td>週2〜5日（シフト制・前月に翌月の希望シフトを提出）<span class="note">お台場店は週1日〜OK。土日祝に入れる方は大歓迎です。</span></td></tr>
+<tr><th>応募資格</th><td>高卒以上・未経験歓迎<br>ポケモンカードが好きな方、コレクター・プレイヤーの方大歓迎！<span class="note">※高校生・18歳未満の方のご応募は受け付けておりません</span></td></tr>
+<tr><th>待遇・福利厚生</th><td>交通費支給（1日500円まで）<br>正社員登用制度あり／昇給あり<br>制服貸与／髪色・ピアス自由<br>試用期間1か月（条件は同じ）</td></tr>
 </table>
 <table class="rv req" id="req-b" hidden>
 <tr><th>職種</th><td>店舗スタッフ（正社員）</td></tr>
 <tr><th>勤務地</th><td>柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>）</small></td></tr>
-<tr><th>給与</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>勤務時間</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>休日・休暇</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>応募資格</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>待遇・福利厚生</th><td><span class="tbd">【あとで入力】</span></td></tr>
-<tr><th>試用期間</th><td><span class="tbd">【あとで入力】</span></td></tr>
+<tr><th>給与</th><td>月給267,750円<span class="note">1か月あたり固定残業代33,750円（20時間分）を含みます。20時間を超える残業代は別途支給します。</span></td></tr>
+<tr><th>勤務時間</th><td>実働1日8時間（シフト制・変形労働時間制）<span class="note">勤務の時間帯は配属の店舗によって異なります。</span></td></tr>
+<tr><th>休日・休暇</th><td>年間休日115日<br>週休2日制（月9日休み・シフト制）／夏季休暇3日／年末年始休暇4日／有給休暇</td></tr>
+<tr><th>応募資格</th><td>学歴不問・第二新卒歓迎・トレカ業界未経験OK<span class="note">接客の経験を活かしたい方、ポケモンカードが好きな方を歓迎します。</span></td></tr>
+<tr><th>待遇・福利厚生</th><td>社会保険完備（健康保険・厚生年金・雇用保険・労災保険）<br>通勤手当（月25,000円まで）</td></tr>
+<tr><th>試用期間</th><td>1か月（条件は本採用と同じ）</td></tr>
 </table>
 
 <h2 class="rv"><span class="no">04</span>応募から採用まで</h2>
 <div class="flow4">
   <div class="rv"><i>✉️</i><b>応募</b><p>下のボタンからご応募ください</p></div>
   <div class="rv d1"><i>📞</i><b>ご連絡</b><p>担当者から面接日程をご連絡します</p></div>
-  <div class="rv d2"><i>🤝</i><b>面接</b><p><span class="tbd">【あとで入力】</span></p></div>
+  <div class="rv d2"><i>🤝</i><b>面接</b><p>オンラインで面接します（アルバイト）<span class="note">正社員は1次オンライン・2次対面です</span></p></div>
   <div class="rv d3"><i>🎉</i><b>採用</b><p>勤務開始日などをご相談します</p></div>
 </div>
 

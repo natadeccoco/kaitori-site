@@ -561,6 +561,31 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 
 
 /* ===== ミニゲーム：バトル ===== */
+/* ===== スロット（オリジナル。景品なしのミニゲーム） ===== */
+.sscr{position:relative;background:#E0EBC8;box-shadow:inset 0 0 0 5px #8BAC0F;padding:14px 14px 12px;font-family:"DotGothic16",monospace;color:var(--gb0);-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.shud{display:flex;justify-content:space-between;align-items:center;font-size:clamp(13px,2.2vw,18px);margin-bottom:10px}
+.shud b{font-family:"Press Start 2P",monospace;font-weight:400;font-size:.85em}
+.smach{position:relative;display:flex;justify-content:center;gap:10px;background:var(--gb1);border:4px solid var(--gb0);padding:10px;box-shadow:inset 0 0 0 3px var(--gb2)}
+.sreel{box-sizing:content-box;position:relative;width:min(27%,150px);height:calc(var(--sc)*3);overflow:hidden;background:#F2F6E6;border:3px solid var(--gb0)}
+.sstrip{position:absolute;left:0;top:0;width:100%;will-change:transform}
+.scell{height:var(--sc);display:flex;align-items:center;justify-content:center}
+.scell img{height:86%;width:auto;image-rendering:pixelated}
+.scell .s7{font-family:"Press Start 2P",monospace;font-size:calc(var(--sc)*.62);line-height:1;color:var(--gb0);text-shadow:3px 3px 0 var(--gb2)}
+.scell .scd{height:74%;width:auto;aspect-ratio:63/88;border:3px solid var(--gb0);background:repeating-linear-gradient(45deg,var(--gb2) 0 5px,var(--gbl) 5px 10px);box-shadow:3px 3px 0 var(--gb1)}
+.sline{position:absolute;left:4px;right:4px;height:4px;background:var(--mg);opacity:0;pointer-events:none;transform-origin:center}
+.sline.on{opacity:.9;animation:sblink .25s steps(2) 6}
+@keyframes sblink{50%{opacity:0}}
+.smach.win{animation:sshake .3s steps(3) 2}
+@keyframes sshake{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.sstops{display:flex;justify-content:center;gap:10px;margin-top:10px;padding:0 10px}
+.sstop{width:min(27%,150px);font-family:"Press Start 2P",monospace;font-size:11px;padding:10px 0;border:3px solid var(--gb0);background:var(--gbl);color:var(--gb0);box-shadow:0 4px 0 var(--gb0);cursor:pointer}
+.sstop:disabled{opacity:.45;box-shadow:0 1px 0 var(--gb0);transform:translateY(3px);cursor:default}
+.smsg{margin-top:12px;background:#F2F6E6;border:4px double var(--gb0);border-radius:6px;padding:8px 12px;min-height:3.4em;font-size:clamp(13px,2.2vw,18px);line-height:1.5;white-space:pre-line}
+.spay{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px;margin:10px 0 0;padding:0;list-style:none;font-size:12px}
+.spay li{display:flex;align-items:center;gap:4px}.spay img{height:22px;image-rendering:pixelated}.spay i{font-family:"Press Start 2P",monospace;font-style:normal;font-size:10px}
+.sscr{--sc:clamp(54px,11vw,92px)}
+.gtab{white-space:nowrap}
+@media (max-width:560px){.gtabs{gap:8px!important}.gtab{font-size:12px!important;padding:6px 7px!important;box-shadow:3px 3px 0 var(--gb0)!important}}
 .gtabs{display:flex;justify-content:center;gap:10px;margin:0 0 14px}
 .gtab{font-family:"DotGothic16",monospace;font-size:16px;padding:6px 18px;border:3px solid var(--gb0);background:var(--gbl);color:var(--gb0);cursor:pointer;box-shadow:4px 4px 0 var(--gb0)}
 .gtab.on{background:var(--gb0);color:var(--gb3)}
@@ -867,7 +892,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 <div class="gmodal" id="gmodal" hidden><div class="gbg" data-close></div><div class="gwin" role="dialog" aria-modal="true" aria-label="ジャンプゲーム">
   <button type="button" class="gx" data-close aria-label="閉じる">×</button>
   <p class="gttl">ナタデココちゃんの <b>ミニゲーム</b></p>
-  <div class="gtabs" role="tablist"><button type="button" class="gtab on" data-g="jump">▶ ジャンプ</button><button type="button" class="gtab" data-g="battle">▶ バトル</button></div>
+  <div class="gtabs" role="tablist"><button type="button" class="gtab on" data-g="jump">▶ ジャンプ</button><button type="button" class="gtab" data-g="battle">▶ バトル</button><button type="button" class="gtab" data-g="slot">▶ スロット</button></div>
   <div class="gpanel" id="gp-jump">
   <div class="gbox">
     <div class="gscr"><canvas id="gcv" width="320" height="120" aria-label="ジャンプゲーム"></canvas>
@@ -897,6 +922,21 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
       <div class="gctl"><span class="ghelp">↑↓←→ でえらぶ / SPACE・ENTER・TAP でけってい</span><button type="button" class="gbtn" id="bA" aria-label="けってい">A</button></div>
     </div>
     <div class="gover" id="bover" hidden><p id="bovT">なかまに なった！</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+  </div>
+  <div class="gpanel" id="gp-slot" hidden>
+    <div class="gbox">
+      <div class="sscr" id="sscr">
+        <div class="shud"><span>コイン <b id="sCoin">30</b></span><span>1かい 3コイン</span></div>
+        <div class="smach" id="smach">
+          <div class="sreel"><div class="sstrip"></div></div><div class="sreel"><div class="sstrip"></div></div><div class="sreel"><div class="sstrip"></div></div>
+        </div>
+        <div class="sstops"><button type="button" class="sstop" data-r="0" disabled>STOP</button><button type="button" class="sstop" data-r="1" disabled>STOP</button><button type="button" class="sstop" data-r="2" disabled>STOP</button></div>
+        <p class="smsg" id="sMsg">Aボタンで まわそう！</p>
+        <ul class="spay" id="sPay"></ul>
+      </div>
+      <div class="gctl"><span class="ghelp">A / SPACE でまわす → STOP を3かい</span><button type="button" class="gbtn" id="sA" aria-label="まわす・とめる">A</button></div>
+    </div>
+    <div class="gover" id="sover" hidden><p id="sovT"></p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
   </div>
 
 </div></div>
@@ -959,9 +999,62 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
     if(k===' '||k==='Enter'||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();act();}},true);
   // タブ切り替え
   var tabs=document.querySelectorAll('.gtab');
-  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.toggle('on',x===t)});var b=t.dataset.g==='battle';
-    $('gp-battle').hidden=!b;$('gp-jump').hidden=b;if(b&&window.ndJumpStop)ndJumpStop();if(b&&state!=='menu'&&state!=='msg')start();if(b){var s=document.getElementById('gstart');}});});
+  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.toggle('on',x===t)});var g=t.dataset.g,b=g==='battle';
+    $('gp-battle').hidden=!b;$('gp-jump').hidden=g!=='jump';$('gp-slot').hidden=g!=='slot';if(g!=='jump'&&window.ndJumpStop)ndJumpStop();if(g!=='slot'&&window.ndSlotStop)ndSlotStop();if(b&&state!=='menu'&&state!=='msg')start();if(g==='slot'&&window.ndSlotInit)ndSlotInit();});});
   window.ndBattleStart=start;
+})();
+</script>
+
+<script>
+(function(){
+  var scr=document.getElementById('sscr');if(!scr)return;
+  var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
+  var $=function(id){return document.getElementById(id)};
+  // 絵柄：0=ナタデココちゃん 1=7 2=ファイ 3=パチル 4=ミンティ 5=アメリー 6=カード
+  var SYM=[{img:'chan1',pay:300,n:'ナタデココちゃん'},{t:'7',pay:100,n:'セブン'},{img:'fai1',pay:30,n:'ファイ'},{img:'pachiru1',pay:20,n:'パチル'},{img:'minty1',pay:15,n:'ミンティ'},{img:'amery1',pay:10,n:'アメリー'},{c:1,pay:6,n:'カード'}];
+  var STRIPS=[[0,6,4,5,2,6,3,1,6,5,4,6,2,3,5,6],[6,5,0,3,6,4,2,6,5,1,6,3,4,6,2,5],[4,6,2,5,6,0,3,6,1,5,6,4,2,6,3,5]];
+  var LINES=[[1,1,1],[0,0,0],[2,2,2],[0,1,2],[2,1,0]];
+  var reels=[].slice.call(scr.querySelectorAll('.sreel')),stops=[].slice.call(scr.querySelectorAll('.sstop')),mach=$('smach');
+  var coin=30,BET=3,state='idle',raf=0,built=false,H=0,best=30;
+  var R=[0,1,2].map(function(i){return {el:reels[i].firstElementChild,pos:Math.floor(Math.random()*16),spin:false,v:0,n:STRIPS[i].length}});
+  function cell(k){var o=SYM[k];return '<div class="scell">'+(o.img?'<img src="'+GB+o.img+'.webp" alt="">':o.t?'<span class="s7">7</span>':'<span class="scd"></span>')+'</div>';}
+  function build(){if(built)return;built=true;R.forEach(function(r,i){var seq=STRIPS[i].concat(STRIPS[i].slice(0,3));r.el.innerHTML=seq.map(cell).join('');});
+    $('sPay').innerHTML=SYM.map(function(o){return '<li>'+(o.img?'<img src="'+GB+o.img+'.webp" alt="'+o.n+'">':o.t?'<span class="s7" style="font-family:\'Press Start 2P\',monospace;font-size:14px">7</span>':'<span>カード</span>')+'<i>x3='+o.pay+'</i></li>'}).join('');
+    for(var i=0;i<5;i++){var l=document.createElement('i');l.className='sline';mach.appendChild(l);}
+    measure();draw();}
+  function measure(){H=reels[0].clientHeight/3;var ls=mach.querySelectorAll('.sline'),mh=mach.clientHeight,t0=reels[0].offsetTop;
+    [1,0,2].forEach(function(row,i){ls[i].style.top=(t0+H*row+H/2-2)+'px';ls[i].style.transform='none';});
+    var w=reels[2].offsetLeft-reels[0].offsetLeft,ang=Math.atan2(H*2,w)*180/Math.PI;
+    ls[3].style.top=ls[4].style.top=(t0+H*1.5-2)+'px';ls[3].style.transform='rotate('+ang+'deg)';ls[4].style.transform='rotate('+(-ang)+'deg)';}
+  function draw(){R.forEach(function(r){r.el.style.transform='translateY('+(-r.pos*H)+'px)';});}
+  function hud(){$('sCoin').textContent=coin;}
+  function say(t){$('sMsg').textContent=t;}
+  function tick(){var any=false;R.forEach(function(r){if(r.spin){any=true;r.pos-=r.v;if(r.pos<0)r.pos+=r.n;}else if(r.snap!=null){var d=r.pos-r.snap;if(d<0)d+=r.n;if(d<=0.28){r.pos=r.snap;r.snap=null;}else{any=true;r.pos-=0.28;if(r.pos<0)r.pos+=r.n;}}});
+    draw();if(any)raf=requestAnimationFrame(tick);else{raf=0;if(state==='spin'&&R.every(function(r){return !r.spin&&r.snap==null}))judge();}}
+  function spin(){if(state!=='idle')return;if(coin<BET){over();return;}measure();coin-=BET;hud();state='spin';$('sover').hidden=true;
+    mach.querySelectorAll('.sline').forEach(function(l){l.classList.remove('on')});
+    R.forEach(function(r,i){r.spin=true;r.snap=null;r.v=0.34+i*0.03;stops[i].disabled=false;});say('STOPで とめよう！');if(!raf)raf=requestAnimationFrame(tick);}
+  function stop(i){var r=R[i];if(state!=='spin'||!r.spin)return;r.spin=false;stops[i].disabled=true;r.snap=Math.floor(r.pos);if(r.snap===r.pos)r.snap=r.pos;if(!raf)raf=requestAnimationFrame(tick);}
+  function at(i,row){var r=R[i];return STRIPS[i][(Math.round(r.pos)+row)%r.n];}
+  function judge(){state='pay';var win=0,top=null,ls=mach.querySelectorAll('.sline');
+    LINES.forEach(function(L,k){var a=at(0,L[0]),b=at(1,L[1]),c=at(2,L[2]);if(a===b&&b===c){win+=SYM[a].pay;ls[k].classList.add('on');if(!top||SYM[a].pay>top.pay)top=SYM[a];}});
+    if(win){coin+=win;hud();mach.classList.remove('win');void mach.offsetWidth;mach.classList.add('win');
+      say(top.n+'が そろった！\n'+win+'コイン ゲット！');
+      if(top.pay>=100){$('sovT').textContent=(top.pay>=300?'大あたり！ ':'あたり！ ')+'昔のカードも、高く買取します。';$('sover').hidden=false;}}
+    else say('ざんねん… もういちど！');
+    if(coin>best)best=coin;
+    setTimeout(function(){state='idle';if(coin<BET)over();},win?900:250);}
+  function over(){state='over';say('コインが なくなった…\nAで さいしょから');$('sovT').textContent='さいこう '+best+'コイン！ 昔のカード、送ってみませんか？';$('sover').hidden=false;}
+  function reset(){coin=30;best=30;hud();state='idle';$('sover').hidden=true;say('Aボタンで まわそう！');}
+  function act(){if(state==='over'){reset();return;}if(state==='idle'){spin();return;}if(state==='spin'){for(var i=0;i<3;i++)if(R[i].spin){stop(i);return;}}}
+  stops.forEach(function(b){b.addEventListener('pointerdown',function(e){e.preventDefault();stop(+b.dataset.r);});});
+  $('sA').addEventListener('pointerdown',function(e){e.preventDefault();act();});
+  mach.addEventListener('pointerdown',function(e){e.preventDefault();if(state!=='spin')act();});
+  addEventListener('keydown',function(e){var md=$('gmodal');if(!md||md.hidden||$('gp-slot').hidden)return;var k=e.key;
+    if(k===' '||k==='Enter'||e.code==='Space'||k==='ArrowUp'){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)act();}},true);
+  addEventListener('resize',function(){if(built&&!$('gp-slot').hidden){measure();draw();}});
+  window.ndSlotInit=function(){build();measure();draw();hud();};
+  window.ndSlotStop=function(){if(state==='spin'){R.forEach(function(r,i){r.spin=false;r.snap=null;r.pos=Math.round(r.pos)%r.n;stops[i].disabled=true;});coin+=BET;hud();state='idle';}cancelAnimationFrame(raf);raf=0;};
 })();
 </script>
 
@@ -1164,7 +1257,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   // 操作：ボタンで開いて、STARTで開始。開いている間だけキーを使う
   var md=document.getElementById('gmodal'),op=document.getElementById('gopen');
   function openG(){md.hidden=false;document.documentElement.style.overflow='hidden';st='idle';reset();over.hidden=true;msg.innerHTML='<button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;draw();setTimeout(function(){var b=document.getElementById('gstart');if(b)b.focus();},50);}
-  function closeG(){md.hidden=true;document.documentElement.style.overflow='';cancelAnimationFrame(raf);if(st==='run')st='idle';}
+  function closeG(){if(window.ndSlotStop)ndSlotStop();md.hidden=true;document.documentElement.style.overflow='';cancelAnimationFrame(raf);if(st==='run')st='idle';}
   window.ndJumpStop=function(){cancelAnimationFrame(raf);if(st==='run'){st='idle';msg.innerHTML='<button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;}};
   op.addEventListener('click',openG);
   document.querySelectorAll('a[href="#game"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openG();});});

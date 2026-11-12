@@ -117,6 +117,12 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 .af .cap{text-align:center;margin:0}
 .adone{text-align:center;background:#fff;border:3px solid var(--navy);border-radius:22px;padding:30px 20px;box-shadow:0 6px 0 var(--navy)}
 .adone img{height:110px}.adone h3{margin:8px 0 6px;color:var(--navy);font-size:22px}.adone p{margin:0;color:var(--ink-2)}
+
+.st2{width:100%;border-collapse:collapse;font-size:13.5px;margin:2px 0 8px;box-shadow:none!important;border:0!important;border-radius:0!important;overflow:visible}.st2 th:nth-child(2){width:27%}.st2 th:nth-child(3){width:38%}.st2 th:nth-child(4){width:17%}
+.st2 th,.st2 td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top;background:#fff;width:auto;font-weight:400;color:var(--ink)}
+.st2 tr:first-child th{background:var(--bg-2);font-weight:900;color:var(--navy);font-size:12.5px}
+.st2 td:first-child{font-weight:900;white-space:nowrap;color:var(--navy)}.st2 td:nth-child(2){white-space:nowrap}
+@media (max-width:640px){.st2,.st2 tbody,.st2 tr,.st2 td{display:block}.st2 tr:first-child{display:none}.st2 tr{border:1px solid var(--line);border-radius:10px;margin-bottom:8px;padding:8px 10px;background:#fff}.st2 td{border:0;padding:1px 0;white-space:normal!important}.st2 td:nth-child(2){font-weight:700}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&family=DM+Sans:wght@700;900&display=swap">
 <header class="top"><a class="logo" href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
@@ -160,11 +166,20 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 <div class="tabs2 rv" role="tablist"><button type="button" class="on" data-r="a">アルバイト</button><button type="button" data-r="b">正社員</button></div>
 <table class="rv req" id="req-a">
 <tr><th>職種</th><td>販売・接客・買取スタッフ（アルバイト・パート）</td></tr>
-<tr><th>募集中の店舗</th><td>柏本店・津田沼店・お台場店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>。ほかの店舗をご希望の方もご相談ください）</small></td></tr>
-<tr><th>時給</th><td><b>柏本店・津田沼店：1,300円〜</b><br><b>お台場店：1,350円</b>＋短時間シフト手当 1,300円／回（2時間の勤務で4,000円）<br>昇給あり</td></tr>
-<tr><th>勤務時間</th><td><b>柏本店・津田沼店：</b>12:00〜20:00 の間で実働4〜8時間<br><b>お台場店：</b>平日（月〜金）13:00〜18:00 の間で2時間（例：13〜15時／14〜16時／15〜17時／16〜18時）<br><small>休憩は法定どおり</small></td></tr>
-<tr><th>勤務日数</th><td><b>柏本店・津田沼店：</b>週2〜5日（土日祝に勤務できる方歓迎）<br><b>お台場店：</b>週1日からOK<br><small>シフト制。前月に翌月分の希望シフトを提出します</small></td></tr>
-<tr><th>応募資格</th><td>高卒以上・18歳以上（高校生の方はご応募いただけません）<br>未経験歓迎。ポケカのコレクター・プレイヤーの方、人と話すのが好きな方、歓迎です<br><small>柏本店は、1年以上勤務できる方</small></td></tr>
+<tr><th>勤務地</th><td>柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店<br><small>（各店の住所は <a href="__STORES_URL__">店舗一覧</a>）</small></td></tr>
+<tr><th>時給・勤務時間</th><td class="stw"><table class="st2">
+<tr><th>店舗</th><th>時給</th><th>勤務時間</th><th>勤務日数</th></tr>
+<tr><td>柏本店</td><td>1,300円〜</td><td>12:00〜20:00 の間で実働4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>松戸店</td><td>1,300円〜</td><td>10:00〜20:00 の間で実働4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>津田沼店</td><td>1,300円〜</td><td>12:00〜20:00 の間で実働4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>千葉中央店</td><td>1,300円〜</td><td>12:00〜20:00 の間で実働4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>中野店</td><td>1,350円〜</td><td>13:00〜21:00 の間で実働4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>町田店</td><td>1,350円〜</td><td>12:00〜20:00 の間で実働4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>横浜店</td><td>1,350円〜</td><td>1日4〜8時間</td><td>週2〜5日</td></tr>
+<tr><td>お台場店</td><td>1,350円<br><small>＋短時間シフト手当 1,300円／回（2時間の勤務で4,000円）</small></td><td>平日（月〜金）13:00〜18:00 の間で2時間</td><td>週1日から</td></tr>
+</table>
+<small>昇給あり。休憩は法定どおり。シフト制で、前月に翌月分の希望シフトを提出します。土日祝に勤務できる方、歓迎です</small></td></tr>
+<tr><th>応募資格</th><td>高卒以上・18歳以上（高校生の方はご応募いただけません）<br>未経験歓迎。ポケカのコレクター・プレイヤーの方、人と話すのが好きな方、歓迎です<br><small>柏本店・松戸店は、1年以上勤務できる方</small></td></tr>
 <tr><th>待遇・福利厚生</th><td>交通費支給（1日500円まで）／制服貸与／髪色・ピアス自由／正社員登用制度あり<br>社会保険（雇用保険・労災保険・健康保険・厚生年金）<br>敷地内禁煙</td></tr>
 <tr><th>試用期間</th><td>1か月（条件は同じ）</td></tr>
 </table>

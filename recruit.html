@@ -89,17 +89,6 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 .apply a small{font-weight:400;font-size:12px;color:var(--ink-2);margin-top:3px}.apply a i{font-style:normal;font-size:30px;margin-bottom:4px}
 .tabs2{display:flex;gap:8px;margin:0 0 12px}.tabs2 button{font:inherit;font-weight:900;font-size:14px;border:3px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;padding:6px 18px;cursor:pointer;box-shadow:0 3px 0 var(--navy)}.tabs2 button.on{background:var(--navy);color:#fff}
 .req[hidden]{display:none}
-.af{background:#fff;border:3px solid var(--navy);border-radius:22px;box-shadow:0 7px 0 var(--navy);padding:0 22px 24px;overflow:hidden;margin-bottom:18px}
-.af .fhd{margin:0 -22px 18px;padding:16px 22px;background:linear-gradient(135deg,#FFF6C9,#B8F4F4);border-bottom:3px solid var(--navy);display:flex;gap:14px;align-items:center}.af .fhd img{width:62px}.af .fhd b{font-family:"M PLUS Rounded 1c",sans-serif;font-size:21px;color:var(--navy)}.af .fhd p{margin:2px 0 0;font-size:13px;color:var(--ink-2)}
-.fg2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}@media (max-width:640px){.fg2{grid-template-columns:1fr}.af{padding:0 16px 20px}.af .fhd{margin:0 -16px 16px}}
-.af .f{display:block;margin:0 0 16px}.af .f>span{display:block;font-weight:700;color:var(--navy);font-size:14px;margin-bottom:6px}.af .f em{font-style:normal;font-size:11px;background:var(--pink);color:var(--navy);border-radius:999px;padding:1px 8px;margin-left:8px;vertical-align:1px}
-.af input:not([type=checkbox]):not([type=radio]),.af textarea{width:100%;font:inherit;font-size:16px;border:2px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg-2);color:var(--ink)}.af input:focus,.af textarea:focus{outline:none;border-color:var(--cyan-d);background:#fff}
-.af .ops{display:flex;flex-wrap:wrap;gap:8px}.af .op{position:relative;cursor:pointer}.af .op input{position:absolute;opacity:0;pointer-events:none}.af .op span{display:inline-block;border:2px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;font-weight:700;background:#fff;color:var(--ink-2);transition:all .15s}.af .op input:checked+span{background:var(--navy);border-color:var(--navy);color:#fff}.af .op input:focus-visible+span{outline:3px solid var(--cyan-d)}
-.af .bad>span:first-child{color:#C23B5C}.af .bad input,.af .bad textarea{border-color:#E58AA3!important}.af .bad .op span{border-color:#E58AA3}
-.fnote{font-size:12.5px;color:var(--ink-2);margin:4px 0 14px}.fnote a{color:var(--navy-2)}.ferr{background:#FFE6EE;border:2px solid #E58AA3;color:#A3264A;border-radius:12px;padding:8px 12px;font-size:13.5px;font-weight:700}
-.fbtn{display:block;width:100%;font:inherit;font-weight:900;font-size:17px;border:3px solid var(--navy);border-radius:999px;padding:14px;background:var(--yel);color:var(--navy);box-shadow:0 5px 0 var(--navy);cursor:pointer}.fbtn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--navy)}.fbtn[disabled]{opacity:.6;cursor:wait}
-.fdone{text-align:center;padding:10px 0 4px}.fdone img{width:110px}.fdone b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;font-size:22px;color:var(--navy);margin:6px 0}.fdone p{margin:0;font-size:14px;color:var(--ink-2)}
-.apply.alt{grid-template-columns:1fr}
 .wt{border-collapse:collapse;border:0;border-radius:0;box-shadow:none;width:100%;font-size:13.5px;margin:2px 0 6px}.wt td{display:table-cell!important;border:0!important;border-bottom:1px dashed var(--line)!important;padding:5px 6px!important;background:transparent}.wt tr:last-child td{border-bottom:0!important}.wt td:first-child{font-weight:700;color:var(--navy);white-space:nowrap;width:6.5em}.wt td:nth-child(2){font-weight:900;white-space:nowrap}.wt td:nth-child(3){color:var(--ink-2)}
 .note{display:block;font-size:12.5px;color:var(--ink-2);margin-top:4px}.hl{background:linear-gradient(transparent 60%,var(--yel) 60%);font-weight:900}
 </style>
@@ -196,27 +185,9 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 </ul>
 
 <h2 class="rv" id="apply"><span class="no">06</span>応募する</h2>
-<form class="af rv" id="apply-form" action="https://docs.google.com/forms/d/e/1FAIpQLSePB0Kc_lSmrOvf60hqvhUdAZmn3QfbJKV-lD5rcAAoSstPbQ/formResponse" method="post" novalidate>
-<div class="fhd"><img src="/img/chars/chan1.webp" alt=""><div><b>応募フォーム</b><p>入力は1〜2分で終わります。担当者から面接日程をご連絡します。</p></div></div>
-<div class="fg2">
-<label class="f"><span>お名前<em>必須</em></span><input name="entry.1377257250" required autocomplete="name" placeholder="例）市川 太郎"></label>
-<label class="f"><span>ふりがな<em>必須</em></span><input name="entry.615061431" required placeholder="例）いちかわ たろう"></label>
-<label class="f"><span>年齢<em>必須</em></span><input name="entry.521311116" required inputmode="numeric" placeholder="例）22"></label>
-<label class="f"><span>電話番号<em>必須</em></span><input name="entry.1007618740" required type="tel" autocomplete="tel" placeholder="例）090-1234-5678"></label>
-</div>
-<label class="f"><span>メールアドレス<em>必須</em></span><input name="entry.1873012005" required type="email" autocomplete="email" placeholder="例）natadecoco@example.com"></label>
-<div class="f"><span>希望の雇用形態<em>必須</em></span><div class="ops"><label class="op"><input type="radio" name="entry.1926447557" value="アルバイト" required><span>アルバイト</span></label><label class="op"><input type="radio" name="entry.1926447557" value="正社員" required><span>正社員</span></label></div></div>
-<div class="f" id="f-store"><span>希望の店舗（複数選択可）<em>必須</em></span><div class="ops"><label class="op"><input type="checkbox" name="entry.89226822" value="柏本店"><span>柏本店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="松戸店"><span>松戸店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="津田沼店"><span>津田沼店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="千葉中央店"><span>千葉中央店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="中野店"><span>中野店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="お台場店"><span>お台場店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="町田店"><span>町田店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="横浜店"><span>横浜店</span></label><label class="op"><input type="checkbox" name="entry.89226822" value="どの店舗でもOK"><span>どの店舗でもOK</span></label></div></div>
-<div class="f"><span>現在のご職業<em>必須</em></span><div class="ops"><label class="op"><input type="radio" name="entry.1692240101" value="大学生・専門学校生" required><span>大学生・専門学校生</span></label><label class="op"><input type="radio" name="entry.1692240101" value="会社員・パート・アルバイト" required><span>会社員・パート・アルバイト</span></label><label class="op"><input type="radio" name="entry.1692240101" value="主婦・主夫" required><span>主婦・主夫</span></label><label class="op"><input type="radio" name="entry.1692240101" value="その他" required><span>その他</span></label></div></div>
-<label class="f"><span>勤務できる曜日・時間帯</span><textarea name="entry.122273164" rows="3" placeholder="例）平日は15時以降、土日は終日OK"></textarea></label>
-<label class="f"><span>自己PR・ご質問など</span><textarea name="entry.1273589379" rows="4" placeholder="ポケカ歴や好きなカード、接客の経験など、なんでもどうぞ"></textarea></label>
-<p class="fnote">※高校生・18歳未満の方のご応募は受け付けておりません。ご入力いただいた情報は採用選考のためだけに使用します（<a href="/privacy/">プライバシーポリシー</a>）。</p>
-<p class="ferr" id="apply-err" hidden></p>
-<button type="submit" class="fbtn" id="apply-btn">この内容で応募する</button>
-<div class="fdone" id="apply-done" hidden><img src="/img/chars/chan2.webp" alt=""><b>ご応募ありがとうございました！</b><p>内容を確認のうえ、担当者からお電話またはメールでご連絡します。<br>数日たっても連絡がない場合は、お手数ですが下記の電話番号までお問い合わせください。</p></div>
-</form>
-<div class="apply alt">
-  <a class="rv d1" href="mailto:natadecoco@pokemon-card.shop?subject=%E6%8E%A1%E7%94%A8%E5%BF%9C%E5%8B%9F"><i>📧</i>メールで応募する場合<small>natadecoco@pokemon-card.shop<br>件名に「採用応募」と、希望の店舗・職種をお書きください</small></a>
+<div class="apply">
+  <a class="rv" href="#apply"><i>📝</i>応募フォーム<small><span class="tbd">【あとで入力】</span></small></a>
+  <a class="rv d1" href="mailto:natadecoco@pokemon-card.shop?subject=%E6%8E%A1%E7%94%A8%E5%BF%9C%E5%8B%9F"><i>📧</i>メールで応募<small>natadecoco@pokemon-card.shop<br>件名に「採用応募」と、希望の店舗・職種をお書きください</small></a>
 </div>
 <p class="cap">お電話でのお問い合わせ：04-7170-0605（本社）</p>
 
@@ -233,18 +204,6 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 document.querySelectorAll('[data-count]').forEach(function(c){var to=parseInt(String(c.dataset.count).replace(/,/g,''),10)||0,fmt=function(n){return c.dataset.raw?String(n):n.toLocaleString();};if(reduce||!to){c.textContent=fmt(to);return;}var done=false;var o=new IntersectionObserver(function(es){if(!es[0].isIntersecting||done)return;done=true;var t0=null;function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/1300),e=1-Math.pow(1-p,3);c.textContent=fmt(Math.round(to*e));if(p<1)requestAnimationFrame(step);}requestAnimationFrame(step);o.disconnect();});o.observe(c);});
 })();
-</script>
-<script>
-(function(){var f=document.getElementById("apply-form");if(!f)return;var err=document.getElementById("apply-err"),btn=document.getElementById("apply-btn");
-f.addEventListener("submit",function(ev){ev.preventDefault();var bad=[];f.querySelectorAll(".bad").forEach(function(x){x.classList.remove("bad")});
-f.querySelectorAll("input[required]:not([type=radio]),textarea[required]").forEach(function(i){if(!i.value.trim()||!i.checkValidity()){i.closest(".f").classList.add("bad");bad.push(i)}});
-["entry.1926447557","entry.1692240101"].forEach(function(n){if(!f.querySelector("input[name='"+n+"']:checked")){var b=f.querySelector("input[name='"+n+"']").closest(".f");b.classList.add("bad");bad.push(b)}});
-if(!f.querySelector("#f-store input:checked")){var s=document.getElementById("f-store");s.classList.add("bad");bad.push(s)}
-var age=parseInt((f.querySelector("[name='entry.521311116']").value||"").replace(/[^0-9０-９]/g,"").replace(/[０-９]/g,function(c){return String.fromCharCode(c.charCodeAt(0)-65248)}),10);
-if(bad.length){err.textContent="未入力または入力に誤りがある項目があります（赤い項目をご確認ください）";err.hidden=false;(bad[0].scrollIntoView&&bad[0].scrollIntoView({behavior:"smooth",block:"center"}));return}
-if(age&&age<18){err.textContent="申し訳ありません。18歳未満の方のご応募は受け付けておりません。";err.hidden=false;return}
-err.hidden=true;btn.disabled=true;btn.textContent="送信中…";
-fetch(f.action,{method:"POST",mode:"no-cors",body:new URLSearchParams(new FormData(f))}).then(function(){f.querySelectorAll(".fg2,.f,.fnote,.fbtn").forEach(function(x){x.hidden=true;x.style.display="none"});document.getElementById("apply-done").hidden=false;f.scrollIntoView({behavior:"smooth",block:"start"})}).catch(function(){btn.disabled=false;btn.textContent="この内容で応募する";err.textContent="送信できませんでした。通信状況をご確認のうえ、もう一度お試しください。";err.hidden=false})});})();
 </script>
 <footer><div><a href="/">買取価格表</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/recruit/">採用情報</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a></div><div style="margin-top:10px;opacity:.75">© __COMPANY__</div></footer>
 </body></html>

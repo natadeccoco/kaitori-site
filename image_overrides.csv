@@ -152,7 +152,7 @@ BOX,"リザードン★炎【未開封パック】",box/rizadon.jpg
 ポケモン,"ピカチュウ(ともだちのわ)",card/XY-P/XY-P_.jpg,"XY-P"
 BOX,"まぼろしのミュウ【未開封パック】",box/myustart.jpg
 ポケモン,"ピカチュウ(藤田ニコル)",card/XY-P/XY-P_g.jpg,"XY-P"
-ポケモン,"ピカチュウ(日本語/青背景)",card/PW/PW_001.jpg,"PW"
+ポケモン,"ピカチュウ(日本語/青背景)",https://natadeccoco.github.io/kaitori-site/own/pw_jp_blue,"PW"
 BOX,"タッグオールスターズ",box/sm12a_b.jpg
 ポケモン,"ピッチのピカチュウ(小学生以下)",card/XY-P/XY-P_j.jpg,"XY-P"
 ポケモン,"ミズキの検索(キラ)",card/DP-P/DP-P_t05.jpg
@@ -178,8 +178,8 @@ BOX,"ホウオウGX【スペシャルジャンボカードパック】",box/houh
 ポケモン,"ミュウ(古代文字2019)",card/SM-P/SM-P_091d.jpg
 BOX,"フライゴンデッキ【未開封パック】",box/huraigon.jpg
 BOX,"ボーマンダデッキ【未開封パック】",box/bomanda.jpg
-ポケモン,"ピカチュウ(ワールド/日本/緑背景)",card/PW_2/PW_001.jpg,"PW"
-ポケモン,"ピカチュウ(ワールド/日本/青背景)",card/PW/PW_001.jpg,"PW"
+ポケモン,"ピカチュウ(ワールド/日本/緑背景)",https://natadeccoco.github.io/kaitori-site/own/pw_jp_green,"PW"
+ポケモン,"ピカチュウ(ワールド/日本/青背景)",https://natadeccoco.github.io/kaitori-site/own/pw_jp_blue,"PW"
 BOX,"ファミリーポケモンカードゲーム(サン＆ムーン)",box/familysm.jpg
 BOX,"バクフーンex★炎【未開封パック】",box/bakuhun.jpg
 BOX,"スペシャルセット 「ピカチュウ(ヤマダ電機・ポケモンセンター限定)」",box/sppika.jpg
@@ -305,3 +305,8 @@ BOX,"ジム拡張第2弾 闇からの挑戦【未開封パック】",box/gym2.jp
 BOX,"ジム拡張第1弾 リーダーズスタジアム【未開封パック】",box/gym1.jpg
 旧裏,"＿のピカチュウ LV.17",https://natadeccoco.github.io/kaitori-site/own/pikachu_lv17_2nd
 PSA,"＿のピカチュウ LV.17",https://natadeccoco.github.io/kaitori-site/own/pikachu_lv17_2nd
+ポケモン,"ピカチュウ(ワールド/ポルトガル)",https://natadeccoco.github.io/kaitori-site/own/pw_pt,"PW"
+ポケモン,"ピカチュウ(ワールド/ドイツ)",https://natadeccoco.github.io/kaitori-site/own/pw_de,"PW"
+ポケモン,"ピカチュウ(ワールド/スペイン)",https://natadeccoco.github.io/kaitori-site/own/pw_es,"PW"
+ポケモン,"ピカチュウ(ワールド/ポーランド)",https://natadeccoco.github.io/kaitori-site/own/pw_pl,"PW"
+ポケモン,"ピカチュウ(ワールド/韓国)",https://natadeccoco.github.io/kaitori-site/own/pw_kr,"PW"

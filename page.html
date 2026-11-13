@@ -355,6 +355,8 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
 header.top .right{display:flex;align-items:center;gap:8px}
 header.top .howto-btn{padding:8px 14px;white-space:nowrap}
 @media (max-width:560px){header.top .howto-btn{padding:7px 10px;font-size:12px}header.top .howto-btn svg{display:none}}
+
+body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:hover{transform:none;box-shadow:none}
 </style>
 
 
@@ -773,8 +775,10 @@ function openItem(id){
   $("#imodal").hidden=false;$("#iadd").focus();
 }
 function closeItem(){$("#imodal").hidden=true;MODAL_ID=null;}
-$("#grid").addEventListener("click",e=>{if(e.target.closest("a"))return;const c=e.target.closest(".card");if(!c)return;openItem(c.dataset.id);});   // 画像＝詳細ページへ（リンク）／カートボタン・名前・価格＝ポップアップ
-$("#grid").addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest(".card");if(!c||e.target!==c)return;e.preventDefault();openItem(c.dataset.id);});
+/* 店頭の買取表：カードを押しても詳細ページ・ポップアップを開かない */
+const STORE_MODE=document.body.classList.contains("sm-store");
+$("#grid").addEventListener("click",e=>{if(STORE_MODE){if(e.target.closest(".card"))e.preventDefault();return;}if(e.target.closest("a"))return;const c=e.target.closest(".card");if(!c)return;openItem(c.dataset.id);});   // 画像＝詳細ページへ（リンク）／カートボタン・名前・価格＝ポップアップ
+$("#grid").addEventListener("keydown",e=>{if(STORE_MODE)return;if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest(".card");if(!c||e.target!==c)return;e.preventDefault();openItem(c.dataset.id);});
 $("#iminus").onclick=()=>{MODAL_Q=Math.max(1,MODAL_Q-1);$("#iqty").textContent=MODAL_Q;};
 $("#iplus").onclick=()=>{MODAL_Q=Math.min(99,MODAL_Q+1);$("#iqty").textContent=MODAL_Q;};
 $("#iadd").onclick=()=>{if(!MODAL_ID)return;addToCart(MODAL_ID,MODAL_Q);toast(`買取内容に ${MODAL_Q}枚 追加しました`);closeItem();};

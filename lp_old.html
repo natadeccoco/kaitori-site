@@ -1010,10 +1010,10 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 
   /* ---------- サイクリング ---------- */
   var cv=$('acv'),cx=cv.getContext('2d'),W=cv.width,H=cv.height,LX=[48,90,132],amsg=$('amsg');
+  var CS=Math.min(5,Math.max(2,Math.ceil(300*(window.devicePixelRatio||1)/W)));cv.width=W*CS;cv.height=H*CS;cv.style.imageRendering='auto';
   var cst='idle',craf=0,lane=1,px=LX[1],obs=[],t=0,dist=0,sp=1.7,nextAt=40,best=0;
-  cx.imageSmoothingEnabled=false;
-  function spr(n,x,y,h){var i=IM[n];if(!i||!i.ok)return;var w=h*i.naturalWidth/i.naturalHeight;cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),Math.round(w),h);}
-  function cdraw(){cx.fillStyle=P.grass;cx.fillRect(0,0,W,H);
+  function spr(n,x,y,h){var i=IM[n];if(!i||!i.ok)return;var w=h*i.naturalWidth/i.naturalHeight;cx.drawImage(i,x-w/2,y-h/2,w,h);}
+  function cdraw(){cx.setTransform(CS,0,0,CS,0,0);cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality='high';cx.fillStyle=P.grass;cx.fillRect(0,0,W,H);
     cx.fillStyle=P.tuft;for(var k=0;k<14;k++){var gy=((k*37+dist*1)%(H+20))-10,gx=(k%2)?6+(k*5)%12:W-18+(k*3)%10;cx.fillRect(gx,gy,3,3);cx.fillRect(gx+4,gy+2,3,3);}
     cx.fillStyle=P.road;cx.fillRect(24,0,W-48,H);cx.fillStyle=P.dark;cx.fillRect(22,0,2,H);cx.fillRect(W-24,0,2,H);
     cx.fillStyle=P.line;for(var y=(dist%32)-32;y<H;y+=32){cx.fillRect(68,y,3,16);cx.fillRect(109,y,3,16);}

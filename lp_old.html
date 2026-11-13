@@ -1024,7 +1024,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   var CFG={"dir": "gb", "q": "", "open": "gopen", "over": "昔のカード、送ってみませんか？", "win": "昔のカードも、高く買取します。"};
   var $=function(id){return document.getElementById(id)};
   var BASE=(function(){var k='/img/'+CFG.dir+'/',i=document.querySelector('img[src*="'+k+'"]');return i?i.getAttribute('src').split(k)[0]+k:k;})();
-  function src(n){return BASE+n+'.webp'+(CFG.q||'');}
+  function src(n){var q=CFG.q||'';if(n==='bike1')q+=(q?'&':'?')+'b=4';return BASE+n+'.webp'+q;}
   var IM={};['bike1','chan1','minty1','pachiru1','fai1','amery1'].concat(CFG.cut?CFG.cut.map(function(c){return c.img}):[]).forEach(function(n){var i=new Image();i.onload=function(){i.ok=true};i.src=src(n);IM[n]=i;});
   var P=CFG.dir==='gb'?{grass:'#8BAC0F',tuft:'#306230',road:'#CADC9F',line:'#306230',dark:'#0F380F',hud:'#0F380F'}:{grass:'#4FD07A',tuft:'#2E9E58',road:'#D9D6CC',line:'#FFFFFF',dark:'#283048',hud:'#283048'};
 
@@ -1032,7 +1032,15 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   var cv=$('acv'),cx=cv.getContext('2d'),W=cv.width,H=cv.height,LX=[48,90,132],amsg=$('amsg');
   var CS=Math.min(5,Math.max(2,Math.ceil(300*(window.devicePixelRatio||1)/W)));cv.width=W*CS;cv.height=H*CS;cv.style.imageRendering='auto';
   var PY=46,cst='idle',craf=0,lane=1,px=LX[1],obs=[],t=0,dist=0,sp=1.7,nextAt=40,best=0;
-  function spr(n,x,y,h){var i=IM[n];if(!i||!i.ok)return;var w=h*i.naturalWidth/i.naturalHeight;cx.drawImage(i,x-w/2,y-h/2,w,h);}
+  /* キャラはドット絵にする：1ドット＝ゲームの1マスに縮めてから、ぼかさずに拡大して描く（旧裏はゲームボーイの4色に） */
+  var PAL=null,DOT={};
+  function dot(n,h){var k=n+'@'+h;if(DOT[k])return DOT[k];var i=IM[n];var w=Math.max(1,Math.round(h*i.naturalWidth/i.naturalHeight));
+    var c=document.createElement('canvas');c.width=w;c.height=h;var g=c.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';g.drawImage(i,0,0,w,h);
+    try{var d=g.getImageData(0,0,w,h),p=d.data;for(var j=0;j<p.length;j+=4){if(p[j+3]<110){p[j+3]=0;continue;}p[j+3]=255;
+      if(PAL){var L=(p[j]*.3+p[j+1]*.59+p[j+2]*.11),best=0,bd=1e9;for(var m=0;m<4;m++){var q=PAL[m],e=Math.abs(q[0]*.3+q[1]*.59+q[2]*.11-L);if(e<bd){bd=e;best=m;}}p[j]=PAL[best][0];p[j+1]=PAL[best][1];p[j+2]=PAL[best][2];}}
+      g.putImageData(d,0,0);}catch(e){}
+    return DOT[k]=c;}
+  function spr(n,x,y,h){var i=IM[n];if(!i||!i.ok)return;var c=dot(n,h);var sm=cx.imageSmoothingEnabled;cx.imageSmoothingEnabled=false;cx.drawImage(c,Math.round(x-c.width/2),Math.round(y-h/2));cx.imageSmoothingEnabled=sm;}
   function cdraw(){cx.setTransform(CS,0,0,CS,0,0);cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality='high';cx.fillStyle=P.grass;cx.fillRect(0,0,W,H);
     cx.fillStyle=P.tuft;for(var k=0;k<14;k++){var gy=(((k*37-dist)%(H+20))+(H+20))%(H+20)-10,gx=(k%2)?6+(k*5)%12:W-18+(k*3)%10;cx.fillRect(gx,gy,3,3);cx.fillRect(gx+4,gy+2,3,3);}
     cx.fillStyle=P.road;cx.fillRect(24,0,W-48,H);cx.fillStyle=P.dark;cx.fillRect(22,0,2,H);cx.fillRect(W-24,0,2,H);

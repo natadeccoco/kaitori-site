@@ -383,7 +383,7 @@ console.log(`article pages: ${arts.length}`);
         new: n => uniq(withImg("BOX").filter(x => /MEGA/.test(x.set) && !/デッキ|FUTURISTIC|デラックス|プレミアム/i.test(x.name)), n),
         sv: n => uniq(withImg("BOX").filter(x => x.set === "SV").sort(byPrice), n),
         zep: n => uniq(withImg("BOX").filter(x => x.set === "SM" || x.set === "SS").sort(byPrice), n),
-        spb: n => uniq(["touhoku_sp", "hiroshima_sp"].map(k => withImg("BOX").find(x => (x.img || "").includes("/" + k + "."))).filter(Boolean).concat(withImg("BOX").filter(x => !/デッキ|スターター/.test(x.name) && /FUTURISTIC|スペシャル|プレミアム|デラックス|コレクション|セット|トレーナーボックス/i.test(x.name)).sort(byPrice)), n),   // スペシャルBOXの写真はポケモンセンタートウホク・ヒロシマを先に
+        spb: n => uniq(["box-hilork", "box-753xbg"].map(k => withImg("BOX").find(x => x.id === k)).filter(Boolean).concat(withImg("BOX").filter(x => !/デッキ|スターター/.test(x.name) && /FUTURISTIC|スペシャル|プレミアム|デラックス|コレクション|セット|トレーナーボックス/i.test(x.name)).sort(byPrice)), n),   // スペシャルBOXの写真はポケモンセンタートウホク・ヒロシマを先に
         pd: n => uniq(withImg("BOX").filter(r => /^(パック|その他)$/.test(r.set || "") || /【.*(パック|デッキ|セット).*】|デッキ|スターター/.test(r.name)).sort(byPrice), n),   // 未開封パック・デッキ（実物の写真）
         sp: n => uniq(withImg("BOX").filter(x => /30th|151|シャイニー|ユニバース|イーブイ|25th|クライマックス|GXウルトラ|タッグオール|ドリームリーグ|テラスタルフェス/i.test(x.name)).sort(byPrice), n),
       } },

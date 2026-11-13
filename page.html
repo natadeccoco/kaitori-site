@@ -328,19 +328,22 @@ body.sm-store .banner,body.sm-store .sfx-zero,body.sm-store .howto-btn,body.sm-s
 body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
 @media (max-width:560px){.phead h1 .h1s{margin:4px 0 0;display:table}.sellmode button{padding:8px 12px;font-size:13px}}
 
-/* 店頭の買取表 → 宅配買取への大きな入口 */
-.tkbnr{display:flex;align-items:center;gap:18px;margin:18px auto 0;max-width:900px;padding:18px 26px;border-radius:18px;text-decoration:none;color:#fff;background:linear-gradient(115deg,#2B3A67 0%,#3E4F8C 45%,#6B4FB8 100%);border:4px solid #fff;box-shadow:0 0 0 3px #2B3A67,0 8px 0 #1B2647;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
-.tkbnr:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 22px,transparent 22px 54px);pointer-events:none}
-.tkbnr:hover{transform:translateY(-3px);box-shadow:0 0 0 3px #2B3A67,0 11px 0 #1B2647}
-.tkbnr .tk-ic{flex:none;width:74px;height:74px;border-radius:50%;background:#FFE86B;color:#2B3A67;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(0,0,0,.25)}.tkbnr .tk-ic svg{width:42px;height:42px}
-.tkbnr .tk-tx{flex:1;display:flex;flex-direction:column;position:relative}
-.tkbnr small{font-size:13px;font-weight:700;opacity:.9}
-.tkbnr b{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(26px,4.2vw,44px);line-height:1.15;letter-spacing:.02em;color:#FFE86B;text-shadow:3px 3px 0 #1B2647}
-.tkbnr b em{font-style:normal;color:#fff}
-.tkbnr .tk-sub{margin-top:4px;font-size:14px;font-weight:800}
-.tkbnr .tk-ar{flex:none;width:48px;height:48px;border-radius:50%;background:#fff;color:#2B3A67;font-size:34px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1;position:relative}
-.tkbnr b,.tkbnr .tk-sub{white-space:nowrap}
-@media (max-width:560px){.tkbnr b{font-size:24px}.tkbnr small{font-size:11px}.tkbnr{gap:10px;padding:14px 12px}.tkbnr .tk-ic{width:52px;height:52px}.tkbnr .tk-ic svg{width:30px;height:30px}.tkbnr .tk-sub{font-size:12px}.tkbnr .tk-ar{width:34px;height:34px;font-size:24px}}
+/* 店頭⇔宅配の大きな入口（見出しの右上） */
+.phead{align-items:center}
+.phr{display:flex;flex-direction:column;align-items:flex-end;gap:10px;margin-left:auto}
+.tkbnr{display:flex;align-items:center;gap:14px;width:min(500px,100%);padding:14px 20px;border-radius:18px;text-decoration:none;color:#fff;background:linear-gradient(115deg,#81D8D0 0%,#0ABAB5 60%,#08A29E 100%);border:4px solid #fff;box-shadow:0 0 0 3px #078F8B,0 7px 0 #067773;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s}
+.tkbnr:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.13) 0 20px,transparent 20px 50px);pointer-events:none}
+.tkbnr:hover{transform:translateY(-3px);box-shadow:0 0 0 3px #078F8B,0 10px 0 #067773}
+.tkbnr .tk-ic{flex:none;width:62px;height:62px;border-radius:50%;background:#fff;color:#0A9E9A;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 0 rgba(6,119,115,.45);position:relative}.tkbnr .tk-ic svg{width:36px;height:36px}
+.tkbnr .tk-tx{flex:1;display:flex;flex-direction:column;position:relative;min-width:0}
+.tkbnr small{font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 0 rgba(6,119,115,.6)}
+.tkbnr b{font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:clamp(24px,2.9vw,36px);line-height:1.15;letter-spacing:.02em;color:#fff;text-shadow:3px 3px 0 #067773}
+.tkbnr b em{font-style:normal;color:#173B5C;text-shadow:3px 3px 0 #fff}
+.tkbnr .tk-sub{margin-top:3px;font-size:13px;font-weight:800;color:#fff;text-shadow:0 1px 0 rgba(6,119,115,.6)}
+.tkbnr .tk-ar{flex:none;width:42px;height:42px;border-radius:50%;background:#fff;color:#0A9E9A;font-size:30px;font-weight:900;display:flex;align-items:center;justify-content:center;line-height:1;position:relative}
+.tkbnr b,.tkbnr .tk-sub,.tkbnr small{white-space:nowrap}
+@media (max-width:760px){.phead{flex-wrap:wrap}.phr{width:100%;align-items:stretch}.phr .howto-btn{align-self:flex-end}.tkbnr{width:100%}}
+@media (max-width:560px){.tkbnr b{font-size:24px}.tkbnr small{font-size:11px}.tkbnr{gap:10px;padding:12px}.tkbnr .tk-ic{width:50px;height:50px}.tkbnr .tk-ic svg{width:28px;height:28px}.tkbnr .tk-sub{font-size:12px}.tkbnr .tk-ar{width:34px;height:34px;font-size:24px}}
 </style>
 
 
@@ -372,11 +375,11 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
       <h1>ポケカ買取価格表<small class="h1s">__MODELABEL__</small></h1>
       __MODELINK__
     </div>
-    <img class="mascot" src="/img/chars/chan1.webp" alt=""><span class="sp">✦</span><span class="sp b">✦</span>
+    <div class="phr">__MODEBNR__
     <button class="howto-btn" type="button" id="howtoBtn">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4zM20 5h-6a3 3 0 0 0-3 3v12a2 2 0 0 1 2-2h7z"/></svg>
       ご利用方法
-    </button>
+    </button></div>
   </div>
   <div class="tabs" id="tabs"></div>
 
@@ -384,11 +387,6 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
     <div class="sp1"><b>店頭買取</b><span>千葉・東京・神奈川の8店舗で、この価格表と同じ価格で買取します。お持ち込みの日の価格で査定します。</span></div>
     <div class="sp2"><a href="__STORES_URL__#s-kashiwa">柏本店</a><a href="__STORES_URL__#s-matsudo">松戸</a><a href="__STORES_URL__#s-tsudanuma">津田沼</a><a href="__STORES_URL__#s-chibachuo">千葉中央</a><a href="__STORES_URL__#s-nakano">中野</a><a href="__STORES_URL__#s-odaiba">お台場</a><a href="__STORES_URL__#s-machida">町田</a><a href="__STORES_URL__#s-yokohama">横浜</a><a class="all" href="__STORES_URL__">店舗一覧・営業時間 ›</a></div>
   </div>
-  <a class="tkbnr only-store" href="/takuhai/" aria-label="宅配買取はコチラ">
-    <span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span>
-    <span class="tk-tx"><small>お店に行けない方・遠方の方は</small><b>宅配買取は<em>コチラ</em></b><span class="tk-sub">送料無料・最短当日入金</span></span>
-    <span class="tk-ar" aria-hidden="true">›</span>
-  </a>
 
   <div class="banner" id="banner">
     <img src="/banner.jpg?v=5" alt="ポケカ 送るだけ買取" onload="this.parentNode.classList.add('has')" onerror="this.remove()">

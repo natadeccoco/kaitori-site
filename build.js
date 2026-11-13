@@ -95,6 +95,21 @@ page = page.replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("<!--__HEAD__-->", headCommon(CFG.siteName + "｜ポケモンカード買取価格表", "ポケモンカードの買取価格表。シングル・PSA10・未開封BOX・旧裏を毎日更新。", CFG.siteUrl + "/", CFG.siteUrl + "/ogp.png") + `
 <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>`);
 const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(SRC, "site_fx.html")) : "";   // 全ページ共通の仕上げ（LINEアイコン・進捗バー・キラキラ・キャラ反応）
+// 流入元の記録（どのLP・どの広告から来たか）。全ページに常に入る（IDの設定とは無関係）
+//   広告のリンク先URLに ?utm_source=google&utm_campaign=…&utm_content=広告番号 を付けておくと、
+//   30日間ブラウザに覚え、LINE申込文の末尾に「受付コード：G-旧裏LP-g01」のように入る（店側で広告別の成約を数える用）
+const ATTR_TAG = `<script>(function(){try{var K="nd_attr",q=new URLSearchParams(location.search),p=location.pathname,
+lp=/\\/lp\\/old\\//.test(p)?"旧裏LP":/\\/lp\\/box\\//.test(p)?"BOXLP":/\\/lp\\//.test(p)?"総合LP":"",
+src=q.get("utm_source")||(q.get("gclid")?"google":""),now=Date.now(),old=null;
+try{old=JSON.parse(localStorage.getItem(K)||"null");}catch(e){}
+if(old&&now-old.t>2592e6)old=null;
+if(src){old={src:src,camp:q.get("utm_campaign")||"",ad:q.get("utm_content")||"",lp:lp||"トップ",t:now};}
+else if(lp&&!old){old={src:"",camp:"",ad:"",lp:lp,t:now};}
+if(old)try{localStorage.setItem(K,JSON.stringify(old));}catch(e){}
+window.ndAttr=function(){return old||{};};
+window.ndAttrCode=function(){if(!old)return "";var s=old.src.toLowerCase(),L=/google|gclid/.test(s)?"G":/^(x|twitter)/.test(s)?"X":/line/.test(s)?"L":s?s.slice(0,3).toUpperCase():"自然";
+return [L,old.lp,old.ad||old.camp].filter(Boolean).join("-");};}catch(e){window.ndAttrCode=function(){return ""};window.ndAttr=function(){return {}};}})();</script>
+`;
 // 計測タグ（config.tracking に ID を入れたときだけ全ページの <head> に入る。空なら何も出ない）
 //   ga4 = GA4 の測定ID（G-XXXX） / ads = Google広告のタグID（AW-XXXX） / adsLabels = コンバージョンラベル
 //   成果：LINE友だち追加ボタン → line_add、「LINEで買取申込へ進む」（oaMessage）→ line_apply
@@ -103,10 +118,10 @@ const TRACK_TAG = (TRK.ga4 || TRK.ads) ? `<script async src="https://www.googlet
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());${TRK.ga4 ? `gtag("config",${JSON.stringify(TRK.ga4)});` : ""}${TRK.ads ? `gtag("config",${JSON.stringify(TRK.ads)});` : ""}
 (function(){var ADS=${JSON.stringify(TRK.ads || "")},LB=${JSON.stringify(TRK.adsLabels || {})};
 document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="line.me"]');if(!a)return;
-var k=/oaMessage/.test(a.href)?"apply":"line_add";gtag("event",k==="apply"?"line_apply":"line_add",{link_id:a.id||a.className||"",page_path:location.pathname});
+var k=/oaMessage/.test(a.href)?"apply":"line_add";gtag("event",k==="apply"?"line_apply":"line_add",{link_id:a.id||a.className||"",page_path:location.pathname,nd_lp:(window.ndAttr&&ndAttr().lp)||"",nd_ad:(window.ndAttrCode&&ndAttrCode())||""});
 if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</script>
 ` : "";
-const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
+const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 write("index.html", wrap(page));
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */

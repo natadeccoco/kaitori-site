@@ -676,6 +676,7 @@ function cartText(){
   const d=new Date();const lines=[`【郵送買取 申込】${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 価格表より`,""];
   let n=0,t=0;cart.forEach(({item,qty})=>{n+=qty;t+=item.price*qty;lines.push(`・${item.name}${item.code?"（"+item.code+"）":""}${item.grade!=="素体"?" "+item.grade:""} ×${qty} … ${yen(item.price*qty)}`);});
   lines.push("",`合計 ${n}点 ${yen(t)}`,"","※美品の場合の価格です。状態により減額の場合があります。","お名前・発送予定日をご記入ください：");
+  const ac=window.ndAttrCode&&ndAttrCode();if(ac)lines.push("","受付コード："+ac);
   return lines.join("\n");
 }
 function lineUrl(){return `https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.lineId)}/?${encodeURIComponent(cartText())}`;}

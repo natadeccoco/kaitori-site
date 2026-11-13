@@ -966,7 +966,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   var $=function(id){return document.getElementById(id)};
   var BASE=(function(){var k='/img/'+CFG.dir+'/',i=document.querySelector('img[src*="'+k+'"]');return i?i.getAttribute('src').split(k)[0]+k:k;})();
   function src(n){return BASE+n+'.webp'+(CFG.q||'');}
-  var IM={};['chan1','minty1','pachiru1','fai1','amery1'].concat(CFG.cut?CFG.cut.map(function(c){return c.img}):[]).forEach(function(n){var i=new Image();i.onload=function(){i.ok=true};i.src=src(n);IM[n]=i;});
+  var IM={};['bike1','chan1','minty1','pachiru1','fai1','amery1'].concat(CFG.cut?CFG.cut.map(function(c){return c.img}):[]).forEach(function(n){var i=new Image();i.onload=function(){i.ok=true};i.src=src(n);IM[n]=i;});
   var P=CFG.dir==='gb'?{grass:'#8BAC0F',tuft:'#306230',road:'#CADC9F',line:'#306230',dark:'#0F380F',hud:'#0F380F'}:{grass:'#4FD07A',tuft:'#2E9E58',road:'#D9D6CC',line:'#FFFFFF',dark:'#283048',hud:'#283048'};
 
   /* ---------- サイクリング ---------- */
@@ -980,8 +980,9 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
     cx.fillStyle=P.line;for(var y=(dist%32)-32;y<H;y+=32){cx.fillRect(68,y,3,16);cx.fillRect(109,y,3,16);}
     obs.forEach(function(o){spr(o.n,LX[o.l],o.y,34);});
     // 自転車（上から見た形）＋ナタデココちゃん
+    if(IM.bike1&&IM.bike1.ok){spr('bike1',px,H-44+((t>>3)&1),58);}else{
     cx.fillStyle=P.dark;cx.fillRect(Math.round(px)-2,H-66,4,48);cx.fillRect(Math.round(px)-3,H-70,6,10);cx.fillRect(Math.round(px)-3,H-24,6,10);cx.fillRect(Math.round(px)-11,H-58,22,3);
-    spr('chan1',px,H-46+((t>>3)&1),38);
+    spr('chan1',px,H-46+((t>>3)&1),38);}
     cx.fillStyle=P.hud;cx.font='10px "Press Start 2P",monospace';cx.textBaseline='top';cx.fillText(Math.floor(dist/10)+'m',28,6);}
   function cstep(){t++;dist+=sp;sp=Math.min(4.6,1.7+dist/1400);px+=(LX[lane]-px)*.35;
     if(t>=nextAt){var l=Math.floor(Math.random()*3),names=['minty1','pachiru1','fai1','amery1'];obs.push({l:l,y:-24,n:names[Math.floor(Math.random()*4)]});

@@ -149,16 +149,13 @@ function matchBox(it, cat) {
   //  (a) シート名の括弧書き（(カード付き) など）を除くとカタログ名と同じ
   //  (b) カタログ名が「決まった前後の語（トイザらス限定・スペシャルBOX・構築済みデッキ・ex・GX など）＋シート名」になっている
   const core2 = boxCore(it.name.replace(/[（(].*?[)）]/g, ""));
-  const sameA = core2 !== core && !/マクドナルド|ハッピーセット|ショートパック/.test(it.name) ? cat.boxes.filter(b => b.core === core2 && (wantBox || !b.isBox)) : []; if (sameA.length) return pick(sameA);
+  // (a) 括弧書きを除いて同じ、という当て方は別商品に当たるおそれがあるので使わない（確認済みのものだけ image_overrides.csv で指定する）
   const AFFIX = /^(トイザらス限定|スペシャル|構築済みデッキ|ポケモンジム|ex|gx)*$/;
   const sameB = cat.boxes.filter(b => b.core !== core && b.core.includes(core) && AFFIX.test(b.core.replace(core, "")));
   // パック単品に BOX の画像は当てない（その逆は、BOXしか載っていないセット商品があるので認める）
   if (sameB.length) return pick(wantBox ? sameB : sameB.filter(b => !b.isBox));
-  //  (c) カタログ名が「シリーズ名など＋シート名」で終わっていて（例：TAG TEAM GX タッグオールスターズ）、候補が1つに決まるとき
-  if (core.length < 6 || /マクドナルド|ハッピーセット|ショートパック/.test(it.name)) return "";
-  const tailAll = cat.boxes.filter(b => b.core !== core && b.core.endsWith(core) && (wantBox || !b.isBox));
-  const tailPref = tailAll.filter(b => b.isBox === wantBox), tail = tailPref.length ? tailPref : tailAll;
-  return tail.length === 1 ? tail[0].img : "";
+  // (c) 名前の後ろだけ一致、という当て方も使わない（同上）
+  return "";
 }
 /* 旧裏：シートの「名前 LV.xx(ヒント/ヒント)」を Myca の 旧裏カード（名前（補足）, パック名）に当てる。
    候補＝括弧を除いた名前が同じもの。括弧内のヒント（/ ・ で区切り）がパック名か補足に含まれるほど高得点。

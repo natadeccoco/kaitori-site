@@ -570,6 +570,9 @@ p,li,small,summary,h2,h3{line-break:strict}
 /* フッター：文字の透かしをやめてロゴに */
 footer:before{content:none!important}
 footer a{display:inline-block}footer .flogo{display:block;margin:0 auto 12px;position:relative}footer .flogo img{height:64px;width:auto}
+
+/* 押せないカード（LINEに飛ばない・リンクなし） */
+.it.nolink{cursor:default}.it.nolink:hover{transform:none!important}
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -860,7 +863,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
     <a class="it rv" href="/cat/box/"><span class="pics bx">__VP_new_2__</span><span class="tx"><b>最新弾</b><span>MEGA・スカーレット&amp;バイオレットの<br>拡張パック・強化拡張パック</span></span><i class="ch">›</i></a>
     <a class="it rv d1" href="/cat/box/"><span class="pics bx">__VP_zep_2__</span><span class="tx"><b>絶版</b><span>ソード&amp;シールド・<br>サン&amp;ムーンなど</span></span><i class="ch">›</i></a>
     <a class="it rv d2" href="/cat/box/"><span class="pics bx">__VP_spb_2__</span><span class="tx"><b>スペシャルBOX</b><span>スペシャルBOX・<br>記念セットなど</span></span><i class="ch">›</i></a>
-    <a class="it rv d3 big" href="/cat/box/"><span class="pics bx">__VP_pd_2__</span><span class="tx"><b>未開封パック・デッキ</b><span>バラのパック・スターターデッキ・<br>デッキセットも相談OK</span></span><i class="ch">›</i></a>
+    <div class="it rv d3 big nolink"><span class="pics bx">__VP_pd_2__</span><span class="tx"><b>未開封パック・デッキ</b><span>バラのパック・スターターデッキ・<br>デッキセットも相談OK</span></span></div>
   </div>
   <p class="cap">価格表にないBOXも買取できます。迷ったらLINEで写真を送ってください。</p>
 </div></section>

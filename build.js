@@ -88,12 +88,18 @@ ${image ? `<meta property="og:image" content="${esc(image)}">` : ""}
 <meta name="twitter:card" content="${image ? "summary_large_image" : "summary"}">
 <link rel="canonical" href="${esc(url)}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">`;
-let page = read(path.join(SRC, "page.html"));
-page = page.replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
+const pageTpl = read(path.join(SRC, "page.html"));
+// 買取表は2つ：トップ＝店頭買取（カート・LINE申込なし）／ /takuhai/ ＝宅配買取（カート・LINE申込あり）
+const makePage = (mode) => { const st = mode === "store";
+return pageTpl.replace(/__SELLMODE__/g, mode)
+  .replace("__PAGETITLE__", st ? "ナタデココ ポケカ買取価格表｜店頭買取" : "ナタデココ ポケカ買取価格表｜宅配買取")
+  .replace("__MODELABEL__", st ? "店頭買取" : "宅配買取")
+  .replace("__MODELINK__", st ? `<a class="modelink" href="/takuhai/">📦 お店に行けない方は宅配買取（送料無料） ›</a>` : `<a class="modelink" href="/">🏪 店頭買取の方はこちら ›</a>`)
+  .replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("__DATA__", dataJson)
   .replace(/__STORES_URL__/g, CFG.storesUrl)
-  .replace("<!--__HEAD__-->", headCommon(CFG.siteName + "｜ポケモンカード買取価格表", "ポケモンカードの買取価格表。シングル・PSA10・未開封BOX・旧裏を毎日更新。", CFG.siteUrl + "/", CFG.siteUrl + "/ogp.png") + `
-<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>`);
+  .replace("<!--__HEAD__-->", headCommon(st ? "ナタデココ｜ポケカ買取価格表（店頭買取）" : "ナタデココ｜ポケカ宅配買取 買取価格表", st ? "ポケモンカード専門店ナタデココの店頭買取価格表。千葉・東京・神奈川の8店舗で、シングル・PSA10・未開封BOX・旧裏を毎日更新の価格で買取。" : "ポケモンカードの宅配買取価格表。カードを選んでLINEで申込、送料無料・最短当日入金。シングル・PSA10・未開封BOX・旧裏を毎日更新。", CFG.siteUrl + (st ? "/" : "/takuhai/"), CFG.siteUrl + "/ogp.png") + `
+<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>`) };
 const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(SRC, "site_fx.html")) : "";   // 全ページ共通の仕上げ（LINEアイコン・進捗バー・キラキラ・キャラ反応）
 // 流入元の記録（どのLP・どの広告から来たか）。全ページに常に入る（IDの設定とは無関係）
 //   広告のリンク先URLに ?utm_source=google&utm_campaign=…&utm_content=広告番号 を付けておくと、
@@ -122,7 +128,8 @@ var k=/oaMessage/.test(a.href)?"apply":"line_add";gtag("event",k==="apply"?"line
 if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</script>
 ` : "";
 const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
-write("index.html", wrap(page));
+write("index.html", wrap(makePage("store")));
+write("takuhai/index.html", wrap(makePage("takuhai")));
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */
 const psaBadge = r => /^PSA\s*10$/i.test(r.grade || "") ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : "";
@@ -240,7 +247,7 @@ for (const it of items) {
     .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" style="font-size:26px">${esc(yen(it.price2))}</div>` : "").replace(/__UPDATED__/g, esc(updated))
     .replace(/__IMG__/g, it.img ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="eager" data-alt="${esc((it.imgAlt || []).join("|"))}" onerror="imgErr(this)">` : `<div class="ph"><span>${esc(it.name)}</span></div>`)
     .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
-    .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/#add=${encodeURIComponent(it.id)}&back=1`)
+    .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/takuhai/#add=${encodeURIComponent(it.id)}&back=1`)
     .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
     .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company))
     .replace(/__PACK_LINK__/g, it.set && packSlugBySet.has(it.set) ? `<a class="sec" href="/pack/${packSlugBySet.get(it.set)}/">${esc(it.set)}の買取価格一覧 ›</a>` : "")

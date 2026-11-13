@@ -1,5 +1,5 @@
 
-<title>ナタデココ ポケカ買取価格表（店頭・宅配買取）</title>
+<title>__PAGETITLE__</title>
 <meta name="description" content="ポケモンカード専門店ナタデココの買取価格表。シングル・PSA10・未開封BOX・旧裏の買取価格を毎日更新。店頭買取・宅配買取とも同じ価格。カードを選んでLINEで宅配買取に申し込めます。">
 <!--__HEAD__-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -313,6 +313,7 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 
 /* ===== 店頭・宅配の切りかえ（店頭では宅配だけの要素をかくす） ===== */
 .phead h1 .h1s{display:inline-block;margin-left:10px;font-size:12px;font-weight:800;color:var(--navy-2);background:#fff;border:2px solid var(--lav);border-radius:999px;padding:2px 10px;vertical-align:middle}
+.modelink{display:inline-flex;align-items:center;gap:6px;margin-top:10px;border:2px solid var(--cyan);background:#fff;border-radius:999px;box-shadow:0 3px 0 var(--cyan);padding:7px 14px;font-size:13px;font-weight:800;color:var(--navy);text-decoration:none}
 .sellmode{display:inline-flex;margin-top:10px;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:3px;gap:3px;box-shadow:0 3px 0 var(--navy)}
 .sellmode button{display:inline-flex;align-items:center;gap:6px;border:0;background:transparent;border-radius:999px;padding:8px 16px;font:inherit;font-size:14px;font-weight:800;color:var(--ink-2);cursor:pointer}
 .sellmode button.on{background:var(--navy);color:#fff}
@@ -321,9 +322,9 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 .storepanel .sp2{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .storepanel .sp2 a{display:inline-block;border:2px solid var(--cyan);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;color:var(--navy);text-decoration:none;background:#fff}
 .storepanel .sp2 a.all{border-color:var(--navy);background:var(--navy);color:#fff}
-.storepanel .sp3{margin:10px 0 0;font-size:12.5px;color:var(--ink-2)}.storepanel .sp3 button{border:0;background:none;padding:0;font:inherit;font-weight:800;color:var(--navy-2);text-decoration:underline;cursor:pointer}
-body.sm-takuhai .storepanel{display:none}
-body.sm-store .banner,body.sm-store .sfx-zero,body.sm-store .howto-btn,body.sm-store .card .cartbtn,body.sm-store #fab,body.sm-store .cartsec .cheer,body.sm-store .cartsec h2,body.sm-store .cartsec table,body.sm-store .cartsec .apply,body.sm-store .cartsec .subact,body.sm-store .imodal .iqty,body.sm-store .imodal .iadd,body.sm-store .imodal .inow{display:none!important}
+.storepanel .sp3{margin:10px 0 0;font-size:12.5px;color:var(--ink-2)}.storepanel .sp3 a{border:0;background:none;padding:0;font:inherit;font-weight:800;color:var(--navy-2);text-decoration:underline;cursor:pointer}
+body.sm-takuhai .storepanel,body.sm-takuhai .only-store,body.sm-store .only-takuhai{display:none!important}
+body.sm-store .banner,body.sm-store .sfx-zero,body.sm-store .howto-btn,body.sm-store .card .cartbtn,body.sm-store #fab,body.sm-store .cartsec .cheer,body.sm-store .cartsec h2,body.sm-store .cartsec table,body.sm-store .cartsec .apply,body.sm-store .cartsec .subact,body.sm-store .imodal .iqty,body.sm-store .imodal .iadd,body.sm-store .imodal .inow,body.sm-store #lineFoot{display:none!important}
 body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
 @media (max-width:560px){.phead h1 .h1s{margin:4px 0 0;display:table}.sellmode button{padding:8px 12px;font-size:13px}}
 </style>
@@ -334,7 +335,7 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
   <div class="wrap">
     <div class="left"></div>
     <a class="logo" href="#top" id="logoLink">
-      <img id="logoImg" src="logo.png" alt="ナタデココ" onerror="this.hidden=true;document.getElementById('logoTxt').hidden=false">
+      <img id="logoImg" src="/logo.png" alt="ナタデココ" onerror="this.hidden=true;document.getElementById('logoTxt').hidden=false">
       <span class="txt" id="logoTxt" hidden><small>ポケモンカード専門店</small>natadecoco</span>
     </a>
     <div class="right">
@@ -349,15 +350,13 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
   </div>
 </header>
 
+<script>document.body.classList.add("sm-__SELLMODE__")</script>
 <main class="wrap" id="top">
   <div class="phead">
     <div>
       <p class="eyebrow">ポケモンカード専門店ナタデココ</p>
-      <h1>ポケカ買取価格表<small class="h1s">店頭・宅配 共通</small></h1>
-      <div class="sellmode" role="group" aria-label="売り方をえらぶ">
-        <button type="button" data-sm="store"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l1-5h16l1 5M4 9v11h16V9M9 20v-6h6v6"/></svg>店頭で売る</button>
-        <button type="button" data-sm="takuhai"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg>宅配で売る</button>
-      </div>
+      <h1>ポケカ買取価格表<small class="h1s">__MODELABEL__</small></h1>
+      __MODELINK__
     </div>
     <img class="mascot" src="/img/chars/chan1.webp" alt=""><span class="sp">✦</span><span class="sp b">✦</span>
     <button class="howto-btn" type="button" id="howtoBtn">
@@ -370,11 +369,11 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
   <div class="storepanel">
     <div class="sp1"><b>店頭買取</b><span>千葉・東京・神奈川の8店舗で、この価格表と同じ価格で買取します。お持ち込みの日の価格で査定します。</span></div>
     <div class="sp2"><a href="__STORES_URL__#s-kashiwa">柏本店</a><a href="__STORES_URL__#s-matsudo">松戸</a><a href="__STORES_URL__#s-tsudanuma">津田沼</a><a href="__STORES_URL__#s-chibachuo">千葉中央</a><a href="__STORES_URL__#s-nakano">中野</a><a href="__STORES_URL__#s-odaiba">お台場</a><a href="__STORES_URL__#s-machida">町田</a><a href="__STORES_URL__#s-yokohama">横浜</a><a class="all" href="__STORES_URL__">店舗一覧・営業時間 ›</a></div>
-    <p class="sp3">お店に行けない方は <button type="button" data-sm="takuhai">宅配買取（送料無料）</button> もご利用いただけます。</p>
+    <p class="sp3">お店に行けない方は <a href="/takuhai/">宅配買取（送料無料）</a> もご利用いただけます。</p>
   </div>
 
   <div class="banner" id="banner">
-    <img src="banner.jpg?v=5" alt="ポケカ 送るだけ買取" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+    <img src="/banner.jpg?v=5" alt="ポケカ 送るだけ買取" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
     <img class="ch chan" src="/img/banner_chan.webp" alt="">
     <a class="hot" id="bannerLine" href="#" target="_blank" rel="noopener" aria-label="LINEで申込"></a>
     <div class="ph"><b>ポケカ買取強化中！</b><span>送るだけ・送料無料・最短当日入金</span><small>バナー画像（banner.jpg 1800×600px）をここに表示</small></div>
@@ -428,9 +427,11 @@ body.sm-store .grid.simple .card{grid-template-columns:44px 1fr auto}
     </a>
     <div class="subact"><button class="linkbtn" type="button" id="clearBtn">すべて削除</button></div>
     <ul class="notes">
-      <li>※同一商品複数枚の申込は在庫状況により減額の場合がございます。大量申込を希望される方はLINEにてご相談ください。</li>
+      <li class="only-takuhai">※同一商品複数枚の申込は在庫状況により減額の場合がございます。大量申込を希望される方はLINEにてご相談ください。</li>
       <li>※表示価格は美品の場合の価格です。傷・白かけ・反り等がある場合は減額となることがあります。</li>
-      <li>※価格は相場により予告なく変動します。店頭買取はお持ち込みの日、宅配買取はカード到着日の価格で査定いたします。</li>
+      <li class="only-store">※同じカードが多い場合は、在庫状況により減額となることがあります。</li>
+      <li class="only-store">※価格は相場により予告なく変動します。お持ち込みの日の価格で査定いたします。</li>
+      <li class="only-takuhai">※価格は相場により予告なく変動します。カード到着日の価格で査定いたします。</li>
     </ul>
   </section>
 </main>
@@ -764,19 +765,7 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
 })();
 (function(){var m=new Date().getMonth()+1,k=m>=3&&m<=5?"spring":m>=6&&m<=8?"summer":m>=9&&m<=11?"autumn":"winter";var e=document.getElementById("seasonChar");if(e)e.src="/img/chars/deco_"+k+".webp"})();
 
-/* ===== 店頭・宅配の切りかえ =====
-   ?m=takuhai / ?m=store で指定できる（LPからは takuhai）。前回えらんだ方を覚える。カートに入っていれば宅配。何もなければ店頭 */
-(function(){
-  var K="nd_sellmode",q=new URLSearchParams(location.search).get("m"),v=null;
-  try{v=localStorage.getItem(K);}catch(e){}
-  var m=(q==="takuhai"||q==="store")?q:(v==="takuhai"||v==="store")?v:null;
-  if(!m){try{if(JSON.parse(sessionStorage.getItem("nd_cart")||"[]").length)m="takuhai";}catch(e){}}
-  if(!m){try{var a=window.ndAttr&&ndAttr();if(a&&(a.src||/LP/.test(a.lp||"")))m="takuhai";}catch(e){}}
-  function set(x,save){document.body.classList.toggle("sm-store",x==="store");document.body.classList.toggle("sm-takuhai",x==="takuhai");
-    document.querySelectorAll(".sellmode button").forEach(function(b){b.classList.toggle("on",b.dataset.sm===x);b.setAttribute("aria-pressed",b.dataset.sm===x?"true":"false");});
-    if(save)try{localStorage.setItem(K,x);}catch(e){}}
-  set(m||"store",!!q);
-  document.addEventListener("click",function(e){var b=e.target.closest&&e.target.closest("[data-sm]");if(!b)return;set(b.dataset.sm,true);if(b.closest(".storepanel"))window.scrollTo({top:0,behavior:"smooth"});});
-})();
+/* 旧URL（?m=takuhai）で来た人は宅配の買取表へ */
+if("__SELLMODE__"==="store"&&(new URLSearchParams(location.search).get("m")==="takuhai"||/#add=/.test(location.hash)))location.replace(CONFIG.base+"takuhai/"+location.hash);
 </script>
 

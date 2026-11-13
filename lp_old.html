@@ -357,9 +357,10 @@ footer{position:relative;overflow:hidden}footer:before{content:"natadecoco";posi
 .banner .ch.chan{z-index:2}
 .pchips{margin:-14px 0 22px}
 .pics.ill{display:flex;align-items:flex-end;justify-content:center}
-.pics.ill img.fph{position:relative;left:auto;bottom:auto;width:92px;height:92px;aspect-ratio:auto;object-fit:cover;border-radius:6px;transform:rotate(-5deg)}
-.it:hover .pics.ill img.fph{transform:rotate(-8deg) translateY(-4px)}
-@media (max-width:560px){.pics.ill img.fph{width:80px;height:80px}}
+.pics.ill img.fph{position:absolute;bottom:2px;width:70px;height:auto;aspect-ratio:auto;object-fit:contain;border-radius:4px;border:2px solid #fff;transition:transform .3s}
+.pics.ill img.fph.f1{left:calc(50% - 62px);transform:rotate(-9deg);z-index:1}.pics.ill img.fph.f2{left:calc(50% - 10px);bottom:6px;transform:rotate(7deg);z-index:2}
+.it:hover .pics.ill img.fph.f1{transform:rotate(-13deg) translate(-4px,-4px)}.it:hover .pics.ill img.fph.f2{transform:rotate(11deg) translate(4px,-8px)}
+@media (max-width:560px){.pics.ill img.fph{width:58px}.pics.ill img.fph.f1{left:calc(50% - 52px)}.pics.ill img.fph.f2{left:calc(50% - 8px)}}
 .spc{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}@media (max-width:960px){.spc{grid-template-columns:repeat(2,1fr)}}@media (max-width:560px){.spc{grid-template-columns:1fr}}
 .sp4{background:#fff;border:3px solid var(--ink);border-radius:22px;box-shadow:0 6px 0 var(--ink);overflow:hidden;transition:transform .2s}.sp4:hover{transform:translateY(-5px)}
 .sp4 .vis{height:128px;position:relative;border-bottom:3px solid var(--ink);display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -886,7 +887,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
     <a class="it rv" href="/cat/old/"><span class="pics three">__VP_main_3__</span><span class="tx"><b>旧裏（1996年〜）</b><span>拡張パック第1弾〜<br>プレミアムファイルなども</span></span><i class="ch">›</i></a>
     <a class="it rv d1" href="/cat/old/"><span class="pics">__VP_promo_2__</span><span class="tx"><b>プロモ・限定カード</b><span>通信交換・ファンクラブ・<br>キャンペーン品など</span></span><i class="ch">›</i></a>
     <a class="it rv d2" href="/cat/kyu/"><span class="pics three">__VP_kyu_3__</span><span class="tx"><b>e・ADV・PCG・DP</b><span>クリスタル・☆（スター）・<br>LV.Xなど</span></span><i class="ch">›</i></a>
-    <a class="it rv d3 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics ill"><img class="fph" src="/img/gb/file_photo.webp" alt="当時のコレクションファイル" loading="lazy"></span><span class="tx"><b>ファイルごと・まとめて</b><span>仕分け不要。当時のファイルや<br>アルバムのまま送ってください</span></span><i class="ch">›</i></a>
+    <a class="it rv d3 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics ill"><img class="fph f1" src="/img/gb/file_photo1.webp" alt="当時のコレクションファイル" loading="lazy"><img class="fph f2" src="/img/gb/file_photo2.webp" alt="" loading="lazy"></span><span class="tx"><b>ファイルごと・まとめて</b><span>仕分け不要。当時のファイルや<br>アルバムのまま送ってください</span></span><i class="ch">›</i></a>
   </div>
   <p class="cap">価格表にないカードも買取できます。迷ったらLINEで写真を送ってください。</p>
 </div></section>

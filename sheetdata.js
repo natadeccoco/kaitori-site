@@ -4,7 +4,7 @@ const { parseCSV, norm, hashId, CARD_PREFIX, THUMB_PREFIX } = require("./lib.js"
 const strip = s => (s || "").replace(/＆/g, "&").replace(/[\s　・･\-－—「」]/g, "").toLowerCase();
 const stripBox = s => strip(s).replace(/box/g, "").replace(/ボックス/g, "").replace(/[（）()［］\[\]]/g, "");
 const baseName = s => strip(s.replace(/[（(].*?[)）]/g, "").replace(/LV\.?\s*\d+/gi, ""));
-const hints = s => [...(s.match(/[（(](.*?)[)）]/g) || []).flatMap(h => h.slice(1, -1).split(/[\/／・]/)).map(strip), ...s.replace(/[（(].*?[)）]/g, "").split(/[\s　]+/).slice(1).map(strip)].filter(Boolean);
+const hints = s => [...(s.match(/[（(](.*?)[)）]/g) || []).flatMap(h => h.slice(1, -1).replace(/※/g, "").split(/[\/／・]/)).map(strip), ...s.replace(/[（(].*?[)）]/g, "").split(/[\s　]+/).slice(1).map(strip)].filter(Boolean);
 const dedupeKey = r => norm(r.name).replace(/[（）()［］\[\]「」【】、,.．。!！?？]/g, "") + "|" + norm(r.no) + "|" + norm(r.exp);
 
 /* カード名の照合キー：括弧・LV・記号・空白を除き、ex/EX/ＥＸ や δ 表記のゆれをそろえる */
@@ -156,7 +156,8 @@ function matchBox(it, cat) {
   if (sameB.length) return pick(wantBox ? sameB : sameB.filter(b => !b.isBox));
   //  (c) カタログ名が「シリーズ名など＋シート名」で終わっていて（例：TAG TEAM GX タッグオールスターズ）、候補が1つに決まるとき
   if (core.length < 6 || /マクドナルド|ハッピーセット|ショートパック/.test(it.name)) return "";
-  const tail = cat.boxes.filter(b => b.core !== core && b.core.endsWith(core) && b.isBox === wantBox);
+  const tailAll = cat.boxes.filter(b => b.core !== core && b.core.endsWith(core) && (wantBox || !b.isBox));
+  const tailPref = tailAll.filter(b => b.isBox === wantBox), tail = tailPref.length ? tailPref : tailAll;
   return tail.length === 1 ? tail[0].img : "";
 }
 /* 旧裏：シートの「名前 LV.xx(ヒント/ヒント)」を Myca の 旧裏カード（名前（補足）, パック名）に当てる。

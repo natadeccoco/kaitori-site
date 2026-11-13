@@ -742,16 +742,115 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 .cpy .oval{display:inline-flex;align-items:center;padding:4px 18px 5px;border:3px solid currentColor;border-radius:999px;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:900;font-size:17px;letter-spacing:.02em;line-height:1.2}
 .cpy .cpl{font-size:13px;font-weight:700}
 @media (max-width:760px){.ssnav{gap:18px 20px}.ssnav span{font-size:11px;letter-spacing:.06em}}
+
+/* ===== オープニング：画面の切りかわり（毎回ちがうパターン） ===== */
+#intro.nwi{position:fixed!important;inset:0!important;z-index:3000;background:none!important;padding:0!important;margin:0!important;display:block!important;opacity:1!important;transform:none!important;animation:none!important;overflow:hidden}
+#intro.nwi:before,#intro.nwi:after{content:none!important}
+#intro.nwi canvas{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;display:block}
+#intro.nwi .skip{position:absolute;right:14px;bottom:14px;z-index:2;font-family:"Press Start 2P",monospace;font-size:10px;padding:8px 10px;border:2px solid currentColor;background:rgba(255,255,255,.85);cursor:pointer}
+/* ===== ミニゲーム（サイクリング／スロット）共通 ===== */
+.nda{position:fixed;inset:0;z-index:2000;display:flex;align-items:center;justify-content:center;padding:14px;font-family:"DotGothic16",monospace;color:var(--a0)}
+.nda[hidden]{display:none}
+.nda .abg{position:absolute;inset:0;background:rgba(10,20,10,.72)}
+.nda .awin{position:relative;width:min(560px,100%);max-height:calc(100vh - 28px);overflow:auto;background:var(--ash);border:4px solid var(--a0);box-shadow:8px 8px 0 var(--a0);padding:18px 16px 16px;border-radius:var(--ar)}
+.nda .ax{position:absolute;right:10px;top:10px;width:34px;height:34px;border:3px solid var(--a0);background:var(--a3);color:var(--a0);font-size:18px;line-height:1;cursor:pointer;font-family:inherit}
+.nda .attl{margin:0 0 10px;text-align:center;font-size:20px;color:var(--atx)}
+.nda .atabs{display:flex;justify-content:center;gap:10px;margin:0 0 12px}
+.nda .atab{font-family:inherit;font-size:15px;padding:6px 16px;border:3px solid var(--a0);background:var(--a3);color:var(--a0);cursor:pointer;box-shadow:4px 4px 0 var(--a0);white-space:nowrap}
+.nda .atab.on{background:var(--a0);color:var(--a3)}
+.nda .abox{background:var(--abz);border-radius:14px 14px 44px 14px;padding:16px 16px 12px;box-shadow:inset 0 0 0 4px rgba(0,0,0,.25)}
+.nda .ascr{position:relative;background:var(--a4);box-shadow:inset 0 0 0 5px var(--a2);padding:10px;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.nda canvas{display:block;width:100%;max-width:300px;margin:0 auto;image-rendering:pixelated;background:var(--a4);cursor:pointer;touch-action:none}
+.nda .amsg{position:absolute;inset:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:rgba(255,255,255,.72);text-align:center;font-size:15px;line-height:1.6;padding:10px}
+.nda .amsg.hide{display:none}
+.nda .astart{font-family:"Press Start 2P",monospace;font-size:13px;padding:12px 18px;border:3px solid var(--a0);background:var(--a3);color:var(--a0);box-shadow:0 4px 0 var(--a0);cursor:pointer}
+.nda .actl{display:flex;align-items:center;gap:10px;margin-top:12px}
+.nda .ahelp{font-family:"Press Start 2P","DotGothic16",monospace;font-size:9px;line-height:1.7;color:var(--ahl);flex:1}
+.nda .abtn{width:52px;height:52px;border-radius:50%;border:0;background:var(--abt);color:#fff;font-family:"Press Start 2P",monospace;font-size:14px;box-shadow:0 5px 0 rgba(0,0,0,.45);cursor:pointer;flex:none}
+.nda .abtn.sub{background:#5A5D6C;transform:translateY(8px)}
+.nda .aover{text-align:center;margin-top:14px}.nda .aover[hidden]{display:none}.nda .aover p{font-size:16px;margin:0 0 10px;color:var(--atx)}.nda .aover .cta{justify-content:center;margin:0}
+.nda .shud{display:flex;justify-content:center;gap:clamp(10px,4vw,30px);margin-bottom:8px}
+.nda .scnt{display:flex;flex-direction:column;align-items:center;gap:4px}
+.nda .scnt small{font-family:"Press Start 2P",monospace;font-size:clamp(7px,1.6vw,9px)}
+.nda .scnt b{font-family:"Press Start 2P",monospace;font-weight:400;font-size:clamp(11px,2.6vw,15px);background:var(--a0);color:var(--a3);padding:5px 8px 3px;letter-spacing:.1em}
+.nda .smach{position:relative;display:flex;justify-content:center;align-items:stretch;gap:clamp(4px,1.6vw,10px);background:var(--a1);border:4px solid var(--a0);padding:10px;border-radius:10px;--sc:clamp(44px,13vw,70px);overflow:hidden}
+.nda .sreel{box-sizing:content-box;position:relative;width:min(22%,96px);height:calc(var(--sc)*3);overflow:hidden;background:#fff;border:3px solid var(--a0)}
+.nda .sstrip{position:absolute;left:0;top:0;width:100%;will-change:transform}
+.nda .scell{height:var(--sc);display:flex;align-items:center;justify-content:center}
+.nda .scell img{height:88%;width:auto;image-rendering:pixelated}
+.nda .slamps{display:flex;flex-direction:column;justify-content:space-between;padding:calc(var(--sc)*.08) 0;width:clamp(24px,7vw,38px)}
+.nda .slamps i{font-style:normal;font-family:"Press Start 2P",monospace;font-size:clamp(8px,2vw,10px);line-height:1;text-align:center;padding:5px 0 4px;border:2px solid var(--a0);border-radius:999px;background:var(--a1);color:var(--a2);cursor:pointer}
+.nda .slamps i.on{background:var(--a3);color:var(--a0)}
+.nda .slamps i.hit,.nda .sline.on{animation:ndab .25s steps(2) 6}
+@keyframes ndab{50%{opacity:0}}
+.nda .sline{position:absolute;height:4px;background:var(--abt);opacity:0;pointer-events:none;transform-origin:center}
+.nda .sline.on{opacity:.9}
+.nda .smach.win{animation:ndash .3s steps(3) 2}
+@keyframes ndash{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+.nda .sstops{display:flex;justify-content:center;gap:clamp(4px,1.6vw,10px);margin-top:8px}
+.nda .sstop{width:min(22%,96px);font-family:"Press Start 2P",monospace;font-size:10px;padding:9px 0;border:3px solid var(--a0);background:var(--a3);color:var(--a0);box-shadow:0 4px 0 var(--a0);cursor:pointer}
+.nda .sstop:disabled{opacity:.45;box-shadow:0 1px 0 var(--a0);transform:translateY(3px);cursor:default}
+.nda .stxt{margin:10px 0 0;background:#fff;border:4px double var(--a0);border-radius:6px;padding:7px 12px;min-height:3.4em;font-size:15px;line-height:1.5;white-space:pre-line}
+.nda .spay{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 12px;margin:8px 0 0;padding:0;list-style:none}
+.nda .spay li{display:flex;align-items:center;gap:3px}.nda .spay img{height:22px;image-rendering:pixelated}.nda .spay i{font-family:"Press Start 2P",monospace;font-style:normal;font-size:9px}
+.nda .scut{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--a3);z-index:5;transform:translateX(-102%);pointer-events:none}
+.nda .scut img{height:78%;image-rendering:pixelated}.nda .scut b{font-weight:400;font-size:clamp(14px,4vw,20px);line-height:1.4;text-align:center}
+.nda .scut.go{animation:ndacut 1.5s steps(14) forwards}
+@keyframes ndacut{0%{transform:translateX(-102%)}18%,78%{transform:none}100%{transform:translateX(102%)}}
+.nda.gb{--a0:#0F380F;--a1:#306230;--a2:#8BAC0F;--a3:#CADC9F;--a4:#E0EBC8;--ash:#C9C6BC;--abz:#5E6270;--abt:#9A2257;--atx:#0F380F;--ahl:#D6D3C8;--ar:0}
+.nda.gbc{--a0:#283048;--a1:#7A5BD0;--a2:#B9A8E3;--a3:#FFE9A8;--a4:#F8F0D8;--ash:#7A5BD0;--abz:#2E2F3A;--abt:#E8443A;--atx:#fff;--ahl:#C9C6E8;--ar:14px 14px 40px 14px}
+@media (max-width:560px){.nda .awin{padding:14px 10px 12px}.nda .abox{padding:12px 10px 10px}.nda .atab{font-size:13px;padding:6px 10px}}
+
+/* ファーストビュー：下のアイコン列をなくして大きく。カードとバッジはナタデココちゃんに重ねない */
+.hero .wrap{max-width:1320px}
+.hero{padding-bottom:26px}
+.banner .prods{left:63.5%!important;top:26%!important;width:11.5%!important;height:46%!important}
+.banner .stamp{left:64.5%!important;top:3%!important;width:9%!important}
+.hero .banner .ch.chan{right:.6%;height:84%}
+.igrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+@media (max-width:640px){.igrid{grid-template-columns:1fr!important}}
+
 </style>
 <svg width="0" height="0" style="position:absolute"><symbol id="ic-line" viewBox="0 0 40 40"><circle cx="20" cy="20" r="20" fill="#fff"/><path fill="#06C755" d="M20 9c-7.2 0-13 4.7-13 10.5 0 5.2 4.6 9.5 10.8 10.3.4.1 1 .3 1.1.6.1.3.1.8 0 1.1l-.2 1.1c0 .3-.3 1.3 1.1.7 1.4-.6 7.6-4.5 10.4-7.7 1.9-2.1 2.8-4.2 2.8-6.1C33 13.7 27.2 9 20 9zm-5.3 13.9h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v4.6h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7zm2.6-.7c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm6.3 0c0 .3-.2.6-.5.7h-.2c-.2 0-.4-.1-.6-.3l-2.7-3.7v3.3c0 .4-.3.7-.7.7-.4 0-.7-.3-.7-.7v-5.3c0-.3.2-.6.5-.7h.2c.2 0 .4.1.6.3l2.7 3.7v-3.3c0-.4.3-.7.7-.7.4 0 .7.3.7.7v5.3zm4.4-3.4c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.3h1.9c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-2.6c-.4 0-.7-.3-.7-.7v-5.3c0-.4.3-.7.7-.7h2.6c.4 0 .7.3.7.7 0 .4-.3.7-.7.7h-1.9v1.2h1.9z"/></symbol></svg>
-<div id="intro" class="gbi" aria-hidden="true">
-  <div class="wipe"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-  <button type="button" class="skip">SKIP ▶</button>
-</div>
+<div id="intro" class="nwi" aria-hidden="true"><canvas></canvas><button type="button" class="skip">SKIP ▶</button></div>
+<script>
+/* オープニング：点滅 → 画面が閉じる → ひと呼吸 → 開いてLPへ。閉じ方・開き方は毎回ランダム */
+(function(){var it=document.getElementById('intro');if(!it||!it.classList.contains('nwi'))return;
+  var C={"base": "#9BBC0F", "dark": "#0F380F", "f1": "#0F380F", "f2": "#E0EBC8"},cv=it.querySelector('canvas'),cx=cv.getContext('2d'),raf=0,done=false;
+  var GW=32,GH=Math.max(12,Math.round(GW*innerHeight/innerWidth));cv.width=GW;cv.height=GH;
+  function ang(x,y){var a=Math.atan2(y-GH/2+.5,x-GW/2+.5)/(2*Math.PI)+.25;return a<0?a+1:a;}
+  var dm=Math.hypot(GW/2,GH/2);
+  var sp=(function(){var o=[],x0=0,y0=0,x1=GW-1,y1=GH-1,n=0,m={};while(x0<=x1&&y0<=y1){for(var x=x0;x<=x1;x++)m[x+','+y0]=n++;for(var y=y0+1;y<=y1;y++)m[x1+','+y]=n++;if(y1>y0)for(x=x1-1;x>=x0;x--)m[x+','+y1]=n++;if(x1>x0)for(y=y1-1;y>y0;y--)m[x0+','+y]=n++;x0++;y0++;x1--;y1--;}return function(x,y){return m[x+','+y]/n;};})();
+  var rnd={};function rr(x,y){var k=x+','+y;return rnd[k]||(rnd[k]=Math.random());}
+  var PAT=[
+    function(x,y){return ((y%2)?(GW-1-x):x)/GW*.8+(y/GH)*.2;},          // 横しま（左右から）
+    function(x,y){return sp(x,y);},                                       // うずまき
+    function(x,y){return 1-Math.hypot(x-GW/2+.5,y-GH/2+.5)/dm;},          // まるく閉じる
+    function(x,y){return ((x%2)?(GH-1-y):y)/GH*.75+(x/GW)*.25;},          // たてブラインド
+    function(x,y){return rr(x,y);},                                       // ばらばらのブロック
+    function(x,y){return (x/GW+y/GH)/2;},                                 // ななめ
+    function(x,y){return ang(x,y);}                                       // 時計まわり
+  ];
+  function pick(){return PAT[Math.floor(Math.random()*PAT.length)];}
+  var A=pick(),B=pick(),T0=performance.now();
+  var FL=900,CL=900,HO=450,OP=950;
+  function fill(c){cx.fillStyle=c;cx.fillRect(0,0,GW,GH);}
+  function frame(now){var t=now-T0;
+    if(t<FL){fill(Math.floor(t/150)%2?C.f1:C.f2);}
+    else if(t<FL+CL){var p=(t-FL)/CL;fill(C.base);cx.fillStyle=C.dark;for(var y=0;y<GH;y++)for(var x=0;x<GW;x++)if(A(x,y)<=p)cx.fillRect(x,y,1,1);}
+    else if(t<FL+CL+HO){fill(C.dark);}
+    else if(t<FL+CL+HO+OP){var q=(t-FL-CL-HO)/OP;cx.clearRect(0,0,GW,GH);cx.fillStyle=C.dark;for(var y2=0;y2<GH;y2++)for(var x2=0;x2<GW;x2++)if(B(x2,y2)>q)cx.fillRect(x2,y2,1,1);}
+    else{end();return;}
+    raf=requestAnimationFrame(frame);}
+  function end(){if(done)return;done=true;cancelAnimationFrame(raf);if(it.parentNode)it.parentNode.removeChild(it);}
+  window.__ndIntroEnd=end;it.querySelector('.skip').addEventListener('click',end);
+  fill(C.base);raf=requestAnimationFrame(frame);
+})();
+</script>
 <div id="prog"></div><span id="runner" hidden></span><canvas id="fx"></canvas>
 <header class="top"><div class="in">
   <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
-  <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#check">状態の見かた</a><a href="#faq">よくある質問</a></nav>
+  <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#faq">よくある質問</a></nav>
   <button type="button" class="gfab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi">▶</span><span><b>GAME</b>ミニゲームで遊ぶ</span></button>
   <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg><span>LINEで査定を申し込む</span></a>
 </div></header>
@@ -765,16 +864,8 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
     <a class="hot" href="__LINE_ADD__" target="_blank" rel="noopener" aria-label="LINEで申込"></a>
     <a class="hot find" href="/cat/old/" aria-label="買取価格を調べる"></a>
   </div>
-  <ul class="catstrip rv d1"><li class="hl"><i>★</i>旧裏（1996〜）</li><li><i>🎁</i>プロモ</li><li><i>💿</i>e・ADV・PCG・DP</li><li><i>🩹</i>傷ありOK</li><li><i>📒</i>ファイルごと</li></ul>
 </div></section>
 <div class="ticker" aria-hidden="true"><span class="lbl">旧裏買取価格</span><div class="run">__TICKER____TICKER__</div></div>
-
-<section class="sec tight rank3"><div class="wrap">
-  <div class="sh rv"><span class="no">TOP3</span><h2>高額買取の<span class="ul">旧裏</span>。</h2><p>__UPDATED__ 時点の旧裏の買取価格 TOP3（美品の場合）。</p></div>
-  <div class="r3">__RANK3__</div>
-  <p class="cap"><a href="#prices">旧裏の買取価格をもっと見る ↓</a></p>
-</div></section>
-
 
 <section class="sec tight"><div class="wrap">
   <div class="sh rv"><span class="no">01</span><h2>昔のカードで、こんな<span class="ul">お悩み</span>ありませんか？</h2><p>昔のカードも、ファイルのまま送るだけ。お取引はすべてネットで完結します。</p></div>
@@ -792,9 +883,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
     <a class="it rv" href="/cat/old/"><span class="pics three">__VP_main_3__</span><span class="tx"><b>旧裏（1996年〜）</b><span>拡張パック第1弾〜<br>プレミアムファイルなども</span></span><i class="ch">›</i></a>
     <a class="it rv d1" href="/cat/old/"><span class="pics">__VP_promo_2__</span><span class="tx"><b>プロモ・限定カード</b><span>通信交換・ファンクラブ・<br>キャンペーン品など</span></span><i class="ch">›</i></a>
     <a class="it rv d2" href="/cat/kyu/"><span class="pics three">__VP_kyu_3__</span><span class="tx"><b>e・ADV・PCG・DP</b><span>クリスタル・☆（スター）・<br>LV.Xなど</span></span><i class="ch">›</i></a>
-    <a class="it rv d3" href="/cat/old/"><span class="pics">__VP_sheet_2__</span><span class="tx"><b>拡張シート・スターター</b><span>拡張シート・イントロパック・<br>クイックスターターも</span></span><i class="ch">›</i></a>
-    <a class="it rv d4" href="/cat/psa/"><span class="pics">__VP_tr_2_slab__</span><span class="tx"><b>鑑定済みの旧裏</b><span>PSA・BGSなど<br>鑑定品も買取</span></span><i class="ch">›</i></a>
-    <a class="it rv d4 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics ill"><span class="binder"><i></i><i></i></span></span><span class="tx"><b>ファイルごと・まとめて</b><span>仕分け不要。当時のファイルや<br>アルバムのまま送ってください</span></span><i class="ch">›</i></a>
+    <a class="it rv d3 big" href="__LINE_ADD__" target="_blank" rel="noopener"><span class="pics ill"><span class="binder"><i></i><i></i></span></span><span class="tx"><b>ファイルごと・まとめて</b><span>仕分け不要。当時のファイルや<br>アルバムのまま送ってください</span></span><i class="ch">›</i></a>
   </div>
   <p class="cap">価格表にないカードも買取できます。迷ったらLINEで写真を送ってください。</p>
 </div></section>
@@ -821,27 +910,8 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   <p class="cap">価格表にないカードも買取できます。LINEで写真をお送りください。</p>
 </div></section>
 
-<section class="sec chk" id="check"><div class="wrap">
-  <div class="sh rv"><span class="no">05</span><h2>旧裏の状態、<span class="ul">ここを見ます</span>。</h2><p>旧裏は状態で価格が変わります。傷があっても買取できるので、そのまま送ってください。</p></div>
-  <div class="cond">
-    <div class="cardill rv"><div class="cd"><span class="pt p1">1</span><span class="pt p2">2</span><span class="pt p3">3</span><span class="pt p4">4</span><span class="pt p5">5</span><span class="pt p6">6</span><div class="art"></div><div class="ln l1"></div><div class="ln l2"></div><div class="ln l3"></div></div></div>
-    <ol class="clist">
-      <li class="rv"><b>1</b><div><h3>ふちの白かけ</h3><p>裏面のふちが白くなっていないか</p></div></li>
-      <li class="rv d1"><b>2</b><div><h3>角のつぶれ・丸み</h3><p>四すみが丸くなっていないか</p></div></li>
-      <li class="rv d2"><b>3</b><div><h3>折れ・しわ・へこみ</h3><p>光にかざすと分かる小さな折れも</p></div></li>
-      <li class="rv d1"><b>4</b><div><h3>ホロの傷・くもり</h3><p>キラキラ部分のスレや線キズ</p></div></li>
-      <li class="rv d2"><b>5</b><div><h3>日焼け・色あせ</h3><p>表と裏の色の差</p></div></li>
-      <li class="rv d3"><b>6</b><div><h3>書き込み・シール跡</h3><p>名前の書き込みやテープ跡</p></div></li>
-    </ol>
-  </div>
-  <div class="tips">
-    <div class="otip rv"><span class="tg">TIP</span><h3>高そうなカードは先に写真を</h3><p>リザードンやひかるポケモン、プロモなど高額になりそうなカードは、LINEで写真を送っていただくと先に目安をお伝えできます。</p></div>
-  </div>
-  <div class="ctabox rv"><p class="lead">迷ったら写真を送るだけ</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
-</div></section>
-
 <section class="sec cmp" id="terms"><div class="wrap">
-  <div class="sh rv"><span class="no">06</span><h2>旧裏の郵送買取、<span class="ul">4つの約束</span>。</h2><p>店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。はじめてでも安心して送れます。</p></div>
+  <div class="sh rv"><span class="no">05</span><h2>旧裏の郵送買取、<span class="ul">4つの約束</span>。</h2><p>店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。はじめてでも安心して送れます。</p></div>
   <div class="pgrid4">
     <div class="pm4 g rv d0"><div class="hd"><span class="k">買取価格</span><span class="av"><img src="/img/gb/minty2.webp" alt=""></span></div><b>店頭と同じ価格</b><small>価格表は毎日更新。郵送はカード到着日の価格で査定</small><hr><p class="ex"><strong>価格表にないカードも買取OK</strong>そのまま送るか、LINEでお問い合わせください</p></div>
     <div class="pm4 y rv d1"><div class="hd"><span class="k">手数料</span><span class="av"><img src="/img/gb/pachiru2.webp" alt=""></span></div><b>すべて無料</b><span class="tags"><i>送料（着払い）</i><i>査定料</i><i>振込手数料</i><i>キャンセル料</i></span><small>減額に納得できなければキャンセル可。返送料も当店負担</small></div>
@@ -851,7 +921,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 </div></section>
 
 <section class="sec cmp" id="trust"><div class="wrap">
-  <div class="sh rv"><span class="no">07</span><h2>実店舗があるから、<span class="ul">大事な旧裏も安心</span>。</h2><p>千葉・東京・神奈川の8店舗で毎日ポケカを売り買いしている専門店です。郵送でも、店頭と同じ価格・同じスタッフが査定します。</p></div>
+  <div class="sh rv"><span class="no">06</span><h2>実店舗があるから、<span class="ul">大事な旧裏も安心</span>。</h2><p>千葉・東京・神奈川の8店舗で毎日ポケカを売り買いしている専門店です。郵送でも、店頭と同じ価格・同じスタッフが査定します。</p></div>
   <div class="mosaic"><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.00s"><img src="/img/stores/kashiwa.jpg" alt="柏本店" loading="lazy"><span><small>千葉</small>柏本店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.06s"><img src="/img/stores/matsudo.jpg" alt="松戸店" loading="lazy"><span><small>千葉</small>松戸店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.12s"><img src="/img/stores/tsudanuma.jpg" alt="津田沼店" loading="lazy"><span><small>千葉</small>津田沼店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.18s"><img src="/img/stores/chibachuo.jpg" alt="千葉中央店" loading="lazy"><span><small>千葉</small>千葉中央店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.24s"><img src="/img/stores/nakano.jpg" alt="中野店" loading="lazy"><span><small>東京</small>中野店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.30s"><img src="/img/stores/odaiba.jpg" alt="お台場店" loading="lazy"><span><small>東京</small>お台場店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.36s"><img src="/img/stores/machida.jpg" alt="町田店" loading="lazy"><span><small>東京</small>町田店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.42s"><img src="/img/stores/yokohama.jpg" alt="横浜店" loading="lazy"><span><small>神奈川</small>横浜店</span></a></div>
   <div class="tgrid">
     <div class="tcard rv"><div class="seal">古物商<br>許可</div><h3>古物営業法にもとづく許可店</h3><p>__LICENSE__</p><small>古物営業法により、本人確認（eKYC）を行っています。身分証の郵送は不要です。</small></div>
@@ -860,17 +930,8 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   </div>
 </div></section>
 
-<section class="sec"><div class="wrap">
-  <div class="sh rv"><span class="no">08</span><h2>LINEを追加したら、<span class="ul">こうなります</span>。</h2><p>届くのは査定のやり取りと、買取強化のお知らせだけ。</p></div>
-  <div class="after">
-    <div class="af rv"><span class="n">1</span><h3>友だち追加</h3><p>あいさつと、リッチメニューが表示されます。</p><div class="chat"><div class="b">友だち追加ありがとうございます🙌 郵送買取は下のメニュー「宅配買取」からお申込みください。</div></div></div>
-    <div class="af rv d1"><span class="n">2</span><h3>リッチメニューから申込</h3><p>「宅配買取」を押して、案内に沿って申込内容を送ります。</p><div class="chat"><div class="b me">【宅配買取 申込】<br>お名前・点数・送る予定日を送信</div></div></div>
-    <div class="af rv d2"><span class="n">3</span><h3>発送のご案内が届く</h3><p>送り先と着払いの出し方をご案内。箱に詰めて送ってください。</p><div class="chat"><div class="b">受付しました！佐川急便の着払いで下記住所へお送りください📦 到着後に1枚ずつ査定してLINEでご連絡します。</div></div></div>
-  </div>
-</div></section>
-
 <section class="sec tight" id="faq"><div class="wrap">
-  <div class="sh rv"><span class="no">09</span><h2>よくある<span class="ul">質問</span>。</h2></div>
+  <div class="sh rv"><span class="no">07</span><h2>よくある<span class="ul">質問</span>。</h2></div>
   <div class="faq rv">
     <details><summary><span><span class="q">Q</span>ファイルやアルバムに入れたまま送ってもいいですか？</span><span class="pm">+</span></summary><p>大丈夫です。仕分けも不要です。ファイルごと、曲がらないように厚紙などで補強して送ってください（ファイル・アルバムは返送できませんのでご了承ください）。</p></details>
     <details><summary><span><span class="q">Q</span>スリーブに入っていないカードも送れますか？</span><span class="pm">+</span></summary><p>送れます。こすれて傷がつかないよう、できればスリーブに入れるか、紙にはさんでお送りください。</p></details>
@@ -901,181 +962,142 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   <div class="cpy"><span class="cpl">© 株式会社</span><span class="oval">ナタデココ</span></div>
 </footer>
 
-<div class="gmodal" id="gmodal" hidden><div class="gbg" data-close></div><div class="gwin" role="dialog" aria-modal="true" aria-label="ジャンプゲーム">
-  <button type="button" class="gx" data-close aria-label="閉じる">×</button>
-  <p class="gttl">ナタデココちゃんの <b>ミニゲーム</b></p>
-  <div class="gtabs" role="tablist"><button type="button" class="gtab on" data-g="jump">▶ ジャンプ</button><button type="button" class="gtab" data-g="battle">▶ バトル</button><button type="button" class="gtab" data-g="slot">▶ スロット</button></div>
-  <div class="gpanel" id="gp-jump">
-  <div class="gbox">
-    <div class="gscr"><canvas id="gcv" width="320" height="120" aria-label="ジャンプゲーム"></canvas>
-      <div class="gmsg" id="gmsg"><button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span></div>
+<div class="nda gb" id="nda" hidden><div class="abg" data-ac></div><div class="awin" role="dialog" aria-modal="true" aria-label="ミニゲーム">
+  <button type="button" class="ax" data-ac aria-label="閉じる">×</button>
+  <p class="attl">ナタデココちゃんの ミニゲーム</p>
+  <div class="atabs"><button type="button" class="atab on" data-g="cyc">▶ サイクリング</button><button type="button" class="atab" data-g="slot">▶ スロット</button></div>
+  <div class="apanel" id="ap-cyc">
+    <div class="abox">
+      <div class="ascr"><canvas id="acv" width="180" height="240" aria-label="サイクリングゲーム"></canvas>
+        <div class="amsg" id="amsg"><button type="button" class="astart" id="astart">▶ START</button><span>さかみちを くだろう！<br>キャラたちを よけてね</span></div></div>
+      <div class="actl"><span class="ahelp">← → / TAP でよける</span><button type="button" class="abtn sub" id="aL" aria-label="左へ">◀</button><button type="button" class="abtn" id="aR" aria-label="右へ">▶</button></div>
     </div>
-    <div class="gctl"><span class="ghelp">SPACE / ↑ / TAP でジャンプ</span><button type="button" class="gbtn" id="gjump" aria-label="ジャンプ">A</button></div>
+    <div class="aover" id="aover" hidden><p id="aovT"></p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
   </div>
-  <div class="gover" id="gover" hidden><p>スコア <b id="gsc">0</b>！ 昔のカード、送ってみませんか？</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
-  </div>
-  <div class="gpanel" id="gp-battle" hidden>
-    <div class="gbox">
-      <div class="bscr" id="bscr">
-        <div class="bfoe">
-          <div class="bst foe"><b id="bfName">ファイ</b><span class="lv">:L<i id="bfLv">12</i></span><div class="hp"><em>HP</em><span class="hpb"><i id="bfBar"></i></span></div></div>
-          <div class="bmon foe"><span class="pad"></span><img id="bfImg" alt=""></div>
-        </div>
-        <div class="bme">
-          <div class="bmon me"><span class="pad"></span><img id="bmImg" alt=""></div>
-          <div class="bst me"><b>ナタデココ</b><span class="lv">:L<i>50</i></span><div class="hp"><em>HP</em><span class="hpb"><i id="bmBar"></i></span></div><span class="num"><i id="bmHp">60</i>/ 60</span></div>
-        </div>
-        <div class="bbox"><p id="btxt"></p><span class="bnext" id="bnext">▼</span>
-          <ul class="bmenu" id="bmenu" hidden>
-            <li data-m="0">さてい</li><li data-m="1">はこづめ</li><li data-m="2">スリーブ</li><li data-m="3">おふりこみ</li>
-          </ul>
-        </div>
-      </div>
-      <div class="gctl"><span class="ghelp">↑↓←→ でえらぶ / SPACE・ENTER・TAP でけってい</span><button type="button" class="gbtn" id="bA" aria-label="けってい">A</button></div>
-    </div>
-    <div class="gover" id="bover" hidden><p id="bovT">なかまに なった！</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
-  </div>
-  <div class="gpanel" id="gp-slot" hidden>
-    <div class="gbox">
-      <div class="sscr" id="sscr">
+  <div class="apanel" id="ap-slot" hidden>
+    <div class="abox">
+      <div class="ascr">
         <div class="shud"><span class="scnt"><small>CREDIT</small><b id="sCoin">0030</b></span><span class="scnt"><small>BET</small><b id="sBet">3</b></span><span class="scnt"><small>PAY OUT</small><b id="sPayout">0000</b></span></div>
         <div class="smach" id="smach">
-          <div class="slamps l"><i data-b="3">3</i><i data-b="2">2</i><i data-b="1">1</i><i data-b="2">2</i><i data-b="3">3</i></div>
+          <div class="slamps"><i data-b="3">3</i><i data-b="2">2</i><i data-b="1">1</i><i data-b="2">2</i><i data-b="3">3</i></div>
           <div class="sreel"><div class="sstrip"></div></div><div class="sreel"><div class="sstrip"></div></div><div class="sreel"><div class="sstrip"></div></div>
-          <div class="slamps r"><i data-b="3">3</i><i data-b="2">2</i><i data-b="1">1</i><i data-b="2">2</i><i data-b="3">3</i></div>
+          <div class="slamps"><i data-b="3">3</i><i data-b="2">2</i><i data-b="1">1</i><i data-b="2">2</i><i data-b="3">3</i></div>
+          <div class="scut" id="scut"><img alt=""><b></b></div>
         </div>
         <div class="sstops"><button type="button" class="sstop" data-r="0" disabled>STOP</button><button type="button" class="sstop" data-r="1" disabled>STOP</button><button type="button" class="sstop" data-r="2" disabled>STOP</button></div>
-        <p class="smsg" id="sMsg">Aボタンで まわそう！</p>
+        <p class="stxt" id="sMsg">Aボタンで まわそう！</p>
         <ul class="spay" id="sPay"></ul>
       </div>
-      <div class="gctl"><span class="ghelp">B / ↑ でBET　A / SPACE でまわす・とめる</span><button type="button" class="gbtn sb" id="sB" aria-label="ベットをかえる">B</button><button type="button" class="gbtn" id="sA" aria-label="まわす・とめる">A</button></div>
+      <div class="actl"><span class="ahelp">B / ↑ でBET<br>A / SPACE でまわす・とめる</span><button type="button" class="abtn sub" id="sB" aria-label="ベットをかえる">B</button><button type="button" class="abtn" id="sA" aria-label="まわす・とめる">A</button></div>
     </div>
-    <div class="gover" id="sover" hidden><p id="sovT"></p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
+    <div class="aover" id="sover" hidden><p id="sovT"></p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div></div>
   </div>
-
 </div></div>
-
-
 <script>
+/* ミニゲーム（サイクリング／スロット）。絵柄と障害物はナタデココのキャラだけ。コインは点数で、景品はありません。 */
 (function(){
-  var scr=document.getElementById('bscr');if(!scr)return;
-  var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
+  var md=document.getElementById('nda');if(!md)return;
+  var CFG={"dir": "gb", "q": "", "open": "gopen", "over": "昔のカード、送ってみませんか？", "win": "昔のカードも、高く買取します。"};
   var $=function(id){return document.getElementById(id)};
-  var FOES=[
-    {n:'ミンティ',img:'minty1',hp:44,atk:[7,11],moves:['はっぱで ぺちっ','くるくる ダンス'],lv:11},
-    {n:'パチル',img:'pachiru1',hp:50,atk:[8,12],moves:['ビリビリ','もふもふ タックル'],lv:13},
-    {n:'ファイ',img:'fai1',hp:48,atk:[9,13],moves:['ほのおの いき','めらめら パンチ'],lv:14},
-    {n:'アメリー',img:'amery1',hp:46,atk:[7,12],moves:['あわあわ','ゆめみる ステップ'],lv:12},
-    {n:'メルルート',img:'melroot1',hp:52,atk:[8,13],moves:['つばさで ばさっ','ねむねむ ビーム'],lv:15}];
-  var MOVES=[
-    {n:'さてい',d:[11,16],hit:.95,t:'さていした！'},
-    {n:'はこづめ',d:[17,24],hit:.7,t:'はこに つめた！'},
-    {n:'スリーブ',guard:1,t:'スリーブで みを まもった！'},
-    {n:'おふりこみ',heal:[16,22],t:'おふりこみで げんきが でた！'}];
-  var foe,fHP,mHP,MH=60,guard=false,busy=false,sel=0,state='off',q=[],typing=null,waitNext=null;
-  var fI=$('bfImg'),mI=$('bmImg'),menu=$('bmenu'),txt=$('btxt'),nx=$('bnext'),items=menu.querySelectorAll('li');
-  mI.src=GB+'chan1.webp';
-  function r(a){return a[0]+Math.floor(Math.random()*(a[1]-a[0]+1));}
-  function bars(){$('bfBar').style.width=Math.max(0,fHP/foe.hp*100)+'%';$('bmBar').style.width=Math.max(0,mHP/MH*100)+'%';$('bmHp').textContent=Math.max(0,mHP);}
-  var cur='',curCb=null;
-  function done(){clearInterval(typing);typing=null;txt.textContent=cur;nx.classList.add('on');waitNext=curCb||null;}
-  function say(s,cb){clearInterval(typing);nx.classList.remove('on');waitNext=null;cur=s;curCb=cb;txt.textContent='';var i=0;typing=setInterval(function(){txt.textContent=s.slice(0,++i);if(i>=s.length)done();},35);}
-  function next(){if(typing){done();return;}if(!waitNext)return;nx.classList.remove('on');var cb=waitNext;waitNext=null;cb();}
-  function anim(el,c,ms){el.classList.remove(c);void el.offsetWidth;el.classList.add(c);setTimeout(function(){el.classList.remove(c)},ms||600);}
-  function showMenu(){state='menu';menu.hidden=false;txt.textContent='どうする？';paint();}
-  function paint(){items.forEach(function(li,i){li.classList.toggle('on',i===sel)});}
-  function start(){fI.parentNode.classList.remove('out');mI.parentNode.classList.remove('out');foe=FOES[Math.floor(Math.random()*FOES.length)];fHP=foe.hp;mHP=MH;guard=false;
-    fI.src=GB+foe.img+'.webp';$('bfName').textContent=foe.n;$('bfLv').textContent=foe.lv;bars();$('bover').hidden=true;menu.hidden=true;
-    anim(fI.parentNode,'in',700);state='msg';
-    say('あっ！ やせいの '+foe.n+'が\nとびだしてきた！',function(){say('いけっ！ ナタデココちゃん！',showMenu);});}
-  function choose(i){if(state!=='menu')return;state='msg';menu.hidden=true;var m=MOVES[i];
-    say('ナタデココちゃんの\n'+m.n+'！',function(){
-      if(m.guard){guard=true;say(m.t,foeTurn);return;}
-      if(m.heal){var h=r(m.heal);mHP=Math.min(MH,mHP+h);bars();say(m.t,foeTurn);return;}
-      anim($('bmImg').parentNode,'atk',400);
-      if(Math.random()>m.hit){setTimeout(function(){say('しかし うまく きまらなかった！',foeTurn)},350);return;}
-      var d=r(m.d),crit=Math.random()<.12;if(crit)d=Math.round(d*1.5);
-      setTimeout(function(){anim(fI.parentNode,'hit',1000);fHP-=d;bars();
-        say((crit?'きゅうしょに あたった！\n':'')+foe.n+'に '+d+'の ダメージ！',function(){if(fHP<=0)win();else foeTurn();});},380);
-    });}
-  function foeTurn(){var mv=foe.moves[Math.floor(Math.random()*foe.moves.length)];
-    say('やせいの '+foe.n+'の\n'+mv+'！',function(){anim(fI.parentNode,'atk',400);
-      setTimeout(function(){var d=r(foe.atk);if(guard){d=Math.ceil(d/3);guard=false;}anim(scr,'flash',700);anim(mI.parentNode,'hit',1000);mHP-=d;bars();
-        say('ナタデココちゃんに '+d+'の ダメージ！',function(){if(mHP<=0)lose();else showMenu();});},380);});}
-  function win(){fI.parentNode.classList.add('out');say('やせいの '+foe.n+'は\nたおれた！',function(){say(foe.n+'は ナタデココの\nなかまに なった！',function(){state='end';$('bovT').textContent=foe.n+'が なかまに なった！ 昔のカードも、ナタデココで買取します。';$('bover').hidden=false;say('Aで もういちど あそぶ',function(){start();});});});}
-  function lose(){mI.parentNode.classList.add('out');say('ナタデココちゃんは つかれて\nねむって しまった…',function(){state='end';$('bovT').textContent='おしい！ 昔のカードは、ナタデココで買取します。';$('bover').hidden=false;say('Aで もういちど あそぶ',function(){start();});});}
-  function act(){if(state==='menu')choose(sel);else next();}
-  scr.addEventListener('pointerdown',function(e){var li=e.target.closest('.bmenu li');if(li&&state==='menu'){sel=+li.dataset.m;paint();choose(sel);return;}e.preventDefault();act();});
-  $('bA').addEventListener('pointerdown',function(e){e.preventDefault();act();});
-  addEventListener('keydown',function(e){var md=$('gmodal');if(!md||md.hidden||$('gp-battle').hidden)return;
-    var k=e.key;if(k==='Escape')return;
-    if(/^Arrow/.test(k)){e.preventDefault();e.stopImmediatePropagation();if(state==='menu'){if(k==='ArrowLeft'||k==='ArrowRight')sel=sel^1;else sel=sel^2;paint();}return;}
-    if(k===' '||k==='Enter'||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();act();}},true);
-  // タブ切り替え
-  var tabs=document.querySelectorAll('.gtab');
-  tabs.forEach(function(t){t.addEventListener('click',function(){tabs.forEach(function(x){x.classList.toggle('on',x===t)});var g=t.dataset.g,b=g==='battle';
-    $('gp-battle').hidden=!b;$('gp-jump').hidden=g!=='jump';$('gp-slot').hidden=g!=='slot';if(g!=='jump'&&window.ndJumpStop)ndJumpStop();if(g!=='slot'&&window.ndSlotStop)ndSlotStop();if(b&&state!=='menu'&&state!=='msg')start();if(g==='slot'&&window.ndSlotInit)ndSlotInit();});});
-  window.ndBattleStart=start;
-})();
-</script>
+  var BASE=(function(){var k='/img/'+CFG.dir+'/',i=document.querySelector('img[src*="'+k+'"]');return i?i.getAttribute('src').split(k)[0]+k:k;})();
+  function src(n){return BASE+n+'.webp'+(CFG.q||'');}
+  var IM={};['chan1','minty1','pachiru1','fai1','amery1'].concat(CFG.cut?CFG.cut.map(function(c){return c.img}):[]).forEach(function(n){var i=new Image();i.onload=function(){i.ok=true};i.src=src(n);IM[n]=i;});
+  var P=CFG.dir==='gb'?{grass:'#8BAC0F',tuft:'#306230',road:'#CADC9F',line:'#306230',dark:'#0F380F',hud:'#0F380F'}:{grass:'#4FD07A',tuft:'#2E9E58',road:'#D9D6CC',line:'#FFFFFF',dark:'#283048',hud:'#283048'};
 
-<script>
-(function(){
-  var scr=document.getElementById('sscr');if(!scr)return;
-  var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
-  var $=function(id){return document.getElementById(id)};
-  // 絵柄：0=ナタデココちゃん 1=7 2=ファイ 3=パチル 4=ミンティ 5=アメリー 6=メルルート
-  var SYM=[{img:'chan1',pay:300,n:'ナタデココちゃん'},{t:'7',pay:100,n:'セブン'},{img:'fai1',pay:30,n:'ファイ'},{img:'pachiru1',pay:20,n:'パチル'},{img:'minty1',pay:15,n:'ミンティ'},{img:'amery1',pay:10,n:'アメリー'},{img:'melroot1',pay:6,n:'メルルート'}];
-  var STRIPS=[[0,6,4,5,2,6,3,1,6,5,4,6,2,3,5,6],[6,5,0,3,6,4,2,6,5,1,6,3,4,6,2,5],[4,6,2,5,6,0,3,6,1,5,6,4,2,6,3,5]];
+  /* ---------- サイクリング ---------- */
+  var cv=$('acv'),cx=cv.getContext('2d'),W=cv.width,H=cv.height,LX=[48,90,132],amsg=$('amsg');
+  var cst='idle',craf=0,lane=1,px=LX[1],obs=[],t=0,dist=0,sp=1.7,nextAt=40,best=0;
+  cx.imageSmoothingEnabled=false;
+  function spr(n,x,y,h){var i=IM[n];if(!i||!i.ok)return;var w=h*i.naturalWidth/i.naturalHeight;cx.drawImage(i,Math.round(x-w/2),Math.round(y-h/2),Math.round(w),h);}
+  function cdraw(){cx.fillStyle=P.grass;cx.fillRect(0,0,W,H);
+    cx.fillStyle=P.tuft;for(var k=0;k<14;k++){var gy=((k*37+dist*1)%(H+20))-10,gx=(k%2)?6+(k*5)%12:W-18+(k*3)%10;cx.fillRect(gx,gy,3,3);cx.fillRect(gx+4,gy+2,3,3);}
+    cx.fillStyle=P.road;cx.fillRect(24,0,W-48,H);cx.fillStyle=P.dark;cx.fillRect(22,0,2,H);cx.fillRect(W-24,0,2,H);
+    cx.fillStyle=P.line;for(var y=(dist%32)-32;y<H;y+=32){cx.fillRect(68,y,3,16);cx.fillRect(109,y,3,16);}
+    obs.forEach(function(o){spr(o.n,LX[o.l],o.y,34);});
+    // 自転車（上から見た形）＋ナタデココちゃん
+    cx.fillStyle=P.dark;cx.fillRect(Math.round(px)-2,H-66,4,48);cx.fillRect(Math.round(px)-3,H-70,6,10);cx.fillRect(Math.round(px)-3,H-24,6,10);cx.fillRect(Math.round(px)-11,H-58,22,3);
+    spr('chan1',px,H-46+((t>>3)&1),38);
+    cx.fillStyle=P.hud;cx.font='10px "Press Start 2P",monospace';cx.textBaseline='top';cx.fillText(Math.floor(dist/10)+'m',28,6);}
+  function cstep(){t++;dist+=sp;sp=Math.min(4.6,1.7+dist/1400);px+=(LX[lane]-px)*.35;
+    if(t>=nextAt){var l=Math.floor(Math.random()*3),names=['minty1','pachiru1','fai1','amery1'];obs.push({l:l,y:-24,n:names[Math.floor(Math.random()*4)]});
+      if(dist>900&&Math.random()<.35){var l2=(l+1+Math.floor(Math.random()*2))%3;obs.push({l:l2,y:-24,n:names[Math.floor(Math.random()*4)]});}
+      nextAt=t+Math.max(22,Math.round((62-dist/160)*(0.8+Math.random()*.5)));}
+    for(var i=obs.length-1;i>=0;i--){var o=obs[i];o.y+=sp;if(o.y>H+30){obs.splice(i,1);continue;}
+      if(Math.abs(LX[o.l]-px)<18&&Math.abs(o.y-(H-46))<24){cend();return;}}
+    cdraw();craf=requestAnimationFrame(cstep);}
+  function cstart(){cancelAnimationFrame(craf);cst='run';lane=1;px=LX[1];obs=[];t=0;dist=0;sp=1.7;nextAt=40;amsg.classList.add('hide');$('aover').hidden=true;craf=requestAnimationFrame(cstep);}
+  function cend(){cst='over';cancelAnimationFrame(craf);cdraw();var m=Math.floor(dist/10);if(m>best)best=m;
+    amsg.innerHTML='';var b=document.createElement('button');b.type='button';b.className='astart';b.textContent='▶ RETRY';b.onclick=cstart;var s=document.createElement('span');s.textContent=m+'m はしった！（さいこう '+best+'m）';amsg.appendChild(b);amsg.appendChild(s);amsg.classList.remove('hide');
+    $('aovT').textContent=CFG.over;$('aover').hidden=false;}
+  function cstop(){cancelAnimationFrame(craf);if(cst==='run'){cst='idle';amsg.classList.remove('hide');}}
+  function mv(d){if(cst!=='run'){cstart();return;}lane=Math.max(0,Math.min(2,lane+d));}
+  $('astart').onclick=cstart;
+  $('aL').addEventListener('pointerdown',function(e){e.preventDefault();mv(-1);});
+  $('aR').addEventListener('pointerdown',function(e){e.preventDefault();mv(1);});
+  cv.addEventListener('pointerdown',function(e){e.preventDefault();var r=cv.getBoundingClientRect();mv((e.clientX-r.left)<r.width/2?-1:1);});
+
+  /* ---------- スロット ---------- */
+  var SYM=[{img:'chan1',pay:100,n:'ナタデココちゃん'},{img:'fai1',pay:30,n:'ファイ'},{img:'pachiru1',pay:20,n:'パチル'},{img:'minty1',pay:15,n:'ミンティ'},{img:'amery1',pay:10,n:'アメリー'}];
+  var STRIPS=[[0,4,3,2,4,1,3,4,2,3,1,4,2,3,4],[4,3,0,2,4,3,1,4,2,3,4,1,2,4,3],[3,4,2,4,0,3,4,1,3,2,4,3,1,4,2]];
   var LINES=[[1,1,1],[0,0,0],[2,2,2],[0,1,2],[2,1,0]];
-  var reels=[].slice.call(scr.querySelectorAll('.sreel')),stops=[].slice.call(scr.querySelectorAll('.sstop')),mach=$('smach');
-  var coin=30,BET=3,payout=0,state='idle',raf=0,built=false,H=0,best=30;
-  var R=[0,1,2].map(function(i){return {el:reels[i].firstElementChild,pos:Math.floor(Math.random()*16),spin:false,v:0,n:STRIPS[i].length}});
-  function cell(k){var o=SYM[k];return '<div class="scell">'+(o.img?'<img src="'+GB+o.img+'.webp" alt="">':o.t?'<span class="s7">7</span>':'<span class="scd"></span>')+'</div>';}
-  function build(){if(built)return;built=true;R.forEach(function(r,i){var seq=STRIPS[i].concat(STRIPS[i].slice(0,3));r.el.innerHTML=seq.map(cell).join('');});
-    $('sPay').innerHTML=SYM.map(function(o){return '<li>'+(o.img?'<img src="'+GB+o.img+'.webp" alt="'+o.n+'">':o.t?'<span class="s7" style="font-family:\'Press Start 2P\',monospace;font-size:14px">7</span>':'<span>カード</span>')+'<i>x3='+o.pay+'</i></li>'}).join('');
-    for(var i=0;i<5;i++){var l=document.createElement('i');l.className='sline';mach.appendChild(l);}
-    measure();draw();}
-  function measure(){H=reels[0].clientHeight/3;var ls=mach.querySelectorAll('.sline'),mh=mach.clientHeight,t0=reels[0].offsetTop;
-    [1,0,2].forEach(function(row,i){ls[i].style.top=(t0+H*row+H/2-2)+'px';ls[i].style.transform='none';});
-    ls.forEach(function(l){l.style.left=(reels[0].offsetLeft-6)+'px';l.style.right=(mach.clientWidth-reels[2].offsetLeft-reels[2].offsetWidth-6)+'px';});var w=reels[2].offsetLeft-reels[0].offsetLeft,ang=Math.atan2(H*2,w)*180/Math.PI;
-    ls[3].style.top=ls[4].style.top=(t0+H*1.5-2)+'px';ls[3].style.transform='rotate('+ang+'deg)';ls[4].style.transform='rotate('+(-ang)+'deg)';}
-  function draw(){R.forEach(function(r){r.el.style.transform='translateY('+(-r.pos*H)+'px)';});}
+  var mach=$('smach'),reels=[].slice.call(mach.querySelectorAll('.sreel')),stops=[].slice.call(md.querySelectorAll('.sstop')),lamps=[].slice.call(mach.querySelectorAll('.slamps i')),cut=$('scut');
+  var coin=30,BET=3,payout=0,sst='idle',sraf=0,built=false,RH=0,sbest=30,forced=-1;
+  var R=[0,1,2].map(function(i){return {el:reels[i].firstElementChild,pos:Math.floor(Math.random()*15),spin:false,v:0,n:STRIPS[i].length,snap:null}});
   function pad(n){return ('000'+Math.max(0,n)).slice(-4);}
-  var lamps=[].slice.call(scr.querySelectorAll('.slamps i'));
+  function say(s){$('sMsg').textContent=s;}
   function hud(){$('sCoin').textContent=pad(coin);$('sBet').textContent=BET;$('sPayout').textContent=pad(payout);lamps.forEach(function(l){l.classList.toggle('on',+l.dataset.b<=BET)});}
-  function setBet(n){if(state!=='idle')return;BET=Math.max(1,Math.min(3,n,coin||1));hud();say('BET '+BET+'コイン\nAで まわそう！');}
+  function build(){if(built)return;built=true;
+    R.forEach(function(r,i){STRIPS[i].concat(STRIPS[i].slice(0,3)).forEach(function(k){var c=document.createElement('div');c.className='scell';var im=document.createElement('img');im.src=src(SYM[k].img);im.alt='';c.appendChild(im);r.el.appendChild(c);});});
+    SYM.forEach(function(o){var li=document.createElement('li'),im=document.createElement('img'),x=document.createElement('i');im.src=src(o.img);im.alt=o.n;x.textContent='x3='+o.pay;li.appendChild(im);li.appendChild(x);$('sPay').appendChild(li);});
+    for(var i=0;i<5;i++){var l=document.createElement('i');l.className='sline';mach.appendChild(l);}}
+  function measure(){RH=reels[0].clientHeight/3;var ls=mach.querySelectorAll('.sline'),t0=reels[0].offsetTop+reels[0].clientTop,x0=reels[0].offsetLeft-4,x1=mach.clientWidth-reels[2].offsetLeft-reels[2].offsetWidth-4;
+    ls.forEach(function(l){l.style.left=x0+'px';l.style.right=x1+'px';});
+    [1,0,2].forEach(function(row,i){ls[i].style.top=(t0+RH*row+RH/2-2)+'px';ls[i].style.transform='none';});
+    var ang=Math.atan2(RH*2,reels[2].offsetLeft-reels[0].offsetLeft)*180/Math.PI;ls[3].style.top=ls[4].style.top=(t0+RH*1.5-2)+'px';ls[3].style.transform='rotate('+ang+'deg)';ls[4].style.transform='rotate('+(-ang)+'deg)';}
+  function sdraw(){R.forEach(function(r){r.el.style.transform='translateY('+(-r.pos*RH)+'px)';});}
+  function tick(){var any=false;R.forEach(function(r){if(r.spin){any=true;r.pos-=r.v;if(r.pos<0)r.pos+=r.n;}else if(r.snap!=null){var d=r.pos-r.snap;if(d<0)d+=r.n;if(d<=0.3){r.pos=r.snap;r.snap=null;}else{any=true;r.pos-=0.3;if(r.pos<0)r.pos+=r.n;}}});
+    sdraw();if(any)sraf=requestAnimationFrame(tick);else{sraf=0;if(sst==='spin'&&R.every(function(r){return !r.spin&&r.snap==null}))judge();}}
+  function setBet(n){if(sst!=='idle')return;BET=Math.max(1,Math.min(3,n,coin||1));hud();say('BET '+BET+'コイン\nAで まわそう！');}
   function nextBet(){setBet(BET>=Math.min(3,coin)?1:BET+1);}
-  function say(t){$('sMsg').textContent=t;}
-  function tick(){var any=false;R.forEach(function(r){if(r.spin){any=true;r.pos-=r.v;if(r.pos<0)r.pos+=r.n;}else if(r.snap!=null){var d=r.pos-r.snap;if(d<0)d+=r.n;if(d<=0.28){r.pos=r.snap;r.snap=null;}else{any=true;r.pos-=0.28;if(r.pos<0)r.pos+=r.n;}}});
-    draw();if(any)raf=requestAnimationFrame(tick);else{raf=0;if(state==='spin'&&R.every(function(r){return !r.spin&&r.snap==null}))judge();}}
-  function spin(){if(state!=='idle')return;if(coin<1){over();return;}if(BET>coin)BET=coin;measure();coin-=BET;payout=0;hud();lamps.forEach(function(l){l.classList.remove('hit')});state='spin';$('sover').hidden=true;
-    mach.querySelectorAll('.sline').forEach(function(l){l.classList.remove('on')});
-    R.forEach(function(r,i){r.spin=true;r.snap=null;r.v=0.34+i*0.03;stops[i].disabled=false;});say('STOPで とめよう！');if(!raf)raf=requestAnimationFrame(tick);}
-  function stop(i){var r=R[i];if(state!=='spin'||!r.spin)return;r.spin=false;stops[i].disabled=true;r.snap=Math.floor(r.pos);if(r.snap===r.pos)r.snap=r.pos;if(!raf)raf=requestAnimationFrame(tick);}
+  function cutin(c){cut.querySelector('img').src=src(c.img);cut.querySelector('b').textContent=c.t;cut.classList.remove('go');void cut.offsetWidth;cut.classList.add('go');say(c.n+'が あらわれた！');}
+  function spin(){if(sst!=='idle')return;if(coin<1){sover();return;}if(BET>coin)BET=coin;measure();coin-=BET;payout=0;hud();sst='spin';$('sover').hidden=true;forced=-1;
+    mach.querySelectorAll('.sline').forEach(function(l){l.classList.remove('on')});lamps.forEach(function(l){l.classList.remove('hit')});
+    var c=null;if(CFG.cut){var r=Math.random(),acc=0;for(var i=0;i<CFG.cut.length;i++){var k=CFG.cut[i];acc+=k.rate;if(r<acc){if(IM[k.img]&&IM[k.img].ok)c=k;break;}}}
+    if(c){if(Math.random()<c.win){var w=Math.random();forced=w<.12?0:w<.3?1:w<.5?2:w<.74?3:4;}cutin(c);}else say('STOPで とめよう！');
+    R.forEach(function(r,i){r.spin=true;r.snap=null;r.v=0.34+i*0.03;stops[i].disabled=false;});if(!sraf)sraf=requestAnimationFrame(tick);}
+  function stop(i){var r=R[i];if(sst!=='spin'||!r.spin)return;r.spin=false;stops[i].disabled=true;var p=Math.floor(r.pos);
+    if(forced>=0){for(var k=0;k<r.n;k++){var q=((p-k)%r.n+r.n)%r.n;if(STRIPS[i][(q+1)%r.n]===forced){p=q;break;}}}   // あたり確定のときは、まん中の段にそろう位置まですべる
+    r.snap=p;if(!sraf)sraf=requestAnimationFrame(tick);}
   function at(i,row){var r=R[i];return STRIPS[i][(Math.round(r.pos)+row)%r.n];}
-  function judge(){state='pay';var win=0,top=null,ls=mach.querySelectorAll('.sline');
+  function judge(){sst='pay';var win=0,top=null,ls=mach.querySelectorAll('.sline');
     LINES.forEach(function(L,k){if(k>=(BET>=3?5:BET>=2?3:1))return;var a=at(0,L[0]),b=at(1,L[1]),c=at(2,L[2]);if(a===b&&b===c){win+=SYM[a].pay;ls[k].classList.add('on');if(!top||SYM[a].pay>top.pay)top=SYM[a];}});
     if(win){payout=win;coin+=win;hud();lamps.forEach(function(l,i){l.classList.toggle('hit',ls[[3,1,0,2,4][i%5]].classList.contains('on'))});mach.classList.remove('win');void mach.offsetWidth;mach.classList.add('win');
-      say(top.n+'が そろった！\nコイン '+win+'まい ゲット！');
-      if(top.pay>=100){$('sovT').textContent=(top.pay>=300?'大あたり！ ':'あたり！ ')+'昔のカードも、高く買取します。';$('sover').hidden=false;}}
+      say(top.n+'が そろった！\nコイン '+win+'まい ゲット！');if(top.pay>=30){$('sovT').textContent=(top.pay>=100?'大あたり！ ':'あたり！ ')+CFG.win;$('sover').hidden=false;}}
     else say('ざんねん… もういちど！');
-    if(coin>best)best=coin;
-    setTimeout(function(){state='idle';if(coin<1)over();},win?900:250);}
-  function over(){state='over';say('コインが なくなった…\nAで さいしょから');$('sovT').textContent='さいこう '+best+'コイン！ 昔のカード、送ってみませんか？';$('sover').hidden=false;}
-  function reset(){coin=30;best=30;BET=3;payout=0;hud();state='idle';$('sover').hidden=true;say('Aボタンで まわそう！');}
-  function act(){if(state==='over'){reset();return;}if(state==='idle'){spin();return;}if(state==='spin'){for(var i=0;i<3;i++)if(R[i].spin){stop(i);return;}}}
+    if(coin>sbest)sbest=coin;setTimeout(function(){sst='idle';if(coin<1)sover();},win?900:250);}
+  function sover(){sst='over';say('コインが なくなった…\nAで さいしょから');$('sovT').textContent='さいこう '+sbest+'コイン！ '+CFG.over;$('sover').hidden=false;}
+  function sreset(){coin=30;sbest=30;BET=3;payout=0;hud();sst='idle';$('sover').hidden=true;say('Aボタンで まわそう！');}
+  function sact(){if(sst==='over'){sreset();return;}if(sst==='idle'){spin();return;}if(sst==='spin'){for(var i=0;i<3;i++)if(R[i].spin){stop(i);return;}}}
+  function sstopAll(){if(sst==='spin'){R.forEach(function(r,i){r.spin=false;r.snap=null;r.pos=Math.round(r.pos)%r.n;stops[i].disabled=true;});coin+=BET;hud();sst='idle';}cancelAnimationFrame(sraf);sraf=0;}
   stops.forEach(function(b){b.addEventListener('pointerdown',function(e){e.preventDefault();stop(+b.dataset.r);});});
-  $('sA').addEventListener('pointerdown',function(e){e.preventDefault();act();});
+  $('sA').addEventListener('pointerdown',function(e){e.preventDefault();sact();});
   $('sB').addEventListener('pointerdown',function(e){e.preventDefault();nextBet();});
-  lamps.forEach(function(l){l.addEventListener('pointerdown',function(e){e.preventDefault();e.stopPropagation();setBet(+l.dataset.b);});});
-  mach.addEventListener('pointerdown',function(e){e.preventDefault();if(state!=='spin')act();});
-  addEventListener('keydown',function(e){var md=$('gmodal');if(!md||md.hidden||$('gp-slot').hidden)return;var k=e.key;
-    if(k==='ArrowUp'||k==='ArrowDown'||k==='b'||k==='B'){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat){if(k==='ArrowDown')setBet(BET<=1?Math.min(3,coin):BET-1);else nextBet();}return;}
-    if(k===' '||k==='Enter'||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();if(!e.repeat)act();}},true);
-  addEventListener('resize',function(){if(built&&!$('gp-slot').hidden){measure();draw();}});
-  window.ndSlotInit=function(){build();measure();draw();hud();};
-  window.ndSlotStop=function(){if(state==='spin'){R.forEach(function(r,i){r.spin=false;r.snap=null;r.pos=Math.round(r.pos)%r.n;stops[i].disabled=true;});coin+=BET;hud();state='idle';}cancelAnimationFrame(raf);raf=0;};
+  lamps.forEach(function(l){l.addEventListener('pointerdown',function(e){e.preventDefault();setBet(+l.dataset.b);});});
+
+  /* ---------- 開く・閉じる・タブ ---------- */
+  var tabs=[].slice.call(md.querySelectorAll('.atab')),cur='cyc';
+  function show(g){cur=g;tabs.forEach(function(x){x.classList.toggle('on',x.dataset.g===g)});$('ap-cyc').hidden=g!=='cyc';$('ap-slot').hidden=g!=='slot';
+    if(g==='slot'){cstop();build();measure();sdraw();hud();}else{sstopAll();cdraw();}}
+  tabs.forEach(function(x){x.addEventListener('click',function(){show(x.dataset.g);});});
+  function open(){md.hidden=false;document.documentElement.style.overflow='hidden';show(cur);}
+  function close(){cstop();sstopAll();md.hidden=true;document.documentElement.style.overflow='';}
+  var op=document.getElementById(CFG.open);if(op)op.addEventListener('click',open);
+  md.querySelectorAll('[data-ac]').forEach(function(b){b.addEventListener('click',close);});
+  addEventListener('keydown',function(e){if(md.hidden)return;var k=e.key;if(k==='Escape'){close();return;}
+    if(cur==='cyc'){if(k==='ArrowLeft'||k==='a'||k==='A'){e.preventDefault();mv(-1);}else if(k==='ArrowRight'||k==='d'||k==='D'){e.preventDefault();mv(1);}else if(k===' '||k==='Enter'){e.preventDefault();if(cst!=='run')cstart();}}
+    else{if(k==='ArrowUp'||k==='ArrowDown'||k==='b'||k==='B'){e.preventDefault();if(!e.repeat){if(k==='ArrowDown')setBet(BET<=1?Math.min(3,coin):BET-1);else nextBet();}}
+      else if(k===' '||k==='Enter'){e.preventDefault();if(!e.repeat)sact();}}},true);
+  addEventListener('resize',function(){if(!md.hidden&&cur==='slot'&&built){measure();sdraw();}});
 })();
 </script>
 
@@ -1084,24 +1106,6 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   <a class="btn o" href="/cat/old/">価格を調べる</a>
 </div>
 <script id="hotpool" type="application/json">__HOTPOOL__</script>
-<script>
-(function(){var it=document.getElementById('intro');if(!it||!it.classList.contains('gbi'))return;
-  var bars=it.querySelectorAll('.wipe i');bars.forEach(function(b,i){b.style.animationDelay=(i%2?0.03:0)+i*0.02+'s';});
-  var pool=[];try{pool=JSON.parse(document.getElementById('hotpool').textContent||'[]')}catch(e){}
-  var c=pool.length?pool[Math.floor(Math.random()*pool.length)]:null;
-  var nm=c?String(c.n).split(/[ 　(（]/)[0].replace(/^＿の/,''):'旧裏カード';
-  var T=[];
-  T.push(setTimeout(function(){it.classList.add('fl');},150));
-  T.push(setTimeout(function(){it.classList.add('go');},1050));
-  // エンカウントの演出（フラッシュ→横線のワイプ）だけ。終わったらそのままLPへ
-  // 暗転でひと呼吸おいてから、横線がほどけるようにLPが見えてくる
-  T.push(setTimeout(function(){it.classList.add('rev');},2550));
-  T.push(setTimeout(function(){if(window.__ndIntroEnd)window.__ndIntroEnd();},3900));
-  window.__ndIntroEnd=function(){T.forEach(function(x){clearTimeout(x);clearInterval(x)});it.classList.add('out');setTimeout(function(){it.remove()},600);};
-  it.querySelector('.skip').addEventListener('click',window.__ndIntroEnd);
-})();
-</script>
-
 <script>
 (function(){try{var pool=JSON.parse(document.getElementById('hotpool').textContent||'[]');if(pool.length<2)return;
 for(var i=pool.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=pool[i];pool[i]=pool[j];pool[j]=t;}
@@ -1212,80 +1216,3 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
 })();
 </script>
 
-<script>
-(function(){
-  var cv=document.getElementById('gcv');if(!cv)return;
-  var cx=cv.getContext('2d');cx.imageSmoothingEnabled=false;
-  // 公開先のフォルダ（/kaitori-site など）に合わせて画像の場所を決める
-  var GB=(function(){var i=document.querySelector('img[src*="/img/gb/"]');return i?i.getAttribute('src').split('/img/gb/')[0]+'/img/gb/':'/img/gb/';})();
-  var W=320,H=120,GY=100;
-  var C0='#0F380F',C1='#306230',C2='#8BAC0F',C3='#9BBC0F';
-  var msg=document.getElementById('gmsg'),over=document.getElementById('gover'),gsc=document.getElementById('gsc');
-  var spr=new Image();spr.src=GB+'chan1.webp';
-  var PH=30,PW=22;   // プレイヤーの大きさ（ドット）
-  var hi=0;try{hi=+localStorage.getItem('nd_gb_hi')||0}catch(e){}
-  var st='idle',p,obs,clouds,speed,score,t,spawn,last,raf;
-  function reset(){p={x:24,y:GY-PH,vy:0,on:true};obs=[];clouds=[{x:60,y:20},{x:200,y:34}];speed=2.4;score=0;t=0;spawn=60;}
-  reset();
-  function jump(){if(st!=='run')return;if(p.on){p.vy=-5.6;p.on=false;}}
-  function start(){reset();st='run';msg.classList.add('hide');over.hidden=true;last=performance.now();cancelAnimationFrame(raf);raf=requestAnimationFrame(loop);}
-  function end(){st='over';if(score>hi){hi=Math.floor(score);try{localStorage.setItem('nd_gb_hi',hi)}catch(e){}}
-    msg.innerHTML='<b>GAME OVER</b><button type="button" class="gstart" id="gstart">▶ RETRY</button>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;gsc.textContent=Math.floor(score);over.hidden=false;draw();}
-  // 襲ってくるのはナタデココのキャラたち（ドット絵）
-  var foes=[{n:'minty1',h:20},{n:'pachiru1',h:24},{n:'fai1',h:22},{n:'amery1',h:26},{n:'melroot1',h:22}].map(function(f){var im=new Image();im.src=GB+f.n+'.webp';f.im=im;return f;});
-  var flyer={n:'pachiru2',h:14};flyer.im=new Image();flyer.im.src=GB+'pachiru2.webp';
-  function sz(f){var im=f.im,r=(im.naturalWidth&&im.naturalHeight)?im.naturalWidth/im.naturalHeight:1;return {w:Math.round(f.h*r),h:f.h};}
-  function addObs(){var o;
-    if(score>250&&Math.random()<.22){var d=sz(flyer);o={f:flyer,x:W+4,w:d.w,h:d.h,y:GY-34-Math.floor(Math.random()*8),fly:1};}
-    else{var f=foes[Math.floor(Math.random()*foes.length)],d2=sz(f);o={f:f,x:W+4,w:d2.w,h:d2.h};o.y=GY-o.h;}
-    obs.push(o);
-    if(!o.fly&&Math.random()<.22&&score>150){var f2=foes[Math.floor(Math.random()*foes.length)],d3=sz(f2);var o2={f:f2,x:o.x+o.w+1,w:d3.w,h:d3.h};o2.y=GY-o2.h;obs.push(o2);}}
-  function hit(a,b){var m=3;return a.x+5<b.x+b.w-m&&a.x+PW-5>b.x+m&&a.y+4<b.y+b.h&&a.y+PH-2>b.y+m;}
-  function loop(now){var dt=Math.min(2,(now-last)/16.67);last=now;t+=dt;
-    if(st==='run'){
-      speed=Math.min(6.5,2.4+score/400);score+=dt*speed*.18;
-      p.vy+=.32*dt;p.y+=p.vy*dt;if(p.y>=GY-PH){p.y=GY-PH;p.vy=0;p.on=true;}
-      spawn-=dt;if(spawn<=0){addObs();spawn=Math.max(38,90-score/12)+Math.random()*50;}
-      obs.forEach(function(o){o.x-=speed*dt*(o.fly?1.15:1);});obs=obs.filter(function(o){return o.x+o.w>-4;});
-      clouds.forEach(function(c){c.x-=speed*.2*dt;if(c.x<-30){c.x=W+Math.random()*60;c.y=12+Math.random()*30;}});
-      for(var i=0;i<obs.length;i++){if(hit(p,obs[i])){draw();end();return;}}
-    }
-    draw();if(st==='run')raf=requestAnimationFrame(loop);}
-  function pad(n){n=Math.floor(n);return ('00000'+n).slice(-5);}
-  function draw(){
-    cx.fillStyle=C3;cx.fillRect(0,0,W,H);
-    cx.fillStyle=C2;clouds.forEach(function(c){cx.fillRect(c.x,c.y,18,3);cx.fillRect(c.x+4,c.y-3,9,3);});
-    // 地面
-    cx.fillStyle=C0;cx.fillRect(0,GY,W,2);
-    cx.fillStyle=C1;for(var gx=-(t*speed)%24;gx<W;gx+=24){cx.fillRect(gx,GY+5,3,1);cx.fillRect(gx+12,GY+9,2,1);}
-    // 障害物
-    obs.forEach(function(o){
-      var hop=o.fly?(Math.floor(t/6)%2):(Math.floor((t+o.x)/5)%2);   // ぴょこぴょこ動く
-      var im=o.f.im;
-      if(im.complete&&im.naturalWidth){cx.save();cx.translate(Math.round(o.x)+o.w,Math.round(o.y)-hop);cx.scale(-1,1);cx.drawImage(im,0,0,o.w,o.h);cx.restore();}
-      else{cx.fillStyle=C1;cx.fillRect(o.x,o.y,o.w,o.h);}
-    });
-    // プレイヤー（走るとき上下にゆれる）
-    var bob=(st==='run'&&p.on)?(Math.floor(t/4)%2):0;
-    if(spr.complete&&spr.naturalWidth){var r=spr.naturalWidth/spr.naturalHeight;PW=Math.round(PH*r);cx.drawImage(spr,p.x,Math.round(p.y)-bob,PW,PH);}
-    else{cx.fillStyle=C0;cx.fillRect(p.x,p.y,PW,PH);}
-    // スコア
-    cx.fillStyle=C0;cx.font='8px "Press Start 2P", monospace';cx.textAlign='right';
-    cx.fillText('HI '+pad(hi)+'  '+pad(score),W-6,12);
-  }
-  spr.onload=draw;draw();
-  // 操作：ボタンで開いて、STARTで開始。開いている間だけキーを使う
-  var md=document.getElementById('gmodal'),op=document.getElementById('gopen');
-  function openG(){md.hidden=false;document.documentElement.style.overflow='hidden';st='idle';reset();over.hidden=true;msg.innerHTML='<button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;draw();setTimeout(function(){var b=document.getElementById('gstart');if(b)b.focus();},50);}
-  function closeG(){if(window.ndSlotStop)ndSlotStop();md.hidden=true;document.documentElement.style.overflow='';cancelAnimationFrame(raf);if(st==='run')st='idle';}
-  window.ndJumpStop=function(){cancelAnimationFrame(raf);if(st==='run'){st='idle';msg.innerHTML='<button type="button" class="gstart" id="gstart">▶ START</button><span>おそってくるキャラたちをよけよう</span>';msg.classList.remove('hide');document.getElementById('gstart').onclick=start;}};
-  op.addEventListener('click',openG);
-  document.querySelectorAll('a[href="#game"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();openG();});});
-  md.querySelectorAll('[data-close]').forEach(function(b){b.addEventListener('click',closeG);});
-  document.getElementById('gstart').onclick=start;
-  addEventListener('keydown',function(e){if(md.hidden)return;if(e.key==='Escape'){closeG();return;}
-    if(e.code==='Space'||e.code==='ArrowUp'||e.key===' '){e.preventDefault();if(st==='run')jump();else start();}});
-  cv.parentNode.addEventListener('pointerdown',function(e){if(e.target.closest('.gstart'))return;e.preventDefault();jump();});
-  document.getElementById('gjump').addEventListener('pointerdown',function(e){e.preventDefault();if(st==='run')jump();else start();});
-})();
-</script>

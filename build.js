@@ -344,13 +344,18 @@ console.log(`article pages: ${arts.length}`);
       desc: "未開封のポケモンカードBOX・パックを箱に詰めて送るだけ。送料無料・最短当日入金。最新弾から絶版BOXまで買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。",
       pool() {
         const all = withImg("BOX").sort(byPrice);
-        const hot = shuffle(all.slice(0, 30));
-        return { hot, list: uniq(all, 120), k: r => /MEGA|SV/.test(r.set || "") ? "new" : "old" };
+        // BOX版LPの分類：box＝ふつうのBOX／sp＝スペシャルBOX・記念セットなど／pd＝未開封パック・デッキ
+        const kind = r => /デッキ|スターター/.test(r.name) ? "pd" : /FUTURISTIC|スペシャル|プレミアム|デラックス|コレクション|セット|トレーナーボックス/i.test(r.name) ? "sp" : "box";
+        const hot = shuffle(all.filter(r => kind(r) === "box").slice(0, 30));   // ファーストビューにはふつうのBOXだけ出す
+        const cnt = { box: 0, sp: 0, pd: 0 }; all.forEach(r => cnt[kind(r)]++);
+        console.log("lp(box): BOX " + cnt.box + "件 / スペシャルBOX " + cnt.sp + "件 / パック・デッキ " + cnt.pd + "件");
+        return { hot, list: uniq(all, 120), k: kind };
       },
       vpics: {
-        new: n => uniq(withImg("BOX").filter(x => /MEGA/.test(x.set) && !/デッキ|FUTURISTIC/i.test(x.name)), n),
+        new: n => uniq(withImg("BOX").filter(x => /MEGA/.test(x.set) && !/デッキ|FUTURISTIC|デラックス|プレミアム/i.test(x.name)), n),
         sv: n => uniq(withImg("BOX").filter(x => x.set === "SV").sort(byPrice), n),
         zep: n => uniq(withImg("BOX").filter(x => x.set === "SM" || x.set === "SS").sort(byPrice), n),
+        spb: n => uniq(withImg("BOX").filter(x => !/デッキ|スターター/.test(x.name) && /FUTURISTIC|スペシャル|プレミアム|デラックス|コレクション|セット|トレーナーボックス/i.test(x.name)).sort(byPrice), n),
         sp: n => uniq(withImg("BOX").filter(x => /30th|151|シャイニー|ユニバース|イーブイ|25th|クライマックス|GXウルトラ|タッグオール|ドリームリーグ|テラスタルフェス/i.test(x.name)).sort(byPrice), n),
       } },
     { key: "old", tpl: "lp_old.html", out: "lp/old/index.html", path: "/lp/old/",

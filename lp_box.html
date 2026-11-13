@@ -573,6 +573,13 @@ footer a{display:inline-block}footer .flogo{display:block;margin:0 auto 12px;pos
 
 /* 押せないカード（LINEに飛ばない・リンクなし） */
 .it.nolink{cursor:default}.it.nolink:hover{transform:none!important}
+
+/* ===== カーソルのキラキラ：旧裏版のドット演出のカラー版 ===== */
+.cur{animation-timing-function:steps(5)!important}
+.cur.bub{width:6px!important;height:6px!important;border-radius:0!important;border:0!important;background:var(--c)!important;box-shadow:6px 0 0 var(--c),-6px 0 0 var(--c),0 6px 0 var(--c),0 -6px 0 var(--c)!important}
+.cur.bub.p{--c:#E2453C}.cur.bub.c{--c:#2FB6E8}.cur.bub.l{--c:#FFC93C}.cur.bub.y{--c:#8E6CF0}
+.cur.star{font-family:"Press Start 2P",monospace!important;font-size:12px!important;color:#283048!important;text-shadow:2px 2px 0 #FFC93C!important}
+.cur.wl{font-family:"DotGothic16",monospace!important;font-weight:400!important;font-size:24px!important;background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important;color:var(--c)!important;-webkit-text-stroke:0!important;filter:none!important;text-shadow:2px 2px 0 #283048!important;animation-timing-function:steps(8)!important}
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -1219,7 +1226,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   document.querySelectorAll('.btn.g').forEach(function(b){b.addEventListener('mouseenter',function(e){if(reduce)return;var r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top+r.height/2,18,true)});
     if(fine&&!reduce){b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;b.style.transform='translate('+(x*10)+'px,'+(y*8)+'px) scale(1.03)';});b.addEventListener('mouseleave',function(){b.style.transform=''});}});
   // カーソルのキラキラ（PCのみ）
-  if(fine&&!reduce){var last=0,curKinds=['bub p','bub c','bub l','bub y','star','bub p','bub c','bub l'],ci=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');var k=curKinds[ci++%curKinds.length];d.className='cur '+k;if(k==='star')d.textContent='✦';d.style.left=(e.clientX+(Math.random()-.5)*10)+'px';d.style.top=(e.clientY+(Math.random()-.5)*10)+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},800);});
+  if(fine&&!reduce){var last=0,curKinds=['bub p','bub c','bub l','bub y','star','bub p','bub c','bub l'],ci=0;addEventListener('mousemove',function(e){var t=Date.now();if(t-last<70)return;last=t;var d=document.createElement('span');var k=curKinds[ci++%curKinds.length];d.className='cur '+k;if(k==='star')d.textContent='+';d.style.left=(e.clientX+(Math.random()-.5)*10)+'px';d.style.top=(e.clientY+(Math.random()-.5)*10)+'px';document.body.appendChild(d);setTimeout(function(){d.remove()},800);});
     // すごく動かすと「natadecoco」の文字がぷくぷく出る
     var px=null,py=null,dist=0,dT=0,wLast=0,mx=0,my=0,WORD='natadecoco',COLS=['#FF8FD0','#4FDDEB','#B391FF','#FF8FD0','#4FDDEB','#B391FF','#FF8FD0','#4FDDEB','#B391FF','#FFB23E'];addEventListener('mousemove',function(e){var t=Date.now();mx=e.clientX;my=e.clientY;if(px!==null){if(t-dT>400){dist=0;}dist+=Math.hypot(e.clientX-px,e.clientY-py);}px=e.clientX;py=e.clientY;dT=t;
       if(dist>1800&&t-wLast>4000){wLast=t;dist=0;var ox=mx,oy=my;WORD.split('').forEach(function(ch,k){setTimeout(function(){var d=document.createElement('span');d.className='cur wl';d.textContent=ch;d.style.setProperty('--c',COLS[k]);d.style.left=(ox+(k-4.5)*14)+'px';d.style.top=(oy-18+Math.sin(k*1.1)*4)+'px';d.style.setProperty('--r',((Math.random()-.5)*12)+'deg');document.body.appendChild(d);setTimeout(function(){d.remove()},1600);},k*55);});if(typeof burst==='function')burst(mx,my,6,true);}});}

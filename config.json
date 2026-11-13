@@ -4,6 +4,11 @@
   "shopName": "ポケモンカード専門店ナタデココ",
   "lineId": "@316mfilq",
   "lineAddUrl": "https://line.me/R/ti/p/@316mfilq?ts=08031903&oat_content=url",
+  "tracking": {
+    "ga4": "",
+    "ads": "",
+    "adsLabels": { "line_add": "", "apply": "" }
+  },
   "xUrl": "https://x.com/coco_kaitori",
   "shopUrl": "https://pokemon-card.shop/",
   "storesUrl": "/stores/",

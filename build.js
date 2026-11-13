@@ -95,7 +95,18 @@ page = page.replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("<!--__HEAD__-->", headCommon(CFG.siteName + "｜ポケモンカード買取価格表", "ポケモンカードの買取価格表。シングル・PSA10・未開封BOX・旧裏を毎日更新。", CFG.siteUrl + "/", CFG.siteUrl + "/ogp.png") + `
 <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>`);
 const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(SRC, "site_fx.html")) : "";   // 全ページ共通の仕上げ（LINEアイコン・進捗バー・キラキラ・キャラ反応）
-const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
+// 計測タグ（config.tracking に ID を入れたときだけ全ページの <head> に入る。空なら何も出ない）
+//   ga4 = GA4 の測定ID（G-XXXX） / ads = Google広告のタグID（AW-XXXX） / adsLabels = コンバージョンラベル
+//   成果：LINE友だち追加ボタン → line_add、「LINEで買取申込へ進む」（oaMessage）→ line_apply
+const TRK = CFG.tracking || {};
+const TRACK_TAG = (TRK.ga4 || TRK.ads) ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${TRK.ga4 || TRK.ads}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());${TRK.ga4 ? `gtag("config",${JSON.stringify(TRK.ga4)});` : ""}${TRK.ads ? `gtag("config",${JSON.stringify(TRK.ads)});` : ""}
+(function(){var ADS=${JSON.stringify(TRK.ads || "")},LB=${JSON.stringify(TRK.adsLabels || {})};
+document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="line.me"]');if(!a)return;
+var k=/oaMessage/.test(a.href)?"apply":"line_add";gtag("event",k==="apply"?"line_apply":"line_add",{link_id:a.id||a.className||"",page_path:location.pathname});
+if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</script>
+` : "";
+const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 write("index.html", wrap(page));
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */

@@ -266,7 +266,7 @@ document.querySelectorAll('[data-count]').forEach(function(c){var to=parseInt(St
 /* 応募フォーム：ENDPOINT に受け取り先（Apps Script のURL）を入れると、そこへ直接送信します。
    空のあいだは、応募者のメールアプリを開いて本文に内容を入れる方式で動きます。 */
 (function(){var f=document.getElementById('af');if(!f)return;
-  var ENDPOINT='';var TO='natadecoco@pokemon-card.shop';
+  var ENDPOINT='https://script.google.com/macros/s/AKfycbxOJ_GqgqY7J0qrELDVCHI0q1huqLd4IUS4TVJEOXrlqJbqJ6C8sWyD0X3ZcwzsgneM/exec';var TO='natadecoco@pokemon-card.shop';
   var err=document.getElementById('aerr'),btn=document.getElementById('asub');
   function v(n){var e=f.elements[n];return e&&e.value?String(e.value).trim():'';}
   function mark(el,bad){if(el)el.classList.toggle('bad',!!bad);}

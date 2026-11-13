@@ -721,6 +721,34 @@ function cartText(){
   return lines.join("\n");
 }
 function lineUrl(){return `https://line.me/R/oaMessage/${encodeURIComponent(CONFIG.lineId)}/?${encodeURIComponent(cartText())}`;}
+/* PCでは line.me/R/oaMessage が開けない（LINEのトップに飛ぶ）ため、スマホで読み取るQRとコピーを出す */
+function isMobile(){return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||(navigator.maxTouchPoints>1&&/Macintosh/.test(navigator.userAgent));}
+function loadQR(cb){if(window.qrcode)return cb();const s=document.createElement("script");s.src=(CONFIG.base||"/")+"img/qrcode.js";s.onload=cb;s.onerror=()=>cb();document.head.appendChild(s);}
+function pcApply(){
+  const url=lineUrl(),txt=cartText();
+  let m=document.getElementById("pcApply");if(m)m.remove();
+  m=document.createElement("div");m.id="pcApply";
+  m.style.cssText="position:fixed;inset:0;z-index:9999;background:rgba(23,59,92,.45);display:flex;align-items:center;justify-content:center;padding:16px";
+  m.innerHTML=`<div style="background:#fff;border-radius:20px;max-width:440px;width:100%;padding:24px 22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.2);position:relative">
+    <button type="button" id="pcaX" aria-label="閉じる" style="position:absolute;right:12px;top:8px;border:0;background:none;font-size:26px;cursor:pointer;color:#5A6B76">×</button>
+    <b style="font-size:18px;color:#173B5C">スマホのLINEで申し込んでください</b>
+    <p style="font-size:13px;color:#5A6B76;margin:8px 0 12px">パソコンからはLINEのトークを直接開けません。<br>スマホのカメラで下のQRを読み取ると、<br>買取内容が入力された状態でLINEが開きます。</p>
+    <div id="pcaQR" style="display:flex;justify-content:center;min-height:120px;align-items:center;color:#5A6B76;font-size:12px">QRを作成中…</div>
+    <p style="font-size:12px;color:#5A6B76;margin:12px 0 8px">パソコン版LINEを使う方は、内容をコピーして<br>公式LINE（${esc(CONFIG.lineId)}）のトークに貼り付けて送信してください。</p>
+    <button type="button" id="pcaCopy" style="border:0;border-radius:999px;background:#06C755;color:#fff;font-weight:700;padding:10px 22px;cursor:pointer;font-size:14px">買取内容をコピー</button>
+  </div>`;
+  document.body.appendChild(m);
+  m.onclick=e=>{if(e.target===m)m.remove();};
+  m.querySelector("#pcaX").onclick=()=>m.remove();
+  m.querySelector("#pcaCopy").onclick=()=>{(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast("コピーしました"),()=>{const ta=document.createElement("textarea");ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();toast("コピーしました");});};
+  loadQR(()=>{const box=m.querySelector("#pcaQR");
+    let u=url;if(u.length>2400||!window.qrcode)u=CONFIG.lineAddUrl;
+    try{const q=qrcode(0,"L");q.addData(u);q.make();box.innerHTML=q.createSvgTag({cellSize:4,margin:2,scalable:true});const sv=box.querySelector("svg");if(sv){sv.style.width="220px";sv.style.height="220px";}
+      if(u!==url)box.insertAdjacentHTML("beforeend",'<p style="font-size:12px;color:#c0392b;margin:6px 0 0">内容が多いため、QRは友だち追加用です。<br>LINEを開いたら、コピーした内容を貼り付けてください。</p>');box.style.flexDirection="column";
+    }catch(e){box.innerHTML=`<img src="${(CONFIG.base||"/")}img/line_qr.png" alt="LINE友だち追加QR" width="200" height="200">`;}
+  });
+}
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("#applyBtn");if(!a||isMobile())return;e.preventDefault();pcApply();});
 let toastT;function toast(m){let t=$(".toast");if(!t){t=document.createElement("div");t.className="toast";document.body.appendChild(t);}t.textContent=m;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),2200);}
 
 /* ============================ イベント ============================ */

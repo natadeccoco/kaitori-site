@@ -94,7 +94,7 @@ const makePage = (mode) => { const st = mode === "store";
 return pageTpl.replace(/__SELLMODE__/g, mode)
   .replace("__PAGETITLE__", st ? "ナタデココ ポケカ買取価格表｜店頭買取" : "ナタデココ ポケカ買取価格表｜宅配買取")
   .replace("__MODELABEL__", st ? "店頭買取" : "宅配買取")
-  .replace("__MODELINK__", st ? `<a class="modelink" href="/takuhai/">📦 お店に行けない方は宅配買取（送料無料） ›</a>` : `<a class="modelink" href="/">🏪 店頭買取の方はこちら ›</a>`)
+  .replace("__MODELINK__", st ? "" : `<a class="modelink" href="/">🏪 店頭買取の方はこちら ›</a>`)
   .replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("__DATA__", dataJson)
   .replace(/__STORES_URL__/g, CFG.storesUrl)

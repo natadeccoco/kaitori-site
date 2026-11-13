@@ -141,7 +141,7 @@ BOX,"(ショートパック)拡張パック第2弾 ポケモンジャングル�
 旧裏,"ピチュー LV.5(修正版)",-
 旧裏,"バクフーン LV.55(修正版/バーストフレイム60+)",-
 # 2026-11-13 調査で根拠が取れたもの（カードラッシュの商品名・買取価格、カード画像の照合、Mycaの商品情報）。4列目は型番（同名の別行と区別するため）
-ポケモン,"ピカチュウ(20thアニバーサリー)",card/XY-P/XY-P_v.jpg,"XY-P"
+ポケモン,"ピカチュウ(20thアニバーサリー)",https://natadeccoco.github.io/kaitori-site/own/pikachu_20th_arita,"XY-P"
 旧裏,"＿のピカチュウ LV.17(未開封/ポケモンカードになったワケ)",card/puromo01/puromo01_120.jpg
 ポケモン,"チャンピオンズリーグ(2005)",card/PCG-P/cl2005.jpg
 ポケモン,"シロナの想い",card/DP-P/DP-P_t02.jpg
@@ -288,7 +288,7 @@ BOX,"ソード＆シールドミステリーボックス",box/mb.jpg
 BOX,"スペシャルセット　スターターセットV炎",box/sevensp.jpg
 BOX,"ポケモンカードゲームDP エントリーパック【未開封パック】",box/DP1-4.jpg
 BOX,"プレミアムトレーナーボックスex「スカーレット＆バイオレット」",box/SVB.jpg
-BOX,"MEGAプロモカードパック(マクドナルド/ハッピーセット)【未開封パック】",box/mac_mega.jpg
+BOX,"MEGAプロモカードパック(マクドナルド/ハッピーセット)【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/mac_mega_pack
 # 2026-11-13 重複点検で見つかった画像の誤り（同じ画像が別商品に出ていたもの）
 旧弾,"キングドラ",card/ekaku3/e3041.jpg,"041/087"
 BOX,"第1弾 スターターパック【未開封パック】",box/starter1.jpg

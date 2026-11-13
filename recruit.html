@@ -237,7 +237,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
     <label class="fl">お住まいの最寄り駅<input type="text" name="station" maxlength="40" placeholder="柏駅"></label>
   </div>
   <label class="fl">勤務できる曜日・時間帯<input type="text" name="shift" maxlength="120" placeholder="例：平日の午後と、土日は終日"></label>
-  <label class="fl">自己PR・ご質問など<textarea name="pr" rows="5" maxlength="1000" placeholder="接客の経験、ポケカの経験、聞いてみたいことなど、自由にお書きください"></textarea></label>
+  <label class="fl">ご質問など<textarea name="pr" rows="4" maxlength="1000" placeholder="聞いてみたいことがあれば、自由にお書きください"></textarea></label>
   <input type="text" name="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
   <label class="ck"><input type="checkbox" name="adult" required><span>18歳以上で、高校生ではありません</span></label>
   <label class="ck"><input type="checkbox" name="agree" required><span><a href="/privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>に同意します（ご入力いただいた内容は、採用の選考とご連絡だけに使います）</span></label>
@@ -287,7 +287,7 @@ document.querySelectorAll('[data-count]').forEach(function(c){var to=parseInt(St
       fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)}).then(function(r){return r.json()}).then(function(j){if(j&&j.ok)done();else throw 0;})
       .catch(function(){btn.disabled=false;btn.textContent='この内容で応募する';err.textContent='送信できませんでした。少し時間をおいてもう一度お試しいただくか、お電話・メールでご連絡ください。';err.hidden=false;});
       return;}
-    var body=['【採用応募】','','希望の働き方：'+d.type,'希望の店舗：'+d.store,'お名前：'+d.name+'（'+d.kana+'）','年齢：'+d.age,'電話番号：'+d.tel,'メール：'+d.email,'最寄り駅：'+d.station,'勤務できる曜日・時間帯：'+d.shift,'','自己PR・ご質問：',d.pr].join('\n');
+    var body=['【採用応募】','','希望の働き方：'+d.type,'希望の店舗：'+d.store,'お名前：'+d.name+'（'+d.kana+'）','年齢：'+d.age,'電話番号：'+d.tel,'メール：'+d.email,'最寄り駅：'+d.station,'勤務できる曜日・時間帯：'+d.shift,'','ご質問など：',d.pr].join('\n');
     location.href='mailto:'+TO+'?subject='+encodeURIComponent('採用応募（'+d.type+'・'+d.store+'）'+d.name)+'&body='+encodeURIComponent(body);
     done('メールアプリが開きます。そのまま送信すると応募が完了します。開かない場合は、お電話かメールでご連絡ください。');
   });

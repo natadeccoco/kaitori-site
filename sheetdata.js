@@ -63,12 +63,13 @@ function sheetToItems(data, cfg) {
 function loadOverrides(csvText) {
   const m = new Map();
   if (!csvText) return m;
-  for (const r of parseCSV(csvText.replace(/^﻿/, "")).slice(1)) { if (r.length >= 3 && r[1]) m.set(r[0] + "|" + norm(r[1]), r[2].trim()); }
+  // 4列目（型番）があるときは「カテゴリ＋名前＋型番」で指定する（同じ名前で型番違いの行があるため）
+  for (const r of parseCSV(csvText.replace(/^﻿/, "")).slice(1)) { if (r.length >= 3 && r[1]) m.set(r[0] + "|" + norm(r[1]) + (r[3] && r[3].trim() ? "|" + norm(r[3]) : ""), r[2].trim()); }
   return m;
 }
 function resolveImages(items, cat, overrides = new Map()) {
   for (const it of items) {
-    const ov = overrides.get(it.cat + "|" + norm(it.name));
+    const ov = overrides.get(it.cat + "|" + norm(it.name) + "|" + norm(it.no || "")) || overrides.get(it.cat + "|" + norm(it.name));
     if (ov) { it.img = ov === "-" ? "" : /^https?:/.test(ov) ? ov : THUMB_PREFIX + ov; it.imgCands = 1; continue; }
     if (it.img) continue;
     if (it.cat === "汎用") continue;

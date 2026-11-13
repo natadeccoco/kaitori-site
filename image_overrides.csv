@@ -98,7 +98,6 @@
 旧裏,"ミュウツー(英語表記/JRスタンプラリー銀ｺｰｽ)",-
 旧裏,"プリン(英語表記/ハイパーコロコロ)",-
 旧裏,"ミュウ(英語表記/月刊コミックGOTTA)",-
-旧裏,"ヤドン LV.9",-
 旧裏,"エレブー LV.20",card/kinginshinsekai/neo1039.jpg
 PSA,"ポンチョを着たピカチュウ（ギャラドス）",card/XY-P/XY-P_151.jpg
 PSA,"ポンチョを着たピカチュウ（コイキング）",card/XY-P/XY-P_150.jpg
@@ -141,3 +140,152 @@ BOX,"(ショートパック)拡張パック第2弾 ポケモンジャングル�
 旧裏,"ルージュラ LV.22(拡張シート)",-
 旧裏,"ピチュー LV.5(修正版)",-
 旧裏,"バクフーン LV.55(修正版/バーストフレイム60+)",-
+# 2026-11-13 調査で根拠が取れたもの（カードラッシュの商品名・買取価格、カード画像の照合、Mycaの商品情報）。4列目は型番（同名の別行と区別するため）
+ポケモン,"ピカチュウ(20thアニバーサリー)",card/XY-P/XY-P_v.jpg,"XY-P"
+旧裏,"＿のピカチュウ LV.17(未開封/ポケモンカードになったワケ)",card/puromo01/puromo01_120.jpg
+ポケモン,"チャンピオンズリーグ(2005)",card/PCG-P/cl2005.jpg
+ポケモン,"シロナの想い",card/DP-P/DP-P_t02.jpg
+ポケモン,"ギャラドス",card/XY-P/XY-P_gyara.jpg,"XY-P"
+旧裏,"＿のピカチュウ LV.17(ポケモンカードになったワケ)",card/puromo01/puromo01_120.jpg
+PSA,"ピッチのピカチュウ",card/XY-P/XY-P_i.jpg,"XY-P"
+BOX,"リザードン★炎【未開封パック】",box/rizadon.jpg
+ポケモン,"ピカチュウ(ともだちのわ)",card/XY-P/XY-P_.jpg,"XY-P"
+BOX,"まぼろしのミュウ【未開封パック】",box/myustart.jpg
+ポケモン,"ピカチュウ(藤田ニコル)",card/XY-P/XY-P_g.jpg,"XY-P"
+ポケモン,"ピカチュウ(日本語/青背景)",card/PW/PW_001.jpg,"PW"
+BOX,"タッグオールスターズ",box/sm12a_b.jpg
+ポケモン,"ピッチのピカチュウ(小学生以下)",card/XY-P/XY-P_j.jpg,"XY-P"
+ポケモン,"ミズキの検索(キラ)",card/DP-P/DP-P_t05.jpg
+ポケモン,"バトルロードスタジアム (バトルロードスタジアムDPクリア賞)",card/DP-P/DP-P_s01.jpg
+ポケモン,"ピッチのピカチュウ",card/XY-P/XY-P_i.jpg,"XY-P"
+BOX,"デオキシスデッキ【未開封パック】",box/deokisi.jpg
+BOX,"タイプユニット雷【未開封パック】",box/typekaminari.jpg
+BOX,"ミズゴロウデッキ【未開封パック】",box/mizugorou.jpg
+BOX,"フシギバナ★草【未開封パック】",box/husigibana.jpg
+BOX,"カメックス★水【未開封パック】",box/kamekusu.jpg
+BOX,"アチャモデッキ【未開封パック】",box/atyamo.jpg
+BOX,"キモリデッキ【未開封パック】",box/kimori.jpg
+ポケモン,"ミュウ(古代文字Nintendo後期)",card/puromo01/puromo01_091b.jpg
+BOX,"MミュウツーEX(赤い閃光/破天の怒りVer.)【スペシャルジャンボカードパック】",box/akamyu.jpg
+BOX,"MミュウツーEX(青い衝撃/破天の怒りVer.)【スペシャルジャンボカードパック】",box/aomyu.jpg
+ポケモン,"ミュウ(古代文字Nintedo)",card/puromo01/puromo01_091.jpg
+BOX,"名探偵ピカチュウ",box/smP2_b.jpg
+BOX,"大海のカイオーガex【未開封パック】",box/kaiostart.jpg
+BOX,"大地のグラードンex【未開封パック】",box/gradstart.jpg
+ポケモン,"ミュウ(古代文字Nintendo前期)",card/puromo01/puromo01_091a.jpg
+ポケモン,"ダークライEX",card/BW-P/BW-P_darkrai.jpg,"BW-P"
+BOX,"ホウオウGX【スペシャルジャンボカードパック】",box/houhou.jpg
+ポケモン,"ミュウ(古代文字2019)",card/SM-P/SM-P_091d.jpg
+BOX,"フライゴンデッキ【未開封パック】",box/huraigon.jpg
+BOX,"ボーマンダデッキ【未開封パック】",box/bomanda.jpg
+ポケモン,"ピカチュウ(ワールド/日本/緑背景)",card/PW_2/PW_001.jpg,"PW"
+ポケモン,"ピカチュウ(ワールド/日本/青背景)",card/PW/PW_001.jpg,"PW"
+BOX,"ファミリーポケモンカードゲーム(サン＆ムーン)",box/familysm.jpg
+BOX,"バクフーンex★炎【未開封パック】",box/bakuhun.jpg
+BOX,"スペシャルセット 「ピカチュウ(ヤマダ電機・ポケモンセンター限定)」",box/sppika.jpg
+BOX,"メガニウムex★草【未開封パック】",box/meganiu.jpg
+ポケモン,"オーキドはかせの訪問(キラ)",card/DP-P/DP-P_t03.jpg
+BOX,"メタグロスデッキ【未開封パック】",box/startmetagu.jpg
+ポケモン,"鍛冶屋",card/XY-P/XY-P_kazi.jpg,"XY-P"
+BOX,"オーダイルex★水【未開封パック】",box/odairu.jpg
+ポケモン,"ミュウ(古代文字Wizards)",card/puromo01/puromo01_091c.jpg
+BOX,"プレミアムファイル【未開封パック】",box/prefile.jpg
+ポケモン,"基本悪エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE7.jpg,"XY-P"
+ポケモン,"基本鋼エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE8.jpg,"XY-P"
+BOX,"タイプユニット水【未開封パック】",box/typemizu.jpg
+ポケモン,"ピカチュウ(ジャンボカード)",card/jumbo/pikatoy_jumbo.jpg,"XY-P"
+ポケモン,"ハマナのリサーチ(キラ)",card/DP-P/DP-P_t04.jpg
+ポケモン,"水の都のラティアス",card/10th/10th_009.jpg
+ポケモン,"水の都のラティオス",card/10th/10th_010.jpg
+ポケモン,"勝利のメダル(金2007/ピカチュウ)",card/DP-P/DP-P_m01.jpg
+ポケモン,"基本草エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE01.jpg,"XY-P"
+ポケモン,"基本炎エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE2.jpg,"XY-P"
+ポケモン,"基本水エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE3.jpg,"XY-P"
+ポケモン,"基本雷エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE4.jpg,"XY-P"
+ポケモン,"基本超エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE5.jpg,"XY-P"
+ポケモン,"基本闘エネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE6.jpg,"XY-P"
+ポケモン,"ミュウ(古代文字2020韓国)",card/SM-P/SM-P_091e.jpg
+ポケモン,"アブソルEX",card/XY-P/XY-P_abu01.jpg,"XY-P"
+BOX,"雷震! バンギラスex【未開封パック】",box/bangiex.jpg
+旧裏,"イマクニ？のドードー LV.15",card/gymyami/1stgym2098.jpg
+ポケモン,"基本フェアリーエネルギー(ファーストデザインキラ)",card/XY-P/XY-P_ENE9.jpg,"XY-P"
+BOX,"タイプユニット草【未開封パック】",box/typekusa.jpg
+ポケモン,"プラズマ団バッジ",card/BW-P/BW-P_000.jpg,"BW-P"
+BOX,"ピカチュウと新しい仲間たち(SM0)",box/sm0.jpg
+旧弾,"ミュウツーLV.X(右向き)",card/DP-4/DP-4_018.jpg
+ポケモン,"勝利のメダル(銀2006/ピカチュウ)",card/DP-P/DP-P_m02.jpg
+BOX,"マリィの練習【トレーナーカードコレクション】",box/mary.jpg
+BOX,"SHINY BOX クロバットV(シャイニースターV)",box/shikuro.jpg
+ポケモン,"時を超えたセレビィ",card/10th/10th_001.jpg
+ポケモン,"殿堂の書",card/XY-P/XY-P_dendou.jpg,"XY-P"
+ポケモン,"ジムバッジ(エリカ キラ仕様)",card/XY-P/XY-P_gym012.jpg,"XY-P"
+BOX,"タイプユニット炎【未開封パック】",box/typehonoo.jpg
+BOX,"ルリナの休息【トレーナーカードコレクション】",box/ruri.jpg
+BOX,"タイプユニット超【未開封パック】",box/typecho.jpg
+BOX,"タイプユニット闘【未開封パック】",box/typetou.jpg
+ポケモン,"ジムバッジ(カスミ キラ仕様)",card/XY-P/XY-P_gym010.jpg,"XY-P"
+ポケモン,"勝利のメダル(銀/金箔押しジムチャレンジ2006)",card/DP-P/DP-P_m02p.jpg
+ポケモン,"殿堂の書",card/SM-P/SM-P_den.jpg,"SM-P"
+ポケモン,"ジムバッジ(ナツメ│キラ仕様)",card/XY-P/XY-P_gym014.jpg,"XY-P"
+BOX,"サイトウの放課後【トレーナーカードコレクション】",box/sai.jpg
+旧弾,"ゴウカザルLV.X",card/DP1-2/DP1-2_025.jpg
+BOX,"ハイクラスパック「タッグオールスターズ」【未開封パック】",box/sm12a.jpg
+ポケモン,"時空のゆがみ",card/DP-P/DP-P_g06.jpg
+旧弾,"パルキアLV.X(右向き)",card/DP3-1/DP3-1_045.jpg
+BOX,"キバナの不屈【トレーナーカードコレクション】",box/kiba.jpg
+BOX,"ダンデの助言【トレーナーカードコレクション】",box/dan.jpg
+ポケモン,"ミュウツー＆ミュウGX(ジャンボカード)",card/jumbo/myu2myugx_jumbo.jpg,"SM-P"
+ポケモン,"結晶塔のエンテイ",card/10th/10th_002.jpg
+ポケモン,"ダークルギア(ジャンボカード)",card/jumbo/darkrugia_jumbo.jpg
+BOX,"ビートの決心【トレーナーカードコレクション】",box/beat.jpg
+ポケモン,"基本悪エネルギー(BREAK UR)",card/XY-P/XY-P_ENE25.jpg,"XY-P"
+ポケモン,"ゴージャスボール(キラ)",card/DP-P/DP-P_b01.jpg
+ポケモン,"アブソル",card/XY-P/XY-P_abu03.jpg,"XY-P"
+旧弾,"エンペルトLV.X",card/DP1-2/DP1-2_037.jpg
+BOX,"ホップの日課【トレーナーカードコレクション】",box/hop.jpg
+旧弾,"ディアルガLV.X(左向き)",card/DP3-1/DP3-1_114.jpg
+旧弾,"ディアルガLV.X(右向き)",card/DP3-3/DP3-3_001.jpg
+旧弾,"パルキアLV.X(左向き)",card/DP3-2/DP3-2_001.jpg
+ポケモン,"ジムバッジ(サカキ キラ仕様)",card/XY-P/XY-P_gym016.jpg,"XY-P"
+ポケモン,"ジムバッジ(タケシ キラ仕様)",card/XY-P/XY-P_gym09.jpg,"XY-P"
+ポケモン,"ジムバッジ(マチス│キラ仕様)",card/XY-P/XY-P_gym011.jpg,"XY-P"
+ポケモン,"改造ハンマー",card/BW-P/BW-P_00000_5.jpg,"BW-P"
+ポケモン,"ジムバッジ(キョウ キラ仕様)",card/XY-P/XY-P_gym013.jpg,"XY-P"
+ポケモン,"ジムバッジ(カツラ キラ仕様)",card/XY-P/XY-P_gym015.jpg,"XY-P"
+ポケモン,"まんたんのくすり",card/BW-P/BW-P_00000_4.jpg,"BW-P"
+ポケモン,"基本草エネルギー(BREAK UR)",card/XY-P/XY-P_ENE26.jpg,"XY-P"
+BOX,"カードボックス「サルノリ・ヒバニー・メッソン(カード付き)」",box/ss_cardbox.jpg
+BOX,"メガエルレイドex【スペシャルカードセット】",box/SP_ME.jpg
+旧弾,"ドダイトスLV.X",card/DP1-2/DP1-2_019.jpg
+ポケモン,"ミュウ(30th)",card/M6a/M6a_RED_w2.jpg,"R/RGB"
+ポケモン,"ミュウ(30th)",card/M6a/M6a_GREEN_w.jpg,"G/RGB"
+ポケモン,"ミュウ(30th)",card/M6a/M6a_BLUE_w.jpg,"B/RGB"
+BOX,"イーブイズセット",box/ivsp.jpg
+BOX,"プレミアムトレーナーボックス「サン&ムーン」",box/presm.jpg
+旧裏,"古代ミュウ(前期修正版)",card/puromo01/puromo01_091a.jpg
+旧裏,"古代ミュウ(後期修正版)",card/puromo01/puromo01_091b.jpg
+BOX,"ポケモンカードe基本拡張パック【未開封パック】",box/e1.jpg
+BOX,"「オコヤの森のセレビィ&ザルード」セブンイレブンセット",box/okoya.jpg
+旧裏,"古代ミュウ(エラー版)",card/puromo01/puromo01_091.jpg
+BOX,"クララ＆セイボリーセット",box/sfcb.jpg
+BOX,"地図にない町(マクドナルド/ハッピーセット)【未開封パック】",box/e_promo2.jpg
+BOX,"ホロンの研究塔 炎EX【未開封パック】",box/harfhonoo.jpg
+BOX,"ホロンの研究塔 雷EX【未開封パック】",box/harfkami.jpg
+旧裏,"古代ミュウ(2019年版/パンフレット付き)",card/SM-P/SM-P_091d.jpg
+BOX,"ホロンの研究塔 水EX【未開封パック】",box/harfmizu.jpg
+BOX,"TAG TEAM GX スターターデラックスセット「エーフィ&デオキシスGX/ブラッキー&ダークライGX」",box/tagstart.jpg
+BOX,"ルリナセット",box/vruri.jpg
+BOX,"海からの風(マクドナルド/ハッピーセット)【未開封パック】",box/e_promo1.jpg
+旧裏,"古代ミュウ(2019年版)",card/SM-P/SM-P_091d.jpg
+BOX,"ミュウツー＆ミュウGXver(ミュウツーの逆襲公開記念)【スペシャルジャンボカードパック】",box/spjmyu.jpg
+旧裏,"古代ミュウ(海外版/未開封)",card/puromo01/puromo01_091c.jpg
+旧弾,"キングドラ(キラ)",card/ekaku3/e3042.jpg,"042/087"
+旧裏,"古代ミュウ(海外版)",card/puromo01/puromo01_091c.jpg
+BOX,"※初版SR加工※スターターセットVMAX「リザードン」",box/sC_R.jpg
+旧裏,"ヤドン LV.9",card/puromo01/puromo01_008.jpg
+BOX,"ポケモンカードゲームDPt エントリーパック【未開封パック】",box/Dpt-4.jpg
+BOX,"ソード＆シールドミステリーボックス",box/mb.jpg
+BOX,"スペシャルセット　スターターセットV炎",box/sevensp.jpg
+BOX,"ポケモンカードゲームDP エントリーパック【未開封パック】",box/DP1-4.jpg
+BOX,"プレミアムトレーナーボックスex「スカーレット＆バイオレット」",box/SVB.jpg
+BOX,"MEGAプロモカードパック(マクドナルド/ハッピーセット)【未開封パック】",box/mac_mega.jpg

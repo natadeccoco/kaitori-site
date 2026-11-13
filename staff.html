@@ -46,7 +46,7 @@ textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focu
 </main>
 <script>
 (function(){
-  var URL_="__STAFF_URL__",HASH="ed053874ca199cc53e11c9f4aeaeccd07da652d1c19e3cbdbad5fd9fadba2532",PASS="";
+  var URL_="__STAFF_URL__",HASH="abce25ef514496acadc191fd51aac3ba8c508396d2f2e14a291e4b03907ad6b3",PASS="";
   var $=function(i){return document.getElementById(i)};
   function sha(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("")})}
   function open_(p){PASS=p;$("gate").hidden=true;$("form").hidden=false;try{sessionStorage.setItem("nd_staff",p);var s=localStorage.getItem("nd_staff_store"),n=localStorage.getItem("nd_staff_name");if(s)$("store").value=s;if(n)$("name").value=n;}catch(e){}}

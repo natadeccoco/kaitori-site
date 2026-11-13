@@ -10,6 +10,7 @@ const dedupeKey = r => norm(r.name).replace(/[（）()［］\[\]「」【】、,
 /* カード名の照合キー：括弧・LV・記号・空白を除き、ex/EX/ＥＸ や δ 表記のゆれをそろえる */
 const nameKey = s => (s || "").normalize("NFKC").replace(/[（(].*?[)）]/g, "").replace(/LV\.?\s*\d+/gi, "")
   .replace(/δ-?デルタ種?/g, "δ").replace(/[\s・･\-—「」【】\[\]☆★♪!?,.\/_&＆']/g, "").toLowerCase();
+// 名前の照合（型番が一致している候補どうしで使う）：同じ名前か、片方がもう片方を含むとき
 const nameOK = (sheet, catalog) => { const a = nameKey(sheet), b = nameKey(catalog); if (!a || !b) return false; return a === b || (a.length >= 2 && (b.includes(a) || a.includes(b))); };
 /** master_images.csv を読み込んで索引を作る */
 function loadCatalog(csvText) {
@@ -100,8 +101,10 @@ function scoreCands(it, cands, cat) {
    名前が合う候補が無いときは画像なし（違うカードを出すより安全）。カタログにその弾が無いときだけ命名規則から推定する */
 function matchCard(it, cat) {
   it.imgWhy = "";
-  if (it.no) {
-    if (/[+＋]|\s\d/.test(it.no)) { const first = { ...it, no: it.no.split(/[+＋\s]+/)[0].trim() }; const r = matchCard(first, cat); if (r) { it.imgAlt = first.imgAlt; it.imgWhy = first.imgWhy; return r; } }
+  // 「XY-P」「SM-P」のように番号のない型番は、型番としては使わない（同じ型番のカードが何十枚もあるため）
+  const specificNo = /\d/.test(it.no || "");   // 数字を含むものだけを型番として扱う
+  if (it.no && specificNo) {
+    if (/[+＋~〜]|\s\d/.test(it.no)) { const first = { ...it, no: it.no.split(/[+＋~〜\s]+/)[0].trim() }; const r = matchCard(first, cat); if (r) { it.imgAlt = first.imgAlt; it.imgWhy = first.imgWhy; return r; } }
     const all = cat.byNoList.get(it.no) || [];
     const expAlnum = it.exp.replace(/[^A-Za-z0-9+\-]/g, "").toLowerCase(), color = { 青: "B", 赤: "R", 緑: "G", 白: "W", 黒: "K", 黄: "Y", 銀: "S", 金: "G" }[(it.exp.match(/[青赤緑白黒黄銀金]/) || [])[0]];
     const hs = hints(it.name);
@@ -122,12 +125,25 @@ function matchCard(it, cat) {
     if (c.length) { it.imgAlt = c.slice(1).map(x => CARD_PREFIX + x); it.imgWhy = "guess"; return CARD_PREFIX + c[0]; }
     if (all.length) return "";
   }
-  // 型番なし：名前が同じカードの中から、パック名・括弧内ヒント・レアリティで選ぶ
-  const same = cat.byNameKey.get(nameKey(it.name)) || [];
-  const scored = scoreCands(it, same, cat);
-  if (!scored.length) return "";
-  it.imgCands = scored.filter(z => z.sc === scored[0].sc).length; it.imgWhy = "name-only";
-  return scored[0].x.img;
+  // 型番なし：名前だけで決めると別のカードに当たるので、次のどちらかのときだけ画像を付ける
+  //  ・同じ名前のカードがカタログに1枚しかなく、シート名に括弧書き（バージョン違いの指定）がない
+  //  ・シートのパック名とカタログのパック名が一致していて、その中で1枚に決まる
+  const hs0 = hints(it.name).filter(h => h.length >= 2 && !/^(キラ|ミラー|未開封|開封済|プロモ|ジャンボカード|日本語|英語版)$/.test(h));
+  const base = nameKey(it.name);
+  let same = cat.byNameKey.get(base) || [];
+  // 「チャンピオンズフェスティバル(2019)」→ カタログ「チャンピオンズフェスティバル 2019」のように、括弧の中身が名前の一部になっている場合
+  for (const h of hs0) { const k = cat.byNameKey.get(base + nameKey(h)); if (k && k.length) same = same.concat(k.map(x => ({ ...x, viaHint: true }))); }
+  if (!same.length) return "";
+  const hasHint = /[（(]/.test(it.name);
+  const imgs = l => [...new Set(l.map(x => x.img))];
+  if (!hasHint && imgs(same).length === 1) { it.imgCands = 1; it.imgWhy = "name-only(1枚だけ)"; return same[0].img; }
+  const sp = strip(it.set || "");
+  if (!hasHint && sp.length >= 3) { const inPack = same.filter(x => { const xp = strip(x.pack || ""); return xp && (xp === sp || xp.includes(sp) || sp.includes(xp)); });
+    if (imgs(inPack).length === 1) { it.imgCands = 1; it.imgWhy = "name+pack"; return inPack[0].img; } }
+  if (hasHint && hs0.length) {   // 括弧書きの語がカタログの名前かパック名に入っている候補が、1枚に決まるときだけ
+    const hit = same.filter(x => x.viaHint || hs0.some(h => strip(x.name).includes(h) || strip(x.pack || "").includes(h)));
+    if (imgs(hit).length === 1) { it.imgCands = 1; it.imgWhy = "name+hint"; return hit[0].img; } }
+  return "";
 }
 /* BOX・パック・デッキ：シートの名前（「拡張パック第5弾「リューズブラスト」」「海からの風【未開封パック】」など）から
    飾りの語を取りのぞいた「芯の名前」で、Mycaカタログ（「リューズブラスト BOX」「リューズブラスト」）に当てる。
@@ -168,6 +184,11 @@ function matchOld(it, cat) {
   const b = baseName(it.name); if (!b) return "";
   let c = cat.old.filter(x => x.base === b); if (!c.length) c = cat.old.filter(x => x.key.includes(b));
   if (!c.length) return "";
+  // LVが両方に書いてあって違うものは、別のカードなので候補から外す
+  const lvOf = t => { const m = (t || "").normalize("NFKC").match(/LV\.?\s*(\d+)/i); return m ? m[1] : ""; };
+  const myLv = lvOf(it.name);
+  if (myLv) c = c.filter(x => { const l = lvOf(x.name); return !l || l === myLv; });
+  if (!c.length) return "";
   const rr = it.rarity;
   if (rr && rr !== "-" && rr !== "P") { const f = c.filter(x => x.rarity === rr); if (f.length) c = f; }
   if (rr === "P") { const f = c.filter(x => /PROMO/i.test(x.rarity)); if (f.length) c = f; }
@@ -188,6 +209,8 @@ function matchOld(it, cat) {
     return { x, s };
   }).sort((a, b) => b.s - a.s);
   const tied = scored.filter(z => z.s === scored[0].s); it.imgCands = tied.length; it.imgCandList = tied.map(z => ({ img: z.x.img, pack: z.x.pack, name: z.x.name }));
+  // 同点の候補が複数あって画像が違うときは、どれか決められないので画像なしにする（image_overrides.csv で指定したものは別）
+  if (new Set(tied.map(z => z.x.img)).size > 1) return "";
   return scored[0].x.img;
 }
 

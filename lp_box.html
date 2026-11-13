@@ -556,6 +556,20 @@ footer{background:linear-gradient(180deg,#EAF0FA,#DCE6F8)}
 
 /* 見出しの番号は見出しの上に置く（横に並ばないように） */
 .sh .no{display:table;margin:0 auto 10px}
+
+/* 改行を自然に：文節のかたまり（.ph）の途中では折り返さない */
+.ph{display:inline-block}
+p,li,small,summary,h2,h3{line-break:strict}
+.it .tx b .ph{font:inherit;color:inherit;margin:0;opacity:1;letter-spacing:inherit}
+.it .tx b{line-height:1.3}
+/* 最後のCTA：ナタデココちゃんを右に大きく */
+.final .fin2{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;text-align:left}
+.final .fin2 .cta{justify-content:flex-start}
+.final .fch{height:min(420px,34vw);width:auto;filter:drop-shadow(0 10px 0 rgba(0,0,0,.25));animation:floaty 3.4s ease-in-out infinite;margin-right:2%}
+@media (max-width:760px){.final .fin2{grid-template-columns:1fr;text-align:center}.final .fin2 .cta{justify-content:center}.final .fch{grid-row:1;justify-self:center;height:190px;margin:0 0 4px}}
+/* フッター：文字の透かしをやめてロゴに */
+footer:before{content:none!important}
+footer a{display:inline-block}footer .flogo{display:block;margin:0 auto 12px;position:relative}footer .flogo img{height:64px;width:auto}
 </style>
 <style>/* STEPの動き */
 .fx1{position:absolute;right:14px;top:14px;width:56px;height:34px;background:#06C755;border-radius:14px 14px 14px 4px;display:flex;align-items:center;justify-content:center;gap:5px;box-shadow:0 3px 0 #049a42;animation:fx1pop 3s ease-in-out infinite;transform-origin:left bottom;z-index:0}
@@ -811,7 +825,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 </script>
 <div id="prog"></div><span id="runner" hidden></span><canvas id="fx"></canvas>
 <header class="top"><div class="in">
-  <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん郵送買取"></a>
+  <a class="logo" href="/"><img src="/logo.png" alt="ナタデココ かんたん宅配買取"></a>
   <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#faq">よくある質問</a></nav>
   <button type="button" class="ufab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi">▶</span><span><b>GAME</b>ミニゲーム</span></button>
   <a class="line-btn" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg><span>LINEで査定を申し込む</span></a>
@@ -831,7 +845,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 <div class="ticker" aria-hidden="true"><span class="lbl">BOX買取価格</span><div class="run">__TICKER____TICKER__</div></div>
 
 <section class="sec tight"><div class="wrap">
-  <div class="sh rv"><span class="no">01</span><h2>BOXで、こんな<span class="ul">お悩み</span>ありませんか？</h2><p>未開封のBOX・パックは、そのまま送るだけ。お取引はすべてネットで完結します。</p></div>
+  <div class="sh rv"><span class="no">01</span><h2><span class="ph">BOXで、</span><span class="ph">こんな<span class="ul">お悩み</span></span><span class="ph">ありませんか？</span></h2><p><span class="ph">未開封のBOX・パックは、</span><span class="ph">そのまま送るだけ。</span><span class="ph">お取引はすべてネットで完結します。</span></p></div>
   <div class="pains">
     <div class="pain rv"><img src="/img/gbc/minty1.webp?v=2" alt=""><span class="chk">Check 1</span><p class="bub">積んだBOXが、部屋を圧迫している。</p><p class="a"><b>未開封のまま、箱に詰めて送るだけ</b>1箱から何箱でもまとめてOK。シュリンク（ビニール）ははがさずにお送りください。</p></div>
     <div class="pain rv d1"><img src="/img/gbc/pachiru1.webp?v=2" alt=""><span class="chk">Check 2</span><p class="bub">BOXは重くて、お店まで運べない。</p><p class="a"><b>着払いで送料0円。ご自宅で集荷もOK</b>佐川急便の着払いなら、ご自宅まで集荷に来てもらえます。重いBOXを運ぶ必要はありません。千葉・東京・神奈川の8店舗と同じ価格で査定します。</p></div>
@@ -841,7 +855,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 </div></section>
 
 <section class="sec tight items" id="items"><div class="wrap">
-  <div class="sh rv"><span class="no">02</span><h2>BOXなら、<span class="ul">まとめてOK</span>！</h2><p>最新弾から絶版まで。未開封のBOX・パックを、まとめて送ってください。</p></div>
+  <div class="sh rv"><span class="no">02</span><h2><span class="ph">BOXなら、</span><span class="ph"><span class="ul">まとめてOK</span>！</span></h2><p><span class="ph">最新弾から絶版まで。</span><span class="ph">未開封のBOX・パックを、</span><span class="ph">まとめて送ってください。</span></p></div>
   <div class="igrid">
     <a class="it rv" href="/cat/box/"><span class="pics bx">__VP_new_2__</span><span class="tx"><b>最新弾</b><span>MEGA・スカーレット&amp;バイオレットの<br>拡張パック・強化拡張パック</span></span><i class="ch">›</i></a>
     <a class="it rv d1" href="/cat/box/"><span class="pics bx">__VP_zep_2__</span><span class="tx"><b>絶版</b><span>ソード&amp;シールド・<br>サン&amp;ムーンなど</span></span><i class="ch">›</i></a>
@@ -852,19 +866,19 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 </div></section>
 
 <section class="sec" id="flow"><div class="wrap">
-  <div class="sh rv"><span class="no">03</span><h2>BOXの申込から入金まで、<span class="ul">4ステップ</span>。</h2><p>やることは「LINEで送る」と「BOXを箱に詰めて送る」の二つだけ。</p></div>
+  <div class="sh rv"><span class="no">03</span><h2><span class="ph">BOXの申込から</span><span class="ph">入金まで、</span><span class="ph"><span class="ul">4ステップ</span>。</span></h2><p><span class="ph">やることは「LINEで申込む」と「BOXを箱に詰めて送る」の2つだけ。</span></p></div>
   <div class="flow"><div class="flowline"><i></i></div>
-    <div class="st rv s1"><div class="hd"><span class="n">1</span><span class="fx1"><i></i><i></i><i></i></span><img src="/img/gbc/step1.webp?v=2" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからお申込みをお願いします</p><span class="t">所要1分</span></div></div>
-    <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><img src="/img/gbc/step2.webp?v=2" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>BOXがぐらつかないよう緩衝材で梱包。佐川急便の着払いで送料0円<br><small>その他の発送方法でもOK</small></p><span class="t">梱包10分</span></div></div>
-    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><img src="/img/gbc/step3.webp?v=2" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEで。減額に納得できなければキャンセル可（返送料は当店負担）</p><span class="t">到着日の価格で査定</span></div></div>
-    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><span class="fx4"><i>¥</i><i>¥</i><i>¥</i><b>入金</b></span><img src="/img/gbc/step4.webp?v=2" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）→入金</p><span class="t">最短当日</span></div></div>
+    <div class="st rv s1"><div class="hd"><span class="n">1</span><span class="fx1"><i></i><i></i><i></i></span><img src="/img/gbc/step1.webp?v=2" alt=""></div><div class="bd"><h3>LINEで申込</h3><p>LINEのリッチメニューからかんたんにお申込みできます。</p><span class="t">所要1分</span></div></div>
+    <div class="st rv s3 d1"><div class="hd"><span class="n">2</span><img src="/img/gbc/step2.webp?v=2" alt=""></div><div class="bd"><h3>着払いで発送</h3><p>BOXがぐらつかないよう緩衝材で梱包して、佐川急便の着払いで送るだけ（送料0円）。<br><small>その他の発送方法もOK</small></p><span class="t">梱包10分</span></div></div>
+    <div class="st rv s4 d2"><div class="hd"><span class="n">3</span><img src="/img/gbc/step3.webp?v=2" alt=""></div><div class="bd"><h3>本査定</h3><p>到着後に1枚ずつ検品し、最終金額をLINEでお知らせします。減額時はキャンセルOK（返送料無料）。</p><span class="t">到着日の価格で査定</span></div></div>
+    <div class="st rv s5 d3"><div class="hd"><span class="n">4</span><span class="fx4"><i>¥</i><i>¥</i><i>¥</i><b>入金</b></span><img src="/img/gbc/step4.webp?v=2" alt=""></div><div class="bd"><h3>お振込み</h3><p>スマホで本人確認（eKYC・顔写真付き身分証）後、遅滞なくご入金します。</p><span class="t">最短当日</span></div></div>
   </div>
   <div class="ctabox rv"><p class="lead">4ステップで終わります</p><div class="cta"><a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a></div><p class="micro">買取価格はカード到着日の買取表の価格で査定します。</p></div>
 </div></section>
 
 <div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#fff"/></svg></div>
 <section class="sec prices" id="prices"><div class="wrap">
-  <div class="sh rv"><span class="no">04</span><h2><span class="ul">BOXの買取価格</span>。</h2><p>__UPDATED__ 時点の未開封BOXの買取価格（高い順）。価格は毎日更新しています。</p></div>
+  <div class="sh rv"><span class="no">04</span><h2><span class="ul">BOXの買取価格</span>。</h2><p><span class="ph">__UPDATED__ 時点の未開封BOXの買取価格（高い順）。</span><span class="ph">価格は毎日更新しています。</span></p></div>
   <form class="search rv" action="/" method="get"><input type="search" name="q" placeholder="BOX名で価格を調べる（例：151）" aria-label="BOX名"><button type="submit">調べる</button></form>
   <div class="pchips rv" id="pchips"><button type="button" class="on" data-k="all">すべて</button><button type="button" data-k="box">BOX</button><button type="button" data-k="sp">スペシャルBOX</button><button type="button" data-k="pd">未開封パック・デッキ</button></div>
   <div class="pgrid" id="pgrid">__TOP__</div>
@@ -874,55 +888,58 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 </div></section>
 
 <section class="sec cmp" id="terms"><div class="wrap">
-  <div class="sh rv"><span class="no">05</span><h2>BOX郵送買取、<span class="ul">4つの約束</span>。</h2><p>店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。はじめてでも安心して送れます。</p></div>
+  <div class="sh rv"><span class="no">05</span><h2><span class="ph">BOXの宅配買取が</span><span class="ph">選ばれる<span class="ul">4つの理由</span>。</span></h2><p><span class="ph">店頭と同じ価格・手数料ゼロ・スマホで完結・最短当日入金。</span><br><span class="ph">はじめての方でも</span><span class="ph">安心して</span><span class="ph">お送りいただけます。</span></p></div>
   <div class="pgrid4">
-    <div class="pm4 g rv d0"><div class="hd"><span class="k">買取価格</span><span class="av"><img src="/img/gbc/minty2.webp?v=2" alt=""></span></div><b>店頭と同じ価格</b><small>価格表は毎日更新。郵送はカード到着日の価格で査定</small><hr><p class="ex"><strong>価格表にないカードも買取OK</strong>そのまま送るか、LINEでお問い合わせください</p></div>
-    <div class="pm4 y rv d1"><div class="hd"><span class="k">手数料</span><span class="av"><img src="/img/gbc/pachiru2.webp?v=2" alt=""></span></div><b>すべて無料</b><span class="tags"><i>送料（着払い）</i><i>査定料</i><i>振込手数料</i><i>キャンセル料</i></span><small>減額に納得できなければキャンセル可。返送料も当店負担</small></div>
-    <div class="pm4 r rv d2"><div class="hd"><span class="k">本人確認</span><span class="av"><img src="/img/gbc/fai2.webp?v=2" alt=""></span></div><b>スマホで完結<em>（eKYC）</em></b><small>顔写真付き身分証で。郵送は不要</small></div>
-    <div class="pm4 b rv d3"><div class="hd"><span class="k">入金</span><span class="av"><img src="/img/gbc/amery2.webp?v=2" alt=""></span></div><b>最短当日</b><small>本査定の承諾・本人確認のあと、すぐにお振込み</small></div>
+    <div class="pm4 g rv d0"><div class="hd"><span class="k">買取価格</span><span class="av"><img src="/img/gbc/minty2.webp?v=2" alt=""></span></div><b>店頭と同じ価格</b><small><span class="ph">価格表は毎日更新。</span><span class="ph">宅配でもカード到着日の</span><span class="ph">価格で査定します。</span></small><hr><p class="ex"><strong>価格表にないカードも買取OK</strong><span class="ph">そのまま同梱いただくか、</span><span class="ph">LINEでお気軽に</span><span class="ph">ご相談ください。</span></p></div>
+    <div class="pm4 y rv d1"><div class="hd"><span class="k">手数料</span><span class="av"><img src="/img/gbc/pachiru2.webp?v=2" alt=""></span></div><b>すべて無料</b><span class="tags"><i>送料</i><i>査定料</i><i>キャンセル料</i></span><small><span class="ph">減額にご納得いただけない場合は</span><span class="ph">キャンセルOK。</span><span class="ph">返送料も当店が負担します。</span></small></div>
+    <div class="pm4 r rv d2"><div class="hd"><span class="k">本人確認</span><span class="av"><img src="/img/gbc/fai2.webp?v=2" alt=""></span></div><b>スマホで完結<em>（eKYC）</em></b><small><span class="ph">顔写真付き身分証を</span><span class="ph">スマホで撮るだけ。</span><span class="ph">書類の送付は不要です。</span></small></div>
+    <div class="pm4 b rv d3"><div class="hd"><span class="k">入金</span><span class="av"><img src="/img/gbc/amery2.webp?v=2" alt=""></span></div><b>最短当日</b><small><span class="ph">査定額のご承諾と</span><span class="ph">本人確認の後、</span><span class="ph">遅滞なくお振込みします。</span></small></div>
   </div>
 </div></section>
 
 <section class="sec cmp" id="trust"><div class="wrap">
-  <div class="sh rv"><span class="no">06</span><h2>実店舗があるから、<span class="ul">BOXも安心して送れる</span>。</h2><p>千葉・東京・神奈川の8店舗で毎日ポケカを売り買いしている専門店です。郵送でも、店頭と同じ価格・同じスタッフが査定します。</p></div>
+  <div class="sh rv"><span class="no">06</span><h2><span class="ph">実店舗があるから、</span><span class="ph"><span class="ul">BOXも安心して送れる</span>。</span></h2><p><span class="ph">千葉・東京・神奈川の8店舗で毎日ポケカを売り買いしている専門店です。</span><span class="ph">宅配でも、</span><span class="ph">店頭と同じ価格・同じスタッフが査定します。</span></p></div>
   <div class="mosaic"><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.00s"><img src="/img/stores/kashiwa.jpg" alt="柏本店" loading="lazy"><span><small>千葉</small>柏本店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.06s"><img src="/img/stores/matsudo.jpg" alt="松戸店" loading="lazy"><span><small>千葉</small>松戸店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.12s"><img src="/img/stores/tsudanuma.jpg" alt="津田沼店" loading="lazy"><span><small>千葉</small>津田沼店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.18s"><img src="/img/stores/chibachuo.jpg" alt="千葉中央店" loading="lazy"><span><small>千葉</small>千葉中央店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.24s"><img src="/img/stores/nakano.jpg" alt="中野店" loading="lazy"><span><small>東京</small>中野店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.30s"><img src="/img/stores/odaiba.jpg" alt="お台場店" loading="lazy"><span><small>東京</small>お台場店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.36s"><img src="/img/stores/machida.jpg" alt="町田店" loading="lazy"><span><small>東京</small>町田店</span></a><a class="shop rv" href="__STORES_URL__" style="transition-delay:0.42s"><img src="/img/stores/yokohama.jpg" alt="横浜店" loading="lazy"><span><small>神奈川</small>横浜店</span></a></div>
   <div class="tgrid">
-    <div class="tcard rv"><div class="seal">古物商<br>許可</div><h3>古物営業法にもとづく許可店</h3><p>__LICENSE__</p><small>古物営業法により、本人確認（eKYC）を行っています。身分証の郵送は不要です。</small></div>
-    <div class="tcard rv d1"><img class="av" src="/img/gbc/staff_card.webp?v=2" alt=""><h3>専門スタッフが<b>1枚ずつ</b>検品</h3><p>毎日お店でポケカを見ているスタッフが、裏面の白かけ・スレ・反りまで1枚ずつ確認します。</p><small>減額がある場合は、どのカードがなぜ減額かをお伝えします。</small></div>
-    <div class="tcard rv d2"><img class="av" src="/img/gbc/staff_pc.webp?v=2" alt=""><h3>価格表は<b>毎日</b>更新</h3><p>相場に合わせて毎朝更新。<span data-count2="__COUNT__">__COUNT__</span>枚の買取価格を、送る前にWebで確認できます。</p><small>店頭に持ち込んでも、郵送でも同じ価格です。</small></div>
+    <div class="tcard rv"><div class="seal">古物商<br>許可</div><h3>古物営業法にもとづく許可店</h3><p>__LICENSE__</p><small><span class="ph">古物営業法により</span><span class="ph">本人確認（eKYC）を</span><span class="ph">行っています。</span><span class="ph">身分証の送付は不要です。</span></small></div>
+    <div class="tcard rv d1"><img class="av" src="/img/gbc/staff_card.webp?v=2" alt=""><h3>専門スタッフが<b>1枚ずつ</b>検品</h3><p><span class="ph">毎日お店でポケカを</span><span class="ph">見ているスタッフが</span><span class="ph">1枚ずつ確認します。</span></p><small><span class="ph">減額がある場合も、</span><span class="ph">ご希望があれば</span><span class="ph">その理由をお伝えできます。</span></small></div>
+    <div class="tcard rv d2"><img class="av" src="/img/gbc/staff_pc.webp?v=2" alt=""><h3>価格表は<b>毎日</b>更新</h3><p><span class="ph">毎日、</span><span class="ph">相場に合わせて更新。</span><span class="ph">送る前に</span><span class="ph">Webで価格を</span><span class="ph">確認できます。</span></p><small><span class="ph">店頭に持ち込んでも、</span><span class="ph">宅配でも</span><span class="ph">同じ価格です。</span></small></div>
   </div>
 </div></section>
 
 <section class="sec tight" id="faq"><div class="wrap">
   <div class="sh rv"><span class="no">07</span><h2>よくある<span class="ul">質問</span>。</h2></div>
   <div class="faq rv">
-    <details><summary><span><span class="q">Q</span>シュリンクが破れていても売れますか？</span><span class="pm">+</span></summary><p>買取できます。状態を見て査定し、減額になる場合は理由をお伝えします。金額に納得できなければキャンセルでき、返送料は当店負担です。</p></details>
-    <details><summary><span><span class="q">Q</span>開封済みのBOXやパックは売れますか？</span><span class="pm">+</span></summary><p>開封済みのものは状態によって査定が変わります。中のカードはシングルとしても買取できますので、LINEで写真を送ってご相談ください。</p></details>
-    <details><summary><span><span class="q">Q</span>1箱だけでも送れますか？</span><span class="pm">+</span></summary><p>送れます。1箱からお気軽にどうぞ。</p></details>
-    <details><summary><span><span class="q">Q</span>カートン（ケース）単位でも売れますか？</span><span class="pm">+</span></summary><p>はい。同じBOXが多いときは在庫状況により減額となる場合があるため、先にLINEでご相談ください。</p></details>
-    <details><summary><span><span class="q">Q</span>どうやって梱包すればいいですか？</span><span class="pm">+</span></summary><p>ダンボールに入れ、新聞紙や緩衝材ですき間を埋めてBOXが動かないようにしてください。BOX同士がぶつかって角がつぶれないようにするのがコツです。</p></details>
-    <details><summary><span><span class="q">Q</span>価格表にないBOXも売れますか？</span><span class="pm">+</span></summary><p>はい。LINEでBOXの写真をお送りください。</p></details>
-    <details><summary><span><span class="q">Q</span>本人確認には何が必要ですか？</span><span class="pm">+</span></summary><p>顔写真付きの身分証（運転免許証・マイナンバーカード・パスポートなど）をご用意ください。スマホで撮影して完了します。</p></details>
-    <details><summary><span><span class="q">Q</span>未成年でも売れますか？</span><span class="pm">+</span></summary><p>未成年の方は、保護者の方の名義でお申込みください（本人確認・お振込みも保護者の方の名義となります）。</p></details>
+    <details><summary><span><span class="q">Q</span>シュリンクが破れていても売れますか？</span><span class="pm">+</span></summary><p>はい、買取できます。状態を見て査定し、減額になる場合はご希望があれば理由をお伝えします。金額にご納得いただけない場合はキャンセルでき、その際の返送料も当店が負担します。</p></details>
+    <details><summary><span><span class="q">Q</span>開封済みのBOXやパックは売れますか？</span><span class="pm">+</span></summary><p>開封済みのものは、状態によって査定が変わります。中のカードはシングルとしても買取できますので、まずはLINEで写真を送ってお気軽にご相談ください。</p></details>
+    <details><summary><span><span class="q">Q</span>1箱だけでも送れますか？</span><span class="pm">+</span></summary><p>はい、もちろん大丈夫です。1箱からでも、どうぞお気軽にお送りください。</p></details>
+    <details><summary><span><span class="q">Q</span>カートン（ケース）単位でも売れますか？</span><span class="pm">+</span></summary><p>はい、買取しています。同じBOXが多いときは在庫状況により減額となる場合がありますので、先にLINEでご相談ください。</p></details>
+    <details><summary><span><span class="q">Q</span>どうやって梱包すればいいですか？</span><span class="pm">+</span></summary><p>ダンボールに入れて、新聞紙や緩衝材ですき間を埋め、BOXが動かないようにしてください。BOX同士がぶつかって角がつぶれないように包んでいただけると安心です。</p></details>
+    <details><summary><span><span class="q">Q</span>価格表にないBOXも売れますか？</span><span class="pm">+</span></summary><p>はい、価格表に載っていないBOXも買取しています。LINEでBOXの写真を送っていただければ、お調べします。</p></details>
+    <details><summary><span><span class="q">Q</span>本人確認には何が必要ですか？</span><span class="pm">+</span></summary><p>顔写真付きの身分証（運転免許証・マイナンバーカード・パスポートなど）を1点ご用意ください。スマホで撮影していただくだけで完了しますので、書類を送っていただく必要はありません。</p></details>
+    <details><summary><span><span class="q">Q</span>未成年でも売れますか？</span><span class="pm">+</span></summary><p>恐れ入りますが、未成年の方は保護者の方のお名前でお申込みをお願いしています。本人確認とお振込みも、保護者の方の名義になります。</p></details>
   </div>
   <p class="cap"><a href="/faq/" style="color:var(--navy)">もっと見る（よくある質問）→</a></p>
 </div></section>
 
 <div class="wave wt"><svg viewBox="0 0 2400 60" preserveAspectRatio="none"><path d="M0 30 C150 60 300 0 450 30 S750 60 900 30 S1200 0 1350 30 S1650 60 1800 30 S2100 0 2250 30 L2400 30 L2400 60 L0 60Z" fill="#2B3A67"/></svg></div>
-<section class="sec final"><div class="bg"></div><div class="wrap">
-  <div class="chars rv"><img src="/img/gbc/chan2.webp?v=2" alt=""></div>
-  <h2 class="rv d1">迷ったら、まずBOXの写真を<br class="sp-only">送ってください。</h2>
-  <p class="rv d2">1箱からOK。査定は無料、納得できなければ返送も無料です。</p>
+<section class="sec final"><div class="bg"></div><div class="wrap fin2">
+ <div class="ftx">
+  <h2 class="rv d1"><span class="ph">迷ったら、</span><span class="ph">まずBOXの写真を</span><span class="ph">送ってください。</span></h2>
+  <p class="rv d2"><span class="ph">1箱からOK。</span><span class="ph">査定は無料、</span><span class="ph">納得できなければ</span><span class="ph">返送も無料です。</span></p>
   <div class="cta rv d3">
     <a class="btn g mag" href="__LINE_ADD__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定を申し込む <span class="ar">→</span></a>
     <a class="btn o" href="/cat/box/">🔍 BOXの買取価格を見る</a>
   </div>
   <div class="qr pc-only rv d3"><img src="/img/line_qr.png" alt="LINE友だち追加QRコード"><div><b>スマホで読み取ってください</b>LINE ID：@316mfilq</div></div>
+ </div>
+ <img class="fch rv d2" src="/img/gbc/banner_chan.webp" alt="">
 </div></section>
 
 <a class="flo pc-only" href="__LINE_ADD__" target="_blank" rel="noopener"><img src="/img/gbc/chan2.webp?v=2" alt=""><span><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>LINEで査定</span></a>
 <footer>
-  <div class="ssnav"><a href="/"><i></i><span>買取価格表</span></a><a href="/guide/"><i></i><span>郵送買取のやり方</span></a><a href="__STORES_URL__"><i></i><span>店舗一覧</span></a><a href="/company/"><i></i><span>会社概要</span></a><a href="/legal/"><i></i><span>古物営業法に関する表示</span></a><a href="/privacy/"><i></i><span>プライバシーポリシー</span></a></div>
+  <a class="flogo" href="/"><img src="/logo.png" alt="ナタデココ かんたん宅配買取"></a>
+  <div class="ssnav"><a href="/"><i></i><span>買取価格表</span></a><a href="/guide/"><i></i><span>宅配買取のやり方</span></a><a href="__STORES_URL__"><i></i><span>店舗一覧</span></a><a href="/company/"><i></i><span>会社概要</span></a><a href="/legal/"><i></i><span>古物営業法に関する表示</span></a><a href="/privacy/"><i></i><span>プライバシーポリシー</span></a></div>
   <div class="cpy"><span class="cpl">© 株式会社</span><span class="oval">ナタデココ</span></div>
 </footer>
 

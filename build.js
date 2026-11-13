@@ -366,8 +366,8 @@ console.log(`article pages: ${arts.length}`);
         return { hot, list, k: r => isPsaItem(r) ? "psa" : "single" };
       }, vpics: {} },
     { key: "box", tpl: "lp_box.html", out: "lp/box/index.html", path: "/lp/box/",
-      title: "ポケカBOX郵送買取｜未開封BOX・パックを送るだけ・送料0円・最短当日入金",
-      desc: "未開封のポケモンカードBOX・パックを箱に詰めて送るだけ。送料無料・最短当日入金。最新弾から絶版BOXまで買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。",
+      title: "ポケカBOX宅配買取｜未開封BOX・パックを送るだけ・送料0円・最短当日入金",
+      desc: "未開封のポケモンカードBOX・パックを箱に詰めて送るだけ。送料無料・最短当日入金。最新弾から絶版BOXまで買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。",
       pool() {
         const all = withImg("BOX").sort(byPrice);
         // BOX版LPの分類：box＝ふつうのBOX／sp＝スペシャルBOX・記念セットなど／pd＝未開封パック・デッキ
@@ -387,8 +387,8 @@ console.log(`article pages: ${arts.length}`);
         sp: n => uniq(withImg("BOX").filter(x => /30th|151|シャイニー|ユニバース|イーブイ|25th|クライマックス|GXウルトラ|タッグオール|ドリームリーグ|テラスタルフェス/i.test(x.name)).sort(byPrice), n),
       } },
     { key: "old", tpl: "lp_old.html", out: "lp/old/index.html", path: "/lp/old/",
-      title: "旧裏ポケカ郵送買取｜昔のポケモンカードを送るだけ・送料0円・最短当日入金",
-      desc: "旧裏（1996年〜）やe・ADV・PCG・DPなど昔のポケモンカードを、ファイルのまま送るだけ。傷ありもOK。送料無料・最短当日入金。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。",
+      title: "旧裏ポケカ宅配買取｜昔のポケモンカードを送るだけ・送料0円・最短当日入金",
+      desc: "旧裏（1996年〜）やe・ADV・PCG・DPなど昔のポケモンカードを、ファイルのまま送るだけ。傷ありもOK。送料無料・最短当日入金。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。",
       pool() {
         const old = withImg("旧裏").sort(byPrice), kyu = withImg("旧弾").sort(byPrice);
         const hot = shuffle(old.slice(0, 36));

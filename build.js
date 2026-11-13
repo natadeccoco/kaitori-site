@@ -382,8 +382,7 @@ console.log(`article pages: ${arts.length}`);
         const all = withImg("BOX").sort(byPrice);
         // BOX版LPの分類：box＝ふつうのBOX／sp＝スペシャルBOX・記念セットなど／pd＝未開封パック・デッキ
         // 買取表BOXタブの「種類」列（BOX／スペシャルBOX／パック／その他、またはシリーズ名）を優先して分ける
-        const kind = r => /^(パック|その他)$/.test(r.set || "") || /【.*(パック|デッキ|セット).*】|デッキ|スターター/.test(r.name) ? "pd"
-          : (r.set === "スペシャルBOX" || /FUTURISTIC|スペシャル|プレミアム|デラックス|トレーナーボックス/i.test(r.name)) ? "sp" : "box";
+        const kind = r => /^(パック|その他)$/.test(r.set || "") ? "pd" : r.set === "スペシャルBOX" ? "sp" : "box";   // スプレッドシートA列の種類どおりに分ける
         const hot = shuffle(all.filter(r => kind(r) === "box").slice(0, 30));   // ファーストビューにはふつうのBOXだけ出す
         const cnt = { box: 0, sp: 0, pd: 0 }; all.forEach(r => cnt[kind(r)]++);
         console.log("lp(box): BOX " + cnt.box + "件 / スペシャルBOX " + cnt.sp + "件 / パック・デッキ " + cnt.pd + "件");
@@ -394,7 +393,7 @@ console.log(`article pages: ${arts.length}`);
         sv: n => uniq(withImg("BOX").filter(x => x.set === "SV").sort(byPrice), n),
         zep: n => uniq(withImg("BOX").filter(x => x.set === "SM" || x.set === "SS").sort(byPrice), n),
         spb: n => uniq(["box-hilork", "box-753xbg"].map(k => withImg("BOX").find(x => x.id === k)).filter(Boolean).concat(withImg("BOX").filter(x => !/デッキ|スターター/.test(x.name) && /FUTURISTIC|スペシャル|プレミアム|デラックス|コレクション|セット|トレーナーボックス/i.test(x.name)).sort(byPrice)), n),   // スペシャルBOXの写真はポケモンセンタートウホク・ヒロシマを先に
-        pd: n => uniq(withImg("BOX").filter(r => /^(パック|その他)$/.test(r.set || "") || /【.*(パック|デッキ|セット).*】|デッキ|スターター/.test(r.name)).sort(byPrice), n),   // 未開封パック・デッキ（実物の写真）
+        pd: n => uniq(withImg("BOX").filter(r => /^(パック|その他)$/.test(r.set || "")).sort(byPrice), n),   // 未開封パック・デッキ（実物の写真）
         sp: n => uniq(withImg("BOX").filter(x => /30th|151|シャイニー|ユニバース|イーブイ|25th|クライマックス|GXウルトラ|タッグオール|ドリームリーグ|テラスタルフェス/i.test(x.name)).sort(byPrice), n),
       } },
     { key: "old", tpl: "lp_old.html", out: "lp/old/index.html", path: "/lp/old/",

@@ -644,7 +644,7 @@ function cardUrl(id){return (CONFIG.base||"/")+"card/"+encodeURIComponent(id)+"/
 function cardHTML(it){
   const q=cart.get(it.id)?.qty||0;
   const ph=`<div class="ph"><div class="n">${esc(it.name)}</div><div class="r"><span>${esc(it.code)}</span><span>${esc(it.rarity)}</span></div></div>`;
-  const catTag=(it.cat!=="ポケモン"&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat==="汎用"?"最低保証":it.cat)}</span>`:"";
+  const catTag=(it.cat!=="ポケモン"&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat==="汎用"?"最低保証":it.cat==="BOX"&&/^(パック|その他|スペシャルBOX)$/.test(it.set||"")?it.set:it.cat)}</span>`:"";   /* BOXタブはスプレッドシートA列の種類（パック・その他・スペシャルBOX）をそのまま出す */
   const img=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:"";
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
   return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">

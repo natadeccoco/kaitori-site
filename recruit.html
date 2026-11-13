@@ -123,6 +123,42 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 .st2 tr:first-child th{background:var(--bg-2);font-weight:900;color:var(--navy);font-size:12.5px}
 .st2 td:first-child{font-weight:900;white-space:nowrap;color:var(--navy)}.st2 td:nth-child(2){white-space:nowrap}
 @media (max-width:640px){.st2,.st2 tbody,.st2 tr,.st2 td{display:block}.st2 tr:first-child{display:none}.st2 tr{border:1px solid var(--line);border-radius:10px;margin-bottom:8px;padding:8px 10px;background:#fff}.st2 td{border:0;padding:1px 0;white-space:normal!important}.st2 td:nth-child(2){font-weight:700}}
+
+/* ===== added sections ===== */
+.persona{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}@media (max-width:640px){.persona{grid-template-columns:1fr}}
+.pc{display:flex;gap:14px;align-items:flex-start;background:#fff;border:3px solid var(--navy);border-radius:18px;padding:16px 18px;box-shadow:0 5px 0 var(--navy)}
+.pc i{flex:none;width:46px;height:46px;border-radius:50%;background:var(--yel-2);border:2px solid var(--navy);display:flex;align-items:center;justify-content:center;font-style:normal;font-size:22px}
+.pc:nth-child(2) i{background:#D9F8F9}.pc:nth-child(3) i{background:#F2E8FF}.pc:nth-child(4) i{background:#FFE2F1}
+.pc b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;color:var(--navy);font-size:16.5px;line-height:1.4;margin-bottom:2px}.pc p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.day{position:relative;background:#fff;border:3px solid var(--navy);border-radius:22px;box-shadow:0 6px 0 var(--navy);padding:22px 22px 14px}
+.day .lbl{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;padding:2px 14px;font-size:12px;font-weight:700;margin-bottom:12px}
+.day ol{list-style:none;margin:0;padding:0;position:relative}.day ol:before{content:"";position:absolute;left:68px;top:8px;bottom:8px;width:3px;background:repeating-linear-gradient(var(--cyan-d) 0 6px,transparent 6px 11px)}
+.day li{display:grid;grid-template-columns:58px 1fr;gap:22px;padding:6px 0 12px;position:relative}
+.day li:before{content:"";position:absolute;left:62px;top:12px;width:15px;height:15px;border-radius:50%;background:var(--yel);border:3px solid var(--navy)}
+.day time{font-family:"DM Sans",sans-serif;font-weight:900;color:var(--navy);font-size:15px;padding-top:4px}
+.day li>div{padding-left:16px}.day li b{display:block;color:var(--navy);font-size:15.5px}.day li p{margin:2px 0 0;font-size:13.5px;color:var(--ink-2)}
+.day .chr{position:absolute;right:14px;top:-34px;width:84px}@media (max-width:640px){.day{padding:18px 14px 8px}.day .chr{width:64px;top:-26px}.day ol:before{left:56px}.day li{grid-template-columns:48px 1fr;gap:20px}.day li:before{left:50px}}
+.sup{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}@media (max-width:640px){.sup{grid-template-columns:1fr}}
+.sup div{background:var(--bg-2);border:3px solid var(--navy);border-radius:18px;padding:18px 16px 16px;box-shadow:0 5px 0 var(--navy)}
+.sup .n{font-family:"DM Sans",sans-serif;font-weight:900;font-size:11px;color:var(--ink-2);letter-spacing:.14em}.sup b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;color:var(--navy);font-size:17px;margin:2px 0 6px;line-height:1.4}.sup p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.career{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+.career .cs{flex:1 1 0;min-width:180px;background:#fff;border:3px solid var(--navy);border-radius:18px;padding:16px 16px 14px;box-shadow:0 5px 0 var(--navy);text-align:center}
+.career .ar{flex:none;display:flex;align-items:center;justify-content:center;width:34px;font-size:22px;color:var(--navy);font-weight:900}
+.career .cs small{display:inline-block;background:var(--navy);color:#fff;border-radius:999px;padding:1px 12px;font-size:11px;font-weight:700}
+.career .cs b{display:block;font-family:"M PLUS Rounded 1c",sans-serif;color:var(--navy);font-size:18px;margin:6px 0 2px}.career .cs .pay{font-family:"DM Sans",sans-serif;font-weight:900;font-size:20px;color:#E5528F}.career .cs p{margin:4px 0 0;font-size:12.5px;color:var(--ink-2)}
+.career .cs:nth-of-type(3){background:#FFFBE3}.career .cs:nth-of-type(5){background:#F2E8FF}
+@media (max-width:640px){.career{flex-direction:column}.career .ar{width:auto;height:30px;transform:rotate(90deg)}}
+.env{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}@media (max-width:640px){.env{grid-template-columns:repeat(2,1fr)}}
+.env div{background:#fff;border:3px solid var(--navy);border-radius:16px;padding:14px 10px 12px;text-align:center;box-shadow:0 4px 0 var(--navy)}
+.env i{display:block;font-style:normal;font-size:28px}.env b{display:block;color:var(--navy);font-size:14.5px;line-height:1.4;margin-top:4px}.env small{display:block;color:var(--ink-2);font-size:11.5px;line-height:1.5;margin-top:2px}
+.faq{display:grid;gap:10px}
+.faq details{background:#fff;border:3px solid var(--navy);border-radius:16px;box-shadow:0 4px 0 var(--navy);overflow:hidden}
+.faq summary{list-style:none;cursor:pointer;padding:14px 48px 14px 16px;font-weight:900;color:var(--navy);position:relative;display:flex;gap:10px;align-items:baseline}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:before{content:"Q";font-family:"DM Sans",sans-serif;color:#E5528F;font-size:18px;flex:none}
+.faq summary:after{content:"+";position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:24px;font-weight:400;transition:transform .2s}
+.faq details[open] summary:after{transform:translateY(-50%) rotate(45deg)}
+.faq details>div{padding:0 16px 14px 42px;font-size:14px;color:var(--ink);position:relative}.faq details>div:before{content:"A";position:absolute;left:16px;top:0;font-family:"DM Sans",sans-serif;font-weight:900;color:#1EA7B8;font-size:18px;line-height:1.5}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@800&family=Zen+Kaku+Gothic+New:wght@400;700&family=DM+Sans:wght@700;900&display=swap">
 <header class="top"><a class="logo" href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
@@ -153,7 +189,16 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
   <div class="val rv d2"><img src="/img/chars/fai1.webp" alt=""><span class="n">POINT 3</span><b>店舗運営に<br>チャレンジ</b><p>接客や買取査定から、ゆくゆくは店舗づくりまで。お店を動かす経験ができます。</p></div>
 </div>
 
-<h2 class="rv"><span class="no">02</span>募集している仕事</h2>
+<h2 class="rv"><span class="no">02</span>こんな人を待っています</h2>
+<p class="sub rv">カードの知識より、毎日の仕事に向き合う姿勢を大切にしています。</p>
+<div class="persona">
+  <div class="pc rv"><i>🃏</i><div><b>ポケモンカードが好きな人</b><p>コレクターでもプレイヤーでも、最近始めた方でも。カードの知識は、入ってから覚えられます。</p></div></div>
+  <div class="pc rv d1"><i>🤝</i><div><b>人と話すのが好きな人</b><p>はじめてポケカを手にした方から長年のコレクターまで、一人ひとりに丁寧に向き合える方。</p></div></div>
+  <div class="pc rv"><i>📏</i><div><b>ルールを守って、コツコツできる人</b><p>お客様の大切なカードとお金を扱う仕事です。値札や買取のルールを守って、ていねいに進められる方。</p></div></div>
+  <div class="pc rv d1"><i>🌱</i><div><b>長く、いっしょに成長したい人</b><p>アルバイトから正社員、店長へ。お店といっしょに経験を積んでいきたい方を歓迎します。</p></div></div>
+</div>
+
+<h2 class="rv"><span class="no">03</span>募集している仕事</h2>
 <div class="jobs">
   <div class="job rv"><div class="hd"><img src="/img/chars/chan1.webp" alt=""><div><small>アルバイト・パート</small><b>販売・接客・買取スタッフ</b></div></div>
     <ul><li>接客・販売、レジ（お会計）</li><li>商品のご案内、品出し、在庫管理</li><li>SNSの更新やPOPづくり</li><li>慣れてきたら、買取査定や価格設定、商品の企画も</li></ul></div>
@@ -162,7 +207,20 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 </div>
 <p class="cap rv">トレカ業界が未経験の方も歓迎です。カードの知識は、入ってから覚えられます。</p>
 
-<h2 class="rv"><span class="no">03</span>募集要項</h2>
+<h2 class="rv"><span class="no">04</span>1日の流れ</h2>
+<p class="sub rv">アルバイトスタッフの1日の例です（12:00〜20:00のシフトの場合）。日によって、お店の状況に合わせて変わります。</p>
+<div class="day rv"><img class="chr" src="/img/chars/pachiru2.webp" alt=""><span class="lbl">アルバイト・1日の例</span>
+<ol>
+  <li><time>12:00</time><div><b>出勤・今日やることの確認</b><p>店長から、その日の目標（オリパの更新、品出しの数など）を聞いて1日がスタートします。</p></div></li>
+  <li><time>12:15</time><div><b>品出し・値付け</b><p>買い取ったカードに値札をつけて、ショーケースやストレージに並べます。</p></div></li>
+  <li><time>13:00</time><div><b>接客・レジ</b><p>商品のご案内やお会計。「このカードありますか？」にもお答えします。</p></div></li>
+  <li><time>15:00</time><div><b>休憩</b><p>シフトの長さに合わせて、法定どおりの休憩をとります。</p></div></li>
+  <li><time>16:00</time><div><b>買取の受付・査定</b><p>慣れてきたら、カードの状態を見て買取の査定も担当します。高額の買取は本部が確認するので安心です。</p></div></li>
+  <li><time>18:00</time><div><b>オリパ・商品づくり、大会の運営</b><p>オリパや商品の作成、店舗によっては平日の大会の受付や進行も行います。</p></div></li>
+  <li><time>19:30</time><div><b>締め作業・退勤</b><p>レジの点検や、次のシフトへの申し送りをして、おつかれさまでした！</p></div></li>
+</ol></div>
+
+<h2 class="rv"><span class="no">05</span>募集要項</h2>
 <div class="tabs2 rv" role="tablist"><button type="button" class="on" data-r="a">アルバイト</button><button type="button" data-r="b">正社員</button></div>
 <table class="rv req" id="req-a">
 <tr><th>職種</th><td>販売・接客・買取スタッフ（アルバイト・パート）</td></tr>
@@ -194,7 +252,30 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
 <tr><th>試用期間</th><td>1か月（条件は同じ）</td></tr>
 </table>
 
-<h2 class="rv"><span class="no">04</span>応募から採用まで</h2>
+<h2 class="rv"><span class="no">06</span>キャリアと給与</h2>
+<p class="sub rv">アルバイトから始めて、正社員・店長へ。お店とともにステップアップできます。</p>
+<div class="career">
+  <div class="cs rv"><small>STEP 1</small><b>アルバイト</b><div class="pay">時給1,300円〜</div><p>接客・レジ・品出しから。慣れたら買取査定や商品づくりも</p></div>
+  <div class="ar rv">▶</div>
+  <div class="cs rv d1"><small>STEP 2</small><b>正社員</b><div class="pay">月給267,750円〜</div><p>正社員登用制度あり。売場づくり、スタッフの育成、数字の管理へ</p></div>
+  <div class="ar rv d1">▶</div>
+  <div class="cs rv d2"><small>STEP 3</small><b>店長</b><div class="pay" style="font-size:16px">お店の司令塔に</div><p>売上・買取・スタッフをまとめて、お店づくりを任されます</p></div>
+</div>
+<p class="cap rv">正社員の月給は固定残業代（20時間分・33,750円）を含みます。昇給あり。店舗を増やしていく中で、新しい店長・責任あるポジションも生まれていきます。</p>
+
+<h2 class="rv"><span class="no">07</span>働きやすさ</h2>
+<div class="env">
+  <div class="rv"><i>👕</i><b>制服貸与</b><small>私服の心配なし</small></div>
+  <div class="rv d1"><i>💇</i><b>髪色・ピアス自由</b><small>自分らしく働けます</small></div>
+  <div class="rv d2"><i>🚃</i><b>交通費支給</b><small>アルバイト1日500円まで<br>正社員 月25,000円まで</small></div>
+  <div class="rv d3"><i>🗓️</i><b>シフト制</b><small>前月に希望シフトを提出</small></div>
+  <div class="rv"><i>⏱️</i><b>週1日・2時間〜</b><small>お台場店の平日短時間枠</small></div>
+  <div class="rv d1"><i>🏥</i><b>社会保険</b><small>加入条件を満たす方</small></div>
+  <div class="rv d2"><i>🌴</i><b>有給休暇</b><small>法定どおり付与</small></div>
+  <div class="rv d3"><i>🚀</i><b>正社員登用制度</b><small>アルバイトから正社員へ</small></div>
+</div>
+
+<h2 class="rv"><span class="no">08</span>応募から採用まで</h2>
 <div class="flow4">
   <div class="rv"><i>✉️</i><b>応募</b><p>下の応募フォームからご応募ください</p></div>
   <div class="rv d1"><i>📞</i><b>ご連絡</b><p>担当者から面接日程をご連絡します</p></div>
@@ -202,7 +283,7 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
   <div class="rv d3"><i>🎉</i><b>採用</b><p>勤務開始日などをご相談します</p></div>
 </div>
 
-<h2 class="rv"><span class="no">05</span>働くお店</h2>
+<h2 class="rv"><span class="no">09</span>働くお店</h2>
 <p class="area rv">千葉県</p>
 <ul class="shops">
   <li class="rv"><a href="__STORES_URL__#s-kashiwa"><div class="ph"><img src="/img/stores/kashiwa.jpg" alt="柏本店" loading="lazy" onerror="this.remove()"></div><div class="nm">柏本店<small>千葉県柏市</small></div></a></li>
@@ -218,7 +299,20 @@ footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);text
   <li class="rv d3"><a href="__STORES_URL__#s-yokohama"><div class="ph"><img src="/img/stores/yokohama.jpg" alt="横浜店" loading="lazy" onerror="this.remove()"></div><div class="nm">横浜店<small>神奈川県横浜市</small></div></a></li>
 </ul>
 
-<h2 class="rv" id="apply"><span class="no">06</span>応募する</h2>
+<h2 class="rv"><span class="no">10</span>よくある質問</h2>
+<div class="faq">
+  <details class="rv"><summary>ポケモンカードに詳しくなくても大丈夫ですか？</summary><div>大丈夫です。カードの知識は、入ってから覚えられます。トレカ業界が未経験の方も歓迎しています。</div></details>
+  <details class="rv"><summary>服装や髪型の決まりはありますか？</summary><div>制服を貸し出します。髪色・ピアスは自由です。</div></details>
+  <details class="rv"><summary>週に何日から働けますか？</summary><div>アルバイトは週2〜5日が目安です。お台場店の平日短時間枠（13:00〜18:00の間で2時間）は週1日から働けます。</div></details>
+  <details class="rv"><summary>高校生でも応募できますか？</summary><div>申し訳ありませんが、業務の性質上、高校生・18歳未満の方のご応募は受け付けていません。</div></details>
+  <details class="rv"><summary>交通費は出ますか？</summary><div>アルバイトは1日500円まで、正社員は月25,000円まで支給します。</div></details>
+  <details class="rv"><summary>アルバイトから正社員になれますか？</summary><div>はい。正社員登用制度があります。希望があれば面接のときにお伝えください。</div></details>
+  <details class="rv"><summary>ほかの店舗で働くことはありますか？</summary><div>基本は所属するお店で働きます。ご本人の希望や都合に合わせて、近くのお店をお手伝いいただくことがあります。</div></details>
+  <details class="rv"><summary>面接はどこで行いますか？</summary><div>アルバイトはオンラインで面接します。正社員は、1次がオンライン、2次が店舗または本社での対面です。</div></details>
+  <details class="rv"><summary>履歴書は必要ですか？</summary><div>応募の時点では必要ありません。必要な書類は、あとからご案内します。</div></details>
+</div>
+
+<h2 class="rv" id="apply"><span class="no">11</span>応募する</h2>
 <form class="af rv" id="af" novalidate>
   <fieldset><legend>希望の働き方 <em>必須</em></legend>
     <div class="ops"><label><input type="radio" name="type" value="アルバイト" required><span>アルバイト</span></label><label><input type="radio" name="type" value="正社員"><span>正社員</span></label></div></fieldset>

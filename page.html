@@ -577,11 +577,11 @@ function openPanel(on){const p=$("#fpanel");p.hidden=!on;$("#fbtn").setAttribute
 function resetFilters(){GROUPS.forEach(([k])=>state[k].clear());state.q="";$("#q").value="";apply();}
 
 function filtered(){
-  const q=norm(state.q);
+  const q=norm(state.q), qs=(state.q||"").split(/[\s\u3000]+/).map(norm).filter(Boolean);   // 単語をスペースで区切ったら、順番に関係なく全部含むものを出す
   let out=ITEMS.filter(it=>{
     if(state.cat!=="すべて"&&GRP(it.cat)!==state.cat)return false;
     for(const [k] of GROUPS){ if(state[k].size&&!state[k].has(it[k])) return false; }
-    if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" ")); if(!hay.includes(q)) return false; }
+    if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" ")); if(!hay.includes(q)&&!(qs.length>1&&qs.every(w=>hay.includes(w)))) return false; }
     return true;
   });
   const s=state.sort;

@@ -459,6 +459,9 @@ console.log(`article pages: ${arts.length}`);
 }
 
 /* ---------- 4. 固定ページ ---------- */
+// スタッフ専用の申告ページ（/staff/。検索に出さない・サイトマップにも入れない）
+{ let h = read(path.join(SRC, "staff.html"));
+  if (h) write("staff/index.html", wrap(h.replace("__STAFF_URL__", CFG.staffReportUrl || "").replace("__HEAD__", headCommon("スタッフ専用｜価格・画像の申告", "", `${CFG.siteUrl}/staff/`, "")))); }
 for (const name of ["stores", "legal", "privacy", "company"]) {   // 採用ページ（recruit）は準備中のため非公開
   let html = read(path.join(SRC, name + ".html"));
   if (!html) continue;

@@ -1,0 +1,71 @@
+<title>スタッフ専用｜価格・画像の申告</title>
+__HEAD__
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--line:#DDE8EB;--ink:#22303C;--ink-2:#5A6B76;--navy:#173B5C;--cyan:#A9F3F4}
+*{box-sizing:border-box}body{margin:0;background:#FBFDFF;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;font-size:16px;line-height:1.7}
+.top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);height:64px;display:flex;align-items:center;justify-content:center}.top img{height:48px}
+.page{max-width:560px;margin:0 auto;padding:22px 16px 60px}
+h1{margin:0 0 4px;font-size:24px;color:var(--navy)}.lede{margin:0 0 18px;color:var(--ink-2);font-size:14px}
+.box{background:#fff;border:3px solid var(--navy);border-radius:16px;box-shadow:0 5px 0 var(--navy);padding:18px}
+label{display:block;font-weight:700;font-size:14px;margin:14px 0 4px}label small{font-weight:500;color:var(--ink-2)}
+input[type=text],input[type=password],select,textarea{width:100%;font:inherit;border:2px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focus{outline:0;border-color:#1FA8B8}
+.btn{display:block;width:100%;margin-top:18px;border:0;border-radius:999px;background:var(--navy);color:#fff;font:inherit;font-weight:800;font-size:17px;padding:14px;cursor:pointer}.btn:disabled{opacity:.5;cursor:default}
+.msg{margin:12px 0 0;font-weight:700;font-size:14px}.msg.ok{color:#0A7D4B}.msg.ng{color:#D0342C}
+#prev{display:none;max-width:100%;max-height:260px;margin-top:8px;border:2px solid var(--line);border-radius:10px}
+.back{display:inline-block;margin-top:18px;color:var(--navy);font-size:14px}
+</style>
+<header class="top"><a href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
+<main class="page">
+  <h1>スタッフ専用</h1>
+  <p class="lede">買取表サイトで、価格や画像がおかしいカードを本部に知らせるページです。</p>
+
+  <div class="box" id="gate">
+    <label for="pw">パスワード</label>
+    <input type="password" id="pw" inputmode="numeric" autocomplete="off" placeholder="数字4けた">
+    <button class="btn" type="button" id="enter">入る</button>
+    <p class="msg ng" id="gmsg" hidden>パスワードが違います。</p>
+  </div>
+
+  <form class="box" id="form" hidden>
+    <label for="store">店舗</label>
+    <select id="store" required><option value="">えらんでください</option><option>柏本店</option><option>松戸店</option><option>津田沼店</option><option>千葉中央店</option><option>中野店</option><option>お台場店</option><option>町田店</option><option>横浜店</option><option>本部・その他</option></select>
+    <label for="name">名前</label>
+    <input type="text" id="name" maxlength="40" required>
+    <label for="card">カード名・型番 <small>（わかる範囲で）</small></label>
+    <input type="text" id="card" maxlength="200" placeholder="例：リーリエ(SR仕様) 397/SM-P">
+    <label for="text">おかしいところ</label>
+    <textarea id="text" maxlength="3000" required placeholder="例：画像が別のカードになっている／価格が相場とかけ離れている　など"></textarea>
+    <label for="img">画像 <small>（サイトの画面の写真やスクリーンショット。なくても送れます）</small></label>
+    <input type="file" id="img" accept="image/*">
+    <img id="prev" alt="">
+    <button class="btn" type="submit" id="send">本部に送る</button>
+    <p class="msg" id="fmsg" hidden></p>
+  </form>
+  <a class="back" href="/">‹ 買取価格表にもどる</a>
+</main>
+<script>
+(function(){
+  var URL_="__STAFF_URL__",HASH="ed053874ca199cc53e11c9f4aeaeccd07da652d1c19e3cbdbad5fd9fadba2532",PASS="";
+  var $=function(i){return document.getElementById(i)};
+  function sha(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("")})}
+  function open_(p){PASS=p;$("gate").hidden=true;$("form").hidden=false;try{sessionStorage.setItem("nd_staff",p);var s=localStorage.getItem("nd_staff_store"),n=localStorage.getItem("nd_staff_name");if(s)$("store").value=s;if(n)$("name").value=n;}catch(e){}}
+  function tryEnter(p,quiet){sha(p).then(function(h){if(h===HASH)open_(p);else if(!quiet)$("gmsg").hidden=false;});}
+  $("enter").onclick=function(){tryEnter($("pw").value.trim())};
+  $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")tryEnter($("pw").value.trim())});
+  try{var sv=sessionStorage.getItem("nd_staff");if(sv)tryEnter(sv,true);}catch(e){}
+  /* 画像は長辺1600pxまでのJPEGに縮めてから送る */
+  var IMG="";
+  $("img").addEventListener("change",function(){IMG="";$("prev").style.display="none";var f=this.files[0];if(!f)return;var im=new Image();im.onload=function(){var m=1600,s=Math.min(1,m/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);var d=c.toDataURL("image/jpeg",.82);IMG=d.split(",")[1];$("prev").src=d;$("prev").style.display="block";URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f);});
+  function say(t,ok){var m=$("fmsg");m.hidden=false;m.className="msg "+(ok?"ok":"ng");m.textContent=t;}
+  $("form").addEventListener("submit",function(e){e.preventDefault();var b=$("send");b.disabled=true;b.textContent="送信中…";
+    try{localStorage.setItem("nd_staff_store",$("store").value);localStorage.setItem("nd_staff_name",$("name").value);}catch(er){}
+    var body=JSON.stringify({type:"staffreport",pass:PASS,store:$("store").value,name:$("name").value,card:$("card").value,text:$("text").value,image:IMG});
+    fetch(URL_,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:body}).then(function(r){return r.json()}).then(function(j){
+      if(j&&j.ok){say("送りました。ありがとうございます。続けて送ることもできます。",true);$("card").value="";$("text").value="";$("img").value="";IMG="";$("prev").style.display="none";}
+      else say("送れませんでした（"+((j&&j.error)||"エラー")+"）。もう一度お試しください。",false);
+    }).catch(function(){say("送れませんでした。電波のよいところでもう一度お試しください。",false);}).then(function(){b.disabled=false;b.textContent="本部に送る";});
+  });
+})();
+</script>

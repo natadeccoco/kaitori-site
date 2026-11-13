@@ -7,7 +7,10 @@
   "tracking": {
     "ga4": "G-SNP3PXE56F",
     "ads": "",
-    "adsLabels": { "line_add": "", "apply": "" }
+    "adsLabels": {
+      "line_add": "",
+      "apply": ""
+    }
   },
   "xUrl": "https://x.com/coco_kaitori",
   "shopUrl": "https://pokemon-card.shop/",
@@ -43,5 +46,6 @@
     "ポケモン": "シングル",
     "旧弾": "シングル",
     "汎用": "最低保証"
-  }
+  },
+  "staffReportUrl": "https://script.google.com/macros/s/AKfycbw-wkodhT2Gmt7pTDZJJDorXAjAT5lHzndPN-FoaGFDaOt8U_YycX9CCB-hk3bzjagh/exec"
 }

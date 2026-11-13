@@ -129,11 +129,35 @@ function matchCard(it, cat) {
   it.imgCands = scored.filter(z => z.sc === scored[0].sc).length; it.imgWhy = "name-only";
   return scored[0].x.img;
 }
+/* BOX・パック・デッキ：シートの名前（「拡張パック第5弾「リューズブラスト」」「海からの風【未開封パック】」など）から
+   飾りの語を取りのぞいた「芯の名前」で、Mycaカタログ（「リューズブラスト BOX」「リューズブラスト」）に当てる。
+   シートの種類（パック列）がBOX系ならカタログ名に BOX が付く方を、パック系なら付かない方を優先する。 */
+const boxCore = s => (s || "").normalize("NFKD").replace(/[\u0300-\u036f]/g, "").normalize("NFKC").replace(/【.*?】/g, "").replace(/ポケモンカードゲーム/g, "")
+  .replace(/(強化)?拡張パック|ハイクラスパック|コンセプトパック|強化パック|映画公開記念|第\s*\d+\s*弾|シリーズ/g, "")
+  .replace(/box|ボックス/gi, "").replace(/[\s　・･\-－—「」『』（）()\[\]［］&＆+＋\/／:：!！,、.。]/g, "").toLowerCase();
 function matchBox(it, cat) {
   const k = stripBox(it.name); if (!k) return "";
-  const ex = cat.boxes.filter(b => b.key === k);
-  const c = ex.length ? ex : cat.boxes.filter(b => b.key.includes(k));
-  return c.length ? c[0].img : "";
+  if (!cat.boxes[0] || cat.boxes[0].core === undefined) for (const b of cat.boxes) { b.core = boxCore(b.name); b.isBox = /box|ボックス/i.test(b.name); }
+  const tag = (it.name.match(/【(.*?)】/) || [])[1] || "", kind = it.set || "";
+  const wantBox = !/パック|デッキ|セット/.test(tag) && /^(BOX|スペシャルBOX|MEGA|SV|SS|SM|XY|BW)$/i.test(kind) || (!tag && !kind);
+  const pick = c => { if (!c.length) return ""; const p = c.filter(b => b.isBox === wantBox); return (p.length ? p : c)[0].img; };
+  const ex = cat.boxes.filter(b => b.key === k); if (ex.length) return pick(ex);
+  const core = boxCore(it.name); if (core.length < 2) return "";
+  const same = cat.boxes.filter(b => b.core === core && (wantBox || !b.isBox)); if (same.length) return pick(same);
+  if (core.length < 4) return "";
+  // 違う商品の画像を出さないため、ゆるい部分一致は使わない。次の2つだけ認める：
+  //  (a) シート名の括弧書き（(カード付き) など）を除くとカタログ名と同じ
+  //  (b) カタログ名が「決まった前後の語（トイザらス限定・スペシャルBOX・構築済みデッキ・ex・GX など）＋シート名」になっている
+  const core2 = boxCore(it.name.replace(/[（(].*?[)）]/g, ""));
+  const sameA = core2 !== core && !/マクドナルド|ハッピーセット|ショートパック/.test(it.name) ? cat.boxes.filter(b => b.core === core2 && (wantBox || !b.isBox)) : []; if (sameA.length) return pick(sameA);
+  const AFFIX = /^(トイザらス限定|スペシャル|構築済みデッキ|ポケモンジム|ex|gx)*$/;
+  const sameB = cat.boxes.filter(b => b.core !== core && b.core.includes(core) && AFFIX.test(b.core.replace(core, "")));
+  // パック単品に BOX の画像は当てない（その逆は、BOXしか載っていないセット商品があるので認める）
+  if (sameB.length) return pick(wantBox ? sameB : sameB.filter(b => !b.isBox));
+  //  (c) カタログ名が「シリーズ名など＋シート名」で終わっていて（例：TAG TEAM GX タッグオールスターズ）、候補が1つに決まるとき
+  if (core.length < 6 || /マクドナルド|ハッピーセット|ショートパック/.test(it.name)) return "";
+  const tail = cat.boxes.filter(b => b.core !== core && b.core.endsWith(core) && b.isBox === wantBox);
+  return tail.length === 1 ? tail[0].img : "";
 }
 /* 旧裏：シートの「名前 LV.xx(ヒント/ヒント)」を Myca の 旧裏カード（名前（補足）, パック名）に当てる。
    候補＝括弧を除いた名前が同じもの。括弧内のヒント（/ ・ で区切り）がパック名か補足に含まれるほど高得点。

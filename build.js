@@ -345,7 +345,9 @@ console.log(`article pages: ${arts.length}`);
       pool() {
         const all = withImg("BOX").sort(byPrice);
         // BOX版LPの分類：box＝ふつうのBOX／sp＝スペシャルBOX・記念セットなど／pd＝未開封パック・デッキ
-        const kind = r => /デッキ|スターター/.test(r.name) ? "pd" : /FUTURISTIC|スペシャル|プレミアム|デラックス|コレクション|セット|トレーナーボックス/i.test(r.name) ? "sp" : "box";
+        // 買取表BOXタブの「種類」列（BOX／スペシャルBOX／パック／その他、またはシリーズ名）を優先して分ける
+        const kind = r => /^(パック|その他)$/.test(r.set || "") || /【.*(パック|デッキ|セット).*】|デッキ|スターター/.test(r.name) ? "pd"
+          : (r.set === "スペシャルBOX" || /FUTURISTIC|スペシャル|プレミアム|デラックス|トレーナーボックス/i.test(r.name)) ? "sp" : "box";
         const hot = shuffle(all.filter(r => kind(r) === "box").slice(0, 30));   // ファーストビューにはふつうのBOXだけ出す
         const cnt = { box: 0, sp: 0, pd: 0 }; all.forEach(r => cnt[kind(r)]++);
         console.log("lp(box): BOX " + cnt.box + "件 / スペシャルBOX " + cnt.sp + "件 / パック・デッキ " + cnt.pd + "件");

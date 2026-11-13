@@ -322,15 +322,20 @@ console.log(`article pages: ${arts.length}`);
   const isOldMain = x => /拡張パック第1弾|ポケモンジャングル|化石の秘密|ロケット団|リーダーズスタジアム|闇からの挑戦|金銀新世界へ|遺跡をこえて|めざめる伝説|闇そして光へ/.test(x.set || "");
   const variants = [
     { key: "main", tpl: "lp.html", out: "lp/index.html", path: "/lp/",
-      title: "ポケカ郵送買取｜箱に詰めて送るだけ・送料0円・最短当日入金",
-      desc: `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの郵送買取。LINEで無料査定。`,
+      title: "ポケカ宅配買取｜箱に詰めて送るだけ・送料0円・最短当日入金",
+      desc: `ポケモンカードを箱に詰めて送るだけ。送料無料・最短当日入金・${items.length.toLocaleString()}枚の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。LINEで無料査定。`,
       pool() {
         const top = items.filter(x => x.img && (x.cat === "ポケモン" || x.cat === "PSA")).sort(byPrice);
         let hp = items.filter(x => x.img && (/強化買取/.test(x.tab || "") || ((x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price >= 10000)));   // MEGA/SVのSAR・1万円以上
         if (hp.length < 20) hp = hp.concat(items.filter(x => x.img && (x.tab === "MEGA" || x.tab === "SV") && isSAR(x) && x.price < 10000 && !hp.includes(x)).sort(byPrice).slice(0, 20 - hp.length));
         let hot = shuffle(hp.slice()); if (hot.length < 8) hot = hot.concat(top.filter(x => !hp.includes(x)).slice(0, 8 - hot.length));
         const kyoka = items.filter(x => x.img && /強化買取/.test(x.tab || "")).sort(byPrice);
-        const src = (kyoka.length ? kyoka : hp.slice().sort(byPrice)).concat(top.slice().sort((a, b) => (b.order - a.order) || (b.price - a.price)));   // 続きは新しいシリーズ優先
+        const base = kyoka.length ? kyoka : hp.slice().sort(byPrice);
+        // 続き（もっと見る）も強化買取の価格帯だけにする：強化買取のいちばん安い価格（最低3,000円）以上のカードを高い順に
+        const floor = Math.max(3000, base.length ? Math.min.apply(null, base.map(x => x.price)) : 0);
+        console.log("lp(main): 強化買取 " + base.length + "件 / 続きの下限 " + floor + "円");
+        const ceil = base.length ? Math.max.apply(null, base.map(x => x.price)) : Infinity;
+        const src = base.concat(top.filter(x => x.price >= floor && x.price <= ceil).sort((a, b) => (b.order - a.order) || (b.price - a.price)));   // 続きは新しいシリーズ優先
         const list = uniq(src.filter(x => !isPsaItem(x)), 90, x => baseName(x.name) + "|" + x.cat);   // LPの強化買取は素体のみ
         return { hot, list, k: r => isPsaItem(r) ? "psa" : "single" };
       }, vpics: {} },

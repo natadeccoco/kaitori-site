@@ -477,7 +477,9 @@ body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:
       <li>※表示価格は美品の場合の価格です。傷・白かけ・反り等がある場合は減額となることがあります。</li>
       <li class="only-store">※同じカードが多い場合は、在庫状況により減額となることがあります。</li>
       <li class="only-store">※価格は相場により予告なく変動します。お持ち込みの日の価格で査定いたします。</li>
-      <li class="only-takuhai">※価格は相場により予告なく変動します。カード到着日の価格で査定いたします。</li>
+      <li class="only-takuhai">※価格は相場により予告なく変動します。申込から5日以内にカードが届いた場合は、申込時の価格で査定いたします。5日を過ぎて届いた場合は、到着日の価格で査定いたします。</li>
+      <li class="only-takuhai">※査定金額のご連絡から3日以内にご返答ください。3日を過ぎてご返答いただいた場合は、その時点の価格で再査定いたします。</li>
+      <li class="only-takuhai">※ご連絡から1週間ご返答がない場合は、カードを着払いで返送いたします。同封いただいたファイル等はすべて廃棄いたします。</li>
     </ul>
   </section>
 </main>
@@ -556,7 +558,7 @@ body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:
     <ol class="steps">
       <li><span class="n"><small>STEP</small>1</span><div><b>LINEで申込</b><p>価格表でカードを選んで「LINEで買取申込へ進む」を押すか、LINEのリッチメニューからお申込みください。先に写真を送っていただければ、事前にお見積りもできます。</p></div><img src="/img/step1.webp" alt=""></li>
       <li><span class="n"><small>STEP</small>2</span><div><b>着払いで発送</b><p>お手持ちの箱でOK。佐川急便の着払いで送料0円（レターパック・ヤマトも可）。スリーブやファイルのままで大丈夫です。</p></div><img src="/img/step2.webp" alt=""></li>
-      <li><span class="n"><small>STEP</small>3</span><div><b>本査定</b><p>到着後に1枚ずつ検品し、カード到着日の価格で最終金額をLINEでご連絡します。減額に納得できなければキャンセル可（返送料は当店負担）。</p></div><img src="/img/step3.webp" alt=""></li>
+      <li><span class="n"><small>STEP</small>3</span><div><b>本査定</b><p>到着後に1枚ずつ検品し、最終金額をLINEでご連絡します。申込から5日以内に届いた分は、申込時の価格で査定します。ご連絡から3日以内にご返答ください。減額に納得できなければキャンセル可（返送料は当店負担）。</p></div><img src="/img/step3.webp" alt=""></li>
       <li><span class="n"><small>STEP</small>4</span><div><b>お振込み</b><p>古物営業法にもとづき、スマホで本人確認（eKYC・顔写真付き身分証）のあと、最短当日にお振込みします。</p></div><img src="/img/step4.webp" alt=""></li>
     </ol>
     <p style="margin:14px 0 0;text-align:center;font-size:13px"><a href="/guide/">梱包のしかた・価格の考え方など、くわしいガイドはこちら ›</a>　<a href="/faq/">よくある質問 ›</a></p>
@@ -755,7 +757,7 @@ function renderCart(){
 function cartText(){
   const d=new Date();const lines=[`【宅配買取 申込】${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 価格表より`,""];
   let n=0,t=0;cart.forEach(({item,qty})=>{n+=qty;t+=item.price*qty;lines.push(`・${item.name}${item.code?"（"+item.code+"）":""}${(v=>v.c==="raw"||v.c==="seal"?"":" "+v.l)(vinfo(item))} ×${qty} … ${yen(item.price*qty)}`);});
-  lines.push("",`合計 ${n}点 ${yen(t)}`,"","※美品の場合の価格です。状態により減額の場合があります。","お名前・発送予定日をご記入ください：");
+  lines.push("",`合計 ${n}点 ${yen(t)}`,"","※美品の場合の価格です。状態により減額の場合があります。","※申込から5日以内に到着した場合、上記の価格で査定します。","お名前・発送予定日をご記入ください：");
   const ac=window.ndAttrCode&&ndAttrCode();if(ac)lines.push("","受付コード："+ac);
   return lines.join("\n");
 }

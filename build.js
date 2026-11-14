@@ -173,7 +173,7 @@ function cardAbout(it) {
   if (pair) p.push(it.cat === "PSA" ? `鑑定なし（素体）の${esc(b)}は<a href="/card/${encodeURIComponent(pair.id)}/">${esc(yen(pair.price))}で買取</a>しています。` : `PSA10鑑定済みの${esc(b)}は<a href="/card/${encodeURIComponent(pair.id)}/">${esc(yen(pair.price))}で買取</a>しています。鑑定品をお持ちの方はそちらをご覧ください。`);
   const vs = (byBase.get(b) || []).filter(x => x.id !== it.id);
   if (vs.length) p.push(`${esc(b)}は別バージョン・別弾のカードも${vs.length}種類掲載しています（下の「同じ名前のカード」をご覧ください）。`);
-  p.push("相場に合わせて価格表を毎日更新しています。郵送買取はカード到着日の価格で査定し、送料無料・最短当日入金です。");
+  p.push("相場に合わせて価格表を毎日更新しています。宅配買取は、申込から5日以内にカードが届けば申込時の価格で査定します。送料無料・最短当日入金です。");
   return p.map(x => `<p>${x}</p>`).join("");
 }
 function cardVariants(it) {
@@ -185,7 +185,7 @@ function cardVariants(it) {
 function cardFaq(it) {
   const b = baseName(it.name), full = it.name + (it.code ? "（" + it.code + "）" : "");
   const q = [];
-  q.push([`${full}の買取価格はいくらですか？`, `${updated}時点で${yen(it.price)}（美品の場合）です。相場に合わせて毎日更新しており、郵送買取はカードが到着した日の価格で査定します。`]);
+  q.push([`${full}の買取価格はいくらですか？`, `${updated}時点で${yen(it.price)}（美品の場合）です。相場に合わせて毎日更新しており、宅配買取は、申込から5日以内にカードが届けば申込時の価格で査定します（5日を過ぎた場合は到着日の価格）。`]);
   q.push([`状態が良くない${b}も買い取ってもらえますか？`, it.cat === "PSA" ? "中のカードは鑑定済みなので、主にケースの状態を確認します。角の割れ・ヒビ・深い傷があると減額となる場合があります。気になる点は写真でお知らせください。" : it.cat === "BOX" ? "シュリンクなし・箱つぶれなどは減額となりますが買取できます。先に写真をお送りいただくと、お見積りの段階で金額をお伝えできます。" : "はい。白かけ・スレ・反りなどがある場合は減額となりますが買取できます。減額後の金額にご納得いただけない場合はキャンセルでき、返送料は当店が負担します。"]);
   const pair = findPair(it);
   if (pair) q.push([it.cat === "PSA" ? `鑑定なし（素体）の${b}の買取価格は？` : `PSA10鑑定済みの${b}の買取価格は？`, `${yen(pair.price)}（${updated}時点）で買取しています。詳しくは${pair.name}${pair.code ? "（" + pair.code + "）" : ""}のページをご覧ください。`]);
@@ -235,7 +235,7 @@ for (const it of items) {
   const title = `${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} 買取価格 ${yen(it.price)}`;
   const sps = speciesOf(it); const enNames = sps.map(x => x.en).join(" & ");
   const desc = `${it.name}${it.code ? " " + it.code : ""}${enNames ? "（英語名：" + enNames + "）" : ""}${it.set ? "／" + it.set : ""}${it.rarity !== "-" ? "／" + it.rarity : ""} の買取価格は${yen(it.price)}（${updated}時点）。ナタデココのかんたん宅配買取ならLINEで申込・送料無料・最短当日入金。`;
-  const lineText = `【宅配買取 申込】\n・${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} ×1 … ${yen(it.price)}\n\n※美品の場合の価格です。\nお名前・枚数・発送予定日をご記入ください：`;
+  const lineText = `【宅配買取 申込】\n・${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} ×1 … ${yen(it.price)}\n\n※美品の場合の価格です。\n※申込から5日以内に到着した場合、上記の価格で査定します。\nお名前・枚数・発送予定日をご記入ください：`;
   const lineMsg = lineText.replace(yen(it.price), "{P}");   // 申込直前の最新価格チェック用（card.html のスクリプトが {P} に最新価格を入れる）
   const lineUrl = `https://line.me/R/oaMessage/${encodeURIComponent(CFG.lineId)}/?${encodeURIComponent(lineText)}`;
   const ld = { "@context": "https://schema.org", "@type": "Product", name: it.name, alternateName: enNames || undefined, image: it.img || undefined, description: desc, brand: { "@type": "Brand", name: "ポケモンカードゲーム" }, sku: it.code || undefined,

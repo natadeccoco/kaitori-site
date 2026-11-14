@@ -19,10 +19,11 @@ a.btn{display:block;border-radius:999px;background:#06C755;color:#fff;font-weigh
 </head>
 <body>
 <div class="box">
-  <img src="../img/chars/minty.webp" alt="" onerror="this.remove()">
+  <img src="../img/chars/chan2.webp" alt="" onerror="this.remove()">
   <h1 id="ttl">申込フォームを開いています</h1>
   <p id="msg">カードの内容を受け付けて、<br>宅配買取の申込フォームに進みます</p>
   <div id="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+  <p id="wait" style="margin:14px 0 0;font-size:12px;background:#F4FAFB;border-radius:12px;padding:8px 10px">処理に<b>数十秒</b>かかる場合があります。<br>画面を閉じずに、そのままお待ちください。</p>
   <a class="btn" id="go" href="__LINE_FORM_URL__" style="display:none">申込フォームへ進む</a>
 </div>
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js" charset="utf-8"></script>
@@ -31,9 +32,11 @@ a.btn{display:block;border-radius:999px;background:#06C755;color:#fff;font-weigh
   var FORM="__LINE_FORM_URL__",API="__APPLY_URL__",LIFF_ID="__LIFF_ID__";
   var q=new URLSearchParams(location.search);
   var no=q.get("no")||"",k=q.get("k")||"";
-  function show(t,m){document.getElementById("ttl").textContent=t;document.getElementById("msg").innerHTML=m;document.getElementById("dots").style.display="none";document.getElementById("go").style.display="block";}
+  function show(t,m){document.getElementById("ttl").textContent=t;document.getElementById("msg").innerHTML=m;document.getElementById("dots").style.display="none";document.getElementById("wait").style.display="none";document.getElementById("go").style.display="block";}
+  function step(m){document.getElementById("msg").innerHTML=m;}
+  setTimeout(function(){step("受付内容をLINEにお送りしています…<br>もう少しお待ちください");},6000);
   function toForm(){location.replace(FORM);}
-  var timer=setTimeout(function(){show("申込フォームへ進んでください","うまく開かない場合は、下のボタンを押してください。");},12000);
+  var timer=setTimeout(function(){show("申込フォームへ進んでください","うまく開かない場合は、下のボタンを押してください。");},30000);
   if(!window.liff){clearTimeout(timer);show("申込フォームへ進んでください","下のボタンを押してください。");return;}
   liff.init({liffId:LIFF_ID}).then(function(){
     if(!liff.isLoggedIn()){liff.login({redirectUri:location.href});return;}

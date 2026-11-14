@@ -950,7 +950,7 @@ function apModal(html){let m=document.getElementById("applyM");if(m)m.remove();m
 let apBusy=false;
 function applyGo(){
   if(apBusy||!cart.size)return;apBusy=true;
-  const m=apModal(`<b style="display:block;font-size:17px;margin:6px 0">申込を準備しています…</b><p style="font-size:13px;color:#5A6B76;margin:0">このあとLINEが開きます</p>`);
+  const m=apModal(`<b style="display:block;font-size:17px;margin:6px 0">申込を準備しています…</b><p style="font-size:13px;color:#5A6B76;margin:0">このあとLINEが開きます</p><p style="font-size:12px;color:#5A6B76;margin:10px 0 0;background:#F4FAFB;border-radius:12px;padding:8px 10px">処理に<b>数十秒</b>かかる場合があります。<br>画面を閉じずに、そのままお待ちください。</p>`);
   const at=window.ndAttr?ndAttr():{};
   const items=[];cart.forEach(({item,qty})=>{const v=vinfo(item);items.push({name:`${item.name}${item.code?"（"+item.code+"）":""}${v.c==="raw"||v.c==="seal"?"":" "+v.l}`,price:item.price,qty});});
   const payload={act:"create",items,code:(window.ndAttrCode&&ndAttrCode())||"",src:at.src||"",lp:at.lp||"",device:isMobile()?"スマホ":"PC",dev:devId()};
@@ -960,7 +960,7 @@ function applyGo(){
     [...cart.keys()].forEach(id=>addToCart(id,-(cart.get(id).qty)));
     if(isMobile()){m.firstElementChild.innerHTML=`<b style="display:block;font-size:17px;margin:6px 0">LINEを開いています…</b><p style="font-size:12px;color:#5A6B76;margin:0 0 14px">受付番号 ${esc(res.no)}</p><a href="${esc(url)}" style="display:block;border-radius:999px;background:#06C755;color:#fff;font-weight:800;padding:14px;text-decoration:none">開かないときはこちら</a>`;location.href=url;}
     else{m.firstElementChild.innerHTML=`<b style="display:block;font-size:18px;margin:4px 0">スマホのLINEで続きをお願いします</b>
-      <p style="font-size:13px;color:#5A6B76;margin:6px 0 10px">スマホのカメラで読み取ると、LINEが開いて<br>申込フォームに進みます（受付番号 ${esc(res.no)}）</p>
+      <p style="font-size:13px;color:#5A6B76;margin:6px 0 10px">スマホのカメラで読み取ると、LINEが開いて<br>申込フォームに進みます（受付番号 ${esc(res.no)}）<br><span style="font-size:12px">読み取ったあと、LINEの画面が切り替わるまで<b>数十秒</b>かかる場合があります。閉じずにお待ちください。</span></p>
       <div id="apQR" style="display:flex;justify-content:center;min-height:200px;align-items:center;color:#5A6B76;font-size:12px">QRを作成中…</div>
       <button type="button" id="apEnd" style="margin-top:12px;border:2px solid #C9D6DE;border-radius:999px;background:#fff;color:#173B5C;font-weight:700;padding:9px 20px;cursor:pointer">閉じる</button>`;
       m.querySelector("#apEnd").onclick=()=>m.remove();

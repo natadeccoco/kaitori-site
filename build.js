@@ -135,7 +135,8 @@ const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<he
 const AT = CFG.applyTest || {};
 const noApply = s => s.replace(/__APPLY_URL__/g, "").replace(/__LIFF_URL__/g, "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || ""));
 write("index.html", noApply(wrap(makePage("store"))));
-write("takuhai/index.html", noApply(wrap(makePage("takuhai"))));
+const liveApply = s => AT.gasUrl && AT.live ? s.replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LIFF_URL__/g, AT.liffId ? "https://liff.line.me/" + AT.liffId : "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || "")) : noApply(s);
+write("takuhai/index.html", liveApply(wrap(makePage("takuhai"))));   // applyTest.live=true で本番の宅配ページも新しい申込の流れに
 // LINEの中継ページ（LIFF）：受付番号をLINEの名前と結びつけ、公式LINEから受付内容を送ってから RECORE の申込フォームへ
 if (AT.gasUrl && AT.liffId) write("liff/index.html", fs.readFileSync("liff.html", "utf8").replace(/__LIFF_ID__/g, AT.liffId).replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LINE_FORM_URL__/g, AT.lineFormUrl || ""));
 // テスト用：サイト申込（カート→スプレッドシート→LINE申込フォーム）。検索には出さない・どこからもリンクしない

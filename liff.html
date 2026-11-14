@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>宅配買取のお申込み｜ナタデココ</title>
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"M PLUS Rounded 1c","Hiragino Maru Gothic ProN","Zen Kaku Gothic New",sans-serif;background:linear-gradient(135deg,#FFF6C9,#B8F4F4 50%,#DCCBFF);color:#173B5C;padding:24px;box-sizing:border-box}
+.box{background:#fff;border-radius:24px;padding:28px 22px;max-width:380px;width:100%;box-shadow:0 8px 30px rgba(23,59,92,.15)}
+img{height:120px}
+h1{font-size:18px;margin:10px 0 6px}
+p{font-size:13px;color:#5A6B76;margin:0 0 14px;line-height:1.7}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#06C755;margin:0 3px;animation:b 1s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes b{0%,80%,100%{opacity:.25}40%{opacity:1}}
+a.btn{display:block;border-radius:999px;background:#06C755;color:#fff;font-weight:800;padding:14px;text-decoration:none;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="box">
+  <img src="../img/chars/minty.webp" alt="" onerror="this.remove()">
+  <h1 id="ttl">申込フォームを開いています</h1>
+  <p id="msg">カードの内容を受け付けて、<br>宅配買取の申込フォームに進みます</p>
+  <div id="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+  <a class="btn" id="go" href="__LINE_FORM_URL__" style="display:none">申込フォームへ進む</a>
+</div>
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js" charset="utf-8"></script>
+<script>
+(function(){
+  var FORM="__LINE_FORM_URL__",API="__APPLY_URL__",LIFF_ID="__LIFF_ID__";
+  var q=new URLSearchParams(location.search);
+  var no=q.get("no")||"",k=q.get("k")||"";
+  function show(t,m){document.getElementById("ttl").textContent=t;document.getElementById("msg").innerHTML=m;document.getElementById("dots").style.display="none";document.getElementById("go").style.display="block";}
+  function toForm(){location.replace(FORM);}
+  var timer=setTimeout(function(){show("申込フォームへ進んでください","うまく開かない場合は、下のボタンを押してください。");},12000);
+  if(!window.liff){clearTimeout(timer);show("申込フォームへ進んでください","下のボタンを押してください。");return;}
+  liff.init({liffId:LIFF_ID}).then(function(){
+    if(!liff.isLoggedIn()){liff.login({redirectUri:location.href});return;}
+    if(!no||!k){toForm();return;}
+    var tok=liff.getAccessToken();
+    return fetch(API,{method:"POST",body:JSON.stringify({act:"link",no:no,k:k,token:tok})}).then(function(r){return r.json();}).catch(function(){return {ok:false};}).then(function(){toForm();});
+  }).catch(function(){clearTimeout(timer);toForm();});
+})();
+</script>
+</body>
+</html>

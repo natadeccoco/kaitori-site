@@ -133,11 +133,13 @@ if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</
 ` : "";
 const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 const AT = CFG.applyTest || {};
-const noApply = s => s.replace(/__APPLY_URL__/g, "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || ""));
+const noApply = s => s.replace(/__APPLY_URL__/g, "").replace(/__LIFF_URL__/g, "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || ""));
 write("index.html", noApply(wrap(makePage("store"))));
 write("takuhai/index.html", noApply(wrap(makePage("takuhai"))));
+// LINEの中継ページ（LIFF）：受付番号をLINEの名前と結びつけ、公式LINEから受付内容を送ってから RECORE の申込フォームへ
+if (AT.gasUrl && AT.liffId) write("liff/index.html", fs.readFileSync("liff.html", "utf8").replace(/__LIFF_ID__/g, AT.liffId).replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LINE_FORM_URL__/g, AT.lineFormUrl || ""));
 // テスト用：サイト申込（カート→スプレッドシート→LINE申込フォーム）。検索には出さない・どこからもリンクしない
-if (AT.gasUrl) write("takuhai-test/index.html", wrap(makePage("takuhai")).replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || "")).replace("<head>\n", '<head>\n<meta name="robots" content="noindex,nofollow">\n'));
+if (AT.gasUrl) write("takuhai-test/index.html", wrap(makePage("takuhai")).replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LIFF_URL__/g, AT.liffId ? "https://liff.line.me/" + AT.liffId : "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || "")).replace("<head>\n", '<head>\n<meta name="robots" content="noindex,nofollow">\n'));
 // （まとめ表示の確認用ページ /preview/ は不採用になったため出力しない。2026-11-14）
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */

@@ -11,7 +11,10 @@ function setupAuth() {
  * スクリプトプロパティ：LINE_TOKEN（Messaging APIのチャネルアクセストークン）、LIFF_CHANNEL_ID（LINEログインのチャネルID）
  */
 const TPL_NAME = '原本';
-const LIST_NAME = '申込一覧';
+const LIST_NAME = '申込一覧（サイト）';
+// 書き込み先：スクリプトプロパティ SHEET_ID があればそれ、なければ本番の「宅配買取ナタデココ🧊お見積りシート」
+const SHEET_ID = '1BBESQZWxdsij1q8hIk_klPgw6RbYL4MonIV6CyKXWz8';
+function ss_() { return SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SHEET_ID') || SHEET_ID); }
 const TPL_SLOTS = 31;
 const FIRST_ROW = 2;
 const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16 };
@@ -48,7 +51,7 @@ function create_(d) {
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = ss_();
     const list = ss.getSheetByName(LIST_NAME);
     const now = new Date();
     const md = Utilities.formatDate(now, 'Asia/Tokyo', 'M/d');
@@ -57,7 +60,7 @@ function create_(d) {
 
     let title = '受付' + no + '（サイト）';
     const sh = ss.getSheetByName(TPL_NAME).copyTo(ss).setName(title);
-    ss.setActiveSheet(sh); ss.moveActiveSheet(3);
+    ss.setActiveSheet(sh); ss.moveActiveSheet(list.getIndex() + 1);   // 申込一覧のすぐ右（新しい順）
     if (items.length > TPL_SLOTS) {
       const extra = items.length - TPL_SLOTS;
       sh.insertRowsAfter(FIRST_ROW + TPL_SLOTS - 2, extra);
@@ -107,7 +110,7 @@ function link_(d) {
   lock.waitLock(20000);
   let items = [], already = false, r = 0;
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = ss_();
     const list = ss.getSheetByName(LIST_NAME);
     const vals = list.getRange(2, 1, Math.max(1, list.getLastRow() - 1), COL.key).getValues();
     for (let i = vals.length - 1; i >= 0; i--) { if (vals[i][COL.no - 1] === no) { r = i + 2; break; } }
@@ -148,7 +151,7 @@ function link_(d) {
       payload: JSON.stringify({ to: p.userId, messages: [{ type: 'text', text: text.slice(0, 4900) }] })
     });
     pushed = res.getResponseCode() === 200;
-    if (!pushed) SpreadsheetApp.getActiveSpreadsheet().getSheetByName(LIST_NAME).getRange(r, COL.memo).setValue('LINE送信失敗 ' + res.getResponseCode());
+    if (!pushed) ss_().getSheetByName(LIST_NAME).getRange(r, COL.memo).setValue('LINE送信失敗 ' + res.getResponseCode());
   }
   return out_({ ok: true, pushed: pushed });
 }

@@ -73,9 +73,9 @@ function create_(d) {
     sh.getRange('I1:J5').setValues([
       ['申込番号', no],
       ['LINEの名前', '（LINEで開く前）'],
-      ['電話番号', ''],
+      ['申込日時', Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm')],
       ['受付コード', String(d.code || '').slice(0, 80) || '（なし）'],
-      ['申込日時', Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm')]
+      ['照合', 'RECOREの申込と「LINEの名前＋申込日」で照合']
     ]);
     sh.getRange('I1:I5').setFontWeight('bold');
 

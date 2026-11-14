@@ -17,7 +17,8 @@ const SHEET_ID = '1BBESQZWxdsij1q8hIk_klPgw6RbYL4MonIV6CyKXWz8';
 function ss_() { return SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SHEET_ID') || SHEET_ID); }
 const TPL_SLOTS = 31;
 const FIRST_ROW = 2;
-const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16 };
+const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16, arrived: 17, amount: 18, cancel: 19, won: 20, state: 21 };
+const UNSENT_DAYS = 7;   // 申込から何日たっても届かなければ見積書タブを消す
 
 function doPost(e) {
   let d = {};
@@ -81,7 +82,7 @@ function create_(d) {
 
     const qty = items.reduce(function (s, it) { return s + it.qty; }, 0);
     const total = items.reduce(function (s, it) { return s + it.price * it.qty; }, 0);
-    const row = [now, no, '', '', qty, total, String(d.code || ''), String(d.src || ''), String(d.lp || ''),
+    const row = [now, no, '', '', qty, total, String(d.code || '') || '（直接）', String(d.src || ''), String(d.lp || ''),
       '=HYPERLINK("#gid=' + sh.getSheetId() + '","' + title + '")', '', String(d.device || ''), '', '', JSON.stringify(items).slice(0, 45000), key];
     list.appendRow(row);
     return out_({ ok: true, no: no, k: key });
@@ -163,4 +164,47 @@ function doGet() { return out_({ ok: true, ping: 'takuhai-apply-v2' }); }
 
 function out_(o) {
   return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON);
+}
+
+
+/* ===== 毎朝の見回り：着荷・査定額・成約を申込一覧に書き、届かない申込の見積書タブを消す =====
+ * 着荷   … 見積書タブの「状態」(F列)に1つでも入力があれば「届いた」
+ * 査定額 … 見積書タブの 金額×数量 の合計（スタッフが直した後の金額）
+ * 全件キャンセル … スタッフがチェック（成約に数えない）
+ * 成約   … 着荷 かつ 査定額>0 かつ 全件キャンセルでない
+ * 申込から UNSENT_DAYS 日たっても着荷しない → 見積書タブを削除し「未着・削除」と記録（行は分析用に残す）
+ */
+function daily() {
+  const ss = ss_(), list = ss.getSheetByName(LIST_NAME);
+  const n = list.getLastRow() - 1; if (n < 1) return;
+  const vals = list.getRange(2, 1, n, COL.state).getValues();
+  const forms = list.getRange(2, COL.tab, n, 1).getFormulas();
+  const byId = {}; ss.getSheets().forEach(function (sh) { byId[String(sh.getSheetId())] = sh; });
+  const now = Date.now();
+  const out = vals.map(function (v, i) {
+    let arrived = v[COL.arrived - 1] === true, amount = v[COL.amount - 1], state = v[COL.state - 1];
+    const cancel = v[COL.cancel - 1] === true;
+    const m = String(forms[i][0]).match(/#gid=(\d+)/), sh = m && byId[m[1]];
+    if (sh) {
+      const last = Math.max(sh.getLastRow(), FIRST_ROW);
+      const g = sh.getRange(FIRST_ROW, 2, last - FIRST_ROW + 1, 5).getValues();   // B:カード名 C:金額 D:数量 E:小計 F:状態
+      let sum = 0, st = false;
+      g.forEach(function (r) { if (!r[0] || /合計/.test(String(r[0]))) return; sum += (Number(r[1]) || 0) * (Number(r[2]) || 0); if (String(r[4]).trim()) st = true; });
+      arrived = arrived || st; amount = sum;
+      const age = (now - new Date(v[COL.date - 1]).getTime()) / 86400000;
+      if (!arrived && age >= UNSENT_DAYS) { ss.deleteSheet(sh); state = '未着・削除'; amount = ''; }
+      else state = arrived ? '着荷' : '到着待ち';
+    }
+    const won = arrived && !cancel && Number(amount) > 0;
+    return [arrived, amount, cancel, won, state];
+  });
+  list.getRange(2, COL.arrived, n, 5).setValues(out);
+  list.getRange(2, COL.arrived, n, 1).insertCheckboxes(); list.getRange(2, COL.cancel, n, 1).insertCheckboxes(); list.getRange(2, COL.won, n, 1).insertCheckboxes();
+}
+
+// 初回だけエディタで実行：毎朝6時台に daily を動かす
+function setupDaily() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'daily') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('daily').timeBased().everyDays(1).atHour(6).inTimezone('Asia/Tokyo').create();
+  daily();
 }

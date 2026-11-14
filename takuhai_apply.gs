@@ -150,7 +150,7 @@ function link_(d) {
       n += it.qty; t += it.price * it.qty; return '・' + it.name + ' ×' + it.qty + ' … ¥' + (it.price * it.qty).toLocaleString(); });
     const dl = new Date(appliedAt.getTime() + 3 * 86400000);   // 申込日の翌日から3日以内＝申込日+3日
     const dls = Utilities.formatDate(dl, 'Asia/Tokyo', 'M/d') + '（' + '日月火水木金土'.charAt(Number(Utilities.formatDate(dl, 'Asia/Tokyo', 'u')) % 7) + '）';
-    const guard = n ? '🔒価格保証：' + dls + 'までに届けば、下記の申込時の価格で買取します（相場が下がっても下げません）。\n\n' : '📦' + dls + 'までの到着を目安にお送りください。\n\n';
+    const guard = n ? '🔒価格保証：申込日の翌日から3日以内（' + dls + 'まで）に届けば、申込日の金額で査定します（発送後に相場が下がっても下げません）。\n\n' : '📦' + dls + 'までの到着を目安にお送りください。\n\n';
     const text = '【宅配買取 受付】受付番号 ' + no + '\n\n' + guard + lines.join('\n') + (n ? '\n\n合計 ' + n + '点 ¥' + t.toLocaleString() + (om ? '＋おまかせ査定分' : '') : '\n\nカードはまとめてお送りください。届いてから査定してご連絡します。') +
       '\n\n※美品の場合の価格です。状態により減額の場合があります。\n※' + dls + 'を過ぎて届いた場合は、到着日の価格で査定します。\nこのあと開く申込フォームに住所などを入力して「申し込む」を押してください。';
     const res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {

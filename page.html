@@ -917,13 +917,17 @@ if(/^https:\/\//.test(APPLY_URL)){
   // カードを選ばずに申し込む人向け：「おまかせ査定」をカートに入れて、いつもの流れ（シート→LINE）で申し込む
   window.ND_EXTRA={omakase:{id:"omakase",omakase:true,name:"おまかせ査定（カードを選ばずに送る）",price:0,code:"",rarity:"-",cat:"おまかせ",img:""}};
   const OM_BG="background:radial-gradient(rgba(255,255,255,.7) 1.5px,transparent 1.6px) 0 0/14px 14px,linear-gradient(160deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%)";
-  window.ndOmakaseTile=function(){const q=cart.get("omakase")?.qty||0;
-    return `<button type="button" class="card omk${q?" sel":""}" data-omk="1" style="border:2px solid #A9F3F4;box-shadow:0 3px 0 #A9F3F4"><div class="im" style="${OM_BG};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px 6px;text-align:center">
-      <span style="background:#fff;color:#1FA8B8;font-weight:800;font-size:10px;border-radius:999px;padding:2px 8px;white-space:nowrap">選ばなくてOK</span>
-      <b style="font-family:'M PLUS Rounded 1c',sans-serif;font-size:clamp(17px,2.2vw,22px);line-height:1.15;color:#173B5C;font-weight:800">まとめて<br>送るだけ</b>
-      <img src="/img/chars/chan2.webp" alt="" style="width:66%;height:auto;object-fit:contain"></div>
-      <div style="padding:6px 6px 8px;text-align:center;background:#fff"><b style="display:block;font-size:13px;color:#173B5C">おまかせ査定</b><span style="display:block;font-size:11px;color:#5A6B76;line-height:1.4">届いたカードを1枚ずつ査定</span>
-      <span style="display:block;margin-top:6px;border-radius:999px;background:${q?"#173B5C":"#A9F3F4"};color:${q?"#fff":"#173B5C"};font-weight:800;font-size:12px;padding:6px 2px;white-space:nowrap">${q?"✓ 入っています":"🛒 カートに入れる"}</span></div></button>`;};
+  window.ndOmakaseTile=function(){const q=cart.get("omakase")?.qty||0;   // ほかのカードと同じ作り（画像・名前・番号・価格・カートボタンの位置をそろえる）
+    return `<div class="card omk${q?" sel":""}" role="button" tabindex="0" data-omk="1" title="おまかせ査定（カードを選ばずに送る）">
+    <div class="im" style="${OM_BG};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px 6px;text-align:center">
+      <span style="background:#fff;color:#1FA8B8;font-weight:800;font-size:10px;border-radius:999px;padding:2px 8px;white-space:nowrap;position:relative;z-index:2">選ばなくてOK</span>
+      <b style="font-family:'M PLUS Rounded 1c',sans-serif;font-size:clamp(16px,2vw,21px);line-height:1.15;color:#173B5C;font-weight:800;position:relative;z-index:2">まとめて<br>送るだけ</b>
+      <img src="/img/chars/chan2.webp" alt="" style="width:62%;height:auto;object-fit:contain"><span class="qty">${q}</span></div>
+    <div class="bxname">おまかせ査定</div><div class="no"><span>カードを選ばずに送る</span><span></span></div>
+    <div class="nm"><b>おまかせ査定</b><span>届いたカードを1枚ずつ査定</span></div>
+    <div class="pr num" style="color:#173B5C;white-space:nowrap"><span style="font-size:.78em">届いてから査定</span></div>
+    <button class="cartbtn" type="button" data-omk="1" aria-label="おまかせ査定をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
+  </div>`;};
   const omAdd=()=>{if(!cart.get("omakase"))addToCart("omakase",1);if(typeof render==="function")render();};
   const omGo=()=>{omAdd();const c=document.getElementById("cart");if(c)c.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{toast("最新の価格を確認しています…");pxCheck().then(ch=>{if(ch&&ch.length){pxNotice(ch);return;}applyGo();});},400);};
   const foBtn=t=>`<button type="button" class="formOnly" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;background:#173B5C;color:#fff;font-weight:800;border-radius:999px;padding:13px 16px;font-size:16px;cursor:pointer;box-shadow:0 4px 0 #0E2740;font-family:inherit">📦 ${t}</button>`;

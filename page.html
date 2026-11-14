@@ -151,10 +151,11 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .card .qty{position:absolute;left:4px;top:4px;z-index:3;background:var(--yellow);color:var(--ink);font-weight:800;border-radius:999px;min-width:24px;height:24px;padding:0 7px;display:none;align-items:center;justify-content:center;font-size:13px;box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .card.sel .qty{display:inline-flex}
 .card .nm{display:none}
-.card .bxname{padding:5px 6px 0;font-weight:700;font-size:12px;line-height:1.3;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:2.6em}
+.card .bxname{padding:5px 6px 0;font-weight:700;font-size:12px;line-height:1.3;color:var(--ink);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;box-sizing:content-box;height:2.6em;min-height:2.6em}
 .grid.simple .card .bxname{display:none}
 .card .dl{font-size:11px;color:var(--navy-2);text-decoration:none;padding:0 6px 2px;display:block}.card .dl:hover{text-decoration:underline}.grid.simple .card .dl{display:none}
 .card .no{display:flex;justify-content:space-between;gap:4px;padding:3px 6px 0;font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
+.card .no{box-sizing:content-box;line-height:1.5;min-height:1.5em}
 .card .no span:first-child{overflow:hidden;text-overflow:ellipsis}
 .card .no span:last-child{font-weight:700;color:var(--ink-3);flex:none}
 .ctag{position:absolute;left:0;bottom:0;z-index:2;background:var(--navy);color:#fff;border-radius:0 10px 0 0;font-size:10px;font-weight:800;padding:2px 7px;border-radius:0 6px 0 0;letter-spacing:.04em}
@@ -271,8 +272,8 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 @media (max-width:1100px){.grid.compact{grid-template-columns:repeat(7,1fr)}}@media (max-width:860px){.grid.compact{grid-template-columns:repeat(5,1fr)}}@media (max-width:560px){.grid.compact{grid-template-columns:repeat(3,1fr);gap:12px 8px}.grid.compact .card .cartbtn{font-size:10px;padding:5px 2px}}
 .grid.compact .card{min-width:0;border:0;border-radius:0;background:transparent;box-shadow:none;overflow:visible;padding:0}.grid.compact .card:hover{transform:translateY(-3px);box-shadow:none}
 .grid.compact .card .im{border-radius:4px;box-shadow:0 2px 6px rgba(43,58,103,.18);overflow:hidden}
-.grid.compact .card .bxname{display:-webkit-box;padding:2px 0 0;font-size:10px;font-weight:500;color:var(--ink-2);line-height:1.3;min-height:0;-webkit-line-clamp:2;order:3}
-.grid.compact .card .no{padding:0;font-size:10px;color:var(--ink-3);order:4}.grid.compact .card .no span:last-child{display:none}
+.grid.compact .card .bxname{display:-webkit-box;padding:2px 0 0;font-size:10px;font-weight:500;color:var(--ink-2);line-height:1.3;min-height:0;height:auto;-webkit-line-clamp:2;order:3}
+.grid.compact .card .no{padding:0;font-size:10px;color:var(--ink-3);order:4;min-height:0}.grid.compact .card .no span:last-child{display:none}
 .grid.compact .card .pr{order:2;border:0;padding:4px 0 0;text-align:right;font-size:13px;color:var(--price)}
 .grid.compact .card .cartbtn{order:5;margin:4px 0 0;padding:4px 4px;font-size:10px;border-radius:6px;box-shadow:0 2px 0 #6fd6dc}.grid.compact .card .cartbtn .ic{font-size:11px}
 .grid.compact .card.sel{outline:0;background:transparent}.grid.compact .card.sel .im{outline:3px solid var(--yellow)}

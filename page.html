@@ -930,6 +930,10 @@ if(/^https:\/\//.test(APPLY_URL)){
   </div>`;};
   const omAdd=()=>{if(!cart.get("omakase"))addToCart("omakase",1);if(typeof render==="function")render();};
   const omGo=()=>{omAdd();const c=document.getElementById("cart");if(c)c.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{toast("最新の価格を確認しています…");pxCheck().then(ch=>{if(ch&&ch.length){pxNotice(ch);return;}applyGo();});},400);};
+  // LP（総合・旧裏・BOX）の「LINEで申し込む」から来たとき：おまかせ査定でそのまま申込へ
+  if(/omakase=1/.test(location.hash)){history.replaceState(null,"",location.pathname+location.search);
+    if(window.gtag)try{gtag("event","line_apply",{link_id:"lp_omakase",page_path:location.pathname});}catch(_){}
+    (function go(n){if(ITEMS.length||n>40)omGo();else setTimeout(()=>go(n+1),150);})(0);}
   const foBtn=t=>`<button type="button" class="formOnly" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;background:#173B5C;color:#fff;font-weight:800;border-radius:999px;padding:13px 16px;font-size:16px;cursor:pointer;box-shadow:0 4px 0 #0E2740;font-family:inherit">📦 ${t}</button>`;
   const foBox=(h,p,small)=>`<div style="display:flex;align-items:center;gap:12px;margin:${small?"10px 0 12px":"14px 0 0"};border:2px solid #fff;outline:2px solid #A9F3F4;border-radius:18px;padding:12px 14px;${OM_BG}">
       <img src="/img/chars/chan2.webp" alt="" style="width:${small?64:72}px;height:auto;flex:0 0 auto">
@@ -941,7 +945,7 @@ if(/^https:\/\//.test(APPLY_URL)){
   if(ab)ab.insertAdjacentHTML("beforebegin",`<div id="pxGuard" style="margin:14px 0 12px;border:2px solid #E23B47;border-radius:16px;background:#FFF5F6;padding:12px 14px;display:flex;gap:12px;align-items:center">
     <div style="flex:0 0 auto;width:52px;height:52px;border-radius:50%;background:#E23B47;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;line-height:1.05;font-size:12px">価格<br>保証</div>
     <div style="flex:1;min-width:0;color:#173B5C"><b style="display:block;font-size:16px;line-height:1.4"><span style="color:#E23B47">申込日の金額</span>で査定します</b>
-    <span style="display:block;font-size:13px;line-height:1.6;margin-top:2px">申込日の翌日から<b style="color:#E23B47;font-size:15px">3日以内（${dlTxt}まで）</b>に届けばOK。発送後に相場が下がっても下げません。</span></div></div>`);
+    <span style="display:block;font-size:13px;line-height:1.6;margin-top:2px">申込日の翌日から<b style="color:#E23B47;font-size:15px">3日以内（${dlTxt}まで）</b>に届けばOK。期日を過ぎると査定時の金額になります。</span></div></div>`);
   if(ab)ab.insertAdjacentHTML("afterend",foBox("カードを選ばずに申し込むこともできます","枚数が多い・一覧にないカードがある方は、カートに入れずにそのまま申込OK。届いたカードを1枚ずつ査定してご連絡します。",false));
   const tb=document.getElementById("tabs");
   if(tb)tb.insertAdjacentHTML("beforebegin",foBox("カードを選ぶのが大変な方へ","まとめて箱に入れて送るだけ。カートに入れなくても申し込めます。",true));

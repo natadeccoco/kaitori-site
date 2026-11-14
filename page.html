@@ -975,9 +975,8 @@ if(/^https:\/\//.test(APPLY_URL)){
   // 価格保証：今日申し込めば、申込日の翌日から3日以内に届く分は今日の価格で買取
   const dlDate=new Date(Date.now()+3*86400000),dlTxt=`${dlDate.getMonth()+1}/${dlDate.getDate()}（${"日月火水木金土"[dlDate.getDay()]}）`;
   if(ab)ab.insertAdjacentHTML("beforebegin",`<div id="pxGuard" style="margin:14px 0 12px;border:2px solid #E23B47;border-radius:16px;background:#FFF5F6;padding:12px 14px;display:flex;gap:12px;align-items:center">
-    <div style="flex:0 0 auto;width:52px;height:52px;border-radius:50%;background:#E23B47;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;line-height:1.05;font-size:12px">価格<br>保証</div>
     <div style="flex:1;min-width:0;color:#173B5C"><b style="display:block;font-size:16px;line-height:1.4"><span style="color:#E23B47">申込日の金額</span>で査定します</b>
-    <span style="display:block;font-size:13px;line-height:1.6;margin-top:2px">申込日の翌日から<b style="color:#E23B47;font-size:15px">3日以内（${dlTxt}まで）</b>に届けばOK。期日を過ぎると査定時の金額になります。</span></div></div>`);
+    <span style="display:block;font-size:13px;line-height:1.6;margin-top:2px">申込日の翌日から<b style="color:#E23B47;font-size:15px">3日以内（${dlTxt}まで）</b>に弊社に着荷した場合に限ります。期日を過ぎると査定時の買取価格となります。</span></div></div>`);
   if(ab)ab.insertAdjacentHTML("afterend",foBox("カードを選ばずに申し込むこともできます","枚数が多い・一覧にないカードがある方は、カートに入れずにそのまま申込OK。届いたカードを1枚ずつ査定してご連絡します。",false));
   document.addEventListener("click",function(e){
     const t=e.target.closest&&e.target.closest("[data-omk]");if(t){e.preventDefault();e.stopImmediatePropagation();omAdd();toast("おまかせ査定をカートに入れました");return;}

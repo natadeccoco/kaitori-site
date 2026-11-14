@@ -286,9 +286,10 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 @media (max-width:560px){.vtag{min-width:0;font-size:10.5px;padding:3px 8px;border-radius:6px}.cnm{flex-direction:column;align-items:flex-start;gap:3px}}
 .imodal .ivar{margin:10px 0 0}
 /* BOXでシュリンクなしの価格があるもの：シュリンクあり／なしを別々のカードで出し、画像にどちらかを表示 */
-.card .stag{position:absolute;right:4px;top:4px;z-index:2;font-size:10px;font-weight:900;color:#fff;border-radius:999px;padding:3px 8px;line-height:1.2;box-shadow:0 1px 3px rgba(0,0,0,.3);white-space:nowrap}
-.grid.simple .card .stag{display:none}.grid.compact .card .stag{font-size:8.5px;padding:2px 5px;right:2px;top:2px}
-@media (max-width:560px){.card .stag{font-size:9px;padding:2px 6px}}
+.card .stag{position:absolute;right:4px;top:4px;z-index:2;width:46px;height:46px;border-radius:50%;background:#fff;border:2px solid #2BB3A3;color:#1E9E94;font-size:8.5px;font-weight:900;line-height:1.15;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.2);letter-spacing:-.02em}
+.card .stag b{font-size:12px;line-height:1.1}
+.grid.simple .card .stag{display:none}.grid.compact .card .stag{width:34px;height:34px;font-size:6.5px;right:2px;top:2px;border-width:1.5px}.grid.compact .card .stag b{font-size:9px}
+@media (max-width:560px){.card .stag{width:38px;height:38px;font-size:7px}.card .stag b{font-size:10px}}
 /* ===== modal ===== */
 .modal{position:fixed;inset:0;z-index:50;background:rgba(20,30,40,.55);display:flex;align-items:center;justify-content:center;padding:16px}
 .modal .box{background:#fff;border-radius:20px;border:3px solid var(--cyan);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:22px 22px 26px;position:relative}
@@ -675,12 +676,12 @@ function cardHTML(it){
   const ph=`<div class="ph"><div class="n">${esc(it.name)}</div><div class="r"><span>${esc(it.code)}</span><span>${esc(it.rarity)}</span></div></div>`;
   const catTag=(it.cat!=="ポケモン"&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat==="汎用"?"最低保証":it.cat==="BOX"&&/^(パック|その他|スペシャルBOX)$/.test(it.set||"")?"その他":it.cat)}</span>`:"";   /* BOXタブ：スプレッドシートA列がパック・その他・スペシャルBOXの行は「その他」と表示 */
   const img=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:"";
-  const stag=(it.vOf||it.hasNs)?`<span class="stag k-${it.vOf?"s0":"s1"}">${it.vOf?"シュリンクなし":"シュリンクあり"}</span>`:"";
+  const stag=it.vOf?`<span class="stag">シュリンク<b>なし</b></span>`:"";const dn=(it.vOf?"【シュリンクなし】":"")+it.name;
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
   return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
     <a class="im" href="${cardUrl(it.vOf||it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${stag}${catTag}<span class="qty">${q}</span></a>
-    <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
-    <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):"",it.vOf?"シュリンクなし":it.hasNs?"シュリンクあり":""].filter(Boolean).join("　"))}</span></div>
+    <div class="bxname">${esc(dn)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
+    <div class="nm"><b>${esc(dn)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　"))}</span></div>
     <div class="pr num">${yen(it.price)}</div>
     <button class="cartbtn" type="button" data-add="${esc(it.id)}" aria-label="${esc(it.name)}${it.vOf?" シュリンクなし":""} をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
   </div>`;

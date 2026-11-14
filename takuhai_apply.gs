@@ -109,7 +109,7 @@ function link_(d) {
 
   const lock = LockService.getScriptLock();
   lock.waitLock(20000);
-  let items = [], already = false, r = 0;
+  let items = [], already = false, r = 0, appliedAt = new Date();
   try {
     const ss = ss_();
     const list = ss.getSheetByName(LIST_NAME);
@@ -117,6 +117,7 @@ function link_(d) {
     for (let i = vals.length - 1; i >= 0; i--) { if (vals[i][COL.no - 1] === no) { r = i + 2; break; } }
     if (!r || String(list.getRange(r, COL.key).getValue()) !== key) return out_({ ok: false, err: 'not_found' });
     already = !!list.getRange(r, COL.lineId).getValue();
+    appliedAt = new Date(list.getRange(r, COL.date).getValue());
     const name = String(p.displayName || '').replace(/[=+@]/g, '').slice(0, 40);
     list.getRange(r, COL.lineName, 1, 2).setValues([[name, p.userId]]);
     if (!list.getRange(r, COL.name).getValue()) list.getRange(r, COL.name).setValue(name + '（LINE名）');
@@ -147,8 +148,11 @@ function link_(d) {
     const lines = items.map(function (it) {
       if (!it.price) { om = true; return '・' + it.name + '（届いてから1枚ずつ査定）'; }   // おまかせ査定
       n += it.qty; t += it.price * it.qty; return '・' + it.name + ' ×' + it.qty + ' … ¥' + (it.price * it.qty).toLocaleString(); });
-    const text = '【宅配買取 受付】受付番号 ' + no + '\n\n' + lines.join('\n') + (n ? '\n\n合計 ' + n + '点 ¥' + t.toLocaleString() + (om ? '＋おまかせ査定分' : '') : '\n\nカードはまとめてお送りください。届いてから査定してご連絡します。') +
-      '\n\n※美品の場合の価格です。状態により減額の場合があります。\n※申込日の翌日から3日以内に届いた場合、上記の価格で査定します。\nこのあと開く申込フォームに住所などを入力して「申し込む」を押してください。';
+    const dl = new Date(appliedAt.getTime() + 3 * 86400000);   // 申込日の翌日から3日以内＝申込日+3日
+    const dls = Utilities.formatDate(dl, 'Asia/Tokyo', 'M/d') + '（' + '日月火水木金土'.charAt(Number(Utilities.formatDate(dl, 'Asia/Tokyo', 'u')) % 7) + '）';
+    const guard = n ? '🔒価格保証：' + dls + 'までに届けば、下記の申込時の価格で買取します（相場が下がっても下げません）。\n\n' : '📦' + dls + 'までの到着を目安にお送りください。\n\n';
+    const text = '【宅配買取 受付】受付番号 ' + no + '\n\n' + guard + lines.join('\n') + (n ? '\n\n合計 ' + n + '点 ¥' + t.toLocaleString() + (om ? '＋おまかせ査定分' : '') : '\n\nカードはまとめてお送りください。届いてから査定してご連絡します。') +
+      '\n\n※美品の場合の価格です。状態により減額の場合があります。\n※' + dls + 'を過ぎて届いた場合は、到着日の価格で査定します。\nこのあと開く申込フォームに住所などを入力して「申し込む」を押してください。';
     const res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
       method: 'post', contentType: 'application/json', muteHttpExceptions: true,
       headers: { Authorization: 'Bearer ' + lt, 'X-Line-Retry-Key': Utilities.getUuid() },

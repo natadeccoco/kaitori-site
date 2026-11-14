@@ -17,7 +17,7 @@ const SHEET_ID = '1BBESQZWxdsij1q8hIk_klPgw6RbYL4MonIV6CyKXWz8';
 function ss_() { return SpreadsheetApp.openById(PropertiesService.getScriptProperties().getProperty('SHEET_ID') || SHEET_ID); }
 const TPL_SLOTS = 31;
 const FIRST_ROW = 2;
-const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16, arrived: 17, amount: 18, cancel: 19, won: 20, state: 21 };
+const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16, arrived: 17, amount: 18, cancel: 19, won: 20, state: 21, remind: 22 };
 const UNSENT_DAYS = 7;   // 申込から何日たっても届かなければ見積書タブを消す
 
 function doPost(e) {
@@ -181,7 +181,10 @@ function out_(o) {
 function daily() {
   const ss = ss_(), list = ss.getSheetByName(LIST_NAME);
   const n = list.getLastRow() - 1; if (n < 1) return;
-  const vals = list.getRange(2, 1, n, COL.state).getValues();
+  const vals = list.getRange(2, 1, n, COL.remind).getValues();
+  const lt = PropertiesService.getScriptProperties().getProperty('LINE_TOKEN');
+  const ymd = function (d) { return Utilities.formatDate(d, 'Asia/Tokyo', 'yyyyMMdd'); };
+  const today = ymd(new Date()), reminds = [];
   const forms = list.getRange(2, COL.tab, n, 1).getFormulas();
   const byId = {}; ss.getSheets().forEach(function (sh) { byId[String(sh.getSheetId())] = sh; });
   const now = Date.now();
@@ -200,15 +203,32 @@ function daily() {
       else state = arrived ? '着荷' : '到着待ち';
     }
     const won = arrived && !cancel && Number(amount) > 0;
-    return [arrived, amount, cancel, won, state];
+    // 期限の前日（申込日+2日）に、まだ届いていない人へ公式LINEで1回だけお知らせ
+    let remind = v[COL.remind - 1];
+    const applied = new Date(v[COL.date - 1]), uid = String(v[COL.lineId - 1] || '');
+    if (!remind && !arrived && sh && uid && lt && ymd(new Date(applied.getTime() + 2 * 86400000)) === today) {
+      const dl = new Date(applied.getTime() + 3 * 86400000);
+      const dls = Utilities.formatDate(dl, 'Asia/Tokyo', 'M/d') + '（' + '日月火水木金土'.charAt(Number(Utilities.formatDate(dl, 'Asia/Tokyo', 'u')) % 7) + '）';
+      let priced = false; try { priced = JSON.parse(String(v[COL.items - 1] || '[]')).some(function (it) { return it.price > 0; }); } catch (e) {}
+      const text = '【宅配買取】受付番号 ' + v[COL.no - 1] + '\n\nお荷物の発送はお済みでしょうか？\n' +
+        (priced ? '明日 ' + dls + ' までに届けば、申込日の金額で査定します。' : '明日 ' + dls + ' までの到着を目安にお送りください。') +
+        '\nまだの方はお早めの発送をお願いします。\n\n※すでに発送済みの方は、このメッセージは気にしないでください。';
+      const res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+        method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+        headers: { Authorization: 'Bearer ' + lt, 'X-Line-Retry-Key': Utilities.getUuid() },
+        payload: JSON.stringify({ to: uid, messages: [{ type: 'text', text: text }] })
+      });
+      remind = res.getResponseCode() === 200 ? Utilities.formatDate(new Date(), 'Asia/Tokyo', 'M/d') + ' 送信' : '送信失敗 ' + res.getResponseCode();
+    }
+    return [arrived, amount, cancel, won, state, remind];
   });
-  list.getRange(2, COL.arrived, n, 5).setValues(out);
+  list.getRange(2, COL.arrived, n, 6).setValues(out);
   list.getRange(2, COL.arrived, n, 1).insertCheckboxes(); list.getRange(2, COL.cancel, n, 1).insertCheckboxes(); list.getRange(2, COL.won, n, 1).insertCheckboxes();
 }
 
-// 初回だけエディタで実行：毎朝6時台に daily を動かす
+// 初回だけエディタで実行：毎朝10時台に daily を動かす（お客さまへのお知らせが早朝にならないように）
 function setupDaily() {
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'daily') ScriptApp.deleteTrigger(t); });
-  ScriptApp.newTrigger('daily').timeBased().everyDays(1).atHour(6).inTimezone('Asia/Tokyo').create();
+  ScriptApp.newTrigger('daily').timeBased().everyDays(1).atHour(10).inTimezone('Asia/Tokyo').create();
   daily();
 }

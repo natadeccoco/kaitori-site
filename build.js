@@ -102,7 +102,8 @@ return pageTpl.replace(/__SELLMODE__/g, mode)
   .replace("__DATA__", dataJson)
   .replace(/__STORES_URL__/g, CFG.storesUrl)
   .replace("<!--__HEAD__-->", headCommon(st ? "ナタデココ｜ポケカ買取価格表（店頭買取）" : "ナタデココ｜ポケカ宅配買取 買取価格表", st ? "ポケモンカード専門店ナタデココの店頭買取価格表。千葉・東京・神奈川の8店舗で、シングル・PSA10・未開封BOX・旧裏を毎日更新の価格で買取。" : "ポケモンカードの宅配買取価格表。カードを選んでLINEで申込、送料無料・最短当日入金。シングル・PSA10・未開封BOX・旧裏を毎日更新。", CFG.siteUrl + (st ? "/" : "/takuhai/"), CFG.siteUrl + "/ogp.png") + `
-<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>`) };
+<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>` + (st ? `
+<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: CFG.siteName, alternateName: ["ナタデココ", "ナタデココ買取表"], url: CFG.siteUrl + "/" })}</script>` : "")) };
 const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(SRC, "site_fx.html")) : "";   // 全ページ共通の仕上げ（LINEアイコン・進捗バー・キラキラ・キャラ反応）
 // 流入元の記録（どのLP・どの広告から来たか）。全ページに常に入る（IDの設定とは無関係）
 //   広告のリンク先URLに ?utm_source=google&utm_campaign=…&utm_content=広告番号 を付けておくと、

@@ -4,6 +4,10 @@
   "shopName": "ポケモンカード専門店ナタデココ",
   "lineId": "@natadecoco_shop",
   "lineAddUrl": "https://line.me/R/ti/p/@natadecoco_shop",
+  "applyTest": {
+    "gasUrl": "https://script.google.com/macros/s/AKfycbxcUuzB-Quwq4zjsQy6Ny0XUJxaeJWvKMHPkA8Uxnj2ZL9NiNNakIyQa5jIMpFARhg_Bg/exec",
+    "lineFormUrl": "https://miniapp.line.me/2006665890-ezRzMnVV/bad/offer"
+  },
   "tracking": {
     "ga4": "G-SNP3PXE56F",
     "ads": "",

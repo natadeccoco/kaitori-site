@@ -900,6 +900,76 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
 })();
 (function(){var m=new Date().getMonth()+1,k=m>=3&&m<=5?"spring":m>=6&&m<=8?"summer":m>=9&&m<=11?"autumn":"winter";var e=document.getElementById("seasonChar");if(e)e.src="/img/chars/deco_"+k+".webp"})();
 
+/* ===== サイト申込（テスト）：カート→スプレッドシート→LINE申込フォーム。APPLY_URL が空なら今までどおり ===== */
+const APPLY_URL="__APPLY_URL__",LINE_FORM_URL="__LINE_FORM_URL__";
+if(/^https:\/\//.test(APPLY_URL)){
+  window.pcApply=function(){openApply();};window.pxGo=function(){if(cart.size)openApply();};
+  document.addEventListener("click",function(e){const a=e.target.closest&&e.target.closest("#applyBtn,#pxOk");if(!a)return;e.preventDefault();e.stopImmediatePropagation();
+    if(a.id==="pxOk"){const m=document.getElementById("pxNotice");if(m)m.remove();openApply();return;}
+    if(!cart.size)return;
+    if(Date.now()-pxAt<90000&&!pxBusy){openApply();return;}
+    toast("最新の価格を確認しています…");pxCheck().then(ch=>{if(ch&&ch.length){pxNotice(ch);return;}openApply();});
+  },true);
+  const ab=document.getElementById("applyBtn");if(ab){ab.insertAdjacentHTML("afterend",`<p style="text-align:center;margin:8px 0 0;font-size:13px"><a href="${LINE_FORM_URL}" id="formOnly" style="color:#173B5C">カードを選ばずに申込フォームへ進む ›</a></p>`);}
+}
+function lsGet(k){try{return localStorage.getItem(k)||"";}catch(e){return "";}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+function openApply(){
+  let m=document.getElementById("applyM");if(m)m.remove();
+  m=document.createElement("div");m.id="applyM";
+  m.style.cssText="position:fixed;inset:0;z-index:9999;background:rgba(23,59,92,.45);display:flex;align-items:center;justify-content:center;padding:16px";
+  let n=0,t=0;const rows=[];cart.forEach(({item,qty})=>{n+=qty;t+=item.price*qty;rows.push(`<li style="display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed #D9E2E8"><span>${esc(item.name)}${item.code?"（"+esc(item.code)+"）":""} ×${qty}</span><b style="white-space:nowrap">${yen(item.price*qty)}</b></li>`);});
+  const inp="width:100%;box-sizing:border-box;border:2px solid #C9D6DE;border-radius:12px;padding:11px 12px;font-size:16px;margin:4px 0 10px;color:#173B5C";
+  m.innerHTML=`<div style="background:#fff;border-radius:20px;max-width:440px;width:100%;max-height:90vh;overflow:auto;padding:22px 20px;box-shadow:0 10px 40px rgba(0,0,0,.2);position:relative;color:#173B5C">
+    <button type="button" id="apX" aria-label="閉じる" style="position:absolute;right:12px;top:8px;border:0;background:none;font-size:26px;cursor:pointer;color:#5A6B76">×</button>
+    <b style="display:block;font-size:18px;text-align:center">宅配買取のお申込み</b>
+    <ul style="list-style:none;margin:12px 0 4px;padding:0;font-size:13px;max-height:30vh;overflow:auto">${rows.join("")}</ul>
+    <p style="text-align:right;font-weight:700;margin:6px 0 2px">合計 ${n}点 ${yen(t)}</p>
+    <p style="font-size:12px;color:#5A6B76;margin:0 0 12px">最新の価格です。最終的な金額はカード到着日の価格で査定します。</p>
+    <label style="font-size:13px;font-weight:700">お名前</label><input id="apName" autocomplete="name" placeholder="山田 太郎" style="${inp}" value="${esc(lsGet("ap_name"))}">
+    <label style="font-size:13px;font-weight:700">電話番号</label><input id="apTel" type="tel" inputmode="numeric" autocomplete="tel" placeholder="09012345678" style="${inp}" value="${esc(lsGet("ap_tel"))}">
+    <input id="apHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+    <p id="apErr" style="color:#c0392b;font-size:13px;margin:0 0 8px;min-height:1em"></p>
+    <button type="button" id="apGo" style="width:100%;border:0;border-radius:999px;background:#06C755;color:#fff;font-weight:800;padding:14px;cursor:pointer;font-size:16px">LINEで申込フォームへ</button>
+    <p style="font-size:12px;color:#5A6B76;margin:8px 0 0;text-align:center">次の画面で住所などを入力して完了です</p>
+  </div>`;
+  document.body.appendChild(m);
+  const close=()=>m.remove();m.onclick=e=>{if(e.target===m)close();};m.querySelector("#apX").onclick=close;
+  const err=m.querySelector("#apErr"),go=m.querySelector("#apGo");
+  ["apName","apTel"].forEach(id=>m.querySelector("#"+id).addEventListener("input",()=>{err.textContent="";}));
+  go.onclick=()=>{
+    const name=m.querySelector("#apName").value.trim(),tel=m.querySelector("#apTel").value.replace(/[^0-9０-９]/g,"").replace(/[０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-65248));
+    if(!name){err.textContent="お名前を入力してください";return;}
+    if(tel.length<10||tel.length>11){err.textContent="電話番号を数字10〜11けたで入力してください";return;}
+    lsSet("ap_name",name);lsSet("ap_tel",tel);
+    const at=window.ndAttr?ndAttr():{};
+    const items=[];cart.forEach(({item,qty})=>{const v=vinfo(item);items.push({name:`${item.name}${item.code?"（"+item.code+"）":""}${v.c==="raw"||v.c==="seal"?"":" "+v.l}`,price:item.price,qty});});
+    const payload={name,tel,hp:m.querySelector("#apHp").value,items,code:(window.ndAttrCode&&ndAttrCode())||"",src:at.src||"",lp:at.lp||"",device:isMobile()?"スマホ":"PC"};
+    go.disabled=true;go.textContent="送信しています…";go.style.opacity=".6";
+    fetch(APPLY_URL,{method:"POST",body:JSON.stringify(payload)}).then(r=>r.json()).then(res=>{
+      if(!res||!res.ok){throw new Error(res&&res.err||"ng");}
+      applyDone(m,res.no);
+    }).catch(ex=>{go.disabled=false;go.textContent="LINEで申込フォームへ";go.style.opacity="1";
+      err.textContent=String(ex&&ex.message)==="rate"?"短い時間に何度も送信されています。しばらくしてからお試しください。":"送信できませんでした。通信状況を確認して、もう一度お試しください。";});
+  };
+}
+function applyDone(m,no){
+  const box=m.firstElementChild,mob=isMobile();
+  box.innerHTML=`<div style="text-align:center;padding:6px 0">
+    <div style="font-size:40px;line-height:1;color:#06C755">✓</div>
+    <b style="display:block;font-size:18px;margin:8px 0 4px">カードの内容を受け付けました</b>
+    <p style="font-size:12px;color:#5A6B76;margin:0 0 12px">受付番号 ${esc(no)}</p>
+    ${mob?`<p style="font-size:14px;margin:0 0 14px">LINEの申込フォームを開いています。<br>住所などを入れて「申し込む」を押してください。</p>
+      <a href="${LINE_FORM_URL}" style="display:block;border-radius:999px;background:#06C755;color:#fff;font-weight:800;padding:14px;text-decoration:none">開かないときはこちら</a>`
+    :`<p style="font-size:14px;margin:0 0 10px">申込フォームはスマホのLINEで開きます。<br>スマホのカメラで読み取ってください。</p>
+      <div id="apQR" style="display:flex;justify-content:center;min-height:200px;align-items:center;color:#5A6B76;font-size:12px">QRを作成中…</div>
+      <p style="font-size:12px;color:#5A6B76;margin:8px 0 0">読み取ると、LINEの申込フォームが開きます</p>`}
+    <button type="button" id="apEnd" style="margin-top:14px;border:2px solid #C9D6DE;border-radius:999px;background:#fff;color:#173B5C;font-weight:700;padding:9px 20px;cursor:pointer">閉じる</button></div>`;
+  box.querySelector("#apEnd").onclick=()=>m.remove();
+  [...cart.keys()].forEach(id=>addToCart(id,-(cart.get(id).qty)));
+  if(mob){setTimeout(()=>{location.href=LINE_FORM_URL;},1200);}
+  else loadQR(()=>{const q=box.querySelector("#apQR");try{const r=qrcode(0,"M");r.addData(LINE_FORM_URL);r.make();q.innerHTML=r.createSvgTag({cellSize:4,margin:2,scalable:true});const sv=q.querySelector("svg");if(sv){sv.style.width="200px";sv.style.height="200px";}}catch(e){q.textContent=LINE_FORM_URL;}});
+}
 /* 旧URL（?m=takuhai）で来た人は宅配の買取表へ */
 if("__SELLMODE__"==="store"&&(new URLSearchParams(location.search).get("m")==="takuhai"||/#add=/.test(location.hash)))location.replace(CONFIG.base+"takuhai/"+location.hash);
 </script>

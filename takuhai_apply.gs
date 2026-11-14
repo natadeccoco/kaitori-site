@@ -212,7 +212,7 @@ function daily() {
       let priced = false; try { priced = JSON.parse(String(v[COL.items - 1] || '[]')).some(function (it) { return it.price > 0; }); } catch (e) {}
       const text = '【宅配買取】受付番号 ' + v[COL.no - 1] + '\n\nいつもナタデココをご利用いただきありがとうございます。\nお申込みいただいたお荷物のご発送はお済みでしょうか。\n\n' +
         (priced ? '明日 ' + dls + ' までに当店へ到着しましたら、お申込日の金額で査定いたします。' : '明日 ' + dls + ' までの到着を目安にお送りいただけますと幸いです。') +
-        '\nまだお送りいただいていない場合は、お早めのご発送をお願いいたします。\n\n※すでにご発送いただいている場合は、行き違いとなり申し訳ございません。到着まで今しばらくお待ちくださいませ。';
+        '\n\n※すでにご発送いただいている場合は、行き違いとなり申し訳ございません。到着まで今しばらくお待ちくださいませ。';
       const res = UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
         method: 'post', contentType: 'application/json', muteHttpExceptions: true,
         headers: { Authorization: 'Bearer ' + lt, 'X-Line-Retry-Key': Utilities.getUuid() },

@@ -233,8 +233,8 @@ for (const it of items) {
   const url = `${CFG.siteUrl}/${rel}`;
   const title = `${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} 買取価格 ${yen(it.price)}`;
   const sps = speciesOf(it); const enNames = sps.map(x => x.en).join(" & ");
-  const desc = `${it.name}${it.code ? " " + it.code : ""}${enNames ? "（英語名：" + enNames + "）" : ""}${it.set ? "／" + it.set : ""}${it.rarity !== "-" ? "／" + it.rarity : ""} の買取価格は${yen(it.price)}（${updated}時点）。ナタデココのかんたん郵送買取ならLINEで申込・送料無料・最短当日入金。`;
-  const lineText = `【郵送買取 申込】\n・${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} ×1 … ${yen(it.price)}\n\n※美品の場合の価格です。\nお名前・枚数・発送予定日をご記入ください：`;
+  const desc = `${it.name}${it.code ? " " + it.code : ""}${enNames ? "（英語名：" + enNames + "）" : ""}${it.set ? "／" + it.set : ""}${it.rarity !== "-" ? "／" + it.rarity : ""} の買取価格は${yen(it.price)}（${updated}時点）。ナタデココのかんたん宅配買取ならLINEで申込・送料無料・最短当日入金。`;
+  const lineText = `【宅配買取 申込】\n・${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} ×1 … ${yen(it.price)}\n\n※美品の場合の価格です。\nお名前・枚数・発送予定日をご記入ください：`;
   const lineUrl = `https://line.me/R/oaMessage/${encodeURIComponent(CFG.lineId)}/?${encodeURIComponent(lineText)}`;
   const ld = { "@context": "https://schema.org", "@type": "Product", name: it.name, alternateName: enNames || undefined, image: it.img || undefined, description: desc, brand: { "@type": "Brand", name: "ポケモンカードゲーム" }, sku: it.code || undefined,
     offers: { "@type": "Offer", url, priceCurrency: "JPY", price: it.price, availability: "https://schema.org/InStock", seller: { "@type": "Organization", name: CFG.company }, description: "買取価格（美品の場合）" } };
@@ -479,6 +479,7 @@ write("404.html", `<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><m
 write(".nojekyll", "");
 if (!/github\.io$/.test(new URL(CFG.siteUrl).host)) write("CNAME", new URL(CFG.siteUrl).host);
 write("data/items.json", dataJson);
+write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
 for (const f of fs.readdirSync(ROOT)) { if (/\.(png|jpg|jpeg|svg|ico|webp)$/i.test(f)) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)); }
 if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true, filter: f => !path.basename(f).startsWith("_") });   // _missing.txt 等は公開しない
 console.log(`built ${urls.length + 1} pages -> dist/`);

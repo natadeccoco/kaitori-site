@@ -727,7 +727,7 @@ function renderCart(){
   const a=$("#applyBtn");a.href=lineUrl();a.classList.toggle("disabled",!n);a.style.opacity=n?"1":".5";a.style.pointerEvents=n?"auto":"none";
 }
 function cartText(){
-  const d=new Date();const lines=[`【郵送買取 申込】${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 価格表より`,""];
+  const d=new Date();const lines=[`【宅配買取 申込】${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 価格表より`,""];
   let n=0,t=0;cart.forEach(({item,qty})=>{n+=qty;t+=item.price*qty;lines.push(`・${item.name}${item.code?"（"+item.code+"）":""}${item.grade!=="素体"?" "+item.grade:""} ×${qty} … ${yen(item.price*qty)}`);});
   lines.push("",`合計 ${n}点 ${yen(t)}`,"","※美品の場合の価格です。状態により減額の場合があります。","お名前・発送予定日をご記入ください：");
   const ac=window.ndAttrCode&&ndAttrCode();if(ac)lines.push("","受付コード："+ac);
@@ -761,7 +761,48 @@ function pcApply(){
     }catch(e){box.innerHTML=`<img src="${(CONFIG.base||"/")}img/line_qr.png" alt="LINE友だち追加QR" width="200" height="200">`;}
   });
 }
-document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("#applyBtn");if(!a||isMobile())return;e.preventDefault();pcApply();});
+/* 申込の前に最新の買取価格を確認する（ページを開きっぱなしにして、古い価格のまま申し込まれるのを防ぐ） */
+let pxAt=Date.now(),pxBusy=null;
+function pxCheck(){
+  if(pxBusy)return pxBusy;
+  pxBusy=fetch((CONFIG.base||"/")+"data/prices.json?t="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
+    const p=d&&d.p;if(!p||typeof p!=="object")throw 0;const ch=[];let any=false;
+    ITEMS.forEach(it=>{const np=p[it.id];if(typeof np!=="number"||np===it.price)return;
+      if(cart.has(it.id))ch.push({name:it.name,code:it.code,grade:it.grade,old:it.price,now:np});it.price=np;any=true;});
+    [...cart.keys()].forEach(id=>{if(p[id]==null){const c=cart.get(id);ch.push({name:c.item.name,code:c.item.code,grade:c.item.grade,old:c.item.price,now:null});cart.delete(id);any=true;}});
+    pxAt=Date.now();
+    if(any){const u=$("#updated");if(u&&d.updated)u.textContent="価格更新日 "+d.updated;render();renderCart();}
+    return ch;
+  }).catch(()=>null).finally(()=>{pxBusy=null;});
+  return pxBusy;
+}
+function pxGo(){if(!cart.size)return;if(isMobile())location.href=lineUrl();else pcApply();}
+function pxNotice(ch){
+  let m=document.getElementById("pcApply");if(m)m.remove();m=document.getElementById("pxNotice");if(m)m.remove();
+  m=document.createElement("div");m.id="pxNotice";
+  m.style.cssText="position:fixed;inset:0;z-index:9999;background:rgba(23,59,92,.45);display:flex;align-items:center;justify-content:center;padding:16px";
+  let t=0;cart.forEach(({item,qty})=>{t+=item.price*qty;});
+  const rows=ch.map(c=>`<li style="padding:8px 0;border-bottom:1px dashed #D9E2E8"><b>${esc(c.name)}</b>${c.code?"（"+esc(c.code)+"）":""}${c.grade&&c.grade!=="素体"?" "+esc(c.grade):""}<br>${c.now==null?`<span style="color:#c0392b">買取表から外れたため、カートから外しました</span>`:`${yen(c.old)} → <b style="color:#c0392b">${yen(c.now)}</b>`}</li>`).join("");
+  m.innerHTML=`<div style="background:#fff;border-radius:20px;max-width:440px;width:100%;max-height:86vh;overflow:auto;padding:24px 22px;box-shadow:0 10px 40px rgba(0,0,0,.2);position:relative">
+    <b style="display:block;font-size:18px;color:#173B5C;text-align:center">買取価格が更新されました</b>
+    <p style="font-size:13px;color:#5A6B76;margin:8px 0 6px">カートに入れたあとで、価格が変わったカードがあります。最新の価格に直しました。</p>
+    <ul style="list-style:none;margin:0;padding:0;font-size:14px;color:#173B5C">${rows}</ul>
+    <p style="font-size:15px;font-weight:700;color:#173B5C;margin:12px 0;text-align:right">${cart.size?"合計 "+yen(t):"カートが空になりました"}</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button type="button" id="pxClose" style="border:2px solid #C9D6DE;border-radius:999px;background:#fff;color:#173B5C;font-weight:700;padding:10px 20px;cursor:pointer;font-size:14px">閉じる</button>
+      ${cart.size?`<a id="pxOk" href="${esc(lineUrl())}" target="_blank" rel="noopener" style="border-radius:999px;background:#06C755;color:#fff;font-weight:700;padding:11px 20px;font-size:14px;text-decoration:none">この価格で申込へ進む</a>`:""}
+    </div></div>`;
+  document.body.appendChild(m);
+  m.querySelector("#pxClose").onclick=()=>m.remove();
+  const ok=m.querySelector("#pxOk");if(ok)ok.onclick=e=>{if(!isMobile()){e.preventDefault();m.remove();pcApply();}else setTimeout(()=>m.remove(),300);};
+}
+function pxAuto(){if(document.hidden||Date.now()-pxAt<60000)return;pxCheck().then(ch=>{if(ch&&ch.length)pxNotice(ch);});}
+document.addEventListener("visibilitychange",pxAuto);window.addEventListener("pageshow",pxAuto);window.addEventListener("focus",pxAuto);setInterval(()=>{if(Date.now()-pxAt>300000)pxAuto();},60000);
+document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("#applyBtn");if(!a)return;
+  if(Date.now()-pxAt<90000&&!pxBusy){if(isMobile())return;e.preventDefault();pcApply();return;}
+  e.preventDefault();toast("最新の価格を確認しています…");
+  pxCheck().then(ch=>{if(ch&&ch.length){pxNotice(ch);return;}pxGo();});
+});
 let toastT;function toast(m){let t=$(".toast");if(!t){t=document.createElement("div");t.className="toast";document.body.appendChild(t);}t.textContent=m;clearTimeout(toastT);toastT=setTimeout(()=>t.remove(),2200);}
 
 /* ============================ イベント ============================ */

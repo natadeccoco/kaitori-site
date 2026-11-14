@@ -293,6 +293,15 @@ button.vrow.on .vl.k-psa,button.vrow.on .vl.k-s1{background:#F3D64A;color:var(--
 .vp{flex:1;text-align:right;font-weight:800;font-size:14px;color:var(--price);font-family:"M PLUS Rounded 1c",sans-serif;font-variant-numeric:tabular-nums;white-space:nowrap}
 .vc{flex:none;font-size:12px;width:16px;text-align:center;font-weight:800;color:var(--navy)}
 @media (max-width:560px){.card .vbox{padding:5px 4px 6px;gap:4px;min-height:66px}.vrow{height:25px}button.vrow{padding:4px 6px 4px 4px}.vp{font-size:12px}.vl{font-size:8px;padding:1px 4px}.vl.k-s0,.vl.k-s1{font-size:6.5px;padding:1px 3px}.vc{display:none}}
+/* カードの幅がせまいとき（PCの8列・スマホの3列）：カートの絵は出さず、入れた段の右上に ✓／×枚数 の丸を出す */
+.grid:not(.simple) .card{container-type:inline-size}
+.vrow{position:relative}
+@container (max-width:150px){
+  .vrow:not(.on) .vc{display:none}
+  button.vrow{padding:5px 6px 5px 4px;gap:3px}
+  .vp{font-size:12.5px}.vl{font-size:8.5px;padding:2px 4px}.vl.k-s0,.vl.k-s1{font-size:7px;padding:1px 4px}
+  button.vrow.on .vc{display:block;position:absolute;right:-4px;top:-7px;min-width:17px;width:auto;height:17px;line-height:17px;padding:0 3px;border-radius:999px;background:#F3D64A;color:var(--navy);font-size:10px;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+}
 .grid.simple .card .vbox{border:0;padding:0;margin:0;min-height:0;width:168px}
 @media (max-width:560px){.grid.simple .card .vbox{width:128px}}
 .grid.compact .card .vbox{order:2;border:0;padding:4px 0 0;margin:0;min-height:0;gap:3px}

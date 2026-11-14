@@ -970,6 +970,7 @@ function applyGo(){
   const payload={act:"create",items,code:(window.ndAttrCode&&ndAttrCode())||"",src:at.src||"",lp:at.lp||"",device:isMobile()?"スマホ":"PC",dev:devId()};
   fetch(APPLY_URL,{method:"POST",body:JSON.stringify(payload)}).then(r=>r.json()).then(res=>{
     apBusy=false;if(!res||!res.ok)throw new Error(res&&res.err||"ng");
+    if(window.ndConv)ndConv("apply",{transaction_id:res.no,value:items.reduce((t,i)=>t+i.price*i.qty,0),currency:"JPY",omakase:items.some(i=>!i.price)?1:0});
     const url=LIFF_URL+"?no="+encodeURIComponent(res.no)+"&k="+encodeURIComponent(res.k);
     [...cart.keys()].forEach(id=>addToCart(id,-(cart.get(id).qty)));
     if(isMobile()){m.firstElementChild.innerHTML=`<b style="display:block;font-size:17px;margin:6px 0">LINEを開いています…</b><p style="font-size:12px;color:#5A6B76;margin:0 0 14px">受付番号 ${esc(res.no)}</p><a href="${esc(url)}" style="display:block;border-radius:999px;background:#06C755;color:#fff;font-weight:800;padding:14px;text-decoration:none">開かないときはこちら</a>`;location.href=url;}

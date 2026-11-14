@@ -129,7 +129,9 @@ const TRACK_TAG = (TRK.ga4 || TRK.ads) ? `<script async src="https://www.googlet
 (function(){var ADS=${JSON.stringify(TRK.ads || "")},LB=${JSON.stringify(TRK.adsLabels || {})};
 document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="line.me"]');if(!a)return;
 var k=/oaMessage/.test(a.href)?"apply":"line_add";gtag("event",k==="apply"?"line_apply":"line_add",{link_id:a.id||a.className||"",page_path:location.pathname,nd_lp:(window.ndAttr&&ndAttr().lp)||"",nd_ad:(window.ndAttrCode&&ndAttrCode())||""});
-if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</script>
+if(ADS&&LB[k]&&k!=="apply")gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);
+/* 申込が本当に受け付けられたとき（スプレッドシートに行ができたとき）に呼ぶ：GA4は apply_done、Google広告は adsLabels.apply */
+window.ndConv=function(k,p){p=p||{};try{gtag("event",k==="apply"?"apply_done":k,Object.assign({nd_lp:(window.ndAttr&&ndAttr().lp)||"",nd_ad:(window.ndAttrCode&&ndAttrCode())||""},p));if(ADS&&LB[k])gtag("event","conversion",Object.assign({send_to:ADS+"/"+LB[k]},p));}catch(e){}};})();</script>
 ` : "";
 const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 const AT = CFG.applyTest || {};

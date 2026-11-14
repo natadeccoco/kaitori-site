@@ -906,7 +906,7 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
 /* ===== サイト申込（テスト）：カート→スプレッドシート→LINE（中継ページ）→RECORE申込フォーム。APPLY_URL が空なら今までどおり ===== */
 const APPLY_URL="__APPLY_URL__",LINE_FORM_URL="__LINE_FORM_URL__",LIFF_URL="__LIFF_URL__";
 if(/^https:\/\//.test(APPLY_URL)){
-  try{localStorage.setItem("ap_test",location.pathname);}catch(e){}   // テスト中：カードページの申込ボタンもこの流れに乗せる
+  try{localStorage.removeItem("ap_test");}catch(e){}   // 旧テスト用の印を消す
   window.pcApply=function(){applyGo();};window.pxGo=function(){if(cart.size)applyGo();};
   document.addEventListener("click",function(e){const a=e.target.closest&&e.target.closest("#applyBtn,#pxOk");if(!a)return;e.preventDefault();e.stopImmediatePropagation();
     if(a.id==="pxOk"){const m=document.getElementById("pxNotice");if(m)m.remove();applyGo();return;}

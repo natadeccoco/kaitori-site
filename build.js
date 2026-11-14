@@ -140,7 +140,7 @@ write("takuhai/index.html", liveApply(wrap(makePage("takuhai"))));   // applyTes
 // LINEの中継ページ（LIFF）：受付番号をLINEの名前と結びつけ、公式LINEから受付内容を送ってから RECORE の申込フォームへ
 if (AT.gasUrl && AT.liffId) write("liff/index.html", fs.readFileSync("liff.html", "utf8").replace(/__LIFF_ID__/g, AT.liffId).replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LINE_FORM_URL__/g, AT.lineFormUrl || ""));
 // テスト用：サイト申込（カート→スプレッドシート→LINE申込フォーム）。検索には出さない・どこからもリンクしない
-if (AT.gasUrl) write("takuhai-test/index.html", wrap(makePage("takuhai")).replace(/__APPLY_URL__/g, AT.gasUrl).replace(/__LIFF_URL__/g, AT.liffId ? "https://liff.line.me/" + AT.liffId : "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || "")).replace("<head>\n", '<head>\n<meta name="robots" content="noindex,nofollow">\n'));
+// テスト用ページ（takuhai-test）は本番切り替え済みのため廃止（2026/11/14）
 // （まとめ表示の確認用ページ /preview/ は不採用になったため出力しない。2026-11-14）
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */

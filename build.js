@@ -90,8 +90,8 @@ ${image ? `<meta property="og:image" content="${esc(image)}">` : ""}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">`;
 const pageTpl = read(path.join(SRC, "page.html"));
 // 買取表は2つ：トップ＝店頭買取（カート・LINE申込なし）／ /takuhai/ ＝宅配買取（カート・LINE申込あり）
-const makePage = (mode) => { const st = mode === "store";
-return pageTpl.replace(/__SELLMODE__/g, mode)
+const makePage = (mode, tpl = pageTpl) => { const st = mode === "store";
+return tpl.replace(/__SELLMODE__/g, mode)
   .replace("__PAGETITLE__", st ? "ナタデココ ポケカ買取価格表｜店頭買取" : "ナタデココ ポケカ買取価格表｜宅配買取")
   .replace("__MODELABEL__", st ? "店頭買取" : `宅配買取</small><small class="h1s same">店頭と同じ価格`)
   .replace("__MODELINK__", "")
@@ -134,6 +134,9 @@ if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</
 const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 write("index.html", wrap(makePage("store")));
 write("takuhai/index.html", wrap(makePage("takuhai")));
+// 確認用：page_preview.html があれば /preview/（宅配）と /preview/store/（店頭）に出す。検索には載せない・サイトマップにも入れない
+if (fs.existsSync(path.join(SRC, "page_preview.html"))) { const pv = read(path.join(SRC, "page_preview.html")); const noidx = h => h.replace("<head>", '<head>\n<meta name="robots" content="noindex,nofollow">');
+  write("preview/index.html", noidx(wrap(makePage("takuhai", pv)))); write("preview/store/index.html", noidx(wrap(makePage("store", pv)))); }
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */
 const psaBadge = r => /^PSA\s*10$/i.test(r.grade || "") ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : "";
@@ -480,7 +483,7 @@ write("404.html", `<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><m
 write(".nojekyll", "");
 if (!/github\.io$/.test(new URL(CFG.siteUrl).host)) write("CNAME", new URL(CFG.siteUrl).host);
 write("data/items.json", dataJson);
-write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price])), p2: Object.fromEntries(slim.filter(i => i.price2).map(i => [i.id, i.price2])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
+write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price]).concat(slim.filter(i => i.price2).map(i => [i.id + "~ns", i.price2]))), p2: Object.fromEntries(slim.filter(i => i.price2).map(i => [i.id, i.price2])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
 for (const f of fs.readdirSync(ROOT)) { if (/\.(png|jpg|jpeg|svg|ico|webp)$/i.test(f)) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)); }
 if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true, filter: f => !path.basename(f).startsWith("_") });   // _missing.txt 等は公開しない
 console.log(`built ${urls.length + 1} pages -> dist/`);

@@ -1,7 +1,8 @@
 name: build-and-deploy
 on:
   schedule:
-    - cron: "30 21 * * *"   # 毎日 06:30 JST（買取表の自動更新が終わった後）
+    - cron: "30 21 * * *"   # 毎日 06:30 JST（買取表の自動更新が終わった後）必ず作り直す
+    - cron: "*/15 * * * *"  # 15分おきに買取表の更新を確認し、変わっていたら作り直す（2026-11-14）
   push:
     branches: [main]
   workflow_dispatch:
@@ -9,12 +10,34 @@ permissions:
   contents: write
   pages: write
   id-token: write
-concurrency:
-  group: pages
-  cancel-in-progress: true
 jobs:
-  build:
+  check:
     runs-on: ubuntu-latest
+    outputs:
+      go: ${{ steps.c.outputs.go }}
+      ver: ${{ steps.c.outputs.ver }}
+    steps:
+      - id: c
+        name: 買取表が更新されたか確認
+        env:
+          SITE_DATA_URL: ${{ secrets.SITE_DATA_URL }}
+        run: |
+          base="${SITE_DATA_URL%%\?*}"
+          ver=$(curl -sL --max-time 90 "$base?action=sitever" | grep -o '[0-9]\{10,\}' | head -1 || true)
+          echo "ver=$ver" >> "$GITHUB_OUTPUT"
+          if [ "${{ github.event_name }}" != "schedule" ] || [ "${{ github.event.schedule }}" = "30 21 * * *" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          last=$(curl -sL --max-time 30 "https://raw.githubusercontent.com/${{ github.repository }}/main/site_ver.txt?t=$(date +%s)" | tr -d '[:space:]' || true)
+          echo "買取表 $ver / 前回 $last"
+          if [ -n "$ver" ] && [ "$ver" != "$last" ]; then echo "go=true" >> "$GITHUB_OUTPUT"; else echo "go=false" >> "$GITHUB_OUTPUT"; fi
+  build:
+    needs: check
+    if: needs.check.outputs.go == 'true'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,9 +46,9 @@ jobs:
         env:
           SITE_DATA_URL: ${{ secrets.SITE_DATA_URL }}
         run: bash fetch_data.sh
-      - name: 画像を自前に取り込む（未取得分のみ。手動pushのときは少なめにして早く公開）
+      - name: 画像を自前に取り込む（未取得分のみ。手動pushと15分おきの更新は少なめにして早く公開）
         env:
-          IMG_LIMIT: ${{ github.event_name == 'push' && '60' || '1500' }}
+          IMG_LIMIT: ${{ (github.event_name == 'push' || github.event.schedule == '*/15 * * * *') && '60' || '1500' }}
         run: |
           npm install --no-save sharp@0.33.5 >/dev/null 2>&1 || npm install --no-save sharp
           node fetch_images.js
@@ -37,7 +60,8 @@ jobs:
         run: |
           git config user.name "kaitori-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add --ignore-errors data_*.csv data_sheet.json data_updated.txt img/cards || true
+          if [ -n "${{ needs.check.outputs.ver }}" ]; then echo "${{ needs.check.outputs.ver }}" > site_ver.txt; fi
+          git add --ignore-errors data_*.csv data_sheet.json data_updated.txt img/cards site_ver.txt || true
           if ! git diff --cached --quiet; then git commit -m "data: $(date -u +%Y-%m-%d)" && (git push || (git pull --rebase && git push)); fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
@@ -45,6 +69,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    concurrency:
+      group: pages-deploy
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

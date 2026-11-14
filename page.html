@@ -896,13 +896,15 @@ function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);i
   // カード個別ページからの遷移（#add=ID）
   const m=location.hash.match(/#add=([^&]+)/);
   if(m){const id=decodeURIComponent(m[1]);if(ITEMS.some(i=>i.id===id)){const back=/back=1/.test(location.hash);history.replaceState(null,"",location.pathname);
-    if(back&&restoreView()){addToCart(id,1);toast("カートに追加しました");}else{addToCart(id,1);$("#cart").scrollIntoView();}}}   // back=1：カードページ「カートに追加する」→ 直前に見ていた検索画面に戻す
+    if(back&&restoreView()){addToCart(id,1);toast("カートに追加しました");}else{addToCart(id,1);$("#cart").scrollIntoView();}
+    if(/go=1/.test(m.input))setTimeout(()=>{if(typeof APPLY_URL!=="undefined"&&/^https:\/\//.test(APPLY_URL))applyGo();},300);}}   // go=1：カードページ「このカードをLINEで買取申込」→ そのまま申込へ   // back=1：カードページ「カートに追加する」→ 直前に見ていた検索画面に戻す
 })();
 (function(){var m=new Date().getMonth()+1,k=m>=3&&m<=5?"spring":m>=6&&m<=8?"summer":m>=9&&m<=11?"autumn":"winter";var e=document.getElementById("seasonChar");if(e)e.src="/img/chars/deco_"+k+".webp"})();
 
 /* ===== サイト申込（テスト）：カート→スプレッドシート→LINE（中継ページ）→RECORE申込フォーム。APPLY_URL が空なら今までどおり ===== */
 const APPLY_URL="__APPLY_URL__",LINE_FORM_URL="__LINE_FORM_URL__",LIFF_URL="__LIFF_URL__";
 if(/^https:\/\//.test(APPLY_URL)){
+  try{localStorage.setItem("ap_test",location.pathname);}catch(e){}   // テスト中：カードページの申込ボタンもこの流れに乗せる
   window.pcApply=function(){applyGo();};window.pxGo=function(){if(cart.size)applyGo();};
   document.addEventListener("click",function(e){const a=e.target.closest&&e.target.closest("#applyBtn,#pxOk");if(!a)return;e.preventDefault();e.stopImmediatePropagation();
     if(a.id==="pxOk"){const m=document.getElementById("pxNotice");if(m)m.remove();applyGo();return;}

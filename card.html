@@ -136,6 +136,11 @@ footer{margin-top:40px;background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:
   }
   function auto(){if(document.hidden||Date.now()-at<60000)return;check().then(function(r){if(r)notice(r);});}
   document.addEventListener('visibilitychange',auto);window.addEventListener('pageshow',auto);window.addEventListener('focus',auto);setInterval(function(){if(Date.now()-at>300000)auto();},60000);
+  a.addEventListener('click',function(e){   // テスト中の端末だけ：新しい申込の流れ（カート→LINE）へ
+    var t=null;try{t=localStorage.getItem('ap_test');}catch(_){}
+    var add=document.querySelector('a.sec');if(!t||!add)return;
+    e.preventDefault();e.stopImmediatePropagation();location.href=t+'#add='+encodeURIComponent(id)+'&go=1';
+  },true);
   a.addEventListener('click',function(e){
     if(Date.now()-at<90000&&!busy){if(gone){e.preventDefault();notice({old:price,now:null});}return;}
     e.preventDefault();

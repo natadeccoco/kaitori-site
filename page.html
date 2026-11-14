@@ -278,6 +278,17 @@ footer .friends img:nth-child(2n){animation-delay:.6s}footer .friends img:nth-ch
 .grid.compact .card .cartbtn{order:5;margin:4px 0 0;padding:4px 4px;font-size:10px;border-radius:6px;box-shadow:0 2px 0 #6fd6dc}.grid.compact .card .cartbtn .ic{font-size:11px}
 .grid.compact .card.sel{outline:0;background:transparent}.grid.compact .card.sel .im{outline:3px solid var(--yellow)}
 .grid.compact .card .ctag{transform:scale(.85);transform-origin:left bottom}.grid.compact .card .im img.badge{width:30px;height:30px}
+
+/* ===== 種類ラベル（素体／PSA10／シュリンクあり／シュリンクなし／未開封）：カートとポップアップで大きく出して、入れ間違いを防ぐ ===== */
+.vtag{flex:none;display:inline-block;min-width:92px;text-align:center;font-weight:900;font-size:13px;line-height:1.2;color:#fff;border-radius:8px;padding:6px 8px;white-space:nowrap}
+.k-raw{background:#2F80C8}.k-psa{background:var(--navy);color:#FFD84A}.k-s0{background:#E8772E}.k-s1{background:#1E9E6A}.k-seal{background:#7A5AC8}
+.cnm{display:flex;align-items:center;gap:10px}
+@media (max-width:560px){.vtag{min-width:0;font-size:10.5px;padding:3px 8px;border-radius:6px}.cnm{flex-direction:column;align-items:flex-start;gap:3px}}
+.imodal .ivar{margin:10px 0 0}
+/* BOXでシュリンクなしの価格があるもの：シュリンクあり／なしを別々のカードで出し、画像にどちらかを表示 */
+.card .stag{position:absolute;right:4px;top:4px;z-index:2;font-size:10px;font-weight:900;color:#fff;border-radius:999px;padding:3px 8px;line-height:1.2;box-shadow:0 1px 3px rgba(0,0,0,.3);white-space:nowrap}
+.grid.simple .card .stag{display:none}.grid.compact .card .stag{font-size:8.5px;padding:2px 5px;right:2px;top:2px}
+@media (max-width:560px){.card .stag{font-size:9px;padding:2px 6px}}
 /* ===== modal ===== */
 .modal{position:fixed;inset:0;z-index:50;background:rgba(20,30,40,.55);display:flex;align-items:center;justify-content:center;padding:16px}
 .modal .box{background:#fff;border-radius:20px;border:3px solid var(--cyan);max-width:640px;width:100%;max-height:90vh;overflow:auto;padding:22px 22px 26px;position:relative}
@@ -528,6 +539,7 @@ body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:
   <div class="box" role="dialog" aria-modal="true" aria-labelledby="iname">
     <button class="close" type="button" id="imodalClose" aria-label="閉じる">×</button>
     <div class="ihead"><h2 class="iname" id="iname"></h2><p class="imeta" id="imeta"></p><div class="iprice" id="iprice"></div></div>
+    <div class="ivar" id="ivar"></div>
     <div class="iim" id="iim"></div>
     <div class="iqty"><button type="button" id="iminus" aria-label="減らす">−</button><span id="iqty">1</span><button type="button" id="iplus" aria-label="増やす">＋</button></div>
     <button class="iadd" type="button" id="iadd">買取内容に追加</button>
@@ -570,6 +582,17 @@ const GRP=c=>(CONFIG.catGroups&&CONFIG.catGroups[c])||c;   // 表示用のまと
 const CATS=()=>["すべて",...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
 function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.cat===c));apply();}
 
+/* 種類の呼び方。BOXのシュリンクなし価格は、カートに入れられるように別の品目（id の末尾が ~ns）として一覧に出す */
+const isPsa=i=>/^PSA/i.test(i.grade||"");
+function vinfo(it){
+  if(it.vOf)return{l:"シュリンクなし",c:"s0"};
+  if(isPsa(it))return{l:it.grade.replace(/\s+/g,""),c:"psa"};
+  if(it.cat==="BOX")return /^(パック|その他)$/.test(it.set||"")?{l:"未開封",c:"seal"}:{l:"シュリンクあり",c:"s1"};
+  if(/未開封/.test(it.name))return{l:"未開封",c:"seal"};
+  return{l:"素体",c:"raw"};
+}
+function vtagHTML(it){const v=vinfo(it);return `<span class="vtag k-${v.c}">${esc(v.l)}</span>`;}
+function addShrinkless(){ITEMS.filter(i=>i.price2>0&&!i.vOf).forEach(i=>{i.hasNs=true;ITEMS.splice(ITEMS.indexOf(i)+1,0,Object.assign({},i,{id:i.id+"~ns",price:i.price2,price2:0,vOf:i.id,hasNs:false,grade:"シュリンクなし"}));});}
 function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-")c[v]=(c[v]||0)+1;});return c;}
 
 /* ============================ 描画 ============================ */
@@ -652,13 +675,14 @@ function cardHTML(it){
   const ph=`<div class="ph"><div class="n">${esc(it.name)}</div><div class="r"><span>${esc(it.code)}</span><span>${esc(it.rarity)}</span></div></div>`;
   const catTag=(it.cat!=="ポケモン"&&it.cat!=="PSA")?`<span class="ctag">${esc(it.cat==="汎用"?"最低保証":it.cat==="BOX"&&/^(パック|その他|スペシャルBOX)$/.test(it.set||"")?"その他":it.cat)}</span>`:"";   /* BOXタブ：スプレッドシートA列がパック・その他・スペシャルBOXの行は「その他」と表示 */
   const img=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:"";
+  const stag=(it.vOf||it.hasNs)?`<span class="stag k-${it.vOf?"s0":"s1"}">${it.vOf?"シュリンクなし":"シュリンクあり"}</span>`:"";
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
   return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
-    <a class="im" href="${cardUrl(it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${catTag}<span class="qty">${q}</span></a>
+    <a class="im" href="${cardUrl(it.vOf||it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${stag}${catTag}<span class="qty">${q}</span></a>
     <div class="bxname">${esc(it.name)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
-    <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　"))}</span></div>
+    <div class="nm"><b>${esc(it.name)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):"",it.vOf?"シュリンクなし":it.hasNs?"シュリンクあり":""].filter(Boolean).join("　"))}</span></div>
     <div class="pr num">${yen(it.price)}</div>
-    <button class="cartbtn" type="button" data-add="${esc(it.id)}" aria-label="${esc(it.name)} をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
+    <button class="cartbtn" type="button" data-add="${esc(it.id)}" aria-label="${esc(it.name)}${it.vOf?" シュリンクなし":""} をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
   </div>`;
 }
 function apply(){
@@ -715,7 +739,7 @@ function renderCart(){
   cart.forEach(({item,qty},id)=>{
     n+=qty;t+=item.price*qty;
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td><b>${esc(item.name)}</b><br><span style="font-size:12px;color:var(--ink-2)">${esc([item.code,item.rarity!=="-"?item.rarity:"",item.grade!=="素体"?item.grade:""].filter(Boolean).join("　"))}</span></td>
+    tr.innerHTML=`<td><div class="cnm">${vtagHTML(item)}<span><b>${esc(item.name)}</b><br><span style="font-size:12px;color:var(--ink-2)">${esc([item.code,item.rarity!=="-"?item.rarity:"",item.cat==="BOX"?"BOX":""].filter(Boolean).join("　"))}</span></span></div></td>
       <td class="r num">${yen(item.price)}</td>
       <td class="r"><span class="qc"><button type="button" data-d="-1">−</button><span>${qty}</span><button type="button" data-d="1">＋</button></span></td>
       <td class="r num">${yen(item.price*qty)}</td><td><button class="rm" type="button" aria-label="削除">×</button></td>`;
@@ -729,7 +753,7 @@ function renderCart(){
 }
 function cartText(){
   const d=new Date();const lines=[`【宅配買取 申込】${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} 価格表より`,""];
-  let n=0,t=0;cart.forEach(({item,qty})=>{n+=qty;t+=item.price*qty;lines.push(`・${item.name}${item.code?"（"+item.code+"）":""}${item.grade!=="素体"?" "+item.grade:""} ×${qty} … ${yen(item.price*qty)}`);});
+  let n=0,t=0;cart.forEach(({item,qty})=>{n+=qty;t+=item.price*qty;lines.push(`・${item.name}${item.code?"（"+item.code+"）":""}${(v=>v.c==="raw"||v.c==="seal"?"":" "+v.l)(vinfo(item))} ×${qty} … ${yen(item.price*qty)}`);});
   lines.push("",`合計 ${n}点 ${yen(t)}`,"","※美品の場合の価格です。状態により減額の場合があります。","お名前・発送予定日をご記入ください：");
   const ac=window.ndAttrCode&&ndAttrCode();if(ac)lines.push("","受付コード："+ac);
   return lines.join("\n");
@@ -812,11 +836,12 @@ let MODAL_ID=null,MODAL_Q=1;
 function openItem(id){
   const it=ITEMS.find(i=>i.id===id);if(!it)return;MODAL_ID=id;MODAL_Q=1;
   $("#iname").textContent=it.name;
-  $("#imeta").textContent=[it.code,it.set,it.rarity!=="-"?it.rarity:"",it.grade!=="素体"?"["+it.grade+"]":"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　");
+  $("#imeta").textContent=[it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"&&it.cat!=="PSA"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　");
+  $("#ivar").innerHTML=vtagHTML(it);$("#iadd").textContent=vinfo(it).l+" を買取内容に追加";
   $("#iprice").innerHTML=`${yen(it.price)}<small>買取価格（美品）</small>`;
   $("#iim").innerHTML=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:`<div class="ph">${esc(it.name)}</div>`;
   $("#iqty").textContent=MODAL_Q;
-  const q=cart.get(id)?.qty||0;$("#inow").textContent=q?`現在 ${q}枚 追加済み`:"";
+  const q=cart.get(id)?.qty||0;$("#inow").textContent=q?`現在 ${vinfo(it).l} ${q}枚 追加済み`:"";
   $("#imodal").hidden=false;$("#iadd").focus();
 }
 function closeItem(){$("#imodal").hidden=true;MODAL_ID=null;}
@@ -826,7 +851,7 @@ $("#grid").addEventListener("click",e=>{if(STORE_MODE){if(e.target.closest(".car
 $("#grid").addEventListener("keydown",e=>{if(STORE_MODE)return;if(e.key!=="Enter"&&e.key!==" ")return;const c=e.target.closest(".card");if(!c||e.target!==c)return;e.preventDefault();openItem(c.dataset.id);});
 $("#iminus").onclick=()=>{MODAL_Q=Math.max(1,MODAL_Q-1);$("#iqty").textContent=MODAL_Q;};
 $("#iplus").onclick=()=>{MODAL_Q=Math.min(99,MODAL_Q+1);$("#iqty").textContent=MODAL_Q;};
-$("#iadd").onclick=()=>{if(!MODAL_ID)return;addToCart(MODAL_ID,MODAL_Q);toast(`買取内容に ${MODAL_Q}枚 追加しました`);closeItem();};
+$("#iadd").onclick=()=>{if(!MODAL_ID)return;const it=ITEMS.find(i=>i.id===MODAL_ID);addToCart(MODAL_ID,MODAL_Q);toast(`買取内容に ${it?vinfo(it).l+" ":""}${MODAL_Q}枚 追加しました`);closeItem();};
 $("#imodalClose").onclick=closeItem;
 $("#imodal").addEventListener("click",e=>{if(e.target.id==="imodal")closeItem();});
 $("#q").addEventListener("input",e=>{state.q=e.target.value;apply();});
@@ -848,7 +873,7 @@ $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;if($(
 
 /* ============================ 初期化 ============================ */
 function boot(items){
-  ITEMS=items;loadCart();
+  ITEMS=items;addShrinkless();loadCart();
   (function(){var tk=$("#sfxTk");if(!tk)return;var top=items.filter(function(x){return x.img&&!/noimage/.test(x.img)&&(x.cat==="ポケモン"||x.cat==="PSA")}).sort(function(a,b){return ((b.order||0)-(a.order||0))||(b.price-a.price)}).slice(0,24);if(top.length<6)return;
     var h=top.map(function(r){return '<a href="'+cardUrl(r.id)+'"><img src="'+esc(r.img)+'" alt="" loading="lazy" onerror="this.remove()"><span><b>'+esc(r.name)+'</b><em>'+yen(r.price)+'</em></span></a>'}).join("");tk.querySelector(".run").innerHTML=h+h;tk.hidden=false;})();
   renderTabs();renderBrowse();renderCart();apply();

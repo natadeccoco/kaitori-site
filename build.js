@@ -134,9 +134,7 @@ if(ADS&&LB[k])gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);})();</
 const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 write("index.html", wrap(makePage("store")));
 write("takuhai/index.html", wrap(makePage("takuhai")));
-// 確認用：page_preview.html があれば /preview/（宅配）と /preview/store/（店頭）に出す。検索には載せない・サイトマップにも入れない
-if (fs.existsSync(path.join(SRC, "page_preview.html"))) { const pv = read(path.join(SRC, "page_preview.html")); const noidx = h => h.replace("<head>", '<head>\n<meta name="robots" content="noindex,nofollow">');
-  write("preview/index.html", noidx(wrap(makePage("takuhai", pv)))); write("preview/store/index.html", noidx(wrap(makePage("store", pv)))); }
+// （まとめ表示の確認用ページ /preview/ は不採用になったため出力しない。2026-11-14）
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */
 const psaBadge = r => /^PSA\s*10$/i.test(r.grade || "") ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : "";

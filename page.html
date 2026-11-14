@@ -959,8 +959,7 @@ if(/^https:\/\//.test(APPLY_URL)){
     const F=pc?{h:28,p:17,img:150,btn:20,pad:"18px 20px",gap:24,x:30}:{h:16,p:12.5,img:58,btn:15,pad:"13px 14px",gap:12,x:22};
     w.innerHTML=`<div data-box style="${box}"><button type="button" data-x aria-label="閉じる" style="position:absolute;right:${pc?18:10}px;top:${pc?14:8}px;border:0;background:none;font-size:${F.x}px;color:#8A9AA8;cursor:pointer;line-height:1">×</button>
       <div style="display:flex;gap:${F.gap}px;align-items:center"><img src="/img/chars/chan2.webp" alt="" style="width:${F.img}px;height:auto;flex:0 0 auto">
-      <div style="min-width:0"><b style="display:block;font-size:${F.h}px;color:#173B5C;line-height:1.45">ここがナタデココの買取表です</b>
-      <p style="font-size:${F.p}px;color:#3D5566;margin:${pc?10:3}px 0 0;line-height:1.75">カードを選ばずに送る「おまかせ査定」をカートに入れました。<br>このまま申し込めます。高いカードがあれば、価格を見てカートに追加してもOKです。</p></div></div>
+      <div style="min-width:0;padding-right:${pc?8:16}px"><p style="font-size:${pc?19:14}px;color:#173B5C;margin:0;line-height:1.75"><b>カードを選ばずに送る「おまかせ査定」をカートに入れました。</b><br>このまま申し込めます。高いカードがあれば、価格を見てカートに追加してもOKです。</p></div></div>
       <div style="display:flex;gap:${pc?16:8}px;margin-top:${pc?28:12}px;flex-wrap:wrap">
       <button type="button" data-go style="flex:1 1 200px;border:0;background:#06C755;color:#fff;font-weight:800;border-radius:999px;padding:${F.pad};font-size:${F.btn}px;cursor:pointer;box-shadow:0 4px 0 #04913E;font-family:inherit">このまま申し込む</button>
       <button type="button" data-x style="flex:1 1 200px;border:2px solid #173B5C;background:#fff;color:#173B5C;font-weight:800;border-radius:999px;padding:${F.pad};font-size:${F.btn}px;cursor:pointer;font-family:inherit">買取表を見る</button></div></div>`;

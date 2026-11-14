@@ -592,6 +592,7 @@ function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.cl
 /* 種類の呼び方。BOXのシュリンクなし価格は、カートに入れられるように別の品目（id の末尾が ~ns）として一覧に出す */
 const isPsa=i=>/^PSA/i.test(i.grade||"");
 function vinfo(it){
+  if(it.omakase)return{l:"おまかせ",c:"seal"};
   if(it.vOf)return{l:"シュリンクなし",c:"s0"};
   if(isPsa(it))return{l:it.grade.replace(/\s+/g,""),c:"psa"};
   if(it.cat==="BOX")return /^(パック|その他)$/.test(it.set||"")?{l:"未開封",c:"seal"}:{l:"シュリンクあり",c:"s1"};
@@ -709,7 +710,7 @@ function render(){
   if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><img src="/img/chars/chan2.webp" alt=""><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
   const PS=mode==="compact"?CONFIG.pageSize*3:CONFIG.pageSize;const pages=Math.ceil(VIEW.length/PS);page=Math.min(page,pages);
   const s=(page-1)*PS;
-  grid.innerHTML=VIEW.slice(s,s+PS).map(cardHTML).join("");
+  grid.innerHTML=(window.ndOmakaseTile&&page===1&&!state.q&&state.cat==="すべて"?ndOmakaseTile():"")+VIEW.slice(s,s+PS).map(cardHTML).join("");
   const pg=$("#pager");pg.innerHTML="";
   if(pages<=1)return;
   const mk=(t,p,dis,on)=>{const b=document.createElement("button");b.type="button";b.innerHTML=t;b.disabled=dis;if(on)b.classList.add("on");b.onclick=()=>{page=p;render();scrollToList();};pg.appendChild(b);};
@@ -723,7 +724,7 @@ function render(){
 /* カートと一覧の状態をタブ内で保持（カード詳細ページへ行って戻っても消えない） */
 const SS_CART="nd_cart",SS_VIEW="nd_view";
 function saveCart(){try{sessionStorage.setItem(SS_CART,JSON.stringify([...cart].map(([id,c])=>[id,c.qty])));}catch(e){}}
-function loadCart(){try{const a=JSON.parse(sessionStorage.getItem(SS_CART)||"[]");for(const [id,q] of a){const it=ITEMS.find(i=>i.id===id);if(it&&q>0)cart.set(id,{item:it,qty:q});}}catch(e){}}
+function loadCart(){try{const a=JSON.parse(sessionStorage.getItem(SS_CART)||"[]");for(const [id,q] of a){const it=ITEMS.find(i=>i.id===id)||(window.ND_EXTRA||{})[id];if(it&&q>0)cart.set(id,{item:it,qty:q});}}catch(e){}}
 function saveView(){try{sessionStorage.setItem(SS_VIEW,JSON.stringify({q:state.q,cat:state.cat,sort:state.sort,type:[...state.type],grade:[...state.grade],rarity:[...state.rarity],set:[...state.set],page,mode,y:window.scrollY}));}catch(e){}}
 function restoreView(){try{const v=JSON.parse(sessionStorage.getItem(SS_VIEW)||"null");if(!v)return false;
   state.q=v.q||"";$("#q").value=state.q;state.sort=v.sort||"default";if($("#sort"))$("#sort").value=state.sort;
@@ -733,7 +734,7 @@ function restoreView(){try{const v=JSON.parse(sessionStorage.getItem(SS_VIEW)||"
   requestAnimationFrame(()=>window.scrollTo(0,v.y||0));return true;}catch(e){return false;}}
 window.addEventListener("pagehide",saveView);
 function addToCart(id,delta=1){
-  const it=ITEMS.find(i=>i.id===id);if(!it)return;
+  const it=ITEMS.find(i=>i.id===id)||(window.ND_EXTRA||{})[id];if(!it)return;
   const cur=cart.get(id)||{item:it,qty:0};cur.qty+=delta;
   if(cur.qty<=0)cart.delete(id);else cart.set(id,cur);
   renderCart();
@@ -747,9 +748,9 @@ function renderCart(){
     n+=qty;t+=item.price*qty;
     const tr=document.createElement("tr");
     tr.innerHTML=`<td><div class="cnm">${vtagHTML(item)}<span><b>${esc(item.name)}</b><br><span style="font-size:12px;color:var(--ink-2)">${esc([item.code,item.rarity!=="-"?item.rarity:"",item.cat==="BOX"?"BOX":""].filter(Boolean).join("　"))}</span></span></div></td>
-      <td class="r num">${yen(item.price)}</td>
-      <td class="r"><span class="qc"><button type="button" data-d="-1">−</button><span>${qty}</span><button type="button" data-d="1">＋</button></span></td>
-      <td class="r num">${yen(item.price*qty)}</td><td><button class="rm" type="button" aria-label="削除">×</button></td>`;
+      <td class="r num">${item.omakase?'<span style="font-size:12px">届いてから査定</span>':yen(item.price)}</td>
+      <td class="r">${item.omakase?"―":`<span class="qc"><button type="button" data-d="-1">−</button><span>${qty}</span><button type="button" data-d="1">＋</button></span>`}</td>
+      <td class="r num">${item.omakase?"―":yen(item.price*qty)}</td><td><button class="rm" type="button" aria-label="削除">×</button></td>`;
     tr.querySelectorAll(".qc button").forEach(b=>b.onclick=()=>addToCart(id,Number(b.dataset.d)));
     tr.querySelector(".rm").onclick=()=>addToCart(id,-qty);
     tb.appendChild(tr);
@@ -801,7 +802,7 @@ function pxCheck(){
     const p=d&&d.p;if(!p||typeof p!=="object")throw 0;const ch=[];let any=false;
     ITEMS.forEach(it=>{const np=p[it.id];if(typeof np!=="number"||np===it.price)return;
       if(cart.has(it.id))ch.push({name:it.name,code:it.code,grade:it.grade,old:it.price,now:np});it.price=np;any=true;});
-    [...cart.keys()].forEach(id=>{if(p[id]==null){const c=cart.get(id);ch.push({name:c.item.name,code:c.item.code,grade:c.item.grade,old:c.item.price,now:null});cart.delete(id);any=true;}});
+    [...cart.keys()].forEach(id=>{if(p[id]==null&&!cart.get(id).item.omakase){const c=cart.get(id);ch.push({name:c.item.name,code:c.item.code,grade:c.item.grade,old:c.item.price,now:null});cart.delete(id);any=true;}});
     pxAt=Date.now();
     if(any){const u=$("#updated");if(u&&d.updated)u.textContent="価格更新日 "+d.updated;render();renderCart();}
     return ch;
@@ -912,18 +913,31 @@ if(/^https:\/\//.test(APPLY_URL)){
     if(Date.now()-pxAt<90000&&!pxBusy){applyGo();return;}
     toast("最新の価格を確認しています…");pxCheck().then(ch=>{if(ch&&ch.length){pxNotice(ch);return;}applyGo();});
   },true);
-  // カードを選ばずに申し込む人向け（カートの下と、ページ上部の2か所）
-  const foBtn=t=>`<a href="${LINE_FORM_URL}" class="formOnly" style="display:flex;align-items:center;justify-content:center;gap:8px;border:2px solid #06C755;background:#fff;color:#049a42;font-weight:800;border-radius:999px;padding:11px 14px;text-decoration:none;font-size:15px;box-shadow:0 3px 0 #bfeccf">${t}</a>`;
+  // カードを選ばずに申し込む人向け：「おまかせ査定」をカートに入れて、いつもの流れ（シート→LINE）で申し込む
+  window.ND_EXTRA={omakase:{id:"omakase",omakase:true,name:"おまかせ査定（カードを選ばずに送る）",price:0,code:"",rarity:"-",cat:"おまかせ",img:""}};
+  const OM_BG="background:repeating-conic-gradient(from 0deg at 50% 60%,#FFE14D 0 12deg,#3FA9F5 12deg 24deg)";
+  window.ndOmakaseTile=function(){const q=cart.get("omakase")?.qty||0;
+    return `<button type="button" class="card omk${q?" sel":""}" data-omk="1" style="border:3px solid #F7D31A;box-shadow:0 3px 0 #E0B800"><div class="im" style="${OM_BG};display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;text-align:center">
+      <b style="font-size:clamp(17px,2.4vw,24px);line-height:1.05;color:#E23B47;-webkit-text-stroke:5px #fff;paint-order:stroke;font-weight:900;letter-spacing:.02em">カードを<br>選ばずに<br>送るだけ</b>
+      <img src="/img/chars/chan1.webp" alt="" style="width:62%;height:auto;object-fit:contain;margin-top:4px;filter:drop-shadow(0 2px 0 #fff)"></div>
+      <div style="padding:6px 6px 8px;text-align:center;background:#fff"><b style="display:block;font-size:13px;color:#173B5C">おまかせ査定</b><span style="display:block;font-size:11px;color:#5A6B76;line-height:1.4">届いたカードを1枚ずつ査定</span>
+      <span style="display:block;margin-top:6px;border-radius:999px;background:${q?"#173B5C":"#06C755"};color:#fff;font-weight:800;font-size:12px;padding:6px 4px">${q?"✓ カートに入っています":"🛒 カートに入れる"}</span></div></button>`;};
+  if(ITEMS.length)try{render();}catch(_){}   // 一覧が先に描画済みのとき、タイルを出すために描き直す
+  const omAdd=()=>{if(!cart.get("omakase"))addToCart("omakase",1);if(typeof render==="function")render();};
+  const omGo=()=>{omAdd();const c=document.getElementById("cart");if(c)c.scrollIntoView({behavior:"smooth",block:"start"});setTimeout(()=>{toast("最新の価格を確認しています…");pxCheck().then(ch=>{if(ch&&ch.length){pxNotice(ch);return;}applyGo();});},400);};
+  const foBtn=t=>`<button type="button" class="formOnly" style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;background:#F7D31A;color:#173B5C;font-weight:900;border-radius:999px;padding:13px 16px;font-size:16px;cursor:pointer;box-shadow:0 4px 0 #D9B400;font-family:inherit">📦 ${t}</button>`;
+  const foBox=(h,p,small)=>`<div style="display:flex;align-items:center;gap:12px;margin:${small?"10px 0 12px":"14px 0 0"};border:3px solid #F7D31A;border-radius:18px;padding:12px 14px;background:linear-gradient(135deg,#FFFBE0,#E7F6FF)">
+      <img src="/img/chars/chan1.webp" alt="" style="width:${small?64:72}px;height:auto;flex:0 0 auto">
+      <div style="flex:1;min-width:0"><b style="display:block;font-size:${small?15:16}px;color:#173B5C;line-height:1.4">${h}</b><p style="font-size:12px;color:#5A6B76;margin:2px 0 10px;line-height:1.6">${p}</p>${foBtn("カードを選ばずに申し込む")}</div></div>`;
   const ab=document.getElementById("applyBtn");
-  if(ab)ab.insertAdjacentHTML("afterend",`<div style="margin:14px 0 0;border:2px dashed #BFE6CC;border-radius:16px;padding:12px 14px;background:#F6FFF9"><b style="display:block;font-size:14px;color:#173B5C;margin-bottom:2px">カードを選ばずに申し込むこともできます</b><p style="font-size:12px;color:#5A6B76;margin:0 0 10px;line-height:1.6">枚数が多い・一覧にないカードがある方は、カートに入れずにそのまま申込フォームへ。届いたカードを1枚ずつ査定してご連絡します。</p>${foBtn("カードを選ばずに申し込む ›")}</div>`);
+  if(ab)ab.insertAdjacentHTML("afterend",foBox("カードを選ばずに申し込むこともできます","枚数が多い・一覧にないカードがある方は、カートに入れずにそのまま申込OK。届いたカードを1枚ずつ査定してご連絡します。",false));
   const tb=document.getElementById("tabs");
-  if(tb)tb.insertAdjacentHTML("beforebegin",`<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin:10px 0 12px;border:2px dashed #BFE6CC;border-radius:16px;padding:10px 14px;background:#F6FFF9"><span style="font-size:13px;color:#173B5C;line-height:1.5"><b>カードを選ぶのが大変な方へ</b><br><span style="color:#5A6B76">カートに入れずに、そのまま申し込めます</span></span><span style="flex:0 0 auto">${foBtn("カードを選ばずに申し込む ›")}</span></div>`);
-  document.addEventListener("click",function(e){const a=e.target.closest&&e.target.closest("a.formOnly");if(!a)return;e.preventDefault();
+  if(tb)tb.insertAdjacentHTML("beforebegin",foBox("カードを選ぶのが大変な方へ","まとめて箱に入れて送るだけ。カートに入れなくても申し込めます。",true));
+  document.addEventListener("click",function(e){
+    const t=e.target.closest&&e.target.closest("[data-omk]");if(t){e.preventDefault();e.stopImmediatePropagation();omAdd();toast("おまかせ査定をカートに入れました");return;}
+    const a=e.target.closest&&e.target.closest(".formOnly");if(!a)return;e.preventDefault();
     if(window.gtag)try{gtag("event","line_apply",{link_id:"form_only",page_path:location.pathname});}catch(_){}
-    if(isMobile()){location.href=LINE_FORM_URL;return;}
-    const m=apModal(`<b style="display:block;font-size:18px;margin:4px 0">スマホのLINEで続きをお願いします</b><p style="font-size:13px;color:#5A6B76;margin:6px 0 10px">スマホのカメラで読み取ると、LINEで申込フォームが開きます</p><div id="apQR" style="display:flex;justify-content:center;min-height:200px;align-items:center;color:#5A6B76;font-size:12px">QRを作成中…</div><button type="button" id="apEnd" style="margin-top:12px;border:2px solid #C9D6DE;border-radius:999px;background:#fff;color:#173B5C;font-weight:700;padding:9px 20px;cursor:pointer">閉じる</button>`);
-    m.querySelector("#apEnd").onclick=()=>m.remove();
-    loadQR(()=>{const q=m.querySelector("#apQR");try{const r=qrcode(0,"M");r.addData(LINE_FORM_URL);r.make();q.innerHTML=r.createSvgTag({cellSize:4,margin:2,scalable:true});const sv=q.querySelector("svg");if(sv){sv.style.width="210px";sv.style.height="210px";}}catch(_){q.textContent=LINE_FORM_URL;}});
+    omGo();
   },true);
 }
 function devId(){try{let v=localStorage.getItem("ap_dev");if(!v){v=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("ap_dev",v);}return v;}catch(e){return "x";}}

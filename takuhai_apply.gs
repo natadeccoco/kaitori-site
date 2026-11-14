@@ -1,3 +1,8 @@
+// 初回だけエディタで実行：LINEへの送信を許可する
+function setupAuth() {
+  UrlFetchApp.fetch('https://api.line.me/v2/bot/info', { muteHttpExceptions: true });
+}
+
 /**
  * 宅配買取 サイト申込の受け口（テスト用シートに付ける）  v2（LINE連携）
  *  1) act=create … 買取サイトのカートを受け取り、見積書タブ（原本のコピー）と申込一覧の行を作る → 受付番号と合言葉(k)を返す

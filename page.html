@@ -708,9 +708,10 @@ function render(){
   const grid=$("#grid");grid.className="grid"+(mode==="simple"?" simple":mode==="compact"?" compact":"");
   $("#cnt").textContent=VIEW.length?`${VIEW.length.toLocaleString()}件`:"";
   if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><img src="/img/chars/chan2.webp" alt=""><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
-  const PS=mode==="compact"?CONFIG.pageSize*3:CONFIG.pageSize;const pages=Math.ceil(VIEW.length/PS);page=Math.min(page,pages);
-  const s=(page-1)*PS;
-  grid.innerHTML=(window.ndOmakaseTile&&page===1&&!state.q&&state.cat==="すべて"?ndOmakaseTile():"")+VIEW.slice(s,s+PS).map(cardHTML).join("");
+  const omk=window.ndOmakaseTile&&!state.q&&state.cat==="すべて"?1:0;   // おまかせ査定タイルは1枠ぶん（各ページの枚数をそろえる）
+  const PS=mode==="compact"?CONFIG.pageSize*3:CONFIG.pageSize;const pages=Math.ceil((VIEW.length+omk)/PS);page=Math.min(page,pages);
+  const s=Math.max(0,(page-1)*PS-omk);
+  grid.innerHTML=(omk&&page===1?ndOmakaseTile():"")+VIEW.slice(s,(page-1)*PS-omk+PS).map(cardHTML).join("");
   const pg=$("#pager");pg.innerHTML="";
   if(pages<=1)return;
   const mk=(t,p,dis,on)=>{const b=document.createElement("button");b.type="button";b.innerHTML=t;b.disabled=dis;if(on)b.classList.add("on");b.onclick=()=>{page=p;render();scrollToList();};pg.appendChild(b);};

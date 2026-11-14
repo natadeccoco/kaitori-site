@@ -18,7 +18,8 @@ function ss_() { return SpreadsheetApp.openById(PropertiesService.getScriptPrope
 const TPL_SLOTS = 31;
 const FIRST_ROW = 2;
 const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16, arrived: 17, amount: 18, cancel: 19, won: 20, state: 21, remind: 22 };
-const UNSENT_DAYS = 7;   // 申込から何日たっても届かなければ見積書タブを消す
+const UNSENT_DAYS = 7;
+const REMIND_ON = false;   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）   // 申込から何日たっても届かなければ見積書タブを消す
 
 function doPost(e) {
   let d = {};
@@ -206,7 +207,7 @@ function daily() {
     // 期限の前日（申込日+2日）に、まだ届いていない人へ公式LINEで1回だけお知らせ
     let remind = v[COL.remind - 1];
     const applied = new Date(v[COL.date - 1]), uid = String(v[COL.lineId - 1] || '');
-    if (!remind && !arrived && sh && uid && lt && ymd(new Date(applied.getTime() + 2 * 86400000)) === today) {
+    if (REMIND_ON && !remind && !arrived && sh && uid && lt && ymd(new Date(applied.getTime() + 2 * 86400000)) === today) {
       const dl = new Date(applied.getTime() + 3 * 86400000);
       const dls = Utilities.formatDate(dl, 'Asia/Tokyo', 'M/d') + '（' + '日月火水木金土'.charAt(Number(Utilities.formatDate(dl, 'Asia/Tokyo', 'u')) % 7) + '）';
       let priced = false; try { priced = JSON.parse(String(v[COL.items - 1] || '[]')).some(function (it) { return it.price > 0; }); } catch (e) {}

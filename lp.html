@@ -627,6 +627,6 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   document.querySelectorAll('.af').forEach(function(af){var b=af.querySelector('.chat .b');if(!b)return;var html=b.innerHTML;b.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';b.style.opacity=1;b.style.transform='none';
     new IntersectionObserver(function(en,o){if(!en[0].isIntersecting)return;o.disconnect();setTimeout(function(){b.innerHTML=html;b.style.transition='none';b.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:350,easing:'ease-out'});},900+Math.random()*600);},{threshold:.5}).observe(af);});
   // タブを離れるとタイトルが呼びかける
-  var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'📦 ポケカ、送るだけ！｜ナタデココ':t0;});
+  var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'ポケカ、送るだけ！｜ナタデココ':t0;var ic=document.querySelector('link[rel="icon"]');if(ic){if(!ic._h0)ic._h0=ic.href;ic.type=document.hidden?'image/png':'image/svg+xml';ic.href=document.hidden?ic._h0.replace(/favicon\.svg.*$/,'img/tab_coco.png'):ic._h0;}});
 })();
 </script>

@@ -48,6 +48,6 @@ svg.li{width:24px;height:24px;flex:none;filter:drop-shadow(0 1px 0 rgba(0,0,0,.1
     var px=null,py=null,dist=0,dT=0,wLast=0,mx=0,my=0,WORD='natadecoco',COLS=['#FF8FD0','#4FDDEB','#B391FF','#FF8FD0','#4FDDEB','#B391FF','#FF8FD0','#4FDDEB','#B391FF','#FFB23E'];addEventListener('mousemove',function(e){var t=Date.now();mx=e.clientX;my=e.clientY;if(px!==null){if(t-dT>400){dist=0;}dist+=Math.hypot(e.clientX-px,e.clientY-py);}px=e.clientX;py=e.clientY;dT=t;
       if(dist>1800&&t-wLast>4000){wLast=t;dist=0;var ox=mx,oy=my;WORD.split('').forEach(function(ch,k){setTimeout(function(){var d=document.createElement('span');d.className='sfx-cur wl';d.textContent=ch;d.style.setProperty('--c',COLS[k]);d.style.left=(ox+(k-4.5)*14)+'px';d.style.top=(oy-18+Math.sin(k*1.1)*4)+'px';d.style.setProperty('--r',((Math.random()-.5)*12)+'deg');document.body.appendChild(d);setTimeout(function(){d.remove()},1600);},k*55);});if(window.sfxBurst)sfxBurst(mx,my,6,true);}});}
   // タブを離れたら
-  var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'📦 ポケカ、送るだけ！｜ナタデココ':t0;});
+  var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'ポケカ、送るだけ！｜ナタデココ':t0;var ic=document.querySelector('link[rel="icon"]');if(ic){if(!ic._h0)ic._h0=ic.href;ic.type=document.hidden?'image/png':'image/svg+xml';ic.href=document.hidden?ic._h0.replace(/favicon\.svg.*$/,'img/tab_coco.png'):ic._h0;}});
 })();
 </script>

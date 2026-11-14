@@ -1028,7 +1028,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   var $=function(id){return document.getElementById(id)};
   var BASE=(function(){var k='/img/'+CFG.dir+'/',i=document.querySelector('img[src*="'+k+'"]');return i?i.getAttribute('src').split(k)[0]+k:k;})();
   function src(n){var q=CFG.q||'';if(n==='bike1')q+=(q?'&':'?')+'b=4';return BASE+n+'.webp'+q;}
-  var DOTS=['dot_minty','dot_pachiru','dot_fai','dot_amery','dot_parunya','dot_melroot','dot_coco'];var IM={};['bike1','chan1','minty1','pachiru1','fai1','amery1'].concat(DOTS).concat(CFG.cut?CFG.cut.map(function(c){return c.img}):[]).forEach(function(n){var i=new Image();i.onload=function(){i.ok=true};i.src=src(n);IM[n]=i;});
+  var DOTS=['dot_minty','dot_pachiru','dot_fai','dot_amery','dot_parunya','dot_melroot'];var IM={};['bike1','chan1','minty1','pachiru1','fai1','amery1'].concat(DOTS).concat(CFG.cut?CFG.cut.map(function(c){return c.img}):[]).forEach(function(n){var i=new Image();i.onload=function(){i.ok=true};i.src=src(n);IM[n]=i;});
   var P=CFG.dir==='gb'?{grass:'#8BAC0F',tuft:'#306230',road:'#CADC9F',line:'#306230',dark:'#0F380F',hud:'#0F380F'}:{grass:'#4FD07A',tuft:'#2E9E58',road:'#D9D6CC',line:'#FFFFFF',dark:'#283048',hud:'#283048'};
 
   /* ---------- サイクリング ---------- */
@@ -1248,7 +1248,7 @@ var tk=document.querySelectorAll('.ticker .tk');tk.forEach(function(a,i){var r=a
   document.querySelectorAll('.af').forEach(function(af){var b=af.querySelector('.chat .b');if(!b)return;var html=b.innerHTML;b.innerHTML='<span class="typing"><i></i><i></i><i></i></span>';b.style.opacity=1;b.style.transform='none';
     new IntersectionObserver(function(en,o){if(!en[0].isIntersecting)return;o.disconnect();setTimeout(function(){b.innerHTML=html;b.style.transition='none';b.animate([{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'none'}],{duration:350,easing:'ease-out'});},900+Math.random()*600);},{threshold:.5}).observe(af);});
   // タブを離れるとタイトルが呼びかける
-  var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'📦 ポケカ、送るだけ！｜ナタデココ':t0;});
+  var t0=document.title;document.addEventListener('visibilitychange',function(){document.title=document.hidden?'ポケカ、送るだけ！｜ナタデココ':t0;var ic=document.querySelector('link[rel="icon"]');if(ic){if(!ic._h0)ic._h0=ic.href;ic.type=document.hidden?'image/png':'image/svg+xml';ic.href=document.hidden?ic._h0.replace(/favicon\.svg.*$/,'img/tab_coco.png'):ic._h0;}});
 })();
 </script>
 

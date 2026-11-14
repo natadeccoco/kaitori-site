@@ -109,7 +109,7 @@ const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(S
 //   広告のリンク先URLに ?utm_source=google&utm_campaign=…&utm_content=広告番号 を付けておくと、
 //   30日間ブラウザに覚え、LINE申込文の末尾に「受付コード：G-旧裏LP-g01」のように入る（店側で広告別の成約を数える用）
 const ATTR_TAG = `<script>(function(){try{var K="nd_attr",q=new URLSearchParams(location.search),p=location.pathname,
-lp=/\\/lp\\/old\\//.test(p)?"旧裏LP":/\\/lp\\/box\\//.test(p)?"BOXLP":/\\/lp\\//.test(p)?"総合LP":"",
+lp=/\\/lp\\/old\\//.test(p)?"旧裏LP":/\\/lp\\/box\\//.test(p)?"BOXLP":/\\/lp\\/psa\\//.test(p)?"PSALP":/\\/lp\\/matome\\//.test(p)?"まとめLP":/\\/lp\\//.test(p)?"総合LP":"",
 src=q.get("utm_source")||(q.get("gclid")?"google":""),now=Date.now(),old=null;
 try{old=JSON.parse(localStorage.getItem(K)||"null");}catch(e){}
 if(old&&now-old.t>2592e6)old=null;
@@ -423,6 +423,26 @@ console.log(`article pages: ${arts.length}`);
         sheet: n => uniq(withImg("旧裏").filter(x => /拡張シート|クイックスターター|イントロパック/.test(x.set)).sort(byPrice), n),
         tr: n => uniq(withImg("旧裏").filter(x => isOldMain(x)).sort(byPrice).slice(20), n, x => baseName(x.name)),
       } },
+    { key: "psa", tpl: "lp_psa.html", out: "lp/psa/index.html", path: "/lp/psa/",
+      title: "PSA鑑定品の宅配買取｜PSA10をケースのまま送るだけ・送料0円・最短当日入金",
+      desc: "PSA10などの鑑定済みポケモンカードを、ケースのまま梱包して送るだけ。PSA9以下・BGS・ARSも相談OK。送料無料・最短当日入金。PSA10の買取価格を毎日公開。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。",
+      pool() {
+        const all = items.filter(x => x.img && isPsaItem(x)).sort(byPrice);
+        const ser = r => /^M\d/i.test(r.exp || "") ? "mega" : /^SV/i.test(r.exp || "") ? "sv" : "old";
+        console.log("lp(psa): PSA " + all.length + "件");
+        const key = x => x.name + "|" + (x.code || ""); const list = ["mega", "sv", "old"].map(g => uniq(all.filter(r => ser(r) === g), 40, key)).reduce((p, c) => p.concat(c), []).sort(byPrice);
+        return { hot: shuffle(all.slice(0, 30)), list, k: ser };
+      },
+      vpics: {
+        new: n => uniq(items.filter(x => x.img && isPsaItem(x) && /^M\d/i.test(x.exp || "")).sort(byPrice), n, x => baseName(x.name)),
+        sv: n => uniq(items.filter(x => x.img && isPsaItem(x) && /^SV/i.test(x.exp || "")).sort(byPrice), n, x => baseName(x.name)),
+        old: n => uniq(items.filter(x => x.img && isPsaItem(x) && !/^(M\d|SV)/i.test(x.exp || "")).sort(byPrice), n, x => baseName(x.name)),
+        top: n => uniq(items.filter(x => x.img && isPsaItem(x)).sort(byPrice).slice(8), n, x => baseName(x.name)),
+      } },
+    { key: "matome", tpl: "lp_matome.html", out: "lp/matome/index.html", path: "/lp/matome/",
+      title: "ポケカ大量・まとめ売りの宅配買取｜仕分け不要・段ボールで送るだけ・送料0円",
+      desc: "大量のポケモンカードを、仕分けもリスト作りもせずに段ボールで送るだけ。カードを選ばない「おまかせ査定」で1枚ずつ査定。送料無料・最短当日入金。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。",
+      pool() { return variants[0].pool(); }, vpics: {} },
   ];
   for (const V of variants) {
     const lpTpl = read(path.join(SRC, V.tpl));

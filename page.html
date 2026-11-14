@@ -662,12 +662,27 @@ function scrollToList(){$(".searchbox").scrollIntoView({block:"start"});}
 function openPanel(on){const p=$("#fpanel");p.hidden=!on;$("#fbtn").setAttribute("aria-expanded",on);}
 function resetFilters(){GROUPS.forEach(([k])=>state[k].clear());state.q="";$("#q").value="";apply();}
 
+// 数字だけ（例 002）や 002/187 の検索は、型番を全部つなげた文字列ではなく「カード番号」と照らし合わせる
+const z2h=s=>String(s||"").replace(/[０-９／]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0));
+const nz=s=>s.replace(/^0+(?=\d)/,"");
+const numQ=r=>{const m=z2h(r).match(/^(\d+)(?:\/(\d+))?$/);return m?{a:m[1],b:m[2]}:null;};
+function numHit(it,w){
+  const code=z2h(it.code||it.no), n=nz(w.a);
+  if(w.b) return [...code.matchAll(/(\d+)\s*\/\s*(\d+)/g)].some(m=>nz(m[1])===n&&nz(m[2])===nz(w.b));   // 002/187 は両方一致
+  let nums=[...code.matchAll(/(\d+)\s*\//g)].map(m=>m[1]);                    // 「/」の前の数字＝カード番号
+  if(!nums.length) nums=code.split(/[^A-Za-z0-9]+/).filter(x=>/^\d+$/.test(x));                                  // 「/」がない型番は中の数字
+  if(nums.some(x=>nz(x)===n)) return true;
+  return (z2h([it.name,it.set,it.kw].join(" ")).match(/\d+/g)||[]).includes(w.a); // 名前・パック名の数字（151 など）はそのまま一致
+}
 function filtered(){
   const q=norm(state.q), qs=(state.q||"").split(/[\s\u3000]+/).map(norm).filter(Boolean);   // 単語をスペースで区切ったら、順番に関係なく全部含むものを出す
+  const qr=(state.q||"").split(/[\s\u3000]+/).filter(r=>norm(r)), qn=qr.map(numQ);
   let out=ITEMS.filter(it=>{
     if(state.cat!=="すべて"&&GRP(it.cat)!==state.cat)return false;
     for(const [k] of GROUPS){ if(state[k].size&&!state[k].has(it[k])) return false; }
-    if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" ")); if(!hay.includes(q)&&!(qs.length>1&&qs.every(w=>hay.includes(w)))) return false; }
+    if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" "));
+      if(qn.some(Boolean)){ if(!qr.every((r,i)=>qn[i]?numHit(it,qn[i]):hay.includes(norm(r)))) return false; }   // 数字だけの語は「カード番号」として一致するものだけ
+      else if(!hay.includes(q)&&!(qs.length>1&&qs.every(w=>hay.includes(w)))) return false; }
     return true;
   });
   const s=state.sort;

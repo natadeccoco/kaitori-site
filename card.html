@@ -61,7 +61,7 @@ footer{margin-top:40px;background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:
       __DEX__
       <div class="pricebox"><div class="l">買取価格（美品）</div><div class="v">__PRICE__</div>__PRICE2__<div class="d">__UPDATED__ 時点の価格。相場により毎日変動します。</div><img class="mas" src="/img/chars/chan1.webp" alt=""></div>
       <div class="btns">
-        <a class="apply" href="__LINE_URL__" target="_blank" rel="noopener"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>このカードをLINEで買取申込</a>
+        <a class="apply" href="__LINE_URL__" target="_blank" rel="noopener" data-id="__ID__" data-price="__PRICENUM__" data-line="__LINEID__" data-msg="__LINEMSG__"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg>このカードをLINEで買取申込</a>
         <a class="sec" href="__ADD_URL__">🛒 カートに追加する（価格表に戻る）</a>
         __PACK_LINK__
       </div>
@@ -96,3 +96,49 @@ footer{margin-top:40px;background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:
   <div><a href="/">買取価格表</a><a href="__STORES_URL__">店舗一覧</a><a href="/company/">会社概要</a><a href="/legal/">古物営業法に関する表示</a><a href="/privacy/">プライバシーポリシー</a><a href="__XURL__" target="_blank" rel="noopener">X</a></div>
   <div style="margin-top:10px;opacity:.8">© __COMPANY__</div>
 </footer>
+<a id="pxSrc" href="/data/prices.json" hidden></a>
+<script>
+/* 申込の前に最新の買取価格を確認する（ページを開きっぱなしにして、古い価格のまま申し込まれるのを防ぐ） */
+(function(){
+  var a=document.querySelector('a.apply[data-id]'),ps=document.getElementById('pxSrc');if(!a||!ps||!window.fetch)return;
+  var id=a.dataset.id,price=Number(a.dataset.price),at=Date.now(),busy=null,gone=false,src=ps.href;
+  function yen(n){return '¥'+n.toLocaleString('ja-JP');}
+  function url(p){return 'https://line.me/R/oaMessage/'+encodeURIComponent(a.dataset.line)+'/?'+encodeURIComponent(a.dataset.msg.replace('{P}',yen(p)));}
+  function check(){
+    if(busy)return busy;
+    busy=fetch(src+'?t='+Date.now(),{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(d){
+      if(!d||!d.p||typeof d.p!=='object')throw 0;at=Date.now();var np=d.p[id],res=null;
+      if(typeof np!=='number'){if(!gone){gone=true;res={old:price,now:null};}}
+      else if(np!==price||gone){res={old:price,now:np};price=np;gone=false;
+        var v=document.querySelector('.pricebox .v');if(v)v.textContent=yen(np);a.href=url(np);
+        var dd=document.querySelector('.pricebox .d');if(dd&&d.updated)dd.textContent=d.updated+' 時点の価格。相場により毎日変動します。';
+        var v2=document.getElementById('px2');if(v2&&d.p2&&typeof d.p2[id]==='number')v2.textContent=yen(d.p2[id]);}
+      return res;
+    }).catch(function(){return null;}).then(function(r){busy=null;return r;});
+    return busy;
+  }
+  function notice(r){
+    var m=document.getElementById('pxNotice');if(m)m.remove();m=document.createElement('div');m.id='pxNotice';
+    m.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(23,59,92,.45);display:flex;align-items:center;justify-content:center;padding:16px';
+    var box=document.createElement('div');box.style.cssText='background:#fff;border-radius:20px;max-width:420px;width:100%;padding:24px 22px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.2)';
+    var h=document.createElement('b');h.style.cssText='display:block;font-size:18px;color:#173B5C';
+    var p=document.createElement('p');p.style.cssText='font-size:14px;color:#173B5C;margin:10px 0 16px;line-height:1.7';
+    var row=document.createElement('div');row.style.cssText='display:flex;gap:10px;justify-content:center;flex-wrap:wrap';
+    var x=document.createElement('button');x.type='button';x.textContent='閉じる';x.style.cssText='border:2px solid #C9D6DE;border-radius:999px;background:#fff;color:#173B5C;font-weight:700;padding:10px 20px;cursor:pointer;font-size:14px';x.onclick=function(){m.remove();};
+    var ok=document.createElement('a');ok.style.cssText='border-radius:999px;background:#06C755;color:#fff;font-weight:700;padding:11px 20px;font-size:14px;text-decoration:none';
+    if(r.now==null){h.textContent='このカードは今、買取表にありません';p.textContent='買取表から外れたため、このページからは申し込めません。最新の買取価格表をご確認ください。';
+      var c=document.querySelector('.crumb a');ok.href=c?c.href:'/';ok.textContent='買取価格表を見る';}
+    else{h.textContent='買取価格が更新されました';p.appendChild(document.createTextNode('このページを開いたあとで価格が変わりました。'));p.appendChild(document.createElement('br'));
+      p.appendChild(document.createTextNode(yen(r.old)+' → '));var nb=document.createElement('b');nb.style.color='#c0392b';nb.style.fontSize='18px';nb.textContent=yen(r.now);p.appendChild(nb);
+      ok.href=a.href;ok.target='_blank';ok.rel='noopener';ok.textContent='この価格で申込へ進む';ok.onclick=function(){setTimeout(function(){m.remove();},300);};}
+    row.appendChild(x);row.appendChild(ok);box.appendChild(h);box.appendChild(p);box.appendChild(row);m.appendChild(box);document.body.appendChild(m);
+  }
+  function auto(){if(document.hidden||Date.now()-at<60000)return;check().then(function(r){if(r)notice(r);});}
+  document.addEventListener('visibilitychange',auto);window.addEventListener('pageshow',auto);window.addEventListener('focus',auto);setInterval(function(){if(Date.now()-at>300000)auto();},60000);
+  a.addEventListener('click',function(e){
+    if(Date.now()-at<90000&&!busy){if(gone){e.preventDefault();notice({old:price,now:null});}return;}
+    e.preventDefault();
+    check().then(function(r){if(r){notice(r);return;}if(gone){notice({old:price,now:null});return;}location.href=a.href;});
+  });
+})();
+</script>

@@ -235,6 +235,7 @@ for (const it of items) {
   const sps = speciesOf(it); const enNames = sps.map(x => x.en).join(" & ");
   const desc = `${it.name}${it.code ? " " + it.code : ""}${enNames ? "（英語名：" + enNames + "）" : ""}${it.set ? "／" + it.set : ""}${it.rarity !== "-" ? "／" + it.rarity : ""} の買取価格は${yen(it.price)}（${updated}時点）。ナタデココのかんたん宅配買取ならLINEで申込・送料無料・最短当日入金。`;
   const lineText = `【宅配買取 申込】\n・${it.name}${it.code ? "（" + it.code + "）" : ""}${it.grade !== "素体" ? " " + it.grade : ""} ×1 … ${yen(it.price)}\n\n※美品の場合の価格です。\nお名前・枚数・発送予定日をご記入ください：`;
+  const lineMsg = lineText.replace(yen(it.price), "{P}");   // 申込直前の最新価格チェック用（card.html のスクリプトが {P} に最新価格を入れる）
   const lineUrl = `https://line.me/R/oaMessage/${encodeURIComponent(CFG.lineId)}/?${encodeURIComponent(lineText)}`;
   const ld = { "@context": "https://schema.org", "@type": "Product", name: it.name, alternateName: enNames || undefined, image: it.img || undefined, description: desc, brand: { "@type": "Brand", name: "ポケモンカードゲーム" }, sku: it.code || undefined,
     offers: { "@type": "Offer", url, priceCurrency: "JPY", price: it.price, availability: "https://schema.org/InStock", seller: { "@type": "Organization", name: CFG.company }, description: "買取価格（美品の場合）" } };
@@ -248,10 +249,10 @@ for (const it of items) {
     .replace("__ABOUT__", cardAbout(it)).replace("__VARIANTS__", cardVariants(it) + speciesCards(it)).replace("__FAQ__", faq.html).replace("__DEX__", speciesRows(it)).replace("__EN__", enNames ? `<p class="en">${esc(enNames)}</p>` : "")
     .replace(/__NAME__/g, esc(it.name)).replace(/__CODE__/g, esc(it.code)).replace(/__SET__/g, esc(it.set)).replace(/__RARITY__/g, esc(it.rarity !== "-" ? it.rarity : ""))
     .replace(/__GRADE__/g, esc(it.grade !== "素体" ? it.grade : "")).replace(/__CAT__/g, esc(it.cat)).replace(/__CATLABEL__/g, esc(catLabel(it.cat)))
-    .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" style="font-size:26px">${esc(yen(it.price2))}</div>` : "").replace(/__UPDATED__/g, esc(updated))
+    .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" id="px2" style="font-size:26px">${esc(yen(it.price2))}</div>` : "").replace(/__UPDATED__/g, esc(updated))
     .replace(/__IMG__/g, it.img ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="eager" data-alt="${esc((it.imgAlt || []).join("|"))}" onerror="imgErr(this)">` : `<div class="ph"><span>${esc(it.name)}</span></div>`)
     .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
-    .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/takuhai/#add=${encodeURIComponent(it.id)}&back=1`)
+    .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__ID__/g, () => esc(it.id)).replace(/__PRICENUM__/g, String(it.price)).replace(/__LINEID__/g, () => esc(CFG.lineId)).replace(/__LINEMSG__/g, () => esc(lineMsg)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/takuhai/#add=${encodeURIComponent(it.id)}&back=1`)
     .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
     .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company))
     .replace(/__PACK_LINK__/g, it.set && packSlugBySet.has(it.set) ? `<a class="sec" href="/pack/${packSlugBySet.get(it.set)}/">${esc(it.set)}の買取価格一覧 ›</a>` : "")
@@ -479,7 +480,7 @@ write("404.html", `<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><m
 write(".nojekyll", "");
 if (!/github\.io$/.test(new URL(CFG.siteUrl).host)) write("CNAME", new URL(CFG.siteUrl).host);
 write("data/items.json", dataJson);
-write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
+write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price])), p2: Object.fromEntries(slim.filter(i => i.price2).map(i => [i.id, i.price2])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
 for (const f of fs.readdirSync(ROOT)) { if (/\.(png|jpg|jpeg|svg|ico|webp)$/i.test(f)) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)); }
 if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true, filter: f => !path.basename(f).startsWith("_") });   // _missing.txt 等は公開しない
 console.log(`built ${urls.length + 1} pages -> dist/`);

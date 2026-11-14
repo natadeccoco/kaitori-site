@@ -214,12 +214,17 @@ table.cart tfoot td{font-weight:800;font-size:16px}
 .allbar{display:block;margin-top:28px;background:linear-gradient(90deg,var(--cyan),var(--lav));color:var(--navy);text-align:center;font-weight:800;padding:12px;border:0;width:100%;cursor:pointer;font-size:15px}
 .browse{background:linear-gradient(180deg,var(--lilac),var(--sky));padding:16px 0 20px}
 .bcard{background:#fff;border:2px solid #fff;border-radius:var(--radius);padding:14px 16px 16px;color:var(--navy);box-shadow:var(--shadow);position:relative}
-.bcard .bh{display:flex;align-items:center;gap:12px;background:var(--lemon);border-radius:12px;padding:10px 14px;font-weight:800;font-size:15px;padding-right:110px}
+.bcard .bh{display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 10px;padding:2px 0 10px;border-bottom:3px solid var(--navy);font-weight:800;font-size:18px}
+.bcard .bh small{font-size:12px;font-weight:500;color:var(--ink-2)}
 .bcard .peek{position:absolute;right:18px;top:-30px;height:88px;pointer-events:none}
 .bcard .bh .mk{width:44px;height:30px;border-radius:5px;background:linear-gradient(135deg,var(--yellow),var(--pink));display:flex;align-items:center;justify-content:center;color:var(--navy);font-family:"M PLUS Rounded 1c",sans-serif;font-size:11px;font-weight:800;flex:none}
-.bcard h3{margin:14px 0 6px;font-size:13px;font-weight:700;color:var(--ink-2)}
-.bcard .chip{background:var(--bg-2);color:var(--navy);border-color:var(--line);font-weight:700}
-.bcard .chip:hover{background:var(--lemon);border-color:var(--yellow)}
+#browseGroups>div{display:grid;grid-template-columns:108px 1fr;gap:12px;align-items:start;padding:11px 0;border-bottom:1px dashed var(--line-2)}
+#browseGroups>div:last-child{border-bottom:0;padding-bottom:0}
+.bcard h3{margin:0;font-size:12px;font-weight:800;color:#fff;background:var(--navy);border-radius:6px;padding:6px 4px;text-align:center}
+.bcard .chip{border-radius:8px;background:#fff;border:1.5px solid var(--line-2);color:var(--navy);font-weight:700;padding:5px 12px}
+.bcard .chip:hover{background:var(--mint);border-color:var(--cyan-deep)}
+.bcard .chip.g-raw{border-color:#E2453C;color:#B92D25}.bcard .chip.g-psa{border-color:#2F80C8;color:#1F65A3}.bcard .chip.g-s0{border-color:#1E9E6A;color:#157A51}
+@media(max-width:600px){#browseGroups>div{grid-template-columns:1fr;gap:6px}.bcard h3{justify-self:start;padding:3px 10px}}
 
 /* ===== footer ===== */
 footer{background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:var(--navy);padding:30px 16px 26px;font-size:14px;position:relative}
@@ -491,7 +496,7 @@ body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:
 <section class="browse">
   <div class="wrap">
     <div class="bcard">
-      <div class="bh"><span class="mk">ポケカ</span>ポケモンカード/ポケカ買取一覧</div>
+      <div class="bh">カードをさがす<small>えらぶと一覧がしぼりこまれます</small></div>
       <div id="browseGroups"></div>
     </div>
   </div>
@@ -640,7 +645,7 @@ function renderBrowse(){
   const base=ITEMS.filter(i=>state.cat==="すべて"||GRP(i.cat)===state.cat);
   const order={type:null,grade:null,rarity:CONFIG.topRarities,set:null};
   { // カテゴリーから探す
-    const c={};ITEMS.forEach(i=>{const gg=GRP(i.cat);c[gg]=(c[gg]||0)+1;});const g=document.createElement("div");g.innerHTML=`<h3>カテゴリーから探す</h3><div class="chips"></div>`;
+    const c={};ITEMS.forEach(i=>{const gg=GRP(i.cat);c[gg]=(c[gg]||0)+1;});const g=document.createElement("div");g.innerHTML=`<h3>カテゴリー</h3><div class="chips"></div>`;
     const box=g.querySelector(".chips");
     CATS().filter(k=>k!=="すべて").forEach(k=>{const b=document.createElement("button");b.className="chip";b.type="button";b.innerHTML=`${esc(k)}<span class="c">${c[k]||0}</span>`;b.onclick=()=>{GROUPS.forEach(([kk])=>state[kk].clear());state.q="";$("#q").value="";setCat(k);scrollToList();};box.appendChild(b);});
     wrap.appendChild(g);
@@ -651,10 +656,10 @@ function renderBrowse(){
     let more=false;
     if(key==="rarity"){const top=order.rarity.filter(k=>c[k]);more=keys.length>top.length;keys=top.length?top:keys.slice(0,8);}
     if(key==="set"){more=keys.length>CONFIG.topSetsCount;keys=keys.slice(0,CONFIG.topSetsCount);}
-    const g=document.createElement("div");g.innerHTML=`<h3>${key==="rarity"?"人気レアリティから探す":key==="set"?"人気収録弾から探す":label}</h3><div class="chips"></div>`;
+    const g=document.createElement("div");g.innerHTML=`<h3>${({type:"種類",grade:"状態",rarity:"レアリティ",set:"パック"})[key]||label}</h3><div class="chips"></div>`;
     const box=g.querySelector(".chips");
-    keys.forEach(k=>{const b=chipEl(key,k,k);b.onclick=()=>{GROUPS.forEach(([kk])=>state[kk].clear());state[key].add(k);state.q="";$("#q").value="";apply();scrollToList();};box.appendChild(b);});
-    if(more){const b=document.createElement("button");b.className="chip";b.type="button";b.textContent=key==="rarity"?"その他レアリティから探す":"その他収録弾から探す";b.onclick=()=>{openPanel(true);scrollToList();};box.appendChild(b);}
+    keys.forEach(k=>{const b=chipEl(key,k,k);if(key==="grade"){const gc=k==="素体"?"g-raw":/^PSA/.test(k)?"g-psa":k==="シュリンクなし"?"g-s0":"";if(gc)b.classList.add(gc);}b.onclick=()=>{GROUPS.forEach(([kk])=>state[kk].clear());state[key].add(k);state.q="";$("#q").value="";apply();scrollToList();};box.appendChild(b);});
+    if(more){const b=document.createElement("button");b.className="chip";b.type="button";b.textContent=key==="rarity"?"ほかのレアリティ ›":"ほかのパック ›";b.onclick=()=>{openPanel(true);scrollToList();};box.appendChild(b);}
     wrap.appendChild(g);
   });
 }

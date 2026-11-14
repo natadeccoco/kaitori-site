@@ -1041,7 +1041,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
   cv.addEventListener('pointerdown',function(e){e.preventDefault();var r=cv.getBoundingClientRect();mv((e.clientX-r.left)<r.width/2?-1:1);});
 
   /* ---------- スロット ---------- */
-  var SYM=[{img:'chan1',pay:100,n:'ナタデココちゃん'},{img:'fai1',pay:30,n:'ファイ'},{img:'pachiru1',pay:20,n:'パチル'},{img:'minty1',pay:15,n:'ミンティ'},{img:'amery1',pay:10,n:'アメリー'}];
+  var SYM=[{img:'chan1',pay:100,n:'ナタデココちゃん'},{img:'amery1',pay:30,n:'アメリー'},{img:'fai1',pay:20,n:'ファイ'},{img:'pachiru1',pay:15,n:'パチル'},{img:'minty1',pay:10,n:'ミンティ'}];
   var STRIPS=[[0,4,3,2,4,1,3,4,2,3,1,4,2,3,4],[4,3,0,2,4,3,1,4,2,3,4,1,2,4,3],[3,4,2,4,0,3,4,1,3,2,4,3,1,4,2]];
   var LINES=[[1,1,1],[0,0,0],[2,2,2],[0,1,2],[2,1,0]];
   var mach=$('smach'),reels=[].slice.call(mach.querySelectorAll('.sreel')),stops=[].slice.call(md.querySelectorAll('.sstop')),lamps=[].slice.call(mach.querySelectorAll('.slamps i')),cut=$('scut');

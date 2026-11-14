@@ -947,8 +947,6 @@ if(/^https:\/\//.test(APPLY_URL)){
     <div style="flex:1;min-width:0;color:#173B5C"><b style="display:block;font-size:16px;line-height:1.4"><span style="color:#E23B47">申込日の金額</span>で査定します</b>
     <span style="display:block;font-size:13px;line-height:1.6;margin-top:2px">申込日の翌日から<b style="color:#E23B47;font-size:15px">3日以内（${dlTxt}まで）</b>に届けばOK。期日を過ぎると査定時の金額になります。</span></div></div>`);
   if(ab)ab.insertAdjacentHTML("afterend",foBox("カードを選ばずに申し込むこともできます","枚数が多い・一覧にないカードがある方は、カートに入れずにそのまま申込OK。届いたカードを1枚ずつ査定してご連絡します。",false));
-  const tb=document.getElementById("tabs");
-  if(tb)tb.insertAdjacentHTML("beforebegin",foBox("カードを選ぶのが大変な方へ","まとめて箱に入れて送るだけ。カートに入れなくても申し込めます。",true));
   document.addEventListener("click",function(e){
     const t=e.target.closest&&e.target.closest("[data-omk]");if(t){e.preventDefault();e.stopImmediatePropagation();omAdd();toast("おまかせ査定をカートに入れました");return;}
     const a=e.target.closest&&e.target.closest(".formOnly");if(!a)return;e.preventDefault();

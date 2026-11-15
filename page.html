@@ -617,7 +617,8 @@ const NOT_BOX=/プロモ|デッキ|スターター|シート|ファイル|付録
 const setRank=exp=>{const m=/^(SM|SV|S|M)(\d+)([A-Za-z+]*)/i.exec(exp||"");if(!m)return 0;const suf=m[3].toLowerCase();return ({m:4,sv:3,s:2,sm:1})[m[1].toLowerCase()]*10000+(+m[2])*10+(/^[ab]/.test(suf)?2:suf?1:0);};
 let _SR=null,_SRn=-1;
 function setRanks(){if(_SR&&_SRn===ITEMS.length)return _SR;_SR={};_SRn=ITEMS.length;ITEMS.forEach(i=>{if(i.cat==="BOX"||!i.set)return;const r=setRank(i.exp);if(r>(_SR[i.set]||0))_SR[i.set]=r;});return _SR;}
-function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-"&&!(key==="rarity"&&/^[★☆●◆]+$/.test(v))&&!(key==="set"&&(i.cat==="BOX"||NOT_BOX.test(v)||!setRanks()[v])))c[v]=(c[v]||0)+1;});return c;}   // 記号だけのレアリティ（★☆●◆）は絞り込みに出さない
+const setKey=i=>i.cat==="BOX"?"":(i.set&&!NOT_BOX.test(i.set)&&setRanks()[i.set])?i.set:"その他";   // MEGA〜SM の拡張パック以外のカードは「その他」にまとめる（BOXタブの商品は対象外）
+function counts(key,items){const c={};items.forEach(i=>{const v=key==="set"?setKey(i):i[key];if(v&&v!=="-"&&!(key==="rarity"&&/^[★☆●◆]+$/.test(v)))c[v]=(c[v]||0)+1;});return c;}   // 記号だけのレアリティ（★☆●◆）は絞り込みに出さない
 
 /* ============================ 描画 ============================ */
 function renderTabs(){
@@ -700,7 +701,7 @@ function filtered(){
   const qr=(state.q||"").split(/[\s\u3000]+/).filter(r=>norm(r)), qn=qr.map(numQ);
   let out=ITEMS.filter(it=>{
     if(state.cat!=="すべて"&&GRP(it.cat)!==state.cat)return false;
-    for(const [k] of GROUPS){ if(state[k].size&&!state[k].has(it[k])) return false; }
+    for(const [k] of GROUPS){ if(state[k].size&&!state[k].has(k==="set"?setKey(it):it[k])) return false; }
     if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" "));
       if(qn.some(Boolean)){ if(!qr.every((r,i)=>qn[i]?numHit(it,qn[i]):hay.includes(norm(r)))) return false; }   // 数字だけの語は「カード番号」として一致するものだけ
       else if(!hay.includes(q)&&!(qs.length>1&&qs.every(w=>hay.includes(w)))) return false; }

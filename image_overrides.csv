@@ -141,7 +141,7 @@ BOX,"(ショートパック)拡張パック第2弾 ポケモンジャングル�
 旧裏,"ピチュー LV.5(修正版)",-
 旧裏,"バクフーン LV.55(修正版/バーストフレイム60+)",-
 # 2026-11-13 調査で根拠が取れたもの（カードラッシュの商品名・買取価格、カード画像の照合、Mycaの商品情報）。4列目は型番（同名の別行と区別するため）
-ポケモン,"ピカチュウ(20thアニバーサリー)",https://natadeccoco.github.io/kaitori-site/own/pikachu_20th_arita,"XY-P"
+ポケモン,"ピカチュウ(20thアニバーサリー)",https://kaitori.pokemon-card.shop/own/pikachu_20th_arita,"XY-P"
 旧裏,"＿のピカチュウ LV.17(未開封/ポケモンカードになったワケ)",card/puromo01/puromo01_120.jpg
 ポケモン,"チャンピオンズリーグ(2005)",card/PCG-P/cl2005.jpg
 ポケモン,"シロナの想い",card/DP-P/DP-P_t02.jpg
@@ -152,7 +152,7 @@ BOX,"リザードン★炎【未開封パック】",box/rizadon.jpg
 ポケモン,"ピカチュウ(ともだちのわ)",card/XY-P/XY-P_.jpg,"XY-P"
 BOX,"まぼろしのミュウ【未開封パック】",box/myustart.jpg
 ポケモン,"ピカチュウ(藤田ニコル)",card/XY-P/XY-P_g.jpg,"XY-P"
-ポケモン,"ピカチュウ(日本語/青背景)",https://natadeccoco.github.io/kaitori-site/own/pw2_jp_blue,"PW"
+ポケモン,"ピカチュウ(日本語/青背景)",https://kaitori.pokemon-card.shop/own/pw2_jp_blue,"PW"
 BOX,"タッグオールスターズ",box/sm12a_b.jpg
 ポケモン,"ピッチのピカチュウ(小学生以下)",card/XY-P/XY-P_j.jpg,"XY-P"
 ポケモン,"ミズキの検索(キラ)",card/DP-P/DP-P_t05.jpg
@@ -178,8 +178,8 @@ BOX,"ホウオウGX【スペシャルジャンボカードパック】",box/houh
 ポケモン,"ミュウ(古代文字2019)",card/SM-P/SM-P_091d.jpg
 BOX,"フライゴンデッキ【未開封パック】",box/huraigon.jpg
 BOX,"ボーマンダデッキ【未開封パック】",box/bomanda.jpg
-ポケモン,"ピカチュウ(ワールド/日本/緑背景)",https://natadeccoco.github.io/kaitori-site/own/pw2_jp_green,"PW"
-ポケモン,"ピカチュウ(ワールド/日本/青背景)",https://natadeccoco.github.io/kaitori-site/own/pw2_jp_blue,"PW"
+ポケモン,"ピカチュウ(ワールド/日本/緑背景)",https://kaitori.pokemon-card.shop/own/pw2_jp_green,"PW"
+ポケモン,"ピカチュウ(ワールド/日本/青背景)",https://kaitori.pokemon-card.shop/own/pw2_jp_blue,"PW"
 BOX,"ファミリーポケモンカードゲーム(サン＆ムーン)",box/familysm.jpg
 BOX,"バクフーンex★炎【未開封パック】",box/bakuhun.jpg
 BOX,"スペシャルセット 「ピカチュウ(ヤマダ電機・ポケモンセンター限定)」",box/sppika.jpg
@@ -288,64 +288,64 @@ BOX,"ソード＆シールドミステリーボックス",box/mb.jpg
 BOX,"スペシャルセット　スターターセットV炎",box/sevensp.jpg
 BOX,"ポケモンカードゲームDP エントリーパック【未開封パック】",box/DP1-4.jpg
 BOX,"プレミアムトレーナーボックスex「スカーレット＆バイオレット」",box/SVB.jpg
-BOX,"MEGAプロモカードパック(マクドナルド/ハッピーセット)【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/mac_mega_pack
+BOX,"MEGAプロモカードパック(マクドナルド/ハッピーセット)【未開封パック】",https://kaitori.pokemon-card.shop/own/mac_mega_pack
 # 2026-11-13 重複点検で見つかった画像の誤り（同じ画像が別商品に出ていたもの）
 旧弾,"キングドラ",card/ekaku3/e3041.jpg,"041/087"
 BOX,"第1弾 スターターパック【未開封パック】",box/starter1.jpg
-BOX,"スターターパック【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/starter_pack_kyuura
+BOX,"スターターパック【未開封パック】",https://kaitori.pokemon-card.shop/own/starter_pack_kyuura
 BOX,"はじめてセット+【未開封パック】",box/hzimeteplus.jpg
 # 2026-11-13 雄司さんが用意した画像（img/cards に透かし入りで配置済み）
-BOX,"セレブレーション【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/celebration_pack
-BOX,"拡張パック第1弾【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/kakucho1_300
+BOX,"セレブレーション【未開封パック】",https://kaitori.pokemon-card.shop/own/celebration_pack
+BOX,"拡張パック第1弾【未開封パック】",https://kaitori.pokemon-card.shop/own/kakucho1_300
 # 2026-11-13 旧裏の未開封パックは300円表記の画像に統一（袋の印刷を目で確認。リーダーズスタジアムはMycaの表記が逆なので gym1.jpg が300円表記）
-BOX,"拡張パック第4弾 ロケット団【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/rocket_300
+BOX,"拡張パック第4弾 ロケット団【未開封パック】",https://kaitori.pokemon-card.shop/own/rocket_300
 BOX,"拡張パック第3弾 化石の秘密【未開封パック】",box/dai3dan_300.jpg
 BOX,"拡張パック第2弾 ポケモンジャングル【未開封パック】",box/dai2dan_300.jpg
 BOX,"ジム拡張第2弾 闇からの挑戦【未開封パック】",box/gym2.jpg
 BOX,"ジム拡張第1弾 リーダーズスタジアム【未開封パック】",box/gym1.jpg
-旧裏,"＿のピカチュウ LV.17",https://natadeccoco.github.io/kaitori-site/own/pikachu_lv17_2nd
-PSA,"＿のピカチュウ LV.17",https://natadeccoco.github.io/kaitori-site/own/pikachu_lv17_2nd
-ポケモン,"ピカチュウ(ワールド/アメリカ)",https://natadeccoco.github.io/kaitori-site/own/pw2_us,"PW"
-ポケモン,"ピカチュウ(ワールド/イタリア)",https://natadeccoco.github.io/kaitori-site/own/pw2_it,"PW"
-ポケモン,"ピカチュウ(ワールド/韓国)",https://natadeccoco.github.io/kaitori-site/own/pw2_kr,"PW"
-ポケモン,"ピカチュウ(ワールド/スペイン)",https://natadeccoco.github.io/kaitori-site/own/pw2_es,"PW"
-ポケモン,"ピカチュウ(ワールド/ドイツ)",https://natadeccoco.github.io/kaitori-site/own/pw2_de,"PW"
-ポケモン,"ピカチュウ(ワールド/フランス)",https://natadeccoco.github.io/kaitori-site/own/pw2_fr,"PW"
-ポケモン,"ピカチュウ(ワールド/ポーランド)",https://natadeccoco.github.io/kaitori-site/own/pw2_pl,"PW"
-ポケモン,"ピカチュウ(ワールド/ポルトガル)",https://natadeccoco.github.io/kaitori-site/own/pw2_pt,"PW"
-BOX,"ソウルシルバーコレクション スペシャルパック【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/ss_special_pack
-BOX,"exスペシャルセット",https://natadeccoco.github.io/kaitori-site/own/ex_special_set
-BOX,"ハートゴールドコレクション スペシャルパック【未開封パック】",https://natadeccoco.github.io/kaitori-site/own/hg_special_pack
+旧裏,"＿のピカチュウ LV.17",https://kaitori.pokemon-card.shop/own/pikachu_lv17_2nd
+PSA,"＿のピカチュウ LV.17",https://kaitori.pokemon-card.shop/own/pikachu_lv17_2nd
+ポケモン,"ピカチュウ(ワールド/アメリカ)",https://kaitori.pokemon-card.shop/own/pw2_us,"PW"
+ポケモン,"ピカチュウ(ワールド/イタリア)",https://kaitori.pokemon-card.shop/own/pw2_it,"PW"
+ポケモン,"ピカチュウ(ワールド/韓国)",https://kaitori.pokemon-card.shop/own/pw2_kr,"PW"
+ポケモン,"ピカチュウ(ワールド/スペイン)",https://kaitori.pokemon-card.shop/own/pw2_es,"PW"
+ポケモン,"ピカチュウ(ワールド/ドイツ)",https://kaitori.pokemon-card.shop/own/pw2_de,"PW"
+ポケモン,"ピカチュウ(ワールド/フランス)",https://kaitori.pokemon-card.shop/own/pw2_fr,"PW"
+ポケモン,"ピカチュウ(ワールド/ポーランド)",https://kaitori.pokemon-card.shop/own/pw2_pl,"PW"
+ポケモン,"ピカチュウ(ワールド/ポルトガル)",https://kaitori.pokemon-card.shop/own/pw2_pt,"PW"
+BOX,"ソウルシルバーコレクション スペシャルパック【未開封パック】",https://kaitori.pokemon-card.shop/own/ss_special_pack
+BOX,"exスペシャルセット",https://kaitori.pokemon-card.shop/own/ex_special_set
+BOX,"ハートゴールドコレクション スペシャルパック【未開封パック】",https://kaitori.pokemon-card.shop/own/hg_special_pack
 旧裏,"ピチュー LV.5(修正版)",card/kinginshinsekai/neo1042.jpg
 旧裏,"バクフーン LV.55(修正版/バーストフレイム60+)",card/kinginshinsekai/neo1021.jpg
 旧裏,"ミュウ LV.23(拡張シート)",card/dai3dan/1st3033.jpg
 旧裏,"ミュウ LV.8(拡張シート/ニュートラルシールド)",card/puromo01/puromo01_016.jpg
 旧裏,"ルージュラ LV.18(拡張シート)",card/quickstart/1stqsg031.jpg
-ポケモン,"キングドラex(SAR仕様/英語版)",https://natadeccoco.github.io/kaitori-site/own/kingdra_ex_en
-ポケモン,"ゲッコウガex(SAR仕様/英語版)",https://natadeccoco.github.io/kaitori-site/own/greninja_ex_en
-ポケモン,"夏ポケカ(開封済/ブースターVMAX/シャワーズVMAX/サンダースVMAX/SA)",https://natadeccoco.github.io/kaitori-site/own/natsu_pokeka
-PSA,"ビクティニ",https://natadeccoco.github.io/kaitori-site/own/victini_ex_cn,"052/SV-P"
-PSA,"ピカチュウ(中国語版)",https://natadeccoco.github.io/kaitori-site/own/pikachu_153svp_cn,"153/SV-P"
-ポケモン,"ピカチュウ(中国語版)",https://natadeccoco.github.io/kaitori-site/own/pikachu_153svp_cn,"153/SV-P"
-旧裏,"ピカチュウ(英語表記/ハイパーコロコロ)",https://natadeccoco.github.io/kaitori-site/own/pikachu_en_hypercoro
-旧裏,"ミュウ(英語表記/月刊コミックGOTTA)",https://natadeccoco.github.io/kaitori-site/own/mew_en_gotta
-旧裏,"ウィンディ LV.35(イントロパック/ゼニガメ)",https://natadeccoco.github.io/kaitori-site/own/windie_lv35_intro
-旧裏,"ミュウツー(英語表記/JRスタンプラリー銀ｺｰｽ)",https://natadeccoco.github.io/kaitori-site/own/mewtwo_en_jr
-旧裏,"プリン(英語表記/ハイパーコロコロ)",https://natadeccoco.github.io/kaitori-site/own/purin_en_hypercoro
-ポケモン,"メタモン(韓国語版)",https://natadeccoco.github.io/kaitori-site/own/metamon_kr_173
-PSA,"メタモン(韓国語版)",https://natadeccoco.github.io/kaitori-site/own/metamon_kr_173
-ポケモン,"ピカチュウ(台北オープン記念)",https://natadeccoco.github.io/kaitori-site/own/pikachu_taipei_057
-旧裏,"カツラのウィンディ LV.42(ジムマーク問わず)",https://natadeccoco.github.io/kaitori-site/own/katsura_windie_42
-旧裏,"ミュウツー LV.60(拡張シート/エネルギーきゅうしゅう/全身立ち絵)",https://natadeccoco.github.io/kaitori-site/own/mewtwo_lv60_zenshin
-旧裏,"ミュウツー LV.60(拡張シート/エネルギーきゅうしゅう/上半身)",https://natadeccoco.github.io/kaitori-site/own/mewtwo_lv60_jouhanshin
-BOX,"海外/宝石包Vol.1",https://natadeccoco.github.io/kaitori-site/own/housekihou_vol1
-ポケモン,"バティックシャツのピカチュウ(ピカチュウ柄緑)",https://natadeccoco.github.io/kaitori-site/own/batik_pika_green_101
-ポケモン,"バティックシャツのピカチュウ(ピカチュウ柄ピンク)",https://natadeccoco.github.io/kaitori-site/own/batik_pika_pink_190
-ポケモン,"バティックシャツのピカチュウ(ネイティオ柄)",https://natadeccoco.github.io/kaitori-site/own/batik_pika_natio_154
-ポケモン,"バティックシャツのピカチュウ(ヒトデマン柄)",https://natadeccoco.github.io/kaitori-site/own/batik_pika_hitode_155
-旧裏,"ニャース(英語表記/JRスタンプラリー西日本)",https://natadeccoco.github.io/kaitori-site/own/nyarth_en_jr
-旧裏,"イーブイ(英語表記/JRスタンプラリー金コース)",https://natadeccoco.github.io/kaitori-site/own/eevee_en_jr
-ポケモン,"ピカチュウ(中国語版)",https://natadeccoco.github.io/kaitori-site/own/pikachu_170_151c_cn,"170/151"
+ポケモン,"キングドラex(SAR仕様/英語版)",https://kaitori.pokemon-card.shop/own/kingdra_ex_en
+ポケモン,"ゲッコウガex(SAR仕様/英語版)",https://kaitori.pokemon-card.shop/own/greninja_ex_en
+ポケモン,"夏ポケカ(開封済/ブースターVMAX/シャワーズVMAX/サンダースVMAX/SA)",https://kaitori.pokemon-card.shop/own/natsu_pokeka
+PSA,"ビクティニ",https://kaitori.pokemon-card.shop/own/victini_ex_cn,"052/SV-P"
+PSA,"ピカチュウ(中国語版)",https://kaitori.pokemon-card.shop/own/pikachu_153svp_cn,"153/SV-P"
+ポケモン,"ピカチュウ(中国語版)",https://kaitori.pokemon-card.shop/own/pikachu_153svp_cn,"153/SV-P"
+旧裏,"ピカチュウ(英語表記/ハイパーコロコロ)",https://kaitori.pokemon-card.shop/own/pikachu_en_hypercoro
+旧裏,"ミュウ(英語表記/月刊コミックGOTTA)",https://kaitori.pokemon-card.shop/own/mew_en_gotta
+旧裏,"ウィンディ LV.35(イントロパック/ゼニガメ)",https://kaitori.pokemon-card.shop/own/windie_lv35_intro
+旧裏,"ミュウツー(英語表記/JRスタンプラリー銀ｺｰｽ)",https://kaitori.pokemon-card.shop/own/mewtwo_en_jr
+旧裏,"プリン(英語表記/ハイパーコロコロ)",https://kaitori.pokemon-card.shop/own/purin_en_hypercoro
+ポケモン,"メタモン(韓国語版)",https://kaitori.pokemon-card.shop/own/metamon_kr_173
+PSA,"メタモン(韓国語版)",https://kaitori.pokemon-card.shop/own/metamon_kr_173
+ポケモン,"ピカチュウ(台北オープン記念)",https://kaitori.pokemon-card.shop/own/pikachu_taipei_057
+旧裏,"カツラのウィンディ LV.42(ジムマーク問わず)",https://kaitori.pokemon-card.shop/own/katsura_windie_42
+旧裏,"ミュウツー LV.60(拡張シート/エネルギーきゅうしゅう/全身立ち絵)",https://kaitori.pokemon-card.shop/own/mewtwo_lv60_zenshin
+旧裏,"ミュウツー LV.60(拡張シート/エネルギーきゅうしゅう/上半身)",https://kaitori.pokemon-card.shop/own/mewtwo_lv60_jouhanshin
+BOX,"海外/宝石包Vol.1",https://kaitori.pokemon-card.shop/own/housekihou_vol1
+ポケモン,"バティックシャツのピカチュウ(ピカチュウ柄緑)",https://kaitori.pokemon-card.shop/own/batik_pika_green_101
+ポケモン,"バティックシャツのピカチュウ(ピカチュウ柄ピンク)",https://kaitori.pokemon-card.shop/own/batik_pika_pink_190
+ポケモン,"バティックシャツのピカチュウ(ネイティオ柄)",https://kaitori.pokemon-card.shop/own/batik_pika_natio_154
+ポケモン,"バティックシャツのピカチュウ(ヒトデマン柄)",https://kaitori.pokemon-card.shop/own/batik_pika_hitode_155
+旧裏,"ニャース(英語表記/JRスタンプラリー西日本)",https://kaitori.pokemon-card.shop/own/nyarth_en_jr
+旧裏,"イーブイ(英語表記/JRスタンプラリー金コース)",https://kaitori.pokemon-card.shop/own/eevee_en_jr
+ポケモン,"ピカチュウ(中国語版)",https://kaitori.pokemon-card.shop/own/pikachu_170_151c_cn,"170/151"
 汎用,"SR/SAR/CSR/HR/UR/MA",card/M3/M3_096.jpg
 汎用,"AR/CHR",card/M2/M2_091.jpg
 汎用,"SSR",card/sv4a/sv4a_336.jpg

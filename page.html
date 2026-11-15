@@ -730,12 +730,16 @@ function renderActive(){
   const box=$("#activeChips");box.innerHTML="";
   GROUPS.forEach(([k])=>state[k].forEach(v=>{const b=document.createElement("button");b.className="chip";b.type="button";b.textContent=v;b.onclick=()=>{state[k].delete(v);apply();};box.appendChild(b);}));
 }
+// 最後の段が中途半端にならないよう、表示件数を「横に並ぶ枚数」の倍数に丸める（例：横8枚で50件→48件）
+function gridCols(){const w=window.innerWidth;return w<=560?3:w<=860?4:w<=1100?6:8;}
+function pageSizeNow(){if(mode==="simple")return PSIZE;const c=gridCols();return Math.max(c,Math.round(PSIZE/c)*c);}
+let _cols=gridCols();window.addEventListener("resize",()=>{const c=gridCols();if(c!==_cols){_cols=c;if(ITEMS.length)render();}});
 function render(){
   const grid=$("#grid");grid.className="grid"+(mode==="simple"?" simple":mode==="compact"?" compact":"");
   $("#cnt").textContent=VIEW.length?`${VIEW.length.toLocaleString()}件`:"";
   if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><img src="/img/chars/chan2.webp" alt=""><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
   const omk=window.ndOmakaseTile&&!state.q&&state.cat==="すべて"?1:0;   // おまかせ査定タイルは1枠ぶん（各ページの枚数をそろえる）
-  const PS=PSIZE;const pages=Math.ceil((VIEW.length+omk)/PS);page=Math.min(page,pages);
+  const PS=pageSizeNow();const pages=Math.ceil((VIEW.length+omk)/PS);page=Math.min(page,pages);
   const s=Math.max(0,(page-1)*PS-omk);
   grid.innerHTML=(omk&&page===1?ndOmakaseTile():"")+VIEW.slice(s,(page-1)*PS-omk+PS).map(cardHTML).join("");
   const pg=$("#pager");pg.innerHTML="";

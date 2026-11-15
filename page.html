@@ -613,7 +613,11 @@ function vtagHTML(it){const v=vinfo(it);return `<span class="vtag k-${v.c}">${es
 function addShrinkless(){ITEMS.filter(i=>i.price2>0&&!i.vOf).forEach(i=>{i.hasNs=true;ITEMS.splice(ITEMS.indexOf(i)+1,0,Object.assign({},i,{id:i.id+"~ns",price:i.price2,price2:0,vOf:i.id,hasNs:false,grade:"シュリンクなし"}));});}
 // 収録弾の絞り込みは「どのBOX（拡張パック）に入っていたか」だけ。BOXタブの区分と、デッキ・プロモ・シート・ファイルなどBOXではないものは選択肢に出さない
 const NOT_BOX=/プロモ|デッキ|スターター|シート|ファイル|付録|キャンペーン|ギフトボックス|セット|エネルギー|中国語|イントロパック|クイック|マスターキット|バトルアカデミー|とりかえっこ|ビルドBOX|エントリーパック|ファミリー|レギュレーションBOX|サザンアイランド|ランダムパック|進化パック|^(smD|SVG|DP|Classic|カードe|DP（LV\.X）)$/;
-function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-"&&!(key==="rarity"&&/^[★☆●◆]+$/.test(v))&&!(key==="set"&&(i.cat==="BOX"||NOT_BOX.test(v))))c[v]=(c[v]||0)+1;});return c;}   // 記号だけのレアリティ（★☆●◆）は絞り込みに出さない
+// 収録弾は MEGA〜サン＆ムーン の拡張パックだけを、新しい順に出す（パック型番 M6a / SV11B / S12a / sm12a … から時代と順番を決める）
+const setRank=exp=>{const m=/^(SM|SV|S|M)(\d+)([A-Za-z+]*)/i.exec(exp||"");if(!m)return 0;const suf=m[3].toLowerCase();return ({m:4,sv:3,s:2,sm:1})[m[1].toLowerCase()]*10000+(+m[2])*10+(/^[ab]/.test(suf)?2:suf?1:0);};
+let _SR=null,_SRn=-1;
+function setRanks(){if(_SR&&_SRn===ITEMS.length)return _SR;_SR={};_SRn=ITEMS.length;ITEMS.forEach(i=>{if(i.cat==="BOX"||!i.set)return;const r=setRank(i.exp);if(r>(_SR[i.set]||0))_SR[i.set]=r;});return _SR;}
+function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-"&&!(key==="rarity"&&/^[★☆●◆]+$/.test(v))&&!(key==="set"&&(i.cat==="BOX"||NOT_BOX.test(v)||!setRanks()[v])))c[v]=(c[v]||0)+1;});return c;}   // 記号だけのレアリティ（★☆●◆）は絞り込みに出さない
 
 /* ============================ 描画 ============================ */
 function renderTabs(){
@@ -639,7 +643,7 @@ function renderFilterPanel(){
   const base=ITEMS.filter(i=>state.cat==="すべて"||GRP(i.cat)===state.cat);
   GROUPS.forEach(([key,label])=>{
     const c=counts(key,base);const keys=Object.keys(c);if(!keys.length)return;
-    keys.sort((a,b)=>c[b]-c[a]);
+    keys.sort(key==="set"?(a,b)=>(setRanks()[b]||0)-(setRanks()[a]||0)||c[b]-c[a]:(a,b)=>c[b]-c[a]);
     const g=document.createElement("div");g.className="fgroup";g.innerHTML=`<h3>${label}</h3><div class="chips"></div>`;
     if(key==="set"){   // 収録弾は数が多いのでプルダウン（1つ選ぶ）
       g.innerHTML=`<h3>${label}</h3><select class="sort fsel" aria-label="収録弾で絞り込む"><option value="">すべての収録弾</option>${keys.map(k=>`<option value="${esc(k)}">${esc(k)}（${c[k]}）</option>`).join("")}</select>`;
@@ -664,7 +668,7 @@ function renderBrowse(){
   }
   GROUPS.forEach(([key,label])=>{
     const c=counts(key,base);let keys=Object.keys(c);if(!keys.length)return;
-    keys.sort((a,b)=>c[b]-c[a]);
+    keys.sort(key==="set"?(a,b)=>(setRanks()[b]||0)-(setRanks()[a]||0)||c[b]-c[a]:(a,b)=>c[b]-c[a]);
     let more=false;
     if(key==="rarity"){const top=order.rarity.filter(k=>c[k]);more=keys.length>top.length;keys=top.length?top:keys.slice(0,8);}
     if(key==="set"){more=keys.length>CONFIG.topSetsCount;keys=keys.slice(0,CONFIG.topSetsCount);}

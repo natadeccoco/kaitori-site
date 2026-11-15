@@ -157,6 +157,9 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .card .no{display:flex;justify-content:space-between;gap:4px;padding:3px 6px 0;font-size:11px;color:var(--ink-2);font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden}
 .card .no{box-sizing:content-box;line-height:1.5;min-height:1.5em}
 .card .no span:first-child{overflow:hidden;text-overflow:ellipsis}
+.card .bxname{overflow-wrap:anywhere}
+.card .cnote{padding:3px 6px 0;font-size:10.5px;line-height:1.4;color:var(--price);font-weight:700;min-height:4.2em;word-break:break-all}   /* スプレッドシートの備考 */
+.imodal .inote{margin:6px 0 0;font-size:13px;font-weight:700;color:var(--price)}
 .card .no span:last-child{font-weight:700;color:var(--ink-3);flex:none}
 .ctag{position:absolute;left:0;bottom:0;z-index:2;background:var(--navy);color:#fff;border-radius:0 10px 0 0;font-size:10px;font-weight:800;padding:2px 7px;border-radius:0 6px 0 0;letter-spacing:.04em}
 .tab .tc{font-size:11px;font-weight:500;opacity:.7;margin-left:4px}
@@ -550,7 +553,7 @@ body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:
 <div class="modal imodal" id="imodal" hidden>
   <div class="box" role="dialog" aria-modal="true" aria-labelledby="iname">
     <button class="close" type="button" id="imodalClose" aria-label="閉じる">×</button>
-    <div class="ihead"><h2 class="iname" id="iname"></h2><p class="imeta" id="imeta"></p><div class="iprice" id="iprice"></div></div>
+    <div class="ihead"><h2 class="iname" id="iname"></h2><p class="imeta" id="imeta"></p><p class="inote" id="inote" hidden></p><div class="iprice" id="iprice"></div></div>
     <div class="ivar" id="ivar"></div>
     <div class="iim" id="iim"></div>
     <div class="iqty"><button type="button" id="iminus" aria-label="減らす">−</button><span id="iqty">1</span><button type="button" id="iplus" aria-label="増やす">＋</button></div>
@@ -707,7 +710,7 @@ function cardHTML(it){
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
   return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
     <a class="im" href="${cardUrl(it.vOf||it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${stag}${catTag}<span class="qty">${q}</span></a>
-    <div class="bxname">${esc(dn)}</div><div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>
+    <div class="bxname">${esc(dn)}</div>${it.cat==="汎用"?`<div class="cnote">${esc(it.note||"")}</div>`:`<div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>${it.note?`<div class="cnote" style="min-height:0">${esc(it.note)}</div>`:""}`}
     <div class="nm"><b>${esc(dn)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　"))}</span></div>
     <div class="pr num">${yen(it.price)}</div>
     <button class="cartbtn" type="button" data-add="${esc(it.id)}" aria-label="${esc(it.name)}${it.vOf?" シュリンクなし":""} をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
@@ -768,7 +771,7 @@ function renderCart(){
   cart.forEach(({item,qty},id)=>{
     n+=qty;t+=item.price*qty;
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td><div class="cnm">${vtagHTML(item)}<span><b>${esc(item.name)}</b><br><span style="font-size:12px;color:var(--ink-2)">${esc([item.code,item.rarity!=="-"?item.rarity:"",item.cat==="BOX"?"BOX":""].filter(Boolean).join("　"))}</span></span></div></td>
+    tr.innerHTML=`<td><div class="cnm">${vtagHTML(item)}<span><b>${esc(item.name)}</b><br><span style="font-size:12px;color:var(--ink-2)">${esc([item.code,item.rarity!=="-"?item.rarity:"",item.cat==="BOX"?"BOX":""].filter(Boolean).join("　"))}</span>${item.note?`<br><span style="font-size:12px;font-weight:700;color:var(--price)">${esc(item.note)}</span>`:""}</span></div></td>
       <td class="r num">${item.omakase?'<span style="font-size:12px">届いてから査定</span>':yen(item.price)}</td>
       <td class="r">${item.omakase?"―":`<span class="qc"><button type="button" data-d="-1">−</button><span>${qty}</span><button type="button" data-d="1">＋</button></span>`}</td>
       <td class="r num">${item.omakase?"―":yen(item.price*qty)}</td><td><button class="rm" type="button" aria-label="削除">×</button></td>`;
@@ -866,6 +869,7 @@ function openItem(id){
   const it=ITEMS.find(i=>i.id===id);if(!it)return;MODAL_ID=id;MODAL_Q=1;
   $("#iname").textContent=it.name;
   $("#imeta").textContent=[it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"&&it.cat!=="PSA"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　");
+  $("#inote").textContent=it.note||"";$("#inote").hidden=!it.note;
   $("#ivar").innerHTML=vtagHTML(it);$("#iadd").textContent=vinfo(it).l+" を買取内容に追加";
   $("#iprice").innerHTML=`${yen(it.price)}<small>買取価格（美品）</small>`;
   $("#iim").innerHTML=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:`<div class="ph">${esc(it.name)}</div>`;

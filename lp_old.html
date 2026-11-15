@@ -696,6 +696,10 @@ img[src*="/img/gb/"]{image-rendering:pixelated;image-rendering:crisp-edges}
 .top nav a{white-space:nowrap;padding:6px 9px}
 @media (max-width:1000px){.top nav{display:none}}
 @media (max-width:760px){.gfab,.ufab{bottom:auto!important;left:auto!important;padding:4px!important;border-radius:50%!important}.gfab>span:last-child,.ufab>span:last-child{display:none}}
+/* ゲームボタン：ゲーム機のマークにして、スマホではLINEボタンと同じ大きさにする */
+.gfab .gi,.ufab .gi{background:none!important;box-shadow:none!important;border-radius:0!important;width:26px!important;height:26px!important}
+.gfab .gi svg,.ufab .gi svg{width:100%;height:100%;display:block}
+@media (max-width:760px){.gfab,.ufab{padding:10px 18px!important;border-radius:999px!important}.gfab .gi,.ufab .gi{width:22px!important;height:22px!important}}
 
 
 /* 見出しの番号は見出しの上に置く（横に並ばないように） */
@@ -875,7 +879,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 <header class="top"><div class="in">
   <a class="logo" href="/takuhai/"><img src="/logo.png" alt="ナタデココ かんたん宅配買取"></a>
   <nav><a href="#items">買取できるもの</a><a href="#prices">買取価格</a><a href="#faq">よくある質問</a></nav>
-  <button type="button" class="gfab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi">▶</span><span><b>GAME</b>ミニゲームで遊ぶ</span></button>
+  <button type="button" class="gfab" id="gopen" aria-label="ミニゲームで遊ぶ"><span class="gi"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="1.5" width="14" height="21" rx="2.5" fill="#D9D9E0" stroke="#22283A" stroke-width="1.6"/><rect x="7.4" y="4" width="9.2" height="7" rx="1" fill="#8BAC0F" stroke="#22283A" stroke-width="1.2"/><path d="M8.2 15.6h3.6M10 13.8v3.6" stroke="#22283A" stroke-width="1.6" stroke-linecap="round"/><circle cx="14.2" cy="16.6" r="1.05" fill="#C0392B"/><circle cx="16.4" cy="14.8" r="1.05" fill="#C0392B"/></svg></span><span><b>GAME</b>ミニゲームで遊ぶ</span></button>
   <a class="line-btn" href="/takuhai/#omakase=1"><svg class="li" viewBox="0 0 40 40" aria-hidden="true"><use href="#ic-line"/></svg><span>LINEで査定を申し込む</span></a>
 </div></header>
 
@@ -1025,7 +1029,7 @@ footer .ssnav a{margin:0;display:flex;flex-direction:column;align-items:center;g
 /* ミニゲーム（サイクリング／スロット）。絵柄と障害物はナタデココのキャラだけ。コインは点数で、景品はありません。 */
 (function(){
   var md=document.getElementById('nda');if(!md)return;
-  var CFG={"dir": "gb", "q": "", "open": "gopen", "over": "昔のカード、送ってみませんか？", "win": "昔のカードも、高く買取します。"};
+  var CFG={"dir": "gb", "q": "?v=g2", "open": "gopen", "over": "昔のカード、送ってみませんか？", "win": "昔のカードも、高く買取します。"};
   var $=function(id){return document.getElementById(id)};
   var BASE=(function(){var k='/img/'+CFG.dir+'/',i=document.querySelector('img[src*="'+k+'"]');return i?i.getAttribute('src').split(k)[0]+k:k;})();
   function src(n){var q=CFG.q||'';if(n==='bike1')q+=(q?'&':'?')+'b=4';return BASE+n+'.webp'+q;}

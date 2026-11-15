@@ -93,7 +93,7 @@ function create_(d) {
     if (NEW) {
       sh.getRange(FIRST_ROW, 2, items.length, 2).setValues(items.map(function (it) { return [it.name, it.price]; }));
       sh.getRange(FIRST_ROW, 5, items.length, 1).setValues(items.map(function (it) { return [it.qty]; }));
-      protectApplied_(sh, FIRST_ROW + items.length - 1);
+      try { protectApplied_(sh, FIRST_ROW + items.length - 1); } catch (e) { console.warn('保護に失敗: ' + e); }   // 失敗しても申込は止めない
     } else {
       sh.getRange(FIRST_ROW, 2, items.length, 3).setValues(items.map(function (it) { return [it.name, it.price, it.qty]; }));
     }
@@ -263,4 +263,11 @@ function setupDaily() {
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'daily') ScriptApp.deleteTrigger(t); });
   ScriptApp.newTrigger('daily').timeBased().everyDays(1).atHour(10).inTimezone('Asia/Tokyo').create();
   daily();
+}
+
+// 確認用：テストタブに保護をかけてみる（エディタから実行）
+function testProtect() {
+  const sh = ss_().getSheetByName('【テスト】査定列確認');
+  protectApplied_(sh, 32);
+  Logger.log(sh.getProtections(SpreadsheetApp.ProtectionType.RANGE).map(function (p) { return p.getDescription() + ' ' + p.getRange().getA1Notation() + ' ' + p.getEditors().map(function (u) { return u.getEmail(); }).join(','); }).join(' / '));
 }

@@ -611,7 +611,9 @@ function vinfo(it){
 }
 function vtagHTML(it){const v=vinfo(it);return `<span class="vtag k-${v.c}">${esc(v.l)}</span>`;}
 function addShrinkless(){ITEMS.filter(i=>i.price2>0&&!i.vOf).forEach(i=>{i.hasNs=true;ITEMS.splice(ITEMS.indexOf(i)+1,0,Object.assign({},i,{id:i.id+"~ns",price:i.price2,price2:0,vOf:i.id,hasNs:false,grade:"シュリンクなし"}));});}
-function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-"&&!(key==="rarity"&&/^[★☆●◆]+$/.test(v))&&!(key==="set"&&i.cat==="BOX"&&/^(パック|その他|スペシャルBOX)$/.test(v)))c[v]=(c[v]||0)+1;});return c;}   // 記号だけのレアリティ（★☆●◆）は絞り込みに出さない
+// 収録弾の絞り込みは「どのBOX（拡張パック）に入っていたか」だけ。BOXタブの区分と、デッキ・プロモ・シート・ファイルなどBOXではないものは選択肢に出さない
+const NOT_BOX=/プロモ|デッキ|スターター|シート|ファイル|付録|キャンペーン|ギフトボックス|セット|エネルギー|中国語|イントロパック|クイック|マスターキット|バトルアカデミー|とりかえっこ|ビルドBOX|エントリーパック|ファミリー|レギュレーションBOX|サザンアイランド|ランダムパック|進化パック|^(smD|SVG|DP|Classic|カードe|DP（LV\.X）)$/;
+function counts(key,items){const c={};items.forEach(i=>{const v=i[key];if(v&&v!=="-"&&!(key==="rarity"&&/^[★☆●◆]+$/.test(v))&&!(key==="set"&&(i.cat==="BOX"||NOT_BOX.test(v))))c[v]=(c[v]||0)+1;});return c;}   // 記号だけのレアリティ（★☆●◆）は絞り込みに出さない
 
 /* ============================ 描画 ============================ */
 function renderTabs(){

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* ナタデココ かんたん郵送買取 — 静的サイト生成
+/* ナタデココ 買取表 — 静的サイト生成
    data/ の CSV（Myca商品マスタ形式 + 買取表シートの各タブ）を読み、dist/ に
    index.html（価格表アプリ）、card/<id>/（カード個別ページ）、stores/ legal/ privacy/、sitemap.xml、robots.txt を出力する。 */
 const fs = require("fs"), path = require("path");
@@ -310,7 +310,7 @@ for (const p of packs) {
   const others = packs.filter(q => q !== p && q.items.some(x => cats.includes(x.cat))).slice(0, 12).map(packLink).join("") + `<a href="/pack/">収録弾の一覧をすべて見る ›</a>`;
   packPage(`pack/${p.slug}/`, {
     title: `${p.set}${p.exp ? "（" + p.exp + "）" : ""}の買取価格一覧 ${p.items.length}件`,
-    desc: `${p.set}${p.exp ? "（" + p.exp + "）" : ""}収録カードの買取価格一覧。最高 ${yen(top.price)}（${top.name}）。${updated}更新。ナタデココのかんたん郵送買取は送料無料・最短当日入金。`,
+    desc: `${p.set}${p.exp ? "（" + p.exp + "）" : ""}収録カードの買取価格一覧。最高 ${yen(top.price)}（${top.name}）。${updated}更新。ナタデココの宅配買取は送料無料・最短当日入金。`,
     image: top.img, crumb: `<a href="/pack/">収録弾から探す</a><span>›</span><span>${esc(p.set)}</span>`, eyebrow: "収録弾ごとの買取価格", h1: `${p.set}${p.exp ? "（" + p.exp + "）" : ""} 買取価格一覧`,
     lede: `${esc(p.set)}に収録されているカードの買取価格です。<b>${esc(top.name)}</b> ${esc(yen(top.price))} など ${p.items.length}件を掲載（${esc(updated)}更新）。`,
     stats: `<span class="stat">${p.items.length}件</span><span class="stat">最高 ${esc(yen(top.price))}</span>${cats.map(c => `<span class="stat">${esc(catLabel(c))}</span>`).join("")}`,
@@ -329,7 +329,7 @@ for (const c of RAW_CATS) {
   const top = a[0], t = CAT_TEXT[c] || [catLabel(c) + "の買取について", ""];
   const catPacks = packs.filter(p => p.items.some(x => x.cat === c)).slice(0, 20).map(packLink).join("");
   packPage(`cat/${catSlugOf(c)}/`, {
-    title: `${catLabel(c)}の買取価格一覧 ${a.length}件`, desc: `${catLabel(c)}の買取価格一覧。最高 ${yen(top.price)}（${top.name}）。${updated}更新。ナタデココのかんたん郵送買取は送料無料・最短当日入金。`,
+    title: `${catLabel(c)}の買取価格一覧 ${a.length}件`, desc: `${catLabel(c)}の買取価格一覧。最高 ${yen(top.price)}（${top.name}）。${updated}更新。ナタデココの宅配買取は送料無料・最短当日入金。`,
     image: top.img, crumb: `<span>${esc(catLabel(c))}</span>`, eyebrow: "カテゴリごとの買取価格", h1: `${catLabel(c)} 買取価格一覧`,
     lede: `${esc(catLabel(c))}の買取価格です。<b>${esc(top.name)}</b> ${esc(yen(top.price))} など ${a.length}件を掲載（${esc(updated)}更新）。`,
     stats: `<span class="stat">${a.length}件</span><span class="stat">最高 ${esc(yen(top.price))}</span>`, listUrl: `/?cat=${encodeURIComponent(c)}`, cards: a.slice(0, 60),

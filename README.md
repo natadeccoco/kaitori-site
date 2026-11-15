@@ -1,4 +1,4 @@
-# ナタデココ かんたん郵送買取 — サイト本体（引き継ぎメモ兼README）
+# ナタデココ 買取表 — サイト本体（引き継ぎメモ兼README）
 
 株式会社ナタデココのポケモンカード買取価格表サイトです。
 公開URL（仮）: https://natadeccoco.github.io/kaitori-site/ → 独自ドメイン `kaitori.pokemon-card.shop` に切替予定。

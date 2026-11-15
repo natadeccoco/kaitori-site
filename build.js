@@ -146,7 +146,7 @@ if (AT.gasUrl && AT.liffId) write("liff/index.html", fs.readFileSync("liff.html"
 // （まとめ表示の確認用ページ /preview/ は不採用になったため出力しない。2026-11-14）
 
 /* 収録弾→ページslug（カードページからのリンク用。本体は 3b で生成） */
-const psaBadge = r => /^PSA\s*10$/i.test(r.grade || "") ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : "";
+const psaBadge = r => /^PSA\s*10$/i.test(r.grade || "") ? `<img class="g" src="/img/psa10.webp?v=3" alt="PSA10">` : "";
 const CAT_SLUG = { "ポケモン": "pk", PSA: "psa", BOX: "box", "旧裏": "old", "旧弾": "kyu", "汎用": "misc" };
 const packSlugBySet = (() => { const m = new Map(); const g = new Map(); for (const it of items) { if (!it.set || it.cat === "汎用") continue; if (!g.has(it.set)) g.set(it.set, []); g.get(it.set).push(it); }
   for (const [set, a] of g) { if (a.length < 3) continue; const exps = [...new Set(a.map(x => x.exp).filter(e => /^[A-Za-z0-9+\-]+$/.test(e)))]; m.set(set, exps.length === 1 ? exps[0].toLowerCase().replace("+", "p") : "p-" + lib.hashId(set)); } return m; })();
@@ -261,7 +261,7 @@ for (const it of items) {
     .replace(/__GRADE__/g, esc(it.grade !== "素体" ? it.grade : "")).replace(/__CAT__/g, esc(it.cat)).replace(/__CATLABEL__/g, esc(catLabel(it.cat)))
     .replace(/__PRICE__/g, esc(yen(it.price))).replace(/__PRICE2__/g, (it.price2 ? `<div class="l" style="margin-top:8px">シュリンクなし（ぺりぺり付き）</div><div class="v" id="px2" style="font-size:26px">${esc(yen(it.price2))}</div>` : "") + (it.note ? `<div style="margin-top:8px;font-size:13px;font-weight:700;color:var(--price)">${esc(it.note)}</div>` : "")).replace(/__UPDATED__/g, esc(updated))
     .replace(/__IMG__/g, it.img ? `<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="eager" data-alt="${esc((it.imgAlt || []).join("|"))}" onerror="imgErr(this)">` : `<div class="ph"><span>${esc(it.name)}</span></div>`)
-    .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=2" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
+    .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=3" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
     .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__ID__/g, () => esc(it.id)).replace(/__PRICENUM__/g, String(it.price)).replace(/__LINEID__/g, () => esc(CFG.lineId)).replace(/__LINEMSG__/g, () => esc(lineMsg)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/takuhai/#add=${encodeURIComponent(it.id)}&back=1`)
     .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
     .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company))
@@ -282,7 +282,7 @@ const CAT_TEXT = {
   "汎用": ["汎用カード・最低保証の買取について", "<p>サポート・モンスター等の汎用カードや最低保証価格の一覧です。</p>"]
 };
 const catSlugOf = c => CAT_SLUG[c] || "c";
-const listCards = arr => arr.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.outerHTML='<div class=ph>'+this.alt+'</div>'">` : `<div class="ph">${esc(r.name)}</div>`}${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}<b>${esc(r.name)}</b><span>${esc(r.code || "")}</span><em>${esc(yen(r.price))}</em></a>`).join("");
+const listCards = arr => arr.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.outerHTML='<div class=ph>'+this.alt+'</div>'">` : `<div class="ph">${esc(r.name)}</div>`}${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=3" alt="PSA10">` : ""}<b>${esc(r.name)}</b><span>${esc(r.code || "")}</span><em>${esc(yen(r.price))}</em></a>`).join("");
 const packPage = (rel, o) => {
   const url = `${CFG.siteUrl}/${rel}`;
   const html = packTpl
@@ -452,7 +452,7 @@ console.log(`article pages: ${arts.length}`);
     if (!hot.length) { console.log(`lp(${V.key}): 画像付き商品がないためスキップ`); continue; }
     const hotAt = i => hot[i % hot.length];
     const hotJson = JSON.stringify(hot.map(r => ({ id: r.id, n: r.name, p: yen(r.price), img: r.img })));
-    const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${kOf(r)}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=2" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
+    const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${kOf(r)}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=3" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
     const shops = ["柏", "松戸", "津田沼", "千葉中央", "中野", "お台場", "町田", "横浜"].map(n => `<a href="${CFG.storesUrl}">${n}</a>`).join("");
     const ld = { "@context": "https://schema.org", "@type": "Service", name: title.split("｜")[0], provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };
     const html = lpTpl

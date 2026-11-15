@@ -595,7 +595,7 @@ const $=s=>document.querySelector(s);
 const yen=n=>"¥"+n.toLocaleString("ja-JP");
 const norm=s=>(s||"").toLowerCase().replace(/[\s\-\/_・]/g,"").replace(/[Ａ-Ｚａ-ｚ０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const GROUPS=[["type","商品種別から探す"],["grade","グレード種別から探す"],["rarity","レアリティから探す"],["set","収録弾から探す"]];
+const GROUPS=[["type","種類"],["grade","状態"],["rarity","レアリティ"],["set","パック"]];
 const GRP=c=>(CONFIG.catGroups&&CONFIG.catGroups[c])||c;   // 表示用のまとめ（ポケモン＋旧弾→シングル、汎用→最低保証）
 const CATS=()=>["すべて",...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
 function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.cat===c));apply();}

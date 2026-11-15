@@ -18,6 +18,19 @@ function ss_() { return SpreadsheetApp.openById(PropertiesService.getScriptPrope
 const TPL_SLOTS = 31;
 const FIRST_ROW = 2;
 const COL = { date: 1, no: 2, name: 3, tel: 4, qty: 5, total: 6, code: 7, src: 8, lp: 9, tab: 10, recore: 11, memo: 12, lineName: 13, lineId: 14, items: 15, key: 16, arrived: 17, amount: 18, cancel: 19, won: 20, state: 21, remind: 22 };
+// 見積書の列（2026/11/15〜）：A No / B カード名 / C お申込時の金額（保護・本部のみ編集）/ D 査定金額（スタッフが入力）/ E 数量 / F 小計（査定金額×数量）/ G 状態 / H 備考 / J:K 申込情報
+// それより前に作ったタブは旧レイアウト（C 金額 / D 数量 / E 小計 / F 状態 / G 備考 / I:J 申込情報）。D1 が「査定金額」かで見分ける
+function isNew_(sh) { return String(sh.getRange('D1').getValue()).trim() === '査定金額'; }
+const OWNER = 'ichikawa1121@gmail.com';
+// 「お申込時の金額」（C列）を本部（オーナー）以外は変えられないようにする
+function protectApplied_(sh, lastRow) {
+  if (!isNew_(sh)) return;
+  const has = sh.getProtections(SpreadsheetApp.ProtectionType.RANGE).some(function (p) { return p.getDescription() === 'お申込時の金額'; });
+  if (has) return;
+  const pr = sh.getRange(2, 3, Math.max(lastRow, FIRST_ROW + TPL_SLOTS) - 1, 1).protect().setDescription('お申込時の金額');
+  pr.removeEditors(pr.getEditors().filter(function (u) { return u.getEmail() !== OWNER; }));
+  if (pr.canDomainEdit()) pr.setDomainEdit(false);
+}
 const UNSENT_DAYS = 7;
 const REMIND_ON = false;   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）   // 申込から何日たっても届かなければ見積書タブを消す
 
@@ -66,20 +79,32 @@ function create_(d) {
     if (items.length > TPL_SLOTS) {
       const extra = items.length - TPL_SLOTS;
       sh.insertRowsAfter(FIRST_ROW + TPL_SLOTS - 2, extra);
-      const src = sh.getRange(FIRST_ROW + TPL_SLOTS - 2, 1, 1, 7);
-      for (let i = 0; i < extra; i++) src.copyTo(sh.getRange(FIRST_ROW + TPL_SLOTS - 1 + i, 1, 1, 7));
+      const nw = isNew_(sh), W = nw ? 8 : 7;
+      const src = sh.getRange(FIRST_ROW + TPL_SLOTS - 2, 1, 1, W);
+      for (let i = 0; i < extra; i++) src.copyTo(sh.getRange(FIRST_ROW + TPL_SLOTS - 1 + i, 1, 1, W));
       const last = FIRST_ROW + items.length - 1;
-      for (let r = FIRST_ROW; r <= last; r++) { sh.getRange(r, 1).setValue(r - 1); sh.getRange(r, 5).setFormula('=SUM(C' + r + '*D' + r + ')'); }
+      for (let r = FIRST_ROW; r <= last; r++) {
+        sh.getRange(r, 1).setValue(r - 1);
+        if (nw) sh.getRange(r, 6).setFormula('=IF(D' + r + '="","",D' + r + '*E' + r + ')');
+        else sh.getRange(r, 5).setFormula('=SUM(C' + r + '*D' + r + ')');
+      }
     }
-    sh.getRange(FIRST_ROW, 2, items.length, 3).setValues(items.map(function (it) { return [it.name, it.price, it.qty]; }));
-    sh.getRange('I1:J5').setValues([
+    const NEW = isNew_(sh);
+    if (NEW) {
+      sh.getRange(FIRST_ROW, 2, items.length, 2).setValues(items.map(function (it) { return [it.name, it.price]; }));
+      sh.getRange(FIRST_ROW, 5, items.length, 1).setValues(items.map(function (it) { return [it.qty]; }));
+      protectApplied_(sh, FIRST_ROW + items.length - 1);
+    } else {
+      sh.getRange(FIRST_ROW, 2, items.length, 3).setValues(items.map(function (it) { return [it.name, it.price, it.qty]; }));
+    }
+    sh.getRange(NEW ? 'J1:K5' : 'I1:J5').setValues([
       ['申込番号', no],
       ['LINEの名前', '（LINEで開く前）'],
       ['申込日時', Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm')],
       ['受付コード', String(d.code || '').slice(0, 80) || '（なし）'],
       ['照合', 'RECOREの申込と「LINEの名前＋申込日」で照合']
     ]);
-    sh.getRange('I1:I5').setFontWeight('bold');
+    sh.getRange(NEW ? 'J1:J5' : 'I1:I5').setFontWeight('bold');
 
     const qty = items.reduce(function (s, it) { return s + it.qty; }, 0);
     const total = items.reduce(function (s, it) { return s + it.price * it.qty; }, 0);
@@ -132,7 +157,7 @@ function link_(d) {
         const md = Utilities.formatDate(list.getRange(r, COL.date).getValue(), 'Asia/Tokyo', 'M/d');
         let title = name + '様' + md + '（サイト）', n = 2;
         while (ss.getSheetByName(title) && ss.getSheetByName(title).getSheetId() !== sh.getSheetId()) title = name + '様' + md + '（サイト' + (n++) + '）';
-        sh.setName(title); sh.getRange('J2').setValue(name);
+        sh.setName(title); sh.getRange(isNew_(sh) ? 'K2' : 'J2').setValue(name);
         list.getRange(r, COL.tab).setFormula('=HYPERLINK("#gid=' + sh.getSheetId() + '","' + title.replace(/"/g, '') + '")');
       }
     }
@@ -174,7 +199,7 @@ function out_(o) {
 
 /* ===== 毎朝の見回り：着荷・査定額・成約を申込一覧に書き、届かない申込の見積書タブを消す =====
  * 着荷   … 見積書タブの「状態」(F列)に1つでも入力があれば「届いた」
- * 査定額 … 見積書タブの 金額×数量 の合計（スタッフが直した後の金額）
+ * 査定額 … 見積書タブの 査定金額×数量 の合計（旧レイアウトのタブは 金額×数量）
  * 全件キャンセル … スタッフがチェック（成約に数えない）
  * 成約   … 着荷 かつ 査定額>0 かつ 全件キャンセルでない
  * 申込から UNSENT_DAYS 日たっても着荷しない → 見積書タブを削除し「未着・削除」と記録（行は分析用に残す）
@@ -195,9 +220,15 @@ function daily() {
     const m = String(forms[i][0]).match(/#gid=(\d+)/), sh = m && byId[m[1]];
     if (sh) {
       const last = Math.max(sh.getLastRow(), FIRST_ROW);
-      const g = sh.getRange(FIRST_ROW, 2, last - FIRST_ROW + 1, 5).getValues();   // B:カード名 C:金額 D:数量 E:小計 F:状態
+      const nw = isNew_(sh);
+      // 新：B:カード名 C:お申込時 D:査定金額 E:数量 F:小計 G:状態 ／ 旧：B:カード名 C:金額 D:数量 E:小計 F:状態
+      const g = sh.getRange(FIRST_ROW, 2, last - FIRST_ROW + 1, nw ? 6 : 5).getValues();
       let sum = 0, st = false;
-      g.forEach(function (r) { if (!r[0] || /合計/.test(String(r[0]))) return; sum += (Number(r[1]) || 0) * (Number(r[2]) || 0); if (String(r[4]).trim()) st = true; });
+      g.forEach(function (r) {
+        if (!r[0] || /合計/.test(String(r[0]))) return;
+        if (nw) { sum += (Number(r[2]) || 0) * (Number(r[3]) || 0); if (String(r[5]).trim()) st = true; }
+        else { sum += (Number(r[1]) || 0) * (Number(r[2]) || 0); if (String(r[4]).trim()) st = true; }
+      });
       arrived = arrived || st; amount = sum;
       const age = (now - new Date(v[COL.date - 1]).getTime()) / 86400000;
       if (!arrived && age >= UNSENT_DAYS) { ss.deleteSheet(sh); state = '未着・削除'; amount = ''; }

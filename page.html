@@ -118,8 +118,9 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .lhead .r{display:flex;align-items:center;gap:10px}
 .lhead .upd{font-size:12px;color:var(--ink-2);margin-right:auto}
 .seg{display:inline-flex;background:var(--bg-2);border:2px solid var(--line);border-radius:999px;padding:3px}
-.seg button{border:0;background:transparent;padding:5px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--ink-2)}
+.seg{flex:none}.seg button{white-space:nowrap;border:0;background:transparent;padding:5px 14px;border-radius:999px;cursor:pointer;font-weight:700;color:var(--ink-2)}
 .seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+@media(max-width:560px){.lhead .r{width:100%;gap:6px}.sort{padding:6px 4px;min-width:0}#sort{flex:1 1 0;width:0}.seg button{padding:5px 10px}}
 .sort{border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:13px}
 
 /* ===== grid ===== */
@@ -462,6 +463,7 @@ body.sm-store .card,body.sm-store .card a.im{cursor:default}body.sm-store .card:
         <option value="price-asc">買取価格が安い順</option>
         <option value="name">カード名順</option>
       </select>
+      <select class="sort" id="psize" aria-label="1ページの表示件数"><option value="30">30件</option><option value="50">50件</option><option value="100">100件</option></select>
       <div class="seg" role="group" aria-label="表示切替"><button type="button" id="vImg" class="on">画像</button><button type="button" id="vCompact" hidden>たくさん</button><button type="button" id="vSimple">シンプル</button></div>
     </div>
   </div>
@@ -586,6 +588,7 @@ const CONFIG = /*__CONFIG__*/{};
 /* データは build.js が <script id="site-data"> に埋め込む */
 /* ============================ 状態 ============================ */
 let ITEMS=[], VIEW=[], page=1, mode="img";
+let PSIZE=50;try{const n=+localStorage.getItem("nd_psize");if([30,50,100].includes(n))PSIZE=n;}catch(e){}   // 1ページの表示件数（30/50/100）
 const state={q:"",cat:"すべて",type:new Set(),grade:new Set(),rarity:new Set(),set:new Set(),sort:"default"};
 const cart=new Map();
 const $=s=>document.querySelector(s);
@@ -732,7 +735,7 @@ function render(){
   $("#cnt").textContent=VIEW.length?`${VIEW.length.toLocaleString()}件`:"";
   if(!VIEW.length){grid.className="";grid.innerHTML=`<div class="empty"><img src="/img/chars/chan2.webp" alt=""><b>該当するカードが見つかりません</b><br>掲載のないカードも買取できます。LINEで写真をお送りください。</div>`;$("#pager").innerHTML="";return;}
   const omk=window.ndOmakaseTile&&!state.q&&state.cat==="すべて"?1:0;   // おまかせ査定タイルは1枠ぶん（各ページの枚数をそろえる）
-  const PS=mode==="compact"?CONFIG.pageSize*3:CONFIG.pageSize;const pages=Math.ceil((VIEW.length+omk)/PS);page=Math.min(page,pages);
+  const PS=PSIZE;const pages=Math.ceil((VIEW.length+omk)/PS);page=Math.min(page,pages);
   const s=Math.max(0,(page-1)*PS-omk);
   grid.innerHTML=(omk&&page===1?ndOmakaseTile():"")+VIEW.slice(s,(page-1)*PS-omk+PS).map(cardHTML).join("");
   const pg=$("#pager");pg.innerHTML="";
@@ -891,6 +894,7 @@ $("#q").addEventListener("input",e=>{state.q=e.target.value;apply();});
 $("#focusSearch").onclick=()=>{scrollToList();$("#q").focus();};
 $("#fbtn").onclick=()=>openPanel($("#fpanel").hidden);
 $("#sort").onchange=e=>{state.sort=e.target.value;apply();};
+$("#psize").value=String(PSIZE);$("#psize").onchange=e=>{PSIZE=+e.target.value||50;try{localStorage.setItem("nd_psize",String(PSIZE));}catch(_){}page=1;render();};
 function setMode(m){mode=m;["vImg","vCompact","vSimple"].forEach(id=>$("#"+id).classList.toggle("on",(id==="vImg"&&m==="img")||(id==="vCompact"&&m==="compact")||(id==="vSimple"&&m==="simple")));page=1;render();}
 $("#vImg").onclick=()=>setMode("img");$("#vCompact").onclick=()=>setMode("compact");
 $("#vSimple").onclick=()=>setMode("simple");

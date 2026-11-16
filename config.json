@@ -53,5 +53,10 @@
     "旧弾": "シングル",
     "汎用": "最低保証"
   },
-  "staffReportUrl": "https://script.google.com/macros/s/AKfycbw-wkodhT2Gmt7pTDZJJDorXAjAT5lHzndPN-FoaGFDaOt8U_YycX9CCB-hk3bzjagh/exec"
+  "staffReportUrl": "https://script.google.com/macros/s/AKfycbw-wkodhT2Gmt7pTDZJJDorXAjAT5lHzndPN-FoaGFDaOt8U_YycX9CCB-hk3bzjagh/exec",
+  "campaign": {
+    "on": true,
+    "start": "2026-11-17",
+    "end": "2026-11-30"
+  }
 }

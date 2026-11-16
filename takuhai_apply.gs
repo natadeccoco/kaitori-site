@@ -32,7 +32,8 @@ function protectApplied_(sh, lastRow) {
   if (pr.canDomainEdit()) pr.setDomainEdit(false);
 }
 const UNSENT_DAYS = 7;
-const REMIND_ON = false;   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）   // 申込から何日たっても届かなければ見積書タブを消す
+const REMIND_ON = false;
+const CAMP_ON = false;   // 宅配買取キャンペーンの案内をLINEに入れるか（バナー完成まで停止・2026/11/16 雄司さん）   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）   // 申込から何日たっても届かなければ見積書タブを消す
 
 function doPost(e) {
   let d = {};
@@ -177,7 +178,7 @@ function link_(d) {
     const dl = new Date(appliedAt.getTime() + 3 * 86400000);   // 申込日の翌日から3日以内＝申込日+3日
     const dls = Utilities.formatDate(dl, 'Asia/Tokyo', 'M/d') + '（' + '日月火水木金土'.charAt(Number(Utilities.formatDate(dl, 'Asia/Tokyo', 'u')) % 7) + '）';
     const guard = n ? '💰申込日の金額で査定します。\n申込日の翌日から3日以内（' + dls + 'まで）に弊社に着荷した場合に限ります。期日を過ぎると査定時の買取価格となります。\n\n' : '📦' + dls + 'までの到着を目安にお送りください。\n\n';
-    const campOn = appliedAt >= new Date('2026-11-17T00:00:00+09:00') && appliedAt <= new Date('2026-11-30T23:59:59+09:00');   // キャンペーン期間
+    const campOn = CAMP_ON && appliedAt >= new Date('2026-11-17T00:00:00+09:00') && appliedAt <= new Date('2026-11-30T23:59:59+09:00');   // キャンペーン期間
     const camp = campOn ? '🎁11/30までキャンペーン中：買取金額 最大＋1万円（1万円以上＋1,000円／5万円以上＋3,000円／10万円以上＋5,000円／30万円以上＋10,000円）\n条件：https://kaitori.pokemon-card.shop/rules/#campaign\n\n' : '';
     const text = '【宅配買取 お申込み手続き中】受付番号 ' + no + '\n\n⚠️まだお申込みは完了していません。\nこのあと開く申込フォームに住所などを入力して「申し込む」を押すと完了です。完了すると、ナタデココから「お世話になっております」で始まるメッセージが届きます。\n\n' + camp + guard + lines.join('\n') + (n ? '\n\n合計 ' + n + '点 ¥' + t.toLocaleString() + (om ? '＋おまかせ査定分' : '') : '\n\nカードはまとめてお送りください。届いてから査定してご連絡します。') +
       '\n\n※美品の場合の価格です。状態により減額の場合があります。\n申し込んだあとに白い画面になったら、右上の「×」で閉じて大丈夫です（お申込みは完了しています）。';

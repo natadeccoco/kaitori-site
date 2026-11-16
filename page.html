@@ -592,7 +592,7 @@ let PSIZE=50;try{const n=+localStorage.getItem("nd_psize");if([30,50,100].includ
 const state={q:"",cat:"すべて",type:new Set(),grade:new Set(),rarity:new Set(),set:new Set(),sort:"default"};
 const cart=new Map();
 const $=s=>document.querySelector(s);
-const yen=n=>"¥"+n.toLocaleString("ja-JP");
+const yen=n=>"¥"+(Math.round(n*10)/10).toLocaleString("ja-JP");   // 1円未満（¥0.1）の価格があるので0.1円単位に丸めて表示
 const norm=s=>(s||"").toLowerCase().replace(/[\s\-\/_・]/g,"").replace(/[Ａ-Ｚａ-ｚ０-９]/g,c=>String.fromCharCode(c.charCodeAt(0)-0xFEE0)).replace(/[ァ-ヶ]/g,c=>String.fromCharCode(c.charCodeAt(0)-0x60));
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const GROUPS=[["type","種類"],["grade","状態"],["rarity","レアリティ"],["set","収録弾"]];
@@ -1027,7 +1027,7 @@ function applyGo(){
   const payload={act:"create",items,code:(window.ndAttrCode&&ndAttrCode())||"",src:at.src||"",lp:at.lp||"",device:isMobile()?"スマホ":"PC",dev:devId()};
   fetch(APPLY_URL,{method:"POST",body:JSON.stringify(payload)}).then(r=>r.json()).then(res=>{
     apBusy=false;if(!res||!res.ok)throw new Error(res&&res.err||"ng");
-    if(window.ndConv)ndConv("apply",{transaction_id:res.no,value:items.reduce((t,i)=>t+i.price*i.qty,0),currency:"JPY",omakase:items.some(i=>!i.price)?1:0});
+    if(window.ndConv)ndConv("apply",{transaction_id:res.no,value:Math.round(items.reduce((t,i)=>t+i.price*i.qty,0)*10)/10,currency:"JPY",omakase:items.some(i=>!i.price)?1:0});
     const url=LIFF_URL+"?no="+encodeURIComponent(res.no)+"&k="+encodeURIComponent(res.k);
     [...cart.keys()].forEach(id=>addToCart(id,-(cart.get(id).qty)));
     if(isMobile()){m.firstElementChild.innerHTML=`<b style="display:block;font-size:17px;margin:6px 0">LINEを開いています…</b><p style="font-size:12px;color:#5A6B76;margin:0 0 14px">受付番号 ${esc(res.no)}</p><a href="${esc(url)}" style="display:block;border-radius:999px;background:#06C755;color:#fff;font-weight:800;padding:14px;text-decoration:none">開かないときはこちら</a>`;location.href=url;}

@@ -9,7 +9,7 @@ const RAW_CATS = ["ポケモン", "PSA", "BOX", "旧裏", "旧弾", "汎用"];  
 lib.setConfig({ categories: RAW_CATS });
 const ROOT = __dirname, DATA = ROOT, DIST = path.join(ROOT, "dist"), SRC = ROOT;
 const esc = lib.esc;
-const yen = n => "¥" + Number(n).toLocaleString("ja-JP");
+const yen = n => "¥" + (Math.round(Number(n) * 10) / 10).toLocaleString("ja-JP");
 const read = f => fs.existsSync(f) ? fs.readFileSync(f, "utf8").replace(/^﻿/, "") : "";
 // サイトのベースパス（独自ドメインなら "/"、github.io の仮公開なら "/kaitori-site/"）。HTML内の href="/..." をこれに置き換える
 const BASE = (() => { let p = new URL(CFG.siteUrl).pathname; if (!p.endsWith("/")) p += "/"; return p; })();
@@ -18,7 +18,8 @@ const rebase = s => BASE === "/" ? s : s.replace(/(href|src|action)="\/(?!\/)/g,
 const CAMP = CFG.campaign && CFG.campaign.on ? CFG.campaign : null;
 const CAMP_HTML = CAMP ? `<div id="ndCamp" data-s="${CAMP.start}" data-e="${CAMP.end}" style="display:none;max-width:1100px;margin:12px auto 0;padding:0 12px"><a href="/rules/#campaign" style="display:block;text-decoration:none;color:#173B5C;background:linear-gradient(90deg,#FFF4C2,#FFE3EC 55%,#E3F4FF);border:2px solid #173B5C;border-radius:18px;padding:12px 16px;box-shadow:0 4px 0 #173B5C"><span style="display:flex;align-items:center;gap:12px"><img src="/img/camp_1117_s.webp?v=1" alt="宅配買取キャンペーン 買取金額最大＋1万円" width="88" height="88" style="flex:none;width:clamp(64px,10vw,88px);height:auto;border-radius:12px"><span style="flex:1;min-width:0"><span style="display:inline-block;background:#E23B47;color:#fff;font-weight:800;border-radius:999px;padding:2px 10px;font-size:12px;margin-right:8px">11/30まで</span><b style="font-size:clamp(15px,2.2vw,20px)">宅配買取キャンペーン <span style="white-space:nowrap">買取金額 最大＋1万円</span></b><span style="display:block;font-size:12.5px;margin-top:6px;line-height:1.7">1万円以上＋1,000円／5万円以上＋3,000円／10万円以上＋5,000円／30万円以上＋10,000円　新規・リピーターどちらも対象 <u>条件を見る</u></span></span></span></a></div><script>(function(){var b=document.getElementById("ndCamp");if(!b)return;var n=Date.now(),s=Date.parse(b.dataset.s+"T00:00:00+09:00"),e=Date.parse(b.dataset.e+"T23:59:59+09:00");if(n>=s&&n<=e)b.style.display="block";else b.remove();})();</script>` : "";
 const CAMP_SKIP = /^(liff|staff|recruit|company|privacy|legal)\//;
-const addCamp = (rel, s) => (!CAMP || CAMP_SKIP.test(rel) || s.indexOf("</header>") < 0) ? s : s.replace("</header>", "</header>" + CAMP_HTML);
+const CAMP_ONLY = /^lp\//;   // 2026-11-17 雄司さん：広告の設定が終わるまで、帯はLPにだけ出す（買取サイト本体には出さない）。全ページに戻すときはこの行を /./ にする
+const addCamp = (rel, s) => (!CAMP || !CAMP_ONLY.test(rel) || CAMP_SKIP.test(rel) || s.indexOf("</header>") < 0) ? s : s.replace("</header>", "</header>" + CAMP_HTML);
 const write = (rel, s) => { if (/\.html$/.test(rel)) s = addCamp(rel, s); const f = path.join(DIST, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, /\.html$/.test(rel) ? rebase(s) : s); };
 
 /* ---------- 1. データ読み込み ---------- */

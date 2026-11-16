@@ -103,7 +103,7 @@ footer{margin-top:40px;background:linear-gradient(180deg,#FFE2F1,#DCCBFF);color:
 (function(){
   var a=document.querySelector('a.apply[data-id]'),ps=document.getElementById('pxSrc');if(!a||!ps||!window.fetch)return;
   var id=a.dataset.id,price=Number(a.dataset.price),at=Date.now(),busy=null,gone=false,src=ps.href;
-  function yen(n){return '¥'+n.toLocaleString('ja-JP');}
+  function yen(n){return '¥'+(Math.round(n*10)/10).toLocaleString('ja-JP');}
   function url(p){return 'https://line.me/R/oaMessage/'+encodeURIComponent(a.dataset.line)+'/?'+encodeURIComponent(a.dataset.msg.replace('{P}',yen(p)));}
   function check(){
     if(busy)return busy;

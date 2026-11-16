@@ -449,7 +449,7 @@ console.log(`article pages: ${arts.length}`);
       desc: "大量のポケモンカードを、仕分けもリスト作りもせずに段ボールで送るだけ。カードを選ばない「おまかせ査定」で1枚ずつ査定。送料無料・最短当日入金。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。",
       pool() { return variants[0].pool(); }, vpics: {} },
   ];
-  for (const V of variants) {
+  for (const V of variants.filter(v => !["psa", "matome"].includes(v.key))) {   // PSA・まとめ売りLPは雄司さんのOKが出るまで公開しない（11/16）
     const lpTpl = read(path.join(SRC, V.tpl));
     if (!lpTpl) continue;
     const url = `${CFG.siteUrl}${V.path}`, title = V.title, desc = V.desc;

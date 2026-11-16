@@ -31,9 +31,9 @@ function protectApplied_(sh, lastRow) {
   pr.removeEditors(pr.getEditors().filter(function (u) { return u.getEmail() !== OWNER; }));
   if (pr.canDomainEdit()) pr.setDomainEdit(false);
 }
-const UNSENT_DAYS = 7;
-const REMIND_ON = false;
-const CAMP_ON = false;   // 宅配買取キャンペーンの案内をLINEに入れるか（バナー完成まで停止・2026/11/16 雄司さん）   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）   // 申込から何日たっても届かなければ見積書タブを消す
+const UNSENT_DAYS = 7;   // 申込から何日たっても届かなければ見積書タブを消す
+const REMIND_ON = false;   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）
+const CAMP_ON = true;   // 宅配買取キャンペーンの案内をLINEに入れるか（期間 11/17〜11/30。期間外は自動で出ない）
 
 function doPost(e) {
   let d = {};

@@ -42,6 +42,44 @@ function lastRowA_(sh) {
   return 1;
 }
 
+// 見積書タブを作る（原本をコピーして、カードと申込情報を書く）
+function makeTab_(ss, list, title, no, items, appliedAt, code, lineName) {
+  const sh = ss.getSheetByName(TPL_NAME).copyTo(ss).setName(title);
+  ss.setActiveSheet(sh); ss.moveActiveSheet(list.getIndex() + 1);   // 申込一覧のすぐ右（新しい順）
+  if (items.length > TPL_SLOTS) {
+    const extra = items.length - TPL_SLOTS;
+    sh.insertRowsAfter(FIRST_ROW + TPL_SLOTS - 2, extra);
+    const nw = isNew_(sh), W = nw ? 8 : 7;
+    const src = sh.getRange(FIRST_ROW + TPL_SLOTS - 2, 1, 1, W);
+    for (let i = 0; i < extra; i++) src.copyTo(sh.getRange(FIRST_ROW + TPL_SLOTS - 1 + i, 1, 1, W));
+    const last = FIRST_ROW + items.length - 1;
+    for (let r = FIRST_ROW; r <= last; r++) {
+      sh.getRange(r, 1).setValue(r - 1);
+      if (nw) sh.getRange(r, 6).setFormula('=IF(D' + r + '="","",D' + r + '*E' + r + ')');
+      else sh.getRange(r, 5).setFormula('=SUM(C' + r + '*D' + r + ')');
+    }
+  }
+  const NEW = isNew_(sh);
+  if (items.length) {
+    if (NEW) {
+      sh.getRange(FIRST_ROW, 2, items.length, 2).setValues(items.map(function (it) { return [it.name, it.price]; }));
+      sh.getRange(FIRST_ROW, 5, items.length, 1).setValues(items.map(function (it) { return [it.qty]; }));
+      try { protectApplied_(sh, FIRST_ROW + items.length - 1); } catch (e) { console.warn('保護に失敗: ' + e); }   // 失敗しても申込は止めない
+    } else {
+      sh.getRange(FIRST_ROW, 2, items.length, 3).setValues(items.map(function (it) { return [it.name, it.price, it.qty]; }));
+    }
+  }
+  sh.getRange(NEW ? 'J1:K5' : 'I1:J5').setValues([
+    ['申込番号', no],
+    ['LINEの名前', lineName || '（LINEで開く前）'],
+    ['申込日時', Utilities.formatDate(appliedAt, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm')],
+    ['受付コード', String(code || '').slice(0, 80) || '（なし）'],
+    ['照合', 'RECOREの申込と「LINEの名前＋申込日」で照合']
+  ]);
+  sh.getRange(NEW ? 'J1:J5' : 'I1:I5').setFontWeight('bold');
+  return sh;
+}
+
 function doPost(e) {
   let d = {};
   try { d = JSON.parse((e && e.postData && e.postData.contents) || '{}'); } catch (err) { return out_({ ok: false, err: 'bad_json' }); }
@@ -82,43 +120,12 @@ function create_(d) {
     const no = 'W' + Utilities.formatDate(now, 'Asia/Tokyo', 'MMdd') + '-' + ('000' + lastA).slice(-3);
     const key = Utilities.getUuid().replace(/-/g, '').slice(0, 16);
 
-    let title = '受付' + no + '（サイト）';
-    const sh = ss.getSheetByName(TPL_NAME).copyTo(ss).setName(title);
-    ss.setActiveSheet(sh); ss.moveActiveSheet(list.getIndex() + 1);   // 申込一覧のすぐ右（新しい順）
-    if (items.length > TPL_SLOTS) {
-      const extra = items.length - TPL_SLOTS;
-      sh.insertRowsAfter(FIRST_ROW + TPL_SLOTS - 2, extra);
-      const nw = isNew_(sh), W = nw ? 8 : 7;
-      const src = sh.getRange(FIRST_ROW + TPL_SLOTS - 2, 1, 1, W);
-      for (let i = 0; i < extra; i++) src.copyTo(sh.getRange(FIRST_ROW + TPL_SLOTS - 1 + i, 1, 1, W));
-      const last = FIRST_ROW + items.length - 1;
-      for (let r = FIRST_ROW; r <= last; r++) {
-        sh.getRange(r, 1).setValue(r - 1);
-        if (nw) sh.getRange(r, 6).setFormula('=IF(D' + r + '="","",D' + r + '*E' + r + ')');
-        else sh.getRange(r, 5).setFormula('=SUM(C' + r + '*D' + r + ')');
-      }
-    }
-    const NEW = isNew_(sh);
-    if (NEW) {
-      sh.getRange(FIRST_ROW, 2, items.length, 2).setValues(items.map(function (it) { return [it.name, it.price]; }));
-      sh.getRange(FIRST_ROW, 5, items.length, 1).setValues(items.map(function (it) { return [it.qty]; }));
-      try { protectApplied_(sh, FIRST_ROW + items.length - 1); } catch (e) { console.warn('保護に失敗: ' + e); }   // 失敗しても申込は止めない
-    } else {
-      sh.getRange(FIRST_ROW, 2, items.length, 3).setValues(items.map(function (it) { return [it.name, it.price, it.qty]; }));
-    }
-    sh.getRange(NEW ? 'J1:K5' : 'I1:J5').setValues([
-      ['申込番号', no],
-      ['LINEの名前', '（LINEで開く前）'],
-      ['申込日時', Utilities.formatDate(now, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm')],
-      ['受付コード', String(d.code || '').slice(0, 80) || '（なし）'],
-      ['照合', 'RECOREの申込と「LINEの名前＋申込日」で照合']
-    ]);
-    sh.getRange(NEW ? 'J1:J5' : 'I1:I5').setFontWeight('bold');
+    // 見積書タブはここでは作らない。LINEとつながった時点（link_）で作る（11/18 雄司さん：LINEまで進まない人のタブが増えるのを防ぐ）
 
     const qty = items.reduce(function (s, it) { return s + it.qty; }, 0);
     const total = items.reduce(function (s, it) { return s + it.price * it.qty; }, 0);
     const row = [now, no, '', '', qty, total, String(d.code || '') || '（直接）', String(d.src || ''), String(d.lp || ''),
-      '=HYPERLINK("#gid=' + sh.getSheetId() + '","' + title + '")', '', String(d.device || ''), '', '', JSON.stringify(items).slice(0, 45000), key];
+      '（LINE待ち）', '', String(d.device || ''), '', '', JSON.stringify(items).slice(0, 45000), key];
     list.getRange(lastA + 1, 1, 1, row.length).setValues([row]);   // appendRow だと数百行下に書かれてしまうため、A列の次の行に書く
     return out_({ ok: true, no: no, k: key });
   } finally {
@@ -157,19 +164,19 @@ function link_(d) {
     list.getRange(r, COL.lineName, 1, 2).setValues([[name, p.userId]]);
     if (!list.getRange(r, COL.name).getValue()) list.getRange(r, COL.name).setValue(name + '（LINE名）');
     try { items = JSON.parse(String(list.getRange(r, COL.items).getValue() || '[]')); } catch (e) { items = []; }
-    // 見積書タブの名前を「LINE名様11/14（サイト）」に
+    // 見積書タブ：まだなければここで作る（11/18〜）。前からあるタブ（受付〜）は「LINE名様11/14（サイト）」に名前を変える
+    const md = Utilities.formatDate(list.getRange(r, COL.date).getValue(), 'Asia/Tokyo', 'M/d');
     const f = String(list.getRange(r, COL.tab).getFormula());
     const m = f.match(/#gid=(\d+)/);
-    if (m) {
-      const sh = ss.getSheets().filter(function (s) { return String(s.getSheetId()) === m[1]; })[0];
-      if (sh) {
-        const md = Utilities.formatDate(list.getRange(r, COL.date).getValue(), 'Asia/Tokyo', 'M/d');
-        let title = name + '様' + md + '（サイト）', n = 2;
-        while (ss.getSheetByName(title) && ss.getSheetByName(title).getSheetId() !== sh.getSheetId()) title = name + '様' + md + '（サイト' + (n++) + '）';
-        sh.setName(title); sh.getRange(isNew_(sh) ? 'K2' : 'J2').setValue(name);
-        list.getRange(r, COL.tab).setFormula('=HYPERLINK("#gid=' + sh.getSheetId() + '","' + title.replace(/"/g, '') + '")');
-      }
+    let sh = m ? ss.getSheets().filter(function (s) { return String(s.getSheetId()) === m[1]; })[0] : null;
+    let title = name + '様' + md + '（サイト）', n = 2;
+    while (ss.getSheetByName(title) && (!sh || ss.getSheetByName(title).getSheetId() !== sh.getSheetId())) title = name + '様' + md + '（サイト' + (n++) + '）';
+    if (sh) {
+      sh.setName(title); sh.getRange(isNew_(sh) ? 'K2' : 'J2').setValue(name);
+    } else if (!m) {
+      sh = makeTab_(ss, list, title, no, items, appliedAt, list.getRange(r, COL.code).getValue(), name);
     }
+    if (sh) list.getRange(r, COL.tab).setFormula('=HYPERLINK("#gid=' + sh.getSheetId() + '","' + title.replace(/"/g, '') + '")');
   } finally {
     lock.releaseLock();
   }

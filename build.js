@@ -450,7 +450,8 @@ console.log(`article pages: ${arts.length}`);
       desc: "大量のポケモンカードを、仕分けもリスト作りもせずに段ボールで送るだけ。カードを選ばない「おまかせ査定」で1枚ずつ査定。送料無料・最短当日入金。千葉・東京・神奈川8店舗のポケカ専門店ナタデココの宅配買取。",
       pool() { return variants[0].pool(); }, vpics: {} },
   ];
-  for (const V of variants.filter(v => !["psa", "matome"].includes(v.key))) {   // PSA・まとめ売りLPは雄司さんのOKが出るまで公開しない（11/16）
+  const LP_PREVIEW = ["psa"];   // 11/18 雄司さんが手を入れるため、URLだけ出す（検索に出さない・サイトマップに入れない・どこからもリンクしない）
+  for (const V of variants.filter(v => !["matome"].includes(v.key))) {   // まとめ売りLPは雄司さんのOKが出るまで公開しない（11/16）
     const lpTpl = read(path.join(SRC, V.tpl));
     if (!lpTpl) continue;
     const url = `${CFG.siteUrl}${V.path}`, title = V.title, desc = V.desc;
@@ -490,8 +491,9 @@ console.log(`article pages: ${arts.length}`);
       .replace(/__TOP__/g, cards).replace(/__TOPN__/g, String(pick.length)).replace(/__SHOPS__/g, shops).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__UPDATED__/g, esc(updated))
       .replace(/__CATCOUNT_([a-z]+)__/g, (m, c) => ({ box: withImg("BOX").length, old: items.filter(x => x.cat === "旧裏").length, kyu: items.filter(x => x.cat === "旧弾").length }[c] || 0).toLocaleString())
       .replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__COMPANY__/g, esc(CFG.company));
-    write(V.out, wrap(html));
-    urls.push({ url, lastmod: updated.replace(/\//g, "-") });
+    const pv = LP_PREVIEW.includes(V.key);
+    write(V.out, pv ? wrap(html).replace("</head>", '<meta name="robots" content="noindex,nofollow">\n</head>') : wrap(html));
+    if (!pv) urls.push({ url, lastmod: updated.replace(/\//g, "-") });
     console.log(`lp(${V.key}): ok ${pick.length}件`);
   }
 }

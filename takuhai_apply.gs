@@ -35,6 +35,13 @@ const UNSENT_DAYS = 7;   // 申込から何日たっても届かなければ見�
 const REMIND_ON = false;   // 期限前日の発送のお知らせ（LINE）。始めるときに true にする（2026/11/14 雄司さんの指示で停止中）
 const CAMP_ON = true;   // 宅配買取キャンペーンの案内をLINEに入れるか（期間 11/17〜11/30。期間外は自動で出ない）
 
+// A列に値がある最後の行（見出し行だけなら1）
+function lastRowA_(sh) {
+  const v = sh.getRange(1, 1, sh.getMaxRows(), 1).getValues();
+  for (let i = v.length - 1; i >= 0; i--) if (v[i][0] !== '' && v[i][0] !== null) return i + 1;
+  return 1;
+}
+
 function doPost(e) {
   let d = {};
   try { d = JSON.parse((e && e.postData && e.postData.contents) || '{}'); } catch (err) { return out_({ ok: false, err: 'bad_json' }); }
@@ -71,7 +78,8 @@ function create_(d) {
     const list = ss.getSheetByName(LIST_NAME);
     const now = new Date();
     const md = Utilities.formatDate(now, 'Asia/Tokyo', 'M/d');
-    const no = 'W' + Utilities.formatDate(now, 'Asia/Tokyo', 'MMdd') + '-' + ('000' + list.getLastRow()).slice(-3);
+    const lastA = lastRowA_(list);   // A列（申込日時）が入っている最後の行。getLastRow() はチェックボックス等の空行まで数えてしまうため使わない（11/18）
+    const no = 'W' + Utilities.formatDate(now, 'Asia/Tokyo', 'MMdd') + '-' + ('000' + lastA).slice(-3);
     const key = Utilities.getUuid().replace(/-/g, '').slice(0, 16);
 
     let title = '受付' + no + '（サイト）';
@@ -111,7 +119,7 @@ function create_(d) {
     const total = items.reduce(function (s, it) { return s + it.price * it.qty; }, 0);
     const row = [now, no, '', '', qty, total, String(d.code || '') || '（直接）', String(d.src || ''), String(d.lp || ''),
       '=HYPERLINK("#gid=' + sh.getSheetId() + '","' + title + '")', '', String(d.device || ''), '', '', JSON.stringify(items).slice(0, 45000), key];
-    list.appendRow(row);
+    list.getRange(lastA + 1, 1, 1, row.length).setValues([row]);   // appendRow だと数百行下に書かれてしまうため、A列の次の行に書く
     return out_({ ok: true, no: no, k: key });
   } finally {
     lock.releaseLock();

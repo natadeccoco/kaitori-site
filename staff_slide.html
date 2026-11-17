@@ -147,7 +147,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   /* ---------- テンプレート ---------- */
   var A4L=[3579,2551],A4P=[2551,3579];
   var TPL=[
-    ["縦長 40枚（8×5・Xのシングルと同じ）",A4P,8,5],["縦長 48枚（8×6・XのPSAと同じ）",A4P,8,6],["縦長 25枚（5×5）",A4P,5,5],["縦長 16枚（4×4）",A4P,4,4],["縦長 9枚（3×3）",A4P,3,3],["縦長 4枚（2×2）",A4P,2,2],["縦長 2枚",A4P,2,1],["縦長 1枚",A4P,1,1],
+    ["縦長 40枚（8×5・Xのシングルと同じ）",A4P,8,5],["縦長 48枚（8×6・XのPSAと同じ）",A4P,8,6],["縦長 25枚（5×5）",A4P,5,5],["縦長 16枚（4×4）",A4P,4,4],["縦長 9枚（3×3）",A4P,3,3],["縦長 4枚（2列×2段）",A4P,2,2],["縦長 3枚（上2枚・下1枚）",A4P,2,2,3],["縦長 2枚（横に2枚）",A4P,2,1],["縦長 1枚",A4P,1,1],
     ["横長 36枚（9×4・XのBOXと同じ）",A4L,9,4],["横長 50枚（10×5）",A4L,10,5],["横長 18枚（6×3）",A4L,6,3],["横長 8枚（4×2）",A4L,4,2],["横長 4枚",A4L,4,1],["横長 3枚",A4L,3,1],["横長 2枚",A4L,2,1],["横長 1枚",A4L,1,1],
     ["正方形 9枚（SNS用）",[2160,2160],3,3],["正方形 4枚（SNS用）",[2160,2160],2,2],["正方形 2枚（SNS用）",[2160,2160],2,1],["正方形 1枚（SNS用）",[2160,2160],1,1],
     ["モニター 12枚（1920×1080）",[1920,1080],6,2],["モニター 5枚（1920×1080）",[1920,1080],5,1],["モニター 4枚（1920×1080）",[1920,1080],4,1],["モニター 3枚（1920×1080）",[1920,1080],3,1],["モニター 2枚（1920×1080）",[1920,1080],2,1],["モニター 1枚（1920×1080）",[1920,1080],1,1]
@@ -209,10 +209,14 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       var cwid=(gw-gapX*(o.cols-1))/o.cols,chei=(gh-gapY*(o.rows-1))/o.rows;
       // 枚数が少ないサイズ：枠がカードより横に広くなりすぎるときは、枠をカードの形に合わせて中央に寄せる
       var lim=chei*(o.name?0.78:0.62);if(cwid>lim*1.08){cwid=lim;gapX=Math.min((gw-cwid*o.cols)/(o.cols+1),cwid*0.45);gx=(W-(cwid*o.cols+gapX*(o.cols-1)))/2;}
+      // 縦に余るとき（縦長で1〜2段など）：枠をカードの形に合わせて上下の中央に寄せる
+      else{var limH=cwid/(o.name?0.78:0.62);if(chei>limH*1.08){chei=limH;gapY=Math.min(gapY*2,chei*0.12);gy+=(gh-(chei*o.rows+gapY*(o.rows-1)))/2;}}
+      var small=o.cols*o.rows<=6,lastN=items.length%o.cols,lastRow=Math.floor((items.length-1)/o.cols);
       var nameH=o.name?chei*0.13:0,ph=Math.min(chei*0.15,cwid*0.3),ih=chei-ph-nameH,bw=Math.max(3,cwid*0.02);
       for(var n=0;n<o.cols*o.rows;n++){
         var s=items[n],x=gx+(n%o.cols)*(cwid+gapX),y=gy+Math.floor(n/o.cols)*(chei+gapY);
-        if(!s&&!o.fill)continue;
+        if(!s&&(!o.fill||small))continue;   // 枚数の少ないサイズは空き枠（¥-）を出さない
+        if(s&&small&&lastN&&Math.floor(n/o.cols)===lastRow)x+=(o.cols-lastN)*(cwid+gapX)/2;   // 最後の段が半端なら中央に寄せる
         if(s){var it=s.it,img=cards[n];
           if(o.name){c.fillStyle="rgba(255,255,255,.92)";c.fillRect(x,y,cwid,ih+nameH);}
           if(img){var m=o.name?cwid*0.04:0,sc=Math.min((cwid-m*2)/img.width,(ih-m)/img.height),dw=img.width*sc,dh=img.height*sc,dx=x+(cwid-dw)/2,dy=y+ih-dh;c.drawImage(img,dx,dy,dw,dh);
@@ -231,7 +235,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   }
   function make(){
     if(!SEL.length){$("mkmsg").textContent="のせるカードをえらんでください。";return;}
-    var t=TPL[+$("tpl").value],per=t[2]*t[3],list=SEL.slice(),so=$("sort").value;
+    var t=TPL[+$("tpl").value],per=t[4]||t[2]*t[3],list=SEL.slice(),so=$("sort").value;
     if(so==="price")list.sort(function(a,b){return b.price-a.price});else if(so==="asc")list.sort(function(a,b){return a.price-b.price});
     var pages=Math.ceil(list.length/per);if(pages>6){$("mkmsg").textContent="カードが多すぎます（"+pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。";return;}
     var d=new Date(),o={size:t[1],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:true,date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};

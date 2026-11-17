@@ -27,6 +27,7 @@ textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focu
     <p class="msg ng" id="gmsg" hidden>パスワードが違います。</p>
   </div>
 
+  <a class="btn" id="toSlide" href="/staff/slide/" hidden style="text-align:center;text-decoration:none;margin:0 0 18px;background:#E23B47">買取表の画像をつくる ›</a>
   <form class="box" id="form" hidden>
     <label for="store">店舗</label>
     <select id="store" required><option value="">えらんでください</option><option>柏本店</option><option>松戸店</option><option>津田沼店</option><option>千葉中央店</option><option>中野店</option><option>お台場店</option><option>町田店</option><option>横浜店</option><option>本部・その他</option></select>
@@ -49,7 +50,7 @@ textarea{min-height:120px;resize:vertical}input:focus,select:focus,textarea:focu
   var URL_="__STAFF_URL__",HASH="abce25ef514496acadc191fd51aac3ba8c508396d2f2e14a291e4b03907ad6b3",PASS="";
   var $=function(i){return document.getElementById(i)};
   function sha(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("")})}
-  function open_(p){PASS=p;$("gate").hidden=true;$("form").hidden=false;try{sessionStorage.setItem("nd_staff",p);var s=localStorage.getItem("nd_staff_store"),n=localStorage.getItem("nd_staff_name");if(s)$("store").value=s;if(n)$("name").value=n;}catch(e){}}
+  function open_(p){PASS=p;$("gate").hidden=true;$("form").hidden=false;$("toSlide").hidden=false;try{sessionStorage.setItem("nd_staff",p);var s=localStorage.getItem("nd_staff_store"),n=localStorage.getItem("nd_staff_name");if(s)$("store").value=s;if(n)$("name").value=n;}catch(e){}}
   function tryEnter(p,quiet){sha(p).then(function(h){if(h===HASH)open_(p);else if(!quiet)$("gmsg").hidden=false;});}
   $("enter").onclick=function(){tryEnter($("pw").value.trim())};
   $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")tryEnter($("pw").value.trim())});

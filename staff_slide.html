@@ -1,0 +1,255 @@
+<title>スタッフ専用｜買取表の画像をつくる</title>
+__HEAD__
+<meta name="robots" content="noindex,nofollow">
+<style>
+:root{--line:#DDE8EB;--ink:#22303C;--ink-2:#5A6B76;--navy:#173B5C;--cyan:#A9F3F4;--price:#E23B47}
+*{box-sizing:border-box}body{margin:0;background:#FBFDFF;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.6}
+.top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);height:64px;display:flex;align-items:center;justify-content:center}.top img{height:48px}
+.page{max-width:1280px;margin:0 auto;padding:18px 16px 60px}
+h1{margin:0 0 2px;font-size:22px;color:var(--navy)}.lede{margin:0 0 14px;color:var(--ink-2);font-size:13px}
+.box{background:#fff;border:3px solid var(--navy);border-radius:16px;box-shadow:0 5px 0 var(--navy);padding:16px}
+#gate{max-width:420px;margin:0 auto}
+label{display:block;font-weight:700;font-size:13px;margin:10px 0 3px}label small{font-weight:500;color:var(--ink-2)}
+input[type=text],input[type=password],input[type=number],select,textarea{width:100%;font:inherit;border:2px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff}
+textarea{min-height:76px;resize:vertical}input:focus,select:focus,textarea:focus{outline:0;border-color:#1FA8B8}
+.btn{display:inline-block;border:0;border-radius:999px;background:var(--navy);color:#fff;font:inherit;font-weight:800;font-size:15px;padding:11px 22px;cursor:pointer}.btn:disabled{opacity:.5;cursor:default}
+.btn.sub{background:#fff;color:var(--navy);border:2px solid var(--navy);padding:7px 14px;font-size:13px}
+.btn.red{background:var(--price)}
+.msg{margin:10px 0 0;font-weight:700;font-size:14px;color:#D0342C}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}@media (max-width:900px){.cols{grid-template-columns:1fr}}
+h2{margin:0 0 8px;font-size:16px;color:var(--navy);display:flex;align-items:center;gap:8px}h2 .n{background:var(--navy);color:#fff;border-radius:999px;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
+.srow{display:flex;gap:8px}.srow select{width:130px;flex:none}
+.list{margin-top:8px;border:2px solid var(--line);border-radius:10px;height:380px;overflow:auto}
+.it{display:flex;align-items:center;gap:8px;padding:6px 8px;border-bottom:1px solid var(--line);font-size:13px}
+.it img,.it .ph{width:38px;height:53px;object-fit:contain;flex:none;background:#F4FAFB;border-radius:4px}
+.it .nm{flex:1;min-width:0}.it .nm b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.it .nm span{color:var(--ink-2);font-size:11.5px}
+.it .pr{font-weight:800;color:var(--price);white-space:nowrap}
+.it input[type=number]{width:104px;flex:none;padding:5px 6px;text-align:right;font-weight:800;color:var(--price)}
+.it button{flex:none;border:2px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;font:inherit;font-weight:800;font-size:12px;padding:3px 10px;cursor:pointer}
+.it label.gn{flex:none;margin:0;font-size:11.5px;font-weight:700;display:flex;align-items:center;gap:3px;color:#C2457E;white-space:nowrap}
+.it button.x{border-color:var(--line);color:var(--ink-2);padding:3px 8px}.it button.mv{border:0;padding:0 3px;font-size:14px}
+.it.added{background:#F4FAFB}.it.added button.add{opacity:.4}
+.tag{display:inline-block;font-size:10.5px;font-weight:800;border-radius:4px;padding:0 5px;margin-right:4px;color:#fff;background:#1E4E78}.tag.psa{background:#C8102E}.tag.box{background:#0A7D4B}.tag.ns{background:#8A5A00}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}@media (max-width:560px){.grid2{grid-template-columns:1fr}}
+.chk{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:13.5px;font-weight:700}.chk label{display:flex;align-items:center;gap:6px;margin:0;font-size:13.5px}
+.col{display:flex;gap:8px;align-items:center}.col input[type=color]{width:44px;height:36px;border:2px solid var(--line);border-radius:8px;padding:2px;background:#fff}
+.out{margin-top:16px}.pv{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}.pv figure{margin:0;text-align:center}.pv img{display:block;max-width:100%;max-height:560px;border:2px solid var(--line);border-radius:8px;background:#fff}
+.pv figcaption{margin-top:6px}
+.back{display:inline-block;margin-top:18px;color:var(--navy);font-size:14px}
+.hint{font-size:12px;color:var(--ink-2);margin:6px 0 0}
+</style>
+<header class="top"><a href="/"><img src="/logo.png" alt="ナタデココ"></a></header>
+<main class="page">
+  <h1>買取表の画像をつくる</h1>
+  <p class="lede">カードをえらんで、店頭POP・サイネージ・SNS用の買取表画像をつくれます。価格は買取サイトの今の価格が入ります。</p>
+
+  <div class="box" id="gate">
+    <label for="pw">パスワード</label>
+    <input type="password" id="pw" inputmode="numeric" autocomplete="off">
+    <button class="btn" type="button" id="enter" style="margin-top:14px;width:100%">入る</button>
+    <p class="msg" id="gmsg" hidden>パスワードが違います。</p>
+  </div>
+
+  <div id="app" hidden>
+    <div class="cols">
+      <section class="box">
+        <h2><span class="n">1</span>カードをえらぶ</h2>
+        <div class="srow">
+          <select id="fcat"><option value="">すべて</option></select>
+          <input type="text" id="q" placeholder="カード名・型番（例：リザードン 201/165）">
+        </div>
+        <div class="list" id="res"></div>
+        <p class="hint" id="resn"></p>
+      </section>
+      <section class="box">
+        <h2><span class="n">2</span>のせるカード<span class="cnt" id="selN">0件</span></h2>
+        <div class="list" id="sel"></div>
+        <p class="hint">価格はこの画像だけ変えられます（サイトの価格は変わりません）。<button class="btn sub" type="button" id="gnAll" style="margin-left:6px;padding:3px 10px">全部に「減額なし」</button><button class="btn sub" type="button" id="clear" style="margin-left:6px;padding:3px 10px">全部はずす</button></p>
+      </section>
+    </div>
+
+    <section class="box" style="margin-top:16px">
+      <h2><span class="n">3</span>見た目をきめる</h2>
+      <div class="grid2">
+        <div><label for="title">タイトル</label><input type="text" id="title" maxlength="24" value="ナタデココ買取表"></div>
+        <div><label for="tpl">サイズ・枚数</label><select id="tpl"></select></div>
+        <div><label for="store">店舗名 <small>（入れない場合は「なし」）</small></label><select id="store"><option value="">なし</option><option>柏本店</option><option>松戸店</option><option>津田沼店</option><option>千葉中央店</option><option>中野店</option><option>お台場店</option><option>町田店</option><option>横浜店</option></select></div>
+        <div><label for="sort">ならび順</label><select id="sort"><option value="price">価格が高い順</option><option value="list">えらんだ順</option><option value="asc">価格が安い順</option></select></div>
+        <div><label>色</label><div class="col"><input type="color" id="cTheme" value="#C63FD9"><span>タイトルのふち</span><input type="color" id="cPrice" value="#35D6F5"><span>価格のわく</span></div></div>
+        <div><label for="chara">キャラ</label><select id="chara"><option value="chan1">ナタデココちゃん</option><option value="minty1">ミンティ</option><option value="pachiru1">パチル</option><option value="fai1">ファイ</option><option value="amery1">アメリー</option><option value="">なし</option></select></div>
+      </div>
+      <label for="note">注意書き <small>（3行まで）</small> <button class="btn sub" type="button" id="nt1" style="padding:2px 10px;margin-left:6px">シングル用</button> <button class="btn sub" type="button" id="nt3" style="padding:2px 10px">BOX用</button> <button class="btn sub" type="button" id="nt2" style="padding:2px 10px">PSA用</button></label>
+      <textarea id="note" maxlength="260">買取価格は状態や在庫状況によって予告なく変更になる場合がございます。
+買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。</textarea>
+      <div class="chk"><label><input type="checkbox" id="showDate" checked>更新日を入れる</label><label><input type="checkbox" id="showName">カード名・BOX名を入れる</label><label><input type="checkbox" id="showQr" checked>QRコード（買取サイト）を入れる</label></div>
+      <div style="margin-top:14px"><button class="btn red" type="button" id="make">画像をつくる</button><span class="hint" id="mkmsg" style="margin-left:10px"></span></div>
+    </section>
+
+    <section class="box out" id="outBox" hidden>
+      <h2><span class="n">4</span>できあがり<span class="cnt" id="outN"></span></h2>
+      <div class="pv" id="pv"></div>
+    </section>
+  </div>
+  <a class="back" href="/staff/">‹ スタッフ専用ページにもどる</a>
+</main>
+<script>
+(function(){
+  var HASH="abce25ef514496acadc191fd51aac3ba8c508396d2f2e14a291e4b03907ad6b3";
+  var $=function(i){return document.getElementById(i)};
+  var esc=function(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})};
+  var yen=function(n){return "¥"+(Math.round(n*10)/10).toLocaleString("ja-JP")};
+  function sha(s){return crypto.subtle.digest("SHA-256",new TextEncoder().encode(s)).then(function(b){return Array.prototype.map.call(new Uint8Array(b),function(x){return ("0"+x.toString(16)).slice(-2)}).join("")})}
+  function tryEnter(p,quiet){sha(p).then(function(h){if(h===HASH){try{sessionStorage.setItem("nd_staff",p)}catch(e){}$("gate").hidden=true;$("app").hidden=false;start();}else if(!quiet)$("gmsg").hidden=false;});}
+  $("enter").onclick=function(){tryEnter($("pw").value.trim())};
+  $("pw").addEventListener("keydown",function(e){if(e.key==="Enter")tryEnter($("pw").value.trim())});
+  try{var sv=sessionStorage.getItem("nd_staff");if(sv)tryEnter(sv,true);}catch(e){}
+
+  /* ---------- データ ---------- */
+  var ITEMS=[],SEL=[];   // SEL: {it, price}
+  var norm=function(s){return String(s||"").normalize("NFKC").toLowerCase().replace(/[ぁ-ゖ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)+96)}).replace(/\s+/g,"")};
+  var kind=function(it){return it.vOf?["ns","シュリンクなし"]:it.cat==="PSA"?["psa",it.grade||"PSA10"]:it.cat==="BOX"?["box","BOX"]:null};
+  var tagHTML=function(it){var k=kind(it);return k?'<span class="tag '+k[0]+'">'+esc(k[1])+'</span>':""};
+  function start(){
+    if(ITEMS.length)return;
+    $("res").innerHTML='<div class="it">読み込み中…</div>';
+    fetch("/data/items.json",{cache:"no-store"}).then(function(r){return r.json()}).then(function(d){
+      var a=Array.isArray(d)?d:(d.items||[]);
+      a.forEach(function(i){if(!(i.price>0))return;i._h=norm([i.name,i.code,i.set,i.rarity,i.cat].join(" "));ITEMS.push(i);
+        if(i.price2>0){var n=Object.assign({},i,{id:i.id+"~ns",price:i.price2,price2:0,vOf:i.id});n._h=i._h+"しゅりんくなし";ITEMS.push(n);}});
+      var cats=[];ITEMS.forEach(function(i){if(cats.indexOf(i.cat)<0)cats.push(i.cat)});
+      $("fcat").innerHTML='<option value="">すべて</option>'+cats.map(function(c){return '<option>'+esc(c)+'</option>'}).join("");
+      try{var s=localStorage.getItem("nd_staff_store");if(s)$("store").value=s;}catch(e){}
+      search();
+    }).catch(function(){$("res").innerHTML='<div class="it">読み込めませんでした。ページを開き直してください。</div>';});
+  }
+  function search(){
+    var ws=$("q").value.trim().split(/[\s　]+/).filter(Boolean).map(norm),c=$("fcat").value;
+    var out=ITEMS.filter(function(i){if(c&&i.cat!==c)return false;return ws.every(function(w){return i._h.indexOf(w)>=0})});
+    out.sort(function(a,b){return b.price-a.price});
+    $("resn").textContent=out.length.toLocaleString()+"件"+(out.length>100?"（価格が高い順に100件まで表示。名前や型番でしぼりこめます）":"");
+    $("res").innerHTML=out.slice(0,100).map(function(i){var on=SEL.some(function(s){return s.it.id===i.id});
+      return '<div class="it'+(on?" added":"")+'" data-id="'+esc(i.id)+'">'+(i.img?'<img src="'+esc(i.img)+'" loading="lazy" alt="">':'<span class="ph"></span>')+'<div class="nm"><b>'+tagHTML(i)+esc(i.name)+'</b><span>'+esc([i.code,i.rarity!=="-"?i.rarity:"",i.set].filter(Boolean).join("／"))+'</span></div><span class="pr">'+yen(i.price)+'</span><button class="add" type="button">'+(on?"追加ずみ":"追加")+'</button></div>'}).join("")||'<div class="it">見つかりません</div>';
+  }
+  var st;$("q").addEventListener("input",function(){clearTimeout(st);st=setTimeout(search,150)});$("fcat").onchange=search;
+  $("res").addEventListener("click",function(e){var b=e.target.closest("button.add");if(!b)return;var id=b.closest(".it").dataset.id;if(SEL.some(function(s){return s.it.id===id}))return;
+    var it=ITEMS.filter(function(i){return i.id===id})[0];if(!it)return;SEL.push({it:it,price:it.price});drawSel();search();});
+  function drawSel(){
+    $("selN").textContent=SEL.length+"件";
+    $("sel").innerHTML=SEL.map(function(s,n){var i=s.it;return '<div class="it" data-n="'+n+'"><button class="mv up" type="button" title="上へ">▲</button><button class="mv dn" type="button" title="下へ">▼</button>'+(i.img?'<img src="'+esc(i.img)+'" alt="">':'<span class="ph"></span>')+'<div class="nm"><b>'+tagHTML(i)+esc(i.name)+'</b><span>'+esc([i.code,i.rarity!=="-"?i.rarity:""].filter(Boolean).join("／"))+'</span></div><label class="gn" title="減額なしマークを付ける"><input type="checkbox"'+(s.gn?" checked":"")+'>減額なし</label><input type="number" min="0" step="100" value="'+s.price+'"><button class="x" type="button">×</button></div>'}).join("")||'<div class="it" style="color:#5A6B76">左の一覧から「追加」をおしてください</div>';
+  }
+  $("sel").addEventListener("click",function(e){var r=e.target.closest(".it");if(!r||r.dataset.n==null)return;var n=+r.dataset.n;
+    if(e.target.closest(".x")){SEL.splice(n,1);}else if(e.target.closest(".up")&&n>0){SEL.splice(n-1,0,SEL.splice(n,1)[0]);}else if(e.target.closest(".dn")&&n<SEL.length-1){SEL.splice(n+1,0,SEL.splice(n,1)[0]);}else return;drawSel();search();});
+  $("sel").addEventListener("change",function(e){var n=+e.target.closest(".it").dataset.n;if(e.target.type==="checkbox"){SEL[n].gn=e.target.checked;return;}if(e.target.type!=="number")return;var v=Number(e.target.value);if(v>=0)SEL[n].price=v;});
+  $("gnAll").onclick=function(){var on=!SEL.every(function(s){return s.gn});SEL.forEach(function(s){s.gn=on});drawSel();};
+  $("clear").onclick=function(){SEL=[];drawSel();search();};
+
+  /* ---------- テンプレート ---------- */
+  var A4L=[3579,2551],A4P=[2551,3579];
+  var TPL=[
+    ["縦長 40枚（8×5・Xのシングルと同じ）",A4P,8,5],["縦長 48枚（8×6・XのPSAと同じ）",A4P,8,6],["縦長 25枚（5×5）",A4P,5,5],["縦長 16枚（4×4）",A4P,4,4],["縦長 9枚（3×3）",A4P,3,3],["縦長 4枚（2×2）",A4P,2,2],
+    ["横長 36枚（9×4・XのBOXと同じ）",A4L,9,4],["横長 50枚（10×5）",A4L,10,5],["横長 18枚（6×3）",A4L,6,3],["横長 8枚（4×2）",A4L,4,2],
+    ["正方形 9枚（SNS用）",[2160,2160],3,3],["正方形 4枚（SNS用）",[2160,2160],2,2],
+    ["モニター 12枚（1920×1080）",[1920,1080],6,2],["モニター 5枚（1920×1080）",[1920,1080],5,1]
+  ];
+  $("tpl").innerHTML=TPL.map(function(t,i){return '<option value="'+i+'"'+(i===0?" selected":"")+'>'+t[0]+'</option>'}).join("");
+
+  /* ---------- 描画 ---------- */
+  var FONT='"M PLUS Rounded 1c","Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif';
+  var cache={};
+  function loadImg(src){if(!src)return Promise.resolve(null);if(cache[src])return cache[src];
+    return cache[src]=new Promise(function(res){var im=new Image();im.crossOrigin="anonymous";im.onload=function(){res(im)};im.onerror=function(){res(null)};im.src=src;});}
+  function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
+  function fit(c,text,maxW,size,weight){var s=size;do{c.font=weight+" "+s+"px "+FONT;if(c.measureText(text).width<=maxW)break;s-=1;}while(s>size*0.45);return s;}
+  function wrap2(c,text,maxW){   // 2行まで。入らなければ末尾を…
+    if(c.measureText(text).width<=maxW)return [text];
+    var l1="",i=0;for(;i<text.length;i++){if(c.measureText(l1+text[i]).width>maxW)break;l1+=text[i];}
+    var rest=text.slice(i);if(c.measureText(rest).width<=maxW)return [l1,rest];
+    var l2="";for(var j=0;j<rest.length;j++){if(c.measureText(l2+rest[j]+"…").width>maxW)break;l2+=rest[j];}return [l1,l2+"…"];
+  }
+  function hexA(h,a){var n=parseInt(h.slice(1),16);return "rgba("+(n>>16)+","+((n>>8)&255)+","+(n&255)+","+a+")";}
+  function star(c,x,y,r,a){c.save();c.translate(x,y);c.globalAlpha=a;c.fillStyle="#fff";c.beginPath();for(var k=0;k<8;k++){var rad=k%2?r*0.22:r,an=k*Math.PI/4;c.lineTo(Math.cos(an)*rad,Math.sin(an)*rad);}c.closePath();c.fill();c.restore();}
+  function rnd(seed){var s=seed;return function(){s=(s*9301+49297)%233280;return s/233280;}}
+  function drawPage(o,items,pageNo,pages){
+    var W=o.size[0],H=o.size[1],u=Math.min(W,H)/1000;   // u＝短辺の1/1000
+    var cv=document.createElement("canvas");cv.width=W;cv.height=H;var c=cv.getContext("2d");
+    return Promise.all([o.chara?loadImg("/img/chars/"+o.chara+".webp"):null,loadImg("/img/psa10.webp?v=3"),loadImg("/img/shrink_nashi.webp?v=1"),o.qr?loadImg("/img/qr_site.png"):null,loadImg("/img/gengaku_nashi.webp?v=1"),loadImg("/img/gengaku_nashi_maru.webp?v=1")].concat(items.map(function(s){return loadImg(s.it.img)}))).then(function(im){
+      var chara=im[0],psa=im[1],ns=im[2],qr=im[3],gnI=im[4],gnM=im[5],cards=im.slice(6);
+      // 背景：ピンク→むらさき→水色のグラデーション＋白い光の帯＋きらきら
+      var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,"#FF9BE4");g.addColorStop(.38,"#E6B4FF");g.addColorStop(.7,"#B9C8FF");g.addColorStop(1,"#7FE9FF");c.fillStyle=g;c.fillRect(0,0,W,H);
+      c.save();c.globalAlpha=.28;c.fillStyle="#fff";
+      c.beginPath();c.ellipse(W*0.95,H*0.98,W*0.75,H*0.2,-0.5,0,Math.PI*2);c.fill();
+      c.beginPath();c.ellipse(W*0.05,H*0.05,W*0.6,H*0.1,-0.45,0,Math.PI*2);c.fill();c.restore();
+      var R=rnd(7+pageNo);for(var k=0;k<46;k++)star(c,R()*W,R()*H,(6+R()*20)*u,.35+R()*.5);
+      var pad=Math.round(18*u),hh=Math.round(H>W?H*0.1:H*0.15);
+      // キャラ（左上）
+      var lw=0;if(chara){var ch=hh*0.98;lw=ch*chara.width/chara.height;c.drawImage(chara,pad,hh-ch,lw,ch);}
+      // 右：更新日・店舗名
+      c.textBaseline="middle";c.textAlign="right";var rw=0;
+      if(o.date){var d1=Math.round(hh*0.17),d2=Math.round(hh*0.34);c.font="900 "+d2+"px "+FONT;rw=c.measureText(o.date).width;
+        c.lineJoin="round";c.strokeStyle="#fff";c.fillStyle="#22303C";
+        c.font="800 "+d1+"px "+FONT;c.lineWidth=d1*.3;c.strokeText("更新日",W-pad,hh*0.27);c.fillText("更新日",W-pad,hh*0.27);
+        c.font="900 "+d2+"px "+FONT;c.lineWidth=d2*.22;c.strokeText(o.date,W-pad,hh*0.64);c.fillText(o.date,W-pad,hh*0.64);}
+      // タイトル（白文字＋色フチ）と左右のきらきら
+      var title=(o.store?o.store+" ":"")+o.title+(pages>1?"  "+pageNo+"/"+pages:"");
+      var sw=hh*0.42,tx0=pad+lw+pad+sw,tx1=W-pad-rw-pad*2-sw,ts=fit(c,title,tx1-tx0,Math.round(hh*0.52),900);
+      c.font="900 "+ts+"px "+FONT;c.textAlign="center";c.lineJoin="round";var tw=c.measureText(title).width,tcx=(tx0+tx1)/2,tcy=hh*0.5;
+      c.lineWidth=ts*0.3;c.strokeStyle=o.theme;c.strokeText(title,tcx,tcy);c.lineWidth=ts*0.1;c.strokeStyle="#fff";c.strokeText(title,tcx,tcy);c.fillStyle="#fff";c.fillText(title,tcx,tcy);
+      [-1,1].forEach(function(sd){var sx=tcx+sd*(tw/2+sw*0.62);star(c,sx,tcy-sw*.1,sw*.42,1);star(c,sx+sd*sw*.36,tcy+sw*.32,sw*.2,1);star(c,sx-sd*sw*.1,tcy-sw*.48,sw*.14,1);});
+      // フッター：注意書き（左）と「最新版はこちらから→」＋QR（右下）
+      var notes=o.note.split(/\n/).map(function(s){return s.trim()}).filter(Boolean).slice(0,3);
+      var fs=Math.round(19*u),qs=qr?Math.round(88*u):0,fh=Math.round(Math.max(notes.length*fs*1.5,qs)+pad*1.6),fy=H-fh;
+      if(qr){c.fillStyle="#fff";c.fillRect(W-pad-qs,H-pad-qs,qs,qs);c.drawImage(qr,W-pad-qs,H-pad-qs,qs,qs);
+        c.font="800 "+Math.round(fs*.9)+"px "+FONT;c.textAlign="right";c.fillStyle="#22303C";c.lineWidth=fs*.25;c.strokeStyle="rgba(255,255,255,.85)";var qt="最新版はこちらから→";c.strokeText(qt,W-pad*1.6-qs,H-pad-qs*0.25);c.fillText(qt,W-pad*1.6-qs,H-pad-qs*0.25);}
+      c.textAlign="left";c.fillStyle="#3A4250";
+      var nsz=fs;notes.forEach(function(t,i){nsz=Math.min(nsz,fit(c,t,W-pad*2-(qs?qs+pad:0)-(i>0&&qr?fs*11:0),fs,800));});   // 3行とも同じ大きさにそろえる
+      notes.forEach(function(t,i){var s=nsz;c.font="800 "+s+"px "+FONT;c.lineWidth=s*.25;c.strokeStyle="rgba(255,255,255,.7)";var yy=fy+fh/2+(i-(notes.length-1)/2)*fs*1.5;c.strokeText(t,pad,yy);c.fillText(t,pad,yy);});
+      // グリッド：カード画像の下に、水色わくの白い価格ボックス
+      var gx=pad,gy=hh+pad*.6,gw=W-pad*2,gh=fy-gy,gapX=Math.round(Math.max(4,(o.cols>6?5:12)*u)),gapY=Math.round(Math.max(8,(o.rows>3?14:22)*u));
+      var cwid=(gw-gapX*(o.cols-1))/o.cols,chei=(gh-gapY*(o.rows-1))/o.rows;
+      var nameH=o.name?chei*0.13:0,ph=Math.min(chei*0.15,cwid*0.3),ih=chei-ph-nameH,bw=Math.max(3,cwid*0.02);
+      for(var n=0;n<o.cols*o.rows;n++){
+        var s=items[n],x=gx+(n%o.cols)*(cwid+gapX),y=gy+Math.floor(n/o.cols)*(chei+gapY);
+        if(!s&&!o.fill)continue;
+        if(s){var it=s.it,img=cards[n];
+          if(o.name){c.fillStyle="rgba(255,255,255,.92)";c.fillRect(x,y,cwid,ih+nameH);}
+          if(img){var m=o.name?cwid*0.04:0,sc=Math.min((cwid-m*2)/img.width,(ih-m)/img.height),dw=img.width*sc,dh=img.height*sc,dx=x+(cwid-dw)/2,dy=y+ih-dh;c.drawImage(img,dx,dy,dw,dh);
+            var bs=Math.min(dw,dh)*0.36;if(it.cat==="PSA"&&psa)c.drawImage(psa,dx+dw-bs,dy,bs,bs);else if(it.vOf&&ns)c.drawImage(ns,dx+dw-bs,dy,bs,bs);
+            if(s.gn){if(it.cat==="BOX"){if(gnM){var gs=Math.min(cwid,ih)*0.4;c.drawImage(gnM,x+cwid*0.02,y+cwid*0.02,gs,gs);}}   // BOXは左上に丸いマーク
+              else if(gnI){var gw_=dw*0.94,gh_=gw_*gnI.height/gnI.width;c.drawImage(gnI,dx+(dw-gw_)/2,dy+dh-gh_*0.9,gw_,gh_);}}}   // カードは値段のすぐ上に帯
+          if(o.name){c.textAlign="center";c.fillStyle="#22303C";var ns_=Math.min(nameH*0.5,cwid*0.1);c.font="800 "+ns_+"px "+FONT;var nm=it.name.replace(/^拡張パック\s*/,"").replace(/^(強化拡張パック|ハイクラスパック|コンセプトパック)\s*/,""),twn=c.measureText(nm).width,kx=Math.min(1,cwid*0.94/twn);
+            if(kx<0.6){while(c.measureText(nm+"…").width*0.6>cwid*0.94&&nm.length>2)nm=nm.slice(0,-1);nm+="…";kx=0.6;}
+            c.save();c.translate(x+cwid/2,y+ih+nameH/2);c.scale(kx,1);c.fillText(nm,0,0);c.restore();}
+        }
+        c.fillStyle="#fff";c.fillRect(x,y+ih+nameH,cwid,ph);c.lineWidth=bw;c.strokeStyle=o.price;c.strokeRect(x+bw/2,y+ih+nameH+bw/2,cwid-bw,ph-bw);
+        var pt=s?yen(s.price):"¥-",ps=fit(c,pt,cwid*0.86,Math.round(ph*0.6),900);c.font="900 "+ps+"px "+FONT;c.fillStyle="#111";c.textAlign="center";c.fillText(pt,x+cwid/2,y+ih+nameH+ph/2+ps*0.04);
+      }
+      return cv;
+    });
+  }
+  function make(){
+    if(!SEL.length){$("mkmsg").textContent="のせるカードをえらんでください。";return;}
+    var t=TPL[+$("tpl").value],per=t[2]*t[3],list=SEL.slice(),so=$("sort").value;
+    if(so==="price")list.sort(function(a,b){return b.price-a.price});else if(so==="asc")list.sort(function(a,b){return a.price-b.price});
+    var pages=Math.ceil(list.length/per);if(pages>6){$("mkmsg").textContent="カードが多すぎます（"+pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。";return;}
+    var d=new Date(),o={size:t[1],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:true,date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};
+    try{localStorage.setItem("nd_staff_store",o.store)}catch(e){}
+    var b=$("make");b.disabled=true;$("mkmsg").textContent="つくっています…";
+    var fontReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('900 40px "M PLUS Rounded 1c"',o.title+"¥0123456789,"),document.fonts.load('800 40px "M PLUS Rounded 1c"',list.map(function(s){return s.it.name}).join("")),document.fonts.load('800 40px "M PLUS Rounded 1c"',o.note+"更新日最新版はこちらから月ナタデココ"+o.store)]).catch(function(){}):Promise.resolve();
+    var cvs=[];
+    fontReady.then(function(){var p=Promise.resolve();for(var i=0;i<pages;i++)(function(i){p=p.then(function(){return drawPage(o,list.slice(i*per,(i+1)*per),i+1,pages)}).then(function(cv){cvs.push(cv)})})(i);return p;}).then(function(){
+      var ymd=d.getFullYear()+("0"+(d.getMonth()+1)).slice(-2)+("0"+d.getDate()).slice(-2);
+      return Promise.all(cvs.map(function(cv,i){return new Promise(function(res){cv.toBlob(function(bl){res({url:URL.createObjectURL(bl),name:"買取表_"+o.title+"_"+ymd+(pages>1?"_"+(i+1):"")+".png"})},"image/png")})}));
+    }).then(function(fs){
+      $("outBox").hidden=false;$("outN").textContent=fs.length+"枚";
+      $("pv").innerHTML=fs.map(function(f){return '<figure><img src="'+f.url+'" alt=""><figcaption><a class="btn sub" href="'+f.url+'" download="'+esc(f.name)+'">この画像を保存</a></figcaption></figure>'}).join("");
+      $("mkmsg").textContent="できました。下で確認して保存してください。";$("outBox").scrollIntoView({behavior:"smooth"});
+    }).catch(function(e){$("mkmsg").textContent="つくれませんでした。もう一度お試しください。";console.error(e)}).then(function(){b.disabled=false;});
+  }
+  var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="【減額なし】ケース割れなど重度のダメージ品・旧ラベル鑑定品は減額の可能性がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。";
+  var NOTE3="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。";$("nt3").onclick=function(){$("note").value=NOTE3};
+  $("nt1").onclick=function(){$("note").value=NOTE1};$("nt2").onclick=function(){$("note").value=NOTE2};
+  $("make").onclick=make;
+  window.__ndSlide={sel:function(){return SEL},items:function(){return ITEMS},draw:drawSel,make:make};
+})();
+</script>

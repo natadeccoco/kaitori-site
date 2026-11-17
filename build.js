@@ -15,7 +15,7 @@ const read = f => fs.existsSync(f) ? fs.readFileSync(f, "utf8").replace(/^﻿/, 
 const BASE = (() => { let p = new URL(CFG.siteUrl).pathname; if (!p.endsWith("/")) p += "/"; return p; })();
 const rebase = s => BASE === "/" ? s : s.replace(/(href|src|action)="\/(?!\/)/g, `$1="${BASE}`);
 // 期間限定キャンペーンの帯（config.campaign）。ページのヘッダー直後に入れ、期間外はブラウザ側で自動的に隠す
-const CAMP = CFG.campaign && CFG.campaign.on ? CFG.campaign : null;
+const CAMP = CFG.campaign && CFG.campaign.on && CFG.campaign.banner !== false ? CFG.campaign : null;   // banner:false でバナーだけ消す（条件ページ・LINEはそのまま）
 const CAMP_HTML = CAMP ? `<div id="ndCamp" data-s="${CAMP.start}" data-e="${CAMP.end}" style="display:none;max-width:1100px;margin:12px auto 0;padding:0 12px;text-align:center"><a href="/rules/#campaign" class="ndCampA"><picture><source media="(min-width:700px)" srcset="/img/camp_1117_w.webp?v=1" width="1200" height="400"><img src="/img/camp_1117.webp?v=2" alt="11/30まで 宅配買取キャンペーン 買取金額最大＋1万円（1万円以上＋1,000円／5万円以上＋3,000円／10万円以上＋5,000円／30万円以上＋10,000円）" width="800" height="800" style="display:block;width:100%;height:auto;border-radius:16px;box-shadow:0 4px 14px rgba(23,59,92,.18)"></picture></a><style>.ndCampA{display:inline-block;width:min(100%,420px)}@media(min-width:700px){.ndCampA{width:min(100%,1000px)}}</style></div><script>(function(){var b=document.getElementById("ndCamp");if(!b)return;var n=Date.now(),s=Date.parse(b.dataset.s+"T00:00:00+09:00"),e=Date.parse(b.dataset.e+"T23:59:59+09:00");if(n>=s&&n<=e)b.style.display="block";else b.remove();})();</script>` : "";
 const CAMP_SKIP = /^(liff|staff|recruit|company|privacy|legal)\//;
 const CAMP_ONLY = /^lp\//;   // 2026-11-17 雄司さん：広告の設定が終わるまで、帯はLPにだけ出す（買取サイト本体には出さない）。全ページに戻すときはこの行を /./ にする

@@ -57,6 +57,7 @@
   "campaign": {
     "on": true,
     "start": "2026-11-17",
-    "end": "2026-11-30"
+    "end": "2026-11-30",
+    "banner": false
   }
 }

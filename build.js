@@ -520,3 +520,6 @@ write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.m
 for (const f of fs.readdirSync(ROOT)) { if (/\.(png|jpg|jpeg|svg|ico|webp)$/i.test(f)) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)); }
 if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true, filter: f => !path.basename(f).startsWith("_") });   // _missing.txt 等は公開しない
 console.log(`built ${urls.length + 1} pages -> dist/`);
+
+// 2026-11-17 急変ガード（役員グループ）用: PSA10画像に「PSA10」の帯を入れたJPEGを dist/img/psa_guard に作る（サイト表示には使わない・失敗しても止めない）
+try { require("child_process").execFileSync(process.execPath, [path.join(ROOT, "psa_guard_images.js")], { stdio: "inherit" }); } catch (e) { console.log("psa_guard skipped: " + e.message); }

@@ -26,7 +26,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
 .fcats input:checked+span{border-color:var(--navy);background:#EEF6FF;color:var(--navy)}
 .fcats input:checked+span::before{background:var(--navy);border-color:var(--navy);box-shadow:inset 0 0 0 3px #fff}
 .fcats input:focus-visible+span{outline:2px solid #1FA8B8}
-.savebar .sv{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}.savebar .sv b{font-size:14px;color:var(--navy);min-width:126px}.savebar select,.savebar input{width:auto;min-width:260px;flex:0 1 340px;font-size:15px}
+.savebar .sv{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}.savebar .sv b{font-size:14px;color:var(--navy);min-width:126px}.savebar select,.savebar input{width:auto;min-width:260px;flex:0 1 380px;font-size:15px}
 .frow{display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap;font-size:14px;font-weight:700;margin:8px 0 0}.frow label{margin:0;display:flex;align-items:center;gap:6px;font-size:14px}.frow input[type=number]{width:112px;font-size:15px;padding:7px 8px}.frow select{width:auto;min-width:130px;font-size:15px;padding:7px 8px}.frow #addN{width:80px}
 .srow{display:flex;gap:8px}.srow select{width:150px;flex:none;font-size:17px;padding:11px 10px}.srow input{font-size:17px;padding:11px 12px}
 .list{margin-top:8px;border:2px solid var(--line);border-radius:10px;height:min(72vh,760px);min-height:460px;overflow:auto}
@@ -81,9 +81,10 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
 
   <div id="app" hidden>
     <section class="box savebar">
-      <div class="sv"><b>保存した買取表</b><select id="svList"></select><button class="btn sub" type="button" id="svLoad">呼び出す</button><button class="btn sub" type="button" id="svDel">消す</button></div>
-      <div class="sv"><b>いまの内容を保存</b><input type="text" id="svName" maxlength="30" placeholder="名前（例：柏本店 強化買取）"><button class="btn sub" type="button" id="svSave">保存する</button><span class="hint" id="svMsg"></span></div>
-      <p class="hint" style="margin:6px 0 0">保存はこのパソコン（このブラウザ）の中だけです。呼び出すと、％で決めた価格と買取表どおりの価格は今の買取表で計算し直します。手で入れた価格はそのまま残ります。</p>
+      <div class="sv"><b>保存した買取表</b><select id="svList"></select><button class="btn sub" type="button" id="svLoad">呼び出す</button><button class="btn sub" type="button" id="svDel">消す</button><button class="btn sub" type="button" id="svReload">一覧を更新</button></div>
+      <div class="sv"><b>いまの内容を保存</b><select id="svStore" style="min-width:150px;flex:0 0 auto"><option value="">店舗をえらぶ</option><option>柏本店</option><option>松戸店</option><option>津田沼店</option><option>千葉中央店</option><option>中野店</option><option>お台場店</option><option>町田店</option><option>横浜店</option><option>本部</option></select><input type="text" id="svName" maxlength="30" placeholder="名前（例：柏本店 強化買取）"><button class="btn sub" type="button" id="svSave">保存する</button></div>
+      <p class="hint" id="svMsg" style="margin:6px 0 0;font-weight:700;color:var(--navy)"></p>
+      <p class="hint" style="margin:6px 0 0">保存した買取表は全店で見られ、どの店でも呼び出せます。上書きと削除ができるのは保存した店舗だけです。呼び出すと、％で決めた価格と買取表どおりの価格は今の買取表で計算し直します。手で入れた価格はそのまま残ります。</p>
     </section>
     <div class="cols" style="margin-top:16px">
       <section class="box">
@@ -335,7 +336,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="【減額なし】ケース割れなど重度のダメージ品は減額の可能性がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。";
   var NOTE3="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。";$("nt3").onclick=function(){$("note").value=NOTE3};
   $("nt1").onclick=function(){$("note").value=NOTE1};$("nt2").onclick=function(){$("note").value=NOTE2};
-  var FILES=[];
+  var FILES=[],FB_URL="__STAFF_URL__";
   $("dlAll").onclick=function(){FILES.forEach(function(f,i){setTimeout(function(){var a=document.createElement("a");a.href=f.url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();},i*500)});};
   // X用の投稿文（Xの文字数は全角2・半角1・URLは23で数えて280まで）
   function xw(s){var n=0;s.replace(/https?:\/\/\S+/g,function(){n+=23;return ""}).split("").forEach(function(c){n+=/[\u0000-\u10FF\u2000-\u200D\u2010-\u201F\u2032-\u2037]/.test(c)?1:2});return n;}
@@ -346,26 +347,50 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   function xCount(){var w=xw($("xText").value);$("xCnt").textContent="文字数 "+Math.ceil(w/2)+" / 140"+(w>280?"（長すぎます）":"");$("xCnt").style.color=w>280?"#D0342C":"";}
   $("xText").addEventListener("input",xCount);
   $("xCopy").onclick=function(){var t=$("xText");var done=function(){$("xMsg").textContent="コピーしました。"};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(done,function(){t.select();document.execCommand("copy");done()});else{t.select();document.execCommand("copy");done();}};
-  // ---------- 保存と呼び出し（このブラウザの中だけ） ----------
-  var SVK="nd_slide_saved",OPT=["title","store","sort","cTheme","cPrice","chara","note"],CHK=["showDate","showName","showQr"];
-  function svAll(){try{return JSON.parse(localStorage.getItem(SVK)||"{}")||{}}catch(e){return {}}}
-  function svRefresh(keep){var a=svAll(),ks=Object.keys(a).sort(function(x,y){return (a[y].at||0)-(a[x].at||0)});
-    $("svList").innerHTML=ks.length?ks.map(function(k){var dt=new Date(a[k].at||0);return '<option value="'+esc(k)+'">'+esc(k)+"（"+a[k].items.length+"枚・"+(dt.getMonth()+1)+"/"+dt.getDate()+" 保存）</option>"}).join(""):'<option value="">まだ保存がありません</option>';if(keep)$("svList").value=keep;}
-  $("svSave").onclick=function(){var nm=$("svName").value.trim();if(!nm){$("svMsg").textContent="名前を入れてください。";return;}if(!SEL.length){$("svMsg").textContent="のせるカードがありません。";return;}
-    var a=svAll(),o={};OPT.forEach(function(k){o[k]=$(k).value});CHK.forEach(function(k){o[k]=$(k).checked});o.tpl=TPL[+$("tpl").value][0];
-    a[nm]={at:Date.now(),opts:o,items:SEL.map(function(s){return {id:s.it.id,name:s.it.name,base:s.it.price,price:s.price,pct:s.pct==null?null:s.pct,gn:s.gn||""}})};
-    try{localStorage.setItem(SVK,JSON.stringify(a));$("svMsg").textContent="「"+nm+"」を保存しました。";svRefresh(nm);}catch(e){$("svMsg").textContent="保存できませんでした。";}};
-  $("svLoad").onclick=function(){var nm=$("svList").value,a=svAll(),v=a[nm];if(!v)return;var miss=[];SEL=[];
-    v.items.forEach(function(x){var it=ITEMS.filter(function(i){return i.id===x.id})[0];if(!it){miss.push(x.name);return;}
+  // ---------- 保存と呼び出し（全店共有。本部のスプレッドシートに保存） ----------
+  var OPT=["title","store","sort","cTheme","cPrice","chara","note"],CHK=["showDate","showName","showQr"],SV=[];
+  function svMsg(t){$("svMsg").textContent=t||"";}
+  function svCall(o){var pass="";try{pass=sessionStorage.getItem("nd_staff")||""}catch(e){}o.type="slidestore";o.pass=pass;
+    return fetch(FB_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(o)}).then(function(r){return r.json()});}
+  function svDraw(keep){SV.sort(function(x,y){return (y.at||0)-(x.at||0)});
+    $("svList").innerHTML=SV.length?SV.map(function(v,n){var dt=new Date(v.at||0),c=0;try{c=JSON.parse(v.data).items.length}catch(e){}return '<option value="'+n+'">'+esc(v.name)+"（"+esc(v.store)+"・"+c+"枚・"+(dt.getMonth()+1)+"/"+dt.getDate()+" 保存）</option>"}).join(""):'<option value="">まだ保存がありません</option>';
+    if(keep)SV.forEach(function(v,n){if(v.name===keep)$("svList").value=n});svAsk("");}
+  function svRefresh(keep,quiet){if(!quiet)svMsg("保存の一覧を読み込んでいます…");
+    return svCall({action:"list"}).then(function(j){if(j&&j.ok){SV=j.list||[];svDraw(keep);if(!quiet)svMsg("");}else svMsg("保存の一覧を読み込めませんでした（"+((j&&j.error)||"エラー")+"）。");}).catch(function(){svMsg("保存の一覧を読み込めませんでした。電波のよいところで「一覧を更新」を押してください。");});}
+  function svAsk(v){$("svDel").dataset.ask=v;$("svDel").textContent=v?"本当に消す":"消す";}
+  function svBusy(b){["svSave","svLoad","svDel","svReload"].forEach(function(k){$(k).disabled=b});}
+  $("svReload").onclick=function(){svRefresh()};
+  try{var ss0=localStorage.getItem("nd_staff_store");if(ss0)$("svStore").value=ss0;}catch(e){}
+  $("svSave").onclick=function(){var nm=$("svName").value.trim(),stn=$("svStore").value;
+    if(!stn){svMsg("保存する店舗をえらんでください。");return;}if(!nm){svMsg("名前を入れてください。");return;}if(!SEL.length){svMsg("のせるカードがありません。");return;}
+    var o={};OPT.forEach(function(k){o[k]=$(k).value});CHK.forEach(function(k){o[k]=$(k).checked});o.tpl=TPL[+$("tpl").value][0];
+    var data=JSON.stringify({opts:o,items:SEL.map(function(s){return {id:s.it.id,name:s.it.name,base:s.it.price,price:s.price,pct:s.pct==null?null:s.pct,gn:s.gn||""}})});
+    if(data.length>45000){svMsg("カードが多すぎて保存できません。枚数を減らしてください。");return;}
+    try{localStorage.setItem("nd_staff_store",stn)}catch(e){}
+    svBusy(true);svMsg("保存しています…");
+    svCall({action:"save",name:nm,store:stn,data:data}).then(function(j){
+      if(j&&j.ok){return svRefresh(nm,true).then(function(){svMsg("「"+nm+"」を保存しました。全店で呼び出せます。");});}
+      if(j&&j.error==="owner")svMsg("「"+nm+"」は"+j.owner+"が保存した買取表なので上書きできません。別の名前で保存してください。");
+      else svMsg("保存できませんでした（"+((j&&j.error)||"エラー")+"）。");
+    }).catch(function(){svMsg("保存できませんでした。電波のよいところでもう一度お試しください。");}).then(function(){svBusy(false)});};
+  $("svLoad").onclick=function(){var v=SV[+$("svList").value];if(!v||$("svList").value==="")return;var d;try{d=JSON.parse(v.data)}catch(e){svMsg("この保存は読み込めませんでした。");return;}
+    var miss=[];SEL=[];
+    (d.items||[]).forEach(function(x){var it=ITEMS.filter(function(i){return i.id===x.id})[0];if(!it){miss.push(x.name);return;}
       var pr=x.pct!=null?pctPrice(it.price,x.pct):(x.price===x.base?it.price:x.price);SEL.push({it:it,price:pr,pct:x.pct,gn:x.gn||""});});
-    var o=v.opts||{};OPT.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});CHK.forEach(function(k){if(o[k]!=null)$(k).checked=!!o[k]});
-    TPL.forEach(function(t,i){if(t[0]===o.tpl)$("tpl").value=i});$("svName").value=nm;
-    $("svMsg").textContent="「"+nm+"」を呼び出しました。"+(miss.length?"買取表から消えたカード "+miss.length+"枚ははずしました（"+miss.slice(0,3).join("、")+(miss.length>3?" ほか":"")+"）。":"");drawSel();search._keep=true;search();};
-  $("svDel").onclick=function(){var nm=$("svList").value,a=svAll();if(!a[nm])return;if($("svDel").dataset.ask!==nm){$("svDel").dataset.ask=nm;$("svDel").textContent="本当に消す";$("svMsg").textContent="「"+nm+"」を消すなら、もう一度押してください。";return;}
-    delete a[nm];try{localStorage.setItem(SVK,JSON.stringify(a))}catch(e){}$("svDel").dataset.ask="";$("svDel").textContent="消す";$("svMsg").textContent="「"+nm+"」を消しました。";svRefresh();};
-  $("svList").onchange=function(){$("svDel").dataset.ask="";$("svDel").textContent="消す";};
+    var o=d.opts||{};OPT.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});CHK.forEach(function(k){if(o[k]!=null)$(k).checked=!!o[k]});
+    TPL.forEach(function(t,i){if(t[0]===o.tpl)$("tpl").value=i});$("svName").value=v.name;
+    svMsg("「"+v.name+"」（"+v.store+"）を呼び出しました。"+(miss.length?"買取表から消えたカード "+miss.length+"枚ははずしました（"+miss.slice(0,3).join("、")+(miss.length>3?" ほか":"")+"）。":""));drawSel();search._keep=true;search();};
+  $("svDel").onclick=function(){var v=SV[+$("svList").value];if(!v||$("svList").value==="")return;var stn=$("svStore").value;
+    if(!stn){svMsg("店舗をえらんでください（消せるのは保存した店舗だけです）。");return;}
+    if(stn!==v.store){svMsg("「"+v.name+"」は"+v.store+"が保存した買取表なので消せません。");return;}
+    if($("svDel").dataset.ask!==v.name){svAsk(v.name);svMsg("「"+v.name+"」を消すなら、もう一度押してください。全店から消えます。");return;}
+    svBusy(true);svMsg("消しています…");
+    svCall({action:"del",name:v.name,store:stn}).then(function(j){
+      if(j&&j.ok){return svRefresh("",true).then(function(){svMsg("「"+v.name+"」を消しました。");});}
+      svMsg(j&&j.error==="owner"?"「"+v.name+"」は"+j.owner+"が保存した買取表なので消せません。":"消せませんでした（"+((j&&j.error)||"エラー")+"）。");
+    }).catch(function(){svMsg("消せませんでした。電波のよいところでもう一度お試しください。");}).then(function(){svBusy(false);svAsk("")});};
+  $("svList").onchange=function(){svAsk("")};
   // ---------- 意見を送る（スタッフ専用ページの申告と同じ送り先） ----------
-  var FB_URL="__STAFF_URL__";
   $("fbOpen").onclick=function(){$("fbForm").hidden=!$("fbForm").hidden;try{var n=localStorage.getItem("nd_staff_name");if(n&&!$("fbName").value)$("fbName").value=n;}catch(e){}};
   $("fbSend").onclick=function(){var nm=$("fbName").value.trim(),tx=$("fbText").value.trim(),m=$("fbMsg");if(!nm||!tx){m.textContent="名前と内容を入れてください。";return;}
     var pass="";try{pass=sessionStorage.getItem("nd_staff")||""}catch(e){}

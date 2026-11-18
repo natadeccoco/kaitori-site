@@ -5,7 +5,7 @@ __HEAD__
 :root{--line:#DDE8EB;--ink:#22303C;--ink-2:#5A6B76;--navy:#173B5C;--cyan:#A9F3F4;--price:#E23B47}
 *{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:#FBFDFF;color:var(--ink);font-family:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic",sans-serif;font-size:15px;line-height:1.6}
 .top{background:linear-gradient(90deg,#FFF6C9 0%,#B8F4F4 45%,#DCCBFF 80%,#FFD6EC 100%);height:64px;display:flex;align-items:center;justify-content:center}.top img{height:48px}
-.page{max-width:1560px;margin:0 auto;padding:18px 16px 60px}
+.page{max-width:1760px;margin:0 auto;padding:18px 16px 60px}
 h1{margin:0 0 2px;font-size:22px;color:var(--navy)}.lede{margin:0 0 14px;color:var(--ink-2);font-size:13px}
 .box{background:#fff;border:3px solid var(--navy);border-radius:16px;box-shadow:0 5px 0 var(--navy);padding:16px}
 #gate{max-width:420px;margin:0 auto}
@@ -16,7 +16,14 @@ textarea{min-height:76px;resize:vertical}input:focus,select:focus,textarea:focus
 .btn.sub{background:#fff;color:var(--navy);border:2px solid var(--navy);padding:7px 14px;font-size:13px}
 .btn.red{background:var(--price)}
 .msg{margin:10px 0 0;font-weight:700;font-size:14px;color:#D0342C}
-.cols{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:16px;align-items:start}@media (max-width:900px){.cols{grid-template-columns:1fr}}
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr) 300px;gap:16px;align-items:start}
+@media (max-width:1240px){.cols{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)}.cols .pvbox{grid-column:1/-1;position:static}.pvbox .pvimg{max-height:520px}}
+@media (max-width:900px){.cols{grid-template-columns:1fr}}
+.pvbox{position:sticky;top:10px}.pvbox .pvimg{display:block;width:100%;max-height:calc(100vh - 210px);object-fit:contain;border:2px solid var(--line);border-radius:8px;background:#F4FAFB;min-height:120px}
+.pvbox .pvnote{font-size:12.5px;color:var(--ink-2);margin:6px 0 0;min-height:1.4em}
+.presets{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 6px}.presets .btn.sub{padding:9px 16px;font-size:15px}.presets .btn.sub.on{background:var(--navy);color:#fff}
+.it .grip{flex:none;cursor:grab;color:#9BB0BA;font-size:20px;line-height:1;padding:6px 2px;user-select:none;touch-action:none}.it .grip:active{cursor:grabbing}
+.it.dragging{opacity:.45}.it.dropA{box-shadow:inset 0 3px 0 var(--navy)}.it.dropB{box-shadow:inset 0 -3px 0 var(--navy)}
 h2{margin:0 0 8px;font-size:16px;color:var(--navy);display:flex;align-items:center;gap:8px}h2 .n{background:var(--navy);color:#fff;border-radius:999px;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
 h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
 .fcats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px}
@@ -43,7 +50,14 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
 .none{grid-column:1/-1;padding:20px;color:var(--ink-2)}
 .it{display:flex;align-items:center;gap:10px;padding:8px 10px;border-bottom:1px solid var(--line);font-size:15px}
 .it img,.it .ph{width:58px;height:81px;object-fit:contain;flex:none;background:#F4FAFB;border-radius:4px}
-.it .nm{flex:1;min-width:0}.it .nm b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.it .nm span{color:var(--ink-2);font-size:12.5px}
+.it .nm{flex:1;min-width:0}
+/* のせるカードの1行：上の段に名前、下の段に買取表との差・マーク・％・価格 */
+.it.row{display:grid;grid-template-columns:22px 58px minmax(0,1fr) auto;grid-template-areas:"g i n x" "g i c c";gap:4px 10px;align-items:center;padding:8px 10px}
+.it.row .grip{grid-area:g}.it.row img,.it.row .ph{grid-area:i}.it.row .nm{grid-area:n}.it.row .x{grid-area:x}
+.it.row .ctl{grid-area:c;display:flex;align-items:center;justify-content:flex-end;gap:8px;min-width:0}
+.it.row .cmp{margin-right:auto;text-align:left;min-width:0;white-space:normal;font-size:11.5px;line-height:1.3}.it.row .cmp em{white-space:nowrap}
+.it.row select.gnsel{width:94px;padding:7px 2px}.it.row input.pct{width:56px}.it.row input.prc{width:108px}
+#sel.busy{user-select:none}.it .nm b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.it .nm span{color:var(--ink-2);font-size:12.5px}
 .it .pr{font-weight:800;color:var(--price);white-space:nowrap}
 .it input[type=number]{width:124px;flex:none;padding:8px 8px;font-size:16px;text-align:right;font-weight:800;color:var(--price)}
 .it button{flex:none;border:2px solid var(--navy);background:#fff;color:var(--navy);border-radius:999px;font:inherit;font-weight:800;font-size:13px;padding:5px 12px;cursor:pointer}
@@ -102,12 +116,19 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
         <h2><span class="n">2</span>のせるカード<span class="cnt" id="selN">0件</span></h2>
         <div class="bulk">まとめて <input type="number" id="pctAllV" step="1" placeholder="例 5"> ％ <button class="btn sub" type="button" id="pctAll">全部に反映</button><button class="btn sub" type="button" id="pctReset">買取表の価格に戻す</button><small>端数は切り上げ（1万円未満は100円、1万円以上は1,000円単位）</small></div>
         <div class="list" id="sel"></div>
-        <p class="hint">価格はこの画像だけ変えられます（サイトの価格は変わりません）。下に買取表の価格との差が出ます。<button class="btn sub" type="button" id="gnAll" style="margin-left:6px;padding:3px 10px">全部に「減額なし」</button><button class="btn sub" type="button" id="gcAll" style="margin-left:6px;padding:3px 10px">全部に「センタリング減額なし」</button><button class="btn sub" type="button" id="clear" style="margin-left:6px;padding:3px 10px">全部はずす</button></p>
+        <p class="hint">左の ⠿ をつかんで上下に動かすと並べ替えられます。価格はこの画像だけ変えられます（サイトの価格は変わりません）。下に買取表の価格との差が出ます。<button class="btn sub" type="button" id="gnAll" style="margin-left:6px;padding:3px 10px">全部に「減額なし」</button><button class="btn sub" type="button" id="gcAll" style="margin-left:6px;padding:3px 10px">全部に「センタリング減額なし」</button><button class="btn sub" type="button" id="clear" style="margin-left:6px;padding:3px 10px">全部はずす</button></p>
+      </section>
+      <section class="box pvbox">
+        <h2>できあがり（見本）<span class="cnt" id="pvN"></span></h2>
+        <img class="pvimg" id="pvImg" alt="">
+        <p class="pvnote" id="pvNote">カードをえらぶと、ここに仕上がりが出ます。</p>
       </section>
     </div>
 
     <section class="box" style="margin-top:16px">
       <h2><span class="n">3</span>見た目をきめる</h2>
+      <label style="margin-top:0">かんたん設定 <small>（押すと、サイズ・タイトル・注意書き・名前の表示がまとめて切り替わります）</small></label>
+      <div class="presets"><button class="btn sub" type="button" data-pre="single">Xのシングル用</button><button class="btn sub" type="button" data-pre="psa">XのPSA用</button><button class="btn sub" type="button" data-pre="box">XのBOX用</button></div>
       <div class="grid2">
         <div><label for="title">タイトル</label><input type="text" id="title" maxlength="24" value="ナタデココ買取表"></div>
         <div><label for="tpl">サイズ・枚数</label><select id="tpl"></select></div>
@@ -204,10 +225,11 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     var pc=b>0?Math.round(d/b*1000)/10:0;return t+'<em class="'+(d>0?"up":"dn")+'">'+(d>0?"▲ +":"▼ −")+yen(Math.abs(d)).slice(1)+'円（'+(d>0?"+":"−")+Math.abs(pc)+'%）</em>';}
   function drawSel(){
     $("selN").textContent=SEL.length+"件";
-    $("sel").innerHTML=SEL.map(function(s,n){var i=s.it;return '<div class="it" data-n="'+n+'"><button class="mv up" type="button" title="上へ">▲</button><button class="mv dn" type="button" title="下へ">▼</button>'+(i.img?'<img src="'+esc(i.img)+'" alt="">':'<span class="ph"></span>')+'<div class="nm"><b>'+tagHTML(i)+esc(i.name)+'</b><span>'+esc([i.code,i.rarity!=="-"?i.rarity:""].filter(Boolean).join("／"))+'</span></div><select class="gnsel'+(s.gn?" on":"")+'" title="マークを付ける"><option value="">マークなし</option><option value="g"'+(s.gn&&s.gn!=="c"?" selected":"")+'>減額なし</option><option value="c"'+(s.gn==="c"?" selected":"")+'>センタリング減額なし</option></select><div class="pc"><span class="pr2"><input type="number" class="pct" step="1" placeholder="±" value="'+(s.pct==null?"":s.pct)+'" title="買取表の価格から何％上げるか（下げるときは −）"><i>％</i><input type="number" class="prc" min="0" step="100" value="'+s.price+'"></span><span class="cmp">'+cmpHTML(s)+'</span></div><button class="x" type="button">×</button></div>'}).join("")||'<div class="it" style="color:#5A6B76">左の一覧からカードを押してください</div>';
+    $("sel").innerHTML=SEL.map(function(s,n){var i=s.it;return '<div class="it row" data-n="'+n+'"><span class="grip" title="つかんで並べ替え">⠿</span>'+(i.img?'<img src="'+esc(i.img)+'" alt="" draggable="false">':'<span class="ph"></span>')+'<div class="nm"><b>'+tagHTML(i)+esc(i.name)+'</b><span>'+esc([i.code,i.rarity!=="-"?i.rarity:""].filter(Boolean).join("／"))+'</span></div><button class="x" type="button" title="はずす">×</button><div class="ctl"><span class="cmp">'+cmpHTML(s)+'</span><select class="gnsel'+(s.gn?" on":"")+'" title="マークを付ける"><option value="">マークなし</option><option value="g"'+(s.gn&&s.gn!=="c"?" selected":"")+'>減額なし</option><option value="c"'+(s.gn==="c"?" selected":"")+'>センタリング減額なし</option></select><span class="pr2"><input type="number" class="pct" step="1" placeholder="±" value="'+(s.pct==null?"":s.pct)+'" title="買取表の価格から何％上げるか（下げるときは −）"><i>％</i><input type="number" class="prc" min="0" step="100" value="'+s.price+'"></span></div></div>'}).join("")||'<div class="it" style="color:#5A6B76">左の一覧からカードを押してください</div>';
+    preview();
   }
   $("sel").addEventListener("click",function(e){var r=e.target.closest(".it");if(!r||r.dataset.n==null)return;var n=+r.dataset.n;
-    if(e.target.closest(".x")){SEL.splice(n,1);}else if(e.target.closest(".up")&&n>0){SEL.splice(n-1,0,SEL.splice(n,1)[0]);}else if(e.target.closest(".dn")&&n<SEL.length-1){SEL.splice(n+1,0,SEL.splice(n,1)[0]);}else return;drawSel();search._keep=true;search();});
+    if(e.target.closest(".x")){SEL.splice(n,1);}else if(e.target.closest(".up")&&n>0){SEL.splice(n-1,0,SEL.splice(n,1)[0]);$("sort").value="list";}else if(e.target.closest(".dn")&&n<SEL.length-1){SEL.splice(n+1,0,SEL.splice(n,1)[0]);$("sort").value="list";}else return;drawSel();search._keep=true;search();});
   // ％で上げ下げ：買取表の価格×(1+％)。端数は切り上げ（1万円未満は100円単位、1万円以上は1,000円単位）
   function roundUp(v){if(!(v>0))return 0;var u=v<10000?100:1000;return Math.ceil(Math.round(v*100)/100/u)*u;}
   function pctPrice(base,pc){return roundUp(base*(1+pc/100));}
@@ -216,8 +238,21 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     if(t.classList.contains("gnsel")){s.gn=t.value;t.classList.toggle("on",!!t.value);return;}
     if(t.classList.contains("pct")){if(t.value===""||t.value==="-"){if(final&&t.value===""){s.pct=null;}return;}var pc=Number(t.value);if(isNaN(pc))return;s.pct=pc;s.price=pctPrice(s.it.price,pc);row.querySelector(".prc").value=s.price;refreshRow(row,n);return;}
     if(t.classList.contains("prc")){var v=Number(t.value);if(t.value!==""&&v>=0){s.price=v;s.pct=null;row.querySelector(".pct").value="";refreshRow(row,n);}}}
-  $("sel").addEventListener("change",function(e){onSel(e,true)});
-  $("sel").addEventListener("input",function(e){if(e.target.type==="number")onSel(e,false)});
+  $("sel").addEventListener("change",function(e){onSel(e,true);preview()});
+  // つかんで並べ替え（⠿ をドラッグ）。並べ替えたら「えらんだ順」に切り替える
+  (function(){var from=-1,to=-1,rowEl=null,box=$("sel");
+    function clear(){[].forEach.call(box.querySelectorAll(".dropA,.dropB,.dragging"),function(r){r.classList.remove("dropA","dropB","dragging")});}
+    box.addEventListener("pointerdown",function(e){var g=e.target.closest(".grip");if(!g)return;e.preventDefault();rowEl=g.closest(".it");from=+rowEl.dataset.n;to=-1;rowEl.classList.add("dragging");box.classList.add("busy");try{g.setPointerCapture(e.pointerId)}catch(er){}});
+    box.addEventListener("pointermove",function(e){if(from<0)return;var rows=box.querySelectorAll(".it[data-n]"),bb=box.getBoundingClientRect();
+      if(e.clientY<bb.top+40)box.scrollTop-=14;else if(e.clientY>bb.bottom-40)box.scrollTop+=14;
+      clear();rowEl.classList.add("dragging");to=rows.length;
+      for(var i=0;i<rows.length;i++){var r=rows[i].getBoundingClientRect();if(e.clientY<r.top+r.height/2){to=i;break;}}
+      if(to<rows.length)rows[to].classList.add("dropA");else if(rows.length)rows[rows.length-1].classList.add("dropB");});
+    function end(){box.classList.remove("busy");if(from<0)return;var f=from,t=to;from=-1;clear();if(t<0||t===f||t===f+1)return;
+      var m=SEL.splice(f,1)[0];SEL.splice(t>f?t-1:t,0,m);$("sort").value="list";drawSel();}
+    box.addEventListener("pointerup",end);box.addEventListener("pointercancel",function(){from=-1;clear()});
+  })();
+  $("sel").addEventListener("input",function(e){if(e.target.type==="number"){onSel(e,false);preview();}});
   $("pctAll").onclick=function(){var v=$("pctAllV").value;if(v==="")return;var pc=Number(v);if(isNaN(pc))return;SEL.forEach(function(s){s.pct=pc;s.price=pctPrice(s.it.price,pc)});drawSel();};
   $("pctReset").onclick=function(){SEL.forEach(function(s){s.pct=null;s.price=s.it.price});$("pctAllV").value="";drawSel();};
   $("gnAll").onclick=function(){var on=!SEL.every(function(s){return s.gn&&s.gn!=="c"});SEL.forEach(function(s){s.gn=on?"g":""});drawSel();};
@@ -232,7 +267,14 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     ["正方形 9枚（SNS用）",[2160,2160],3,3],["正方形 4枚（SNS用）",[2160,2160],2,2],["正方形 2枚（SNS用）",[2160,2160],2,1],["正方形 1枚（SNS用）",[2160,2160],1,1],
     ["モニター 12枚（1920×1080）",[1920,1080],6,2],["モニター 5枚（1920×1080）",[1920,1080],5,1],["モニター 4枚（1920×1080）",[1920,1080],4,1],["モニター 3枚（1920×1080）",[1920,1080],3,1],["モニター 2枚（1920×1080）",[1920,1080],2,1],["モニター 1枚（1920×1080）",[1920,1080],1,1]
   ];
-  $("tpl").innerHTML=TPL.map(function(t,i){return '<option value="'+i+'"'+(i===0?" selected":"")+'>'+t[0]+'</option>'}).join("");
+  $("tpl").innerHTML='<option value="auto" selected>自動（枚数に合わせる）</option>'+TPL.map(function(t,i){return '<option value="'+i+'">'+t[0]+'</option>'}).join("");
+  var tplAt=function(k){for(var i=0;i<TPL.length;i++)if(TPL[i][0].indexOf(k)===0)return i;return 0;};
+  // 自動：のせる枚数に合うサイズを選ぶ。全部BOXなら横長、それ以外は縦長（X向け）
+  function autoTpl(list){var n=list.length,box=n>0&&list.every(function(s){return s.it.cat==="BOX"}),g;
+    if(box)g=n<=4?[Math.max(n,1),1]:n<=8?[4,2]:n<=10?[5,2]:n<=15?[5,3]:n<=18?[6,3]:n<=24?[8,3]:n<=28?[7,4]:n<=36?[9,4]:[10,5];
+    else g=n<=1?[1,1]:n<=2?[2,1]:n<=4?[2,2]:n<=6?[3,2]:n<=9?[3,3]:n<=12?[4,3]:n<=16?[4,4]:n<=20?[5,4]:n<=25?[5,5]:n<=30?[6,5]:n<=35?[7,5]:n<=40?[8,5]:[8,6];
+    return [(box?"横長":"縦長")+" "+g[0]+"列×"+g[1]+"段（自動）",box?A4L:A4P,g[0],g[1]];}
+  function curTpl(list){var v=$("tpl").value;return v==="auto"?autoTpl(list||SEL):TPL[+v];}
 
   /* ---------- 描画 ---------- */
   var FONT='"M PLUS Rounded 1c","Zen Maru Gothic","Hiragino Maru Gothic ProN","Yu Gothic",sans-serif';
@@ -295,7 +337,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       var lim=chei*(o.name?0.78:0.62);if(cwid>lim*1.08){cwid=lim;gapX=Math.min((gw-cwid*o.cols)/(o.cols+1),cwid*0.45);gx=(W-(cwid*o.cols+gapX*(o.cols-1)))/2;}
       // 縦に余るとき（縦長で1〜2段など）：枠をカードの形に合わせて上下の中央に寄せる
       else{var limH=cwid/(o.name?0.78:0.62);if(chei>limH*1.08){chei=limH;gapY=Math.min(gapY*2,chei*0.12);gy+=(gh-(chei*o.rows+gapY*(o.rows-1)))/2;}}
-      var small=o.cols*o.rows<=6,lastN=items.length%o.cols,lastRow=Math.floor((items.length-1)/o.cols);
+      var small=o.cols*o.rows<=6||!o.fill,lastN=items.length%o.cols,lastRow=Math.floor((items.length-1)/o.cols);
       var nameH=o.name?chei*0.13:0,ph=Math.min(chei*0.15,cwid*0.3),ih=chei-ph-nameH,bw=Math.max(3,cwid*0.02);
       for(var n=0;n<o.cols*o.rows;n++){
         var s=items[n],x=gx+(n%o.cols)*(cwid+gapX),y=gy+Math.floor(n/o.cols)*(chei+gapY);
@@ -318,12 +360,23 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       return cv;
     });
   }
+  function job(){var list=SEL.slice(),so=$("sort").value;
+    if(so==="price")list.sort(function(a,b){return b.price-a.price});else if(so==="asc")list.sort(function(a,b){return a.price-b.price});
+    var t=curTpl(list),per=t[4]||t[2]*t[3];return {t:t,per:per,list:list,pages:Math.ceil(list.length/per)};}
+  function jobOpts(t,d,scale){var k=scale||1;return {tmark:$("tmark").value,size:[Math.round(t[1][0]*k),Math.round(t[1][1]*k)],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:$("tpl").value!=="auto",date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};}
+  // できあがりの見本：えらんだカードや設定が変わるたびに、小さいサイズで1枚目を描き直す
+  var pvT=0,pvSeq=0;
+  function preview(){clearTimeout(pvT);pvT=setTimeout(function(){
+    if(!SEL.length){$("pvImg").removeAttribute("src");$("pvN").textContent="";$("pvNote").textContent="カードをえらぶと、ここに仕上がりが出ます。";return;}
+    var J=job(),seq=++pvSeq,o=jobOpts(J.t,new Date(),900/Math.max(J.t[1][0],J.t[1][1]));
+    $("pvN").textContent=J.t[0].replace(/（.*$/,"");
+    drawPage(o,J.list.slice(0,J.per),1,J.pages).then(function(cv){if(seq!==pvSeq)return;$("pvImg").src=cv.toDataURL("image/jpeg",.85);
+      $("pvNote").textContent=J.pages>6?"カードが多すぎます（"+J.pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。":J.pages>1?"全部で"+J.pages+"枚になります（ここに出ているのは1枚目）。":"保存用の大きい画像は、下の「画像をつくる」で作ります。";}).catch(function(){});
+  },350);}
   function make(){
     if(!SEL.length){$("mkmsg").textContent="のせるカードをえらんでください。";return;}
-    var t=TPL[+$("tpl").value],per=t[4]||t[2]*t[3],list=SEL.slice(),so=$("sort").value;
-    if(so==="price")list.sort(function(a,b){return b.price-a.price});else if(so==="asc")list.sort(function(a,b){return a.price-b.price});
-    var pages=Math.ceil(list.length/per);if(pages>6){$("mkmsg").textContent="カードが多すぎます（"+pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。";return;}
-    var d=new Date(),o={tmark:$("tmark").value,size:t[1],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:true,date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};
+    var J=job(),t=J.t,per=J.per,list=J.list,pages=J.pages;if(pages>6){$("mkmsg").textContent="カードが多すぎます（"+pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。";return;}
+    var d=new Date(),o=jobOpts(t,d,1);
     try{localStorage.setItem("nd_staff_store",o.store)}catch(e){}
     var b=$("make");b.disabled=true;$("mkmsg").textContent="つくっています…";
     var fontReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('900 40px "M PLUS Rounded 1c"',o.title+"¥0123456789,"),document.fonts.load('800 40px "M PLUS Rounded 1c"',list.map(function(s){return s.it.name}).join("")),document.fonts.load('800 40px "M PLUS Rounded 1c"',o.note+"更新日最新版はこちらから月ナタデココ"+o.store)]).catch(function(){}):Promise.resolve();
@@ -339,8 +392,15 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     }).catch(function(e){$("mkmsg").textContent="つくれませんでした。もう一度お試しください。";console.error(e)}).then(function(){b.disabled=false;});
   }
   var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="【減額なし】ケース割れなど重度のダメージ品は減額の可能性がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。";
-  var NOTE3="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。";$("nt3").onclick=function(){$("note").value=NOTE3};
-  $("nt1").onclick=function(){$("note").value=NOTE1};$("nt2").onclick=function(){$("note").value=NOTE2};
+  var NOTE3="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。";$("nt3").onclick=function(){$("note").value=NOTE3;preview()};
+  $("nt1").onclick=function(){$("note").value=NOTE1;preview()};$("nt2").onclick=function(){$("note").value=NOTE2;preview()};
+  // かんたん設定（Xのシングル用／PSA用／BOX用）
+  var PRE={single:{tpl:"縦長 40枚",title:"ナタデココ買取表",note:NOTE1,name:false},psa:{tpl:"縦長 48枚",title:"ナタデココ買取表",note:NOTE2,name:false},box:{tpl:"横長 36枚",title:"ナタデココBOX買取表",note:NOTE3,name:true}};
+  function preMark(){var cur="";Object.keys(PRE).forEach(function(k){var v=PRE[k];if($("tpl").value===String(tplAt(v.tpl))&&$("title").value===v.title&&$("note").value===v.note&&$("showName").checked===v.name)cur=k});
+    [].forEach.call(document.querySelectorAll(".presets button"),function(b){b.classList.toggle("on",b.dataset.pre===cur)});}
+  document.querySelector(".presets").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var v=PRE[b.dataset.pre];
+    $("tpl").value=tplAt(v.tpl);$("title").value=v.title;$("note").value=v.note;$("showName").checked=v.name;$("showDate").checked=true;$("showQr").checked=true;preMark();preview();});
+  ["title","tpl","store","sort","cTheme","cPrice","chara","note","tmark","showDate","showName","showQr"].forEach(function(k){var f=function(){preMark();preview()};$(k).addEventListener("input",f);$(k).addEventListener("change",f);});
   var FILES=[],FB_URL="__STAFF_URL__";
   $("dlAll").onclick=function(){FILES.forEach(function(f,i){setTimeout(function(){var a=document.createElement("a");a.href=f.url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();},i*500)});};
   // X用の投稿文（Xの文字数は全角2・半角1・URLは23で数えて280まで）
@@ -368,7 +428,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   try{var ss0=localStorage.getItem("nd_staff_store");if(ss0)$("svStore").value=ss0;}catch(e){}
   $("svSave").onclick=function(){var nm=$("svName").value.trim(),stn=$("svStore").value;
     if(!stn){svMsg("保存する店舗をえらんでください。");return;}if(!nm){svMsg("名前を入れてください。");return;}if(!SEL.length){svMsg("のせるカードがありません。");return;}
-    var o={};OPT.forEach(function(k){o[k]=$(k).value});CHK.forEach(function(k){o[k]=$(k).checked});o.tpl=TPL[+$("tpl").value][0];
+    var o={};OPT.forEach(function(k){o[k]=$(k).value});CHK.forEach(function(k){o[k]=$(k).checked});o.tpl=$("tpl").value==="auto"?"auto":TPL[+$("tpl").value][0];
     var data=JSON.stringify({opts:o,items:SEL.map(function(s){return {id:s.it.id,name:s.it.name,base:s.it.price,price:s.price,pct:s.pct==null?null:s.pct,gn:s.gn||""}})});
     if(data.length>45000){svMsg("カードが多すぎて保存できません。枚数を減らしてください。");return;}
     try{localStorage.setItem("nd_staff_store",stn)}catch(e){}
@@ -383,7 +443,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     (d.items||[]).forEach(function(x){var it=ITEMS.filter(function(i){return i.id===x.id})[0];if(!it){miss.push(x.name);return;}
       var pr=x.pct!=null?pctPrice(it.price,x.pct):(x.price===x.base?it.price:x.price);SEL.push({it:it,price:pr,pct:x.pct,gn:x.gn||""});});
     var o=d.opts||{};OPT.forEach(function(k){if(o[k]!=null)$(k).value=o[k]});CHK.forEach(function(k){if(o[k]!=null)$(k).checked=!!o[k]});
-    TPL.forEach(function(t,i){if(t[0]===o.tpl)$("tpl").value=i});$("svName").value=v.name;
+    if(o.tpl==="auto")$("tpl").value="auto";else TPL.forEach(function(t,i){if(t[0]===o.tpl)$("tpl").value=i});preMark();$("svName").value=v.name;
     svMsg("「"+v.name+"」（"+v.store+"）を呼び出しました。"+(miss.length?"買取表から消えたカード "+miss.length+"枚ははずしました（"+miss.slice(0,3).join("、")+(miss.length>3?" ほか":"")+"）。":""));drawSel();search._keep=true;search();};
   $("svDel").onclick=function(){var v=SV[+$("svList").value];if(!v||$("svList").value==="")return;var stn=$("svStore").value;
     if(!stn){svMsg("店舗をえらんでください（消せるのは保存した店舗だけです）。");return;}

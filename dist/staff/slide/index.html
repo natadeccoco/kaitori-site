@@ -81,6 +81,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
 .it label.gn{flex:none;margin:0;font-size:13px;font-weight:700;display:flex;align-items:center;gap:3px;color:#C2457E;white-space:nowrap}
 .it button.x{border-color:var(--line);color:var(--ink-2);padding:5px 11px;font-size:15px}.it button.mv{border:0;padding:2px 4px;font-size:18px}
 .it label.gn input{width:18px;height:18px}
+.it select.gnsel{flex:none;width:118px;font-size:13px;font-weight:700;padding:7px 6px;color:var(--ink-2)}.it select.gnsel.on{color:#C2457E;border-color:#F58CB6;background:#FFF3F8}
 .bulk{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px;font-weight:700;margin:0 0 2px}.bulk input{width:86px;font-size:16px;padding:7px 8px;text-align:right}.bulk .btn.sub{padding:6px 12px}.bulk small{font-weight:500;color:var(--ink-2);font-size:12px}
 .it .pr2{display:flex;align-items:center;gap:4px}.it .pr2 i{font-style:normal;font-size:13px;color:var(--ink-2);margin-right:4px}
 .it input.pct{width:62px;color:var(--navy);padding:8px 6px}
@@ -127,7 +128,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
         <h2><span class="n">2</span>のせるカード<span class="cnt" id="selN">0件</span></h2>
         <div class="bulk">まとめて <input type="number" id="pctAllV" step="1" placeholder="例 5"> ％ <button class="btn sub" type="button" id="pctAll">全部に反映</button><button class="btn sub" type="button" id="pctReset">買取表の価格に戻す</button><small>端数は切り上げ（1万円未満は100円、1万円以上は1,000円単位）</small></div>
         <div class="list" id="sel"></div>
-        <p class="hint">価格はこの画像だけ変えられます（サイトの価格は変わりません）。下に買取表の価格との差が出ます。<button class="btn sub" type="button" id="gnAll" style="margin-left:6px;padding:3px 10px">全部に「減額なし」</button><button class="btn sub" type="button" id="clear" style="margin-left:6px;padding:3px 10px">全部はずす</button></p>
+        <p class="hint">価格はこの画像だけ変えられます（サイトの価格は変わりません）。下に買取表の価格との差が出ます。<button class="btn sub" type="button" id="gnAll" style="margin-left:6px;padding:3px 10px">全部に「減額なし」</button><button class="btn sub" type="button" id="gcAll" style="margin-left:6px;padding:3px 10px">全部に「センタリング減額なし」</button><button class="btn sub" type="button" id="clear" style="margin-left:6px;padding:3px 10px">全部はずす</button></p>
       </section>
     </div>
 
@@ -206,7 +207,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     var pc=b>0?Math.round(d/b*1000)/10:0;return t+'<em class="'+(d>0?"up":"dn")+'">'+(d>0?"▲ +":"▼ −")+yen(Math.abs(d)).slice(1)+'円（'+(d>0?"+":"−")+Math.abs(pc)+'%）</em>';}
   function drawSel(){
     $("selN").textContent=SEL.length+"件";
-    $("sel").innerHTML=SEL.map(function(s,n){var i=s.it;return '<div class="it" data-n="'+n+'"><button class="mv up" type="button" title="上へ">▲</button><button class="mv dn" type="button" title="下へ">▼</button>'+(i.img?'<img src="'+esc(i.img)+'" alt="">':'<span class="ph"></span>')+'<div class="nm"><b>'+tagHTML(i)+esc(i.name)+'</b><span>'+esc([i.code,i.rarity!=="-"?i.rarity:""].filter(Boolean).join("／"))+'</span></div><label class="gn" title="減額なしマークを付ける"><input type="checkbox"'+(s.gn?" checked":"")+'>減額なし</label><div class="pc"><span class="pr2"><input type="number" class="pct" step="1" placeholder="±" value="'+(s.pct==null?"":s.pct)+'" title="買取表の価格から何％上げるか（下げるときは −）"><i>％</i><input type="number" class="prc" min="0" step="100" value="'+s.price+'"></span><span class="cmp">'+cmpHTML(s)+'</span></div><button class="x" type="button">×</button></div>'}).join("")||'<div class="it" style="color:#5A6B76">左の一覧からカードを押してください</div>';
+    $("sel").innerHTML=SEL.map(function(s,n){var i=s.it;return '<div class="it" data-n="'+n+'"><button class="mv up" type="button" title="上へ">▲</button><button class="mv dn" type="button" title="下へ">▼</button>'+(i.img?'<img src="'+esc(i.img)+'" alt="">':'<span class="ph"></span>')+'<div class="nm"><b>'+tagHTML(i)+esc(i.name)+'</b><span>'+esc([i.code,i.rarity!=="-"?i.rarity:""].filter(Boolean).join("／"))+'</span></div><select class="gnsel'+(s.gn?" on":"")+'" title="マークを付ける"><option value="">マークなし</option><option value="g"'+(s.gn&&s.gn!=="c"?" selected":"")+'>減額なし</option><option value="c"'+(s.gn==="c"?" selected":"")+'>センタリング減額なし</option></select><div class="pc"><span class="pr2"><input type="number" class="pct" step="1" placeholder="±" value="'+(s.pct==null?"":s.pct)+'" title="買取表の価格から何％上げるか（下げるときは −）"><i>％</i><input type="number" class="prc" min="0" step="100" value="'+s.price+'"></span><span class="cmp">'+cmpHTML(s)+'</span></div><button class="x" type="button">×</button></div>'}).join("")||'<div class="it" style="color:#5A6B76">左の一覧からカードを押してください</div>';
   }
   $("sel").addEventListener("click",function(e){var r=e.target.closest(".it");if(!r||r.dataset.n==null)return;var n=+r.dataset.n;
     if(e.target.closest(".x")){SEL.splice(n,1);}else if(e.target.closest(".up")&&n>0){SEL.splice(n-1,0,SEL.splice(n,1)[0]);}else if(e.target.closest(".dn")&&n<SEL.length-1){SEL.splice(n+1,0,SEL.splice(n,1)[0]);}else return;drawSel();search._keep=true;search();});
@@ -215,14 +216,15 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   function pctPrice(base,pc){return roundUp(base*(1+pc/100));}
   function refreshRow(row,n){row.querySelector(".cmp").innerHTML=cmpHTML(SEL[n]);}
   function onSel(e,final){var t=e.target,row=t.closest(".it");if(!row||row.dataset.n==null)return;var n=+row.dataset.n,s=SEL[n];
-    if(t.type==="checkbox"){s.gn=t.checked;return;}
+    if(t.classList.contains("gnsel")){s.gn=t.value;t.classList.toggle("on",!!t.value);return;}
     if(t.classList.contains("pct")){if(t.value===""||t.value==="-"){if(final&&t.value===""){s.pct=null;}return;}var pc=Number(t.value);if(isNaN(pc))return;s.pct=pc;s.price=pctPrice(s.it.price,pc);row.querySelector(".prc").value=s.price;refreshRow(row,n);return;}
     if(t.classList.contains("prc")){var v=Number(t.value);if(t.value!==""&&v>=0){s.price=v;s.pct=null;row.querySelector(".pct").value="";refreshRow(row,n);}}}
   $("sel").addEventListener("change",function(e){onSel(e,true)});
   $("sel").addEventListener("input",function(e){if(e.target.type==="number")onSel(e,false)});
   $("pctAll").onclick=function(){var v=$("pctAllV").value;if(v==="")return;var pc=Number(v);if(isNaN(pc))return;SEL.forEach(function(s){s.pct=pc;s.price=pctPrice(s.it.price,pc)});drawSel();};
   $("pctReset").onclick=function(){SEL.forEach(function(s){s.pct=null;s.price=s.it.price});$("pctAllV").value="";drawSel();};
-  $("gnAll").onclick=function(){var on=!SEL.every(function(s){return s.gn});SEL.forEach(function(s){s.gn=on});drawSel();};
+  $("gnAll").onclick=function(){var on=!SEL.every(function(s){return s.gn&&s.gn!=="c"});SEL.forEach(function(s){s.gn=on?"g":""});drawSel();};
+  $("gcAll").onclick=function(){var on=!SEL.every(function(s){return s.gn==="c"});SEL.forEach(function(s){s.gn=on?"c":""});drawSel();};
   $("clear").onclick=function(){SEL=[];drawSel();search();};
 
   /* ---------- テンプレート ---------- */
@@ -254,8 +256,8 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   function drawPage(o,items,pageNo,pages){
     var W=o.size[0],H=o.size[1],u=Math.min(W,H)/1000;   // u＝短辺の1/1000
     var cv=document.createElement("canvas");cv.width=W;cv.height=H;var c=cv.getContext("2d");
-    return Promise.all([o.chara?loadImg("/img/chars/"+o.chara+".webp"):null,loadImg("/img/psa10.webp?v=3"),loadImg("/img/shrink_nashi.webp?v=1"),o.qr?loadImg("/img/qr_site.png"):null,loadImg("/img/gengaku_nashi.webp?v=1"),loadImg("/img/gengaku_nashi_maru.webp?v=1")].concat(items.map(function(s){return loadImg(s.it.img)}))).then(function(im){
-      var chara=im[0],psa=im[1],ns=im[2],qr=im[3],gnI=im[4],gnM=im[5],cards=im.slice(6);
+    return Promise.all([o.chara?loadImg("/img/chars/"+o.chara+".webp"):null,loadImg("/img/psa10.webp?v=3"),loadImg("/img/shrink_nashi.webp?v=1"),o.qr?loadImg("/img/qr_site.png"):null,loadImg("/img/gengaku_nashi.webp?v=1"),loadImg("/img/gengaku_nashi_maru.webp?v=1"),loadImg("/img/gengaku_nashi_center.webp?v=1")].concat(items.map(function(s){return loadImg(s.it.img)}))).then(function(im){
+      var chara=im[0],psa=im[1],ns=im[2],qr=im[3],gnI=im[4],gnM=im[5],gnC=im[6],cards=im.slice(7);
       // 背景：ピンク→むらさき→水色のグラデーション＋白い光の帯＋きらきら
       var g=c.createLinearGradient(0,0,W,H);g.addColorStop(0,"#FF9BE4");g.addColorStop(.38,"#E6B4FF");g.addColorStop(.7,"#B9C8FF");g.addColorStop(1,"#7FE9FF");c.fillStyle=g;c.fillRect(0,0,W,H);
       c.save();c.globalAlpha=.28;c.fillStyle="#fff";
@@ -302,7 +304,8 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
           if(o.name){c.fillStyle="rgba(255,255,255,.92)";c.fillRect(x,y,cwid,ih+nameH);}
           if(img){var m=o.name?cwid*0.04:0,sc=Math.min((cwid-m*2)/img.width,(ih-m)/img.height),dw=img.width*sc,dh=img.height*sc,dx=x+(cwid-dw)/2,dy=y+ih-dh;c.drawImage(img,dx,dy,dw,dh);
             var bs=Math.min(dw,dh)*0.36;if(it.cat==="PSA"&&psa)c.drawImage(psa,dx+dw-bs,dy,bs,bs);else if(it.vOf&&ns)c.drawImage(ns,dx+dw-bs,dy,bs,bs);
-            if(s.gn){if(it.cat==="BOX"){if(gnM){var gs=Math.min(cwid,ih)*0.4;c.drawImage(gnM,x+cwid*0.02,y+cwid*0.02,gs,gs);}}   // BOXは左上に丸いマーク
+            if(s.gn==="c"){if(gnC){var gw_=dw*0.94,gh_=gw_*gnC.height/gnC.width;c.drawImage(gnC,dx+(dw-gw_)/2,dy+dh-gh_*0.93,gw_,gh_);}}   // センタリング減額なし（2段の帯）
+            else if(s.gn){if(it.cat==="BOX"){if(gnM){var gs=Math.min(cwid,ih)*0.4;c.drawImage(gnM,x+cwid*0.02,y+cwid*0.02,gs,gs);}}   // BOXは左上に丸いマーク
               else if(gnI){var gw_=dw*0.94,gh_=gw_*gnI.height/gnI.width;c.drawImage(gnI,dx+(dw-gw_)/2,dy+dh-gh_*0.9,gw_,gh_);}}}   // カードは値段のすぐ上に帯
           if(o.name){c.textAlign="center";c.fillStyle="#22303C";var ns_=Math.min(nameH*0.5,cwid*0.1);c.font="800 "+ns_+"px "+FONT;var nm=it.name.replace(/^拡張パック\s*/,"").replace(/^(強化拡張パック|ハイクラスパック|コンセプトパック)\s*/,""),twn=c.measureText(nm).width,kx=Math.min(1,cwid*0.94/twn);
             if(kx<0.6){while(c.measureText(nm+"…").width*0.6>cwid*0.94&&nm.length>2)nm=nm.slice(0,-1);nm+="…";kx=0.6;}

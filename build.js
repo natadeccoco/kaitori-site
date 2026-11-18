@@ -506,7 +506,7 @@ console.log(`article pages: ${arts.length}`);
   if (h) write("staff/index.html", wrap(h.replace("__STAFF_URL__", CFG.staffReportUrl || "").replace("__HEAD__", headCommon("スタッフ専用｜価格・画像の申告", "", `${CFG.siteUrl}/staff/`, "")))); }
 // スタッフ専用：買取表の画像をつくるページ（/staff/slide/。検索に出さない・サイトマップにも入れない）
 { let h = read(path.join(SRC, "staff_slide.html"));
-  if (h) write("staff/slide/index.html", wrap(h.replace("__HEAD__", headCommon("スタッフ専用｜買取表の画像をつくる", "", `${CFG.siteUrl}/staff/slide/`, "")))); }
+  if (h) write("staff/slide/index.html", wrap(h.replace("__STAFF_URL__", CFG.staffReportUrl || "").replace("__HEAD__", headCommon("スタッフ専用｜買取表の画像をつくる", "", `${CFG.siteUrl}/staff/slide/`, "")))); }
 for (const name of ["stores", "legal", "privacy", "company"]) {   // 採用ページ（recruit）は準備中のため非公開
   let html = read(path.join(SRC, name + ".html"));
   if (!html) continue;

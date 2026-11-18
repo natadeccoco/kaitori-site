@@ -130,6 +130,8 @@ return [L,old.lp,old.ad||old.camp].filter(Boolean).join("-");};}catch(e){window.
 //   ga4 = GA4 の測定ID（G-XXXX） / ads = Google広告のタグID（AW-XXXX） / adsLabels = コンバージョンラベル
 //   成果：LINE友だち追加ボタン → line_add、「LINEで買取申込へ進む」（oaMessage）→ line_apply
 const TRK = CFG.tracking || {};
+const X_TAG = TRK.xPixel ? `<script>!function(e,t,n,s,u,a){e.twq||(s=e.twq=function(){s.exe?s.exe.apply(s,arguments):s.queue.push(arguments);},s.version='1.1',s.queue=[],u=t.createElement(n),u.async=!0,u.src='https://static.ads-twitter.com/uwt.js',a=t.getElementsByTagName(n)[0],a.parentNode.insertBefore(u,a))}(window,document,'script');twq('config',${JSON.stringify(TRK.xPixel)});</script>
+` : "";   // Xピクセル（11/18）
 const TRACK_TAG = (TRK.ga4 || TRK.ads) ? `<script async src="https://www.googletagmanager.com/gtag/js?id=${TRK.ga4 || TRK.ads}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());${TRK.ga4 ? `gtag("config",${JSON.stringify(TRK.ga4)});` : ""}${TRK.ads ? `gtag("config",${JSON.stringify(TRK.ads)});` : ""}
 (function(){var ADS=${JSON.stringify(TRK.ads || "")},LB=${JSON.stringify(TRK.adsLabels || {})};
@@ -137,9 +139,9 @@ document.addEventListener("click",function(e){var a=e.target&&e.target.closest&&
 var k=/oaMessage/.test(a.href)?"apply":"line_add";gtag("event",k==="apply"?"line_apply":"line_add",{link_id:a.id||a.className||"",page_path:location.pathname,nd_lp:(window.ndAttr&&ndAttr().lp)||"",nd_ad:(window.ndAttrCode&&ndAttrCode())||""});
 if(ADS&&LB[k]&&k!=="apply")gtag("event","conversion",{send_to:ADS+"/"+LB[k]});},true);
 /* 申込が本当に受け付けられたとき（スプレッドシートに行ができたとき）に呼ぶ：GA4は apply_done、Google広告は adsLabels.apply */
-window.ndConv=function(k,p){p=p||{};try{gtag("event",k==="apply"?"apply_done":k,Object.assign({nd_lp:(window.ndAttr&&ndAttr().lp)||"",nd_ad:(window.ndAttrCode&&ndAttrCode())||""},p));if(ADS&&LB[k])gtag("event","conversion",Object.assign({send_to:ADS+"/"+LB[k]},p));}catch(e){}};})();</script>
+window.ndConv=function(k,p){p=p||{};try{gtag("event",k==="apply"?"apply_done":k,Object.assign({nd_lp:(window.ndAttr&&ndAttr().lp)||"",nd_ad:(window.ndAttrCode&&ndAttrCode())||""},p));if(ADS&&LB[k])gtag("event","conversion",Object.assign({send_to:ADS+"/"+LB[k]},p));var XE=${JSON.stringify(TRK.xEvents || {})};if(window.twq&&XE[k])twq("event",XE[k],{value:p.value||0,currency:"JPY",conversion_id:String(p.transaction_id||"")});}catch(e){}};})();</script>
 ` : "";
-const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
+const wrap = (body, lang = "ja") => `<!DOCTYPE html>\n<html lang="${lang}">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width,initial-scale=1">\n${ATTR_TAG}${TRACK_TAG}${X_TAG}${body.slice(0, body.indexOf("</style>") + 8)}\n</head>\n<body>\n${body.slice(body.indexOf("</style>") + 8)}\n${(body.includes("id=\"sfx\"") || body.includes("id=\"runner\"")) ? "" : SITE_FX}\n</body>\n</html>\n`;
 const AT = CFG.applyTest || {};
 const noApply = s => s.replace(/__APPLY_URL__/g, "").replace(/__LIFF_URL__/g, "").replace(/__LINE_FORM_URL__/g, esc(AT.lineFormUrl || ""));
 write("index.html", noApply(wrap(makePage("store"))));

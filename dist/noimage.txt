@@ -1,0 +1,51 @@
+BOX	BOX	イントロパックneo		
+BOX	BOX	リザードン★炎		
+BOX	BOX	サザンアイランド-レインボーアイランド		
+BOX	BOX	まぼろしのミュウ		
+BOX	BOX	ポケモンジム第2弾 マチス		
+BOX	BOX	ソウルシルバーコレクション スペシャルパック		
+BOX	BOX	ポケモンカードゲームDP エントリーパック'08DX		
+BOX	BOX	クイックスターター ギフトパック		
+BOX	BOX	デオキシスデッキ		
+BOX	BOX	タイプユニット雷		
+BOX	BOX	ポケモンジム第1弾 カスミ		
+BOX	BOX	ミズゴロウデッキ		
+BOX	BOX	フシギバナ★草		
+BOX	BOX	カメックス★水		
+BOX	BOX	アチャモデッキ		
+BOX	BOX	サザンアイランド-トロピカルアイランド		
+BOX	BOX	キモリデッキ		
+BOX	BOX	サザンアイランド-大空		
+BOX	BOX	バリューセット「マグマ団VSアクア団 ダブルクライシス」		
+BOX	BOX	ポケモンジム第2弾 エリカ		
+BOX	BOX	大海のカイオーガex		
+BOX	BOX	大地のグラードンex		
+BOX	BOX	ポケモンジム第3弾 カツラ		
+BOX	BOX	ポケモンジム第1弾 タケシ		
+BOX	BOX	フライゴンデッキ		
+BOX	BOX	ボーマンダデッキ		
+BOX	BOX	ホロンの研究塔 炎EX		
+BOX	BOX	ホロンの研究塔 雷EX		
+BOX	BOX	サザンアイランド-海辺		
+BOX	BOX	ポケモンカードゲームDP エントリーパック'08		
+BOX	BOX	ホロンの研究塔 水EX		
+BOX	BOX	バクフーンex★炎		
+BOX	BOX	メガニウムex★草		
+BOX	BOX	メタグロスデッキ		
+BOX	BOX	アルセウス超克の時空へ 映画公開記念ランダムパック2009		
+BOX	BOX	オーダイルex★水		
+BOX	BOX	プレミアムファイル		
+BOX	BOX	タイプユニット水		
+BOX	BOX	サザンアイランド-ジャングル		
+BOX	BOX	サザンアイランド-海		
+BOX	BOX	サザンアイランド-川辺		
+BOX	BOX	サザンアイランド-お花畑		
+BOX	BOX	雷震! バンギラスex		
+BOX	BOX	タイプユニット草		
+BOX	BOX	ポケモンカードゲームDPt エントリーパック		
+BOX	BOX	ザシアン+ザマゼンタ BOX		
+BOX	BOX	タイプユニット炎		
+BOX	BOX	タイプユニット超		
+BOX	BOX	タイプユニット闘		
+BOX	BOX	ポケモンカードゲームDP エントリーパック		
+BOX	BOX	対戦スタートデッキ30「エンブオーEX VS トゲキッスEX」		

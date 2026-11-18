@@ -241,7 +241,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       var title=(o.store?o.store+" ":"")+o.title+(pages>1?"  "+pageNo+"/"+pages:"");
       var sw=hh*0.42,tx0=pad+lw+pad+sw,tx1=W-pad-rw-pad*2-sw,ts=fit(c,title,tx1-tx0,Math.round(hh*0.52),900);
       c.font="900 "+ts+"px "+FONT;c.textAlign="center";c.lineJoin="round";var tw=c.measureText(title).width,tcx=(tx0+tx1)/2,tcy=hh*0.5;
-      c.lineWidth=ts*0.3;c.strokeStyle=o.theme;c.strokeText(title,tcx,tcy);c.lineWidth=ts*0.1;c.strokeStyle="#fff";c.strokeText(title,tcx,tcy);c.fillStyle="#fff";c.fillText(title,tcx,tcy);
+      c.lineWidth=ts*0.2;c.strokeStyle=o.theme;c.strokeText(title,tcx,tcy);c.fillStyle="#fff";c.fillText(title,tcx,tcy);   // 白フチの重ね描きをやめて、漢字がつぶれないように
       [-1,1].forEach(function(sd){var sx=tcx+sd*(tw/2+sw*0.62);star(c,sx,tcy-sw*.1,sw*.42,1);star(c,sx+sd*sw*.36,tcy+sw*.32,sw*.2,1);star(c,sx-sd*sw*.1,tcy-sw*.48,sw*.14,1);});
       // フッター：注意書き（左）と「最新版はこちらから→」＋QR（右下）
       var notes=o.note.split(/\n/).map(function(s){return s.trim()}).filter(Boolean).slice(0,3);

@@ -1,0 +1,1 @@
+{"name": "myca-ping", "on": {"workflow_dispatch": {}}, "jobs": {"ping": {"runs-on": "ubuntu-latest", "steps": [{"run": "curl -s -o /dev/null -w 'csrf %{http_code} ' https://pos.mycalinks.com/api/auth/csrf; curl -s -o /dev/null -w 'top %{http_code} ' https://pos.mycalinks.com/"}]}}}

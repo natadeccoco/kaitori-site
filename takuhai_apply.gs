@@ -244,7 +244,7 @@ function daily() {
       let sum = 0, st = false;
       g.forEach(function (r) {
         if (!r[0] || /合計/.test(String(r[0]))) return;
-        if (nw) { sum += (Number(r[2]) || 0) * (Number(r[3]) || 0); if (String(r[5]).trim()) st = true; }
+        if (nw) { sum += (Number(r[2]) || 0) * (Number(r[3]) || 0); if (String(r[5]).trim() || String(r[2]).trim() !== '') st = true; }   // 査定金額（D）か状態（G）が入っていれば着荷（11/19：状態を書かずに査定だけ入れるケースがあるため）
         else { sum += (Number(r[1]) || 0) * (Number(r[2]) || 0); if (String(r[4]).trim()) st = true; }
       });
       arrived = arrived || st; amount = sum;

@@ -114,6 +114,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
         <div><label for="store">店舗名 <small>（入れない場合は「なし」）</small></label><select id="store"><option value="">なし</option><option>柏本店</option><option>松戸店</option><option>津田沼店</option><option>千葉中央店</option><option>中野店</option><option>お台場店</option><option>町田店</option><option>横浜店</option></select></div>
         <div><label for="sort">ならび順</label><select id="sort"><option value="price">価格が高い順</option><option value="list">えらんだ順</option><option value="asc">価格が安い順</option></select></div>
         <div><label>色</label><div class="col"><input type="color" id="cTheme" value="#C63FD9"><span>タイトルのふち</span><input type="color" id="cPrice" value="#35D6F5"><span>価格のわく</span></div></div>
+        <div><label for="tmark">タイトルの横に入れるマーク <small>（全部のカードが対象のとき）</small></label><select id="tmark"><option value="">なし</option><option value="g">減額なし</option><option value="c">センタリング減額なし</option></select></div>
         <div><label for="chara">キャラ</label><select id="chara"><option value="chan1">ナタデココちゃん</option><option value="minty1">ミンティ</option><option value="pachiru1">パチル</option><option value="fai1">ファイ</option><option value="amery1">アメリー</option><option value="">なし</option></select></div>
       </div>
       <label for="note">注意書き <small>（3行まで）</small> <button class="btn sub" type="button" id="nt1" style="padding:2px 10px;margin-left:6px">シングル用</button> <button class="btn sub" type="button" id="nt3" style="padding:2px 10px">BOX用</button> <button class="btn sub" type="button" id="nt2" style="padding:2px 10px">PSA用</button></label>
@@ -271,7 +272,11 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
         c.font="900 "+d2+"px "+FONT;c.lineWidth=d2*.22;c.strokeText(o.date,W-pad,hh*0.64);c.fillText(o.date,W-pad,hh*0.64);}
       // タイトル（白文字＋色フチ）と左右のきらきら
       var title=(o.store?o.store+" ":"")+o.title+(pages>1?"  "+pageNo+"/"+pages:"");
-      var sw=hh*0.42,tx0=pad+lw+pad+sw,tx1=W-pad-rw-pad*2-sw,ts=fit(c,title,tx1-tx0,Math.round(hh*0.52),900);
+      // タイトルの横のマーク（減額なし／センタリング減額なし）。タイトルと更新日のあいだに置く
+      var tmI=o.tmark==="c"?gnC:o.tmark==="g"?gnI:null,tmW=0,tmH=0;
+      if(tmI){tmH=hh*(o.tmark==="c"?0.66:0.46);tmW=tmH*tmI.width/tmI.height;var tmMax=W*0.24;if(tmW>tmMax){tmW=tmMax;tmH=tmW*tmI.height/tmI.width;}
+        c.drawImage(tmI,W-pad-rw-pad-tmW,(hh-tmH)/2,tmW,tmH);}
+      var sw=hh*0.42,tx0=pad+lw+pad+sw,tx1=W-pad-rw-pad*2-sw-(tmW?tmW+pad:0),ts=fit(c,title,tx1-tx0,Math.round(hh*0.52),900);
       c.font="900 "+ts+"px "+FONT;c.textAlign="center";c.lineJoin="round";var tw=c.measureText(title).width,tcx=(tx0+tx1)/2,tcy=hh*0.5;
       c.lineWidth=ts*0.2;c.strokeStyle=o.theme;c.strokeText(title,tcx,tcy);c.fillStyle="#fff";c.fillText(title,tcx,tcy);   // 白フチの重ね描きをやめて、漢字がつぶれないように
       [-1,1].forEach(function(sd){var sx=tcx+sd*(tw/2+sw*0.62);star(c,sx,tcy-sw*.1,sw*.42,1);star(c,sx+sd*sw*.36,tcy+sw*.32,sw*.2,1);star(c,sx-sd*sw*.1,tcy-sw*.48,sw*.14,1);});
@@ -318,7 +323,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     var t=TPL[+$("tpl").value],per=t[4]||t[2]*t[3],list=SEL.slice(),so=$("sort").value;
     if(so==="price")list.sort(function(a,b){return b.price-a.price});else if(so==="asc")list.sort(function(a,b){return a.price-b.price});
     var pages=Math.ceil(list.length/per);if(pages>6){$("mkmsg").textContent="カードが多すぎます（"+pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。";return;}
-    var d=new Date(),o={size:t[1],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:true,date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};
+    var d=new Date(),o={tmark:$("tmark").value,size:t[1],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:true,date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};
     try{localStorage.setItem("nd_staff_store",o.store)}catch(e){}
     var b=$("make");b.disabled=true;$("mkmsg").textContent="つくっています…";
     var fontReady=document.fonts&&document.fonts.load?Promise.all([document.fonts.load('900 40px "M PLUS Rounded 1c"',o.title+"¥0123456789,"),document.fonts.load('800 40px "M PLUS Rounded 1c"',list.map(function(s){return s.it.name}).join("")),document.fonts.load('800 40px "M PLUS Rounded 1c"',o.note+"更新日最新版はこちらから月ナタデココ"+o.store)]).catch(function(){}):Promise.resolve();
@@ -348,7 +353,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   $("xText").addEventListener("input",xCount);
   $("xCopy").onclick=function(){var t=$("xText");var done=function(){$("xMsg").textContent="コピーしました。"};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(done,function(){t.select();document.execCommand("copy");done()});else{t.select();document.execCommand("copy");done();}};
   // ---------- 保存と呼び出し（全店共有。本部のスプレッドシートに保存） ----------
-  var OPT=["title","store","sort","cTheme","cPrice","chara","note"],CHK=["showDate","showName","showQr"],SV=[];
+  var OPT=["title","store","sort","cTheme","cPrice","chara","note","tmark"],CHK=["showDate","showName","showQr"],SV=[];
   function svMsg(t){$("svMsg").textContent=t||"";}
   function svCall(o){var pass="";try{pass=sessionStorage.getItem("nd_staff")||""}catch(e){}o.type="slidestore";o.pass=pass;
     return fetch(FB_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(o)}).then(function(r){return r.json()});}

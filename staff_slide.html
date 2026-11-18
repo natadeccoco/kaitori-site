@@ -138,7 +138,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
         <div><label for="tmark">タイトルの横に入れるマーク <small>（全部のカードが対象のとき）</small></label><select id="tmark"><option value="">なし</option><option value="g">減額なし</option><option value="c">センタリング減額なし</option></select></div>
         <div><label for="chara">キャラ</label><select id="chara"><option value="chan1">ナタデココちゃん</option><option value="minty1">ミンティ</option><option value="pachiru1">パチル</option><option value="fai1">ファイ</option><option value="amery1">アメリー</option><option value="">なし</option></select></div>
       </div>
-      <label for="note">注意書き <small>（3行まで）</small> <button class="btn sub" type="button" id="nt1" style="padding:2px 10px;margin-left:6px">シングル用</button> <button class="btn sub" type="button" id="nt3" style="padding:2px 10px">BOX用</button> <button class="btn sub" type="button" id="nt2" style="padding:2px 10px">PSA用</button></label>
+      <label for="note">注意書き <small>（3行まで）</small> <button class="btn sub" type="button" id="nt1" style="padding:2px 10px;margin-left:6px">シングル用</button> <button class="btn sub" type="button" id="nt3" style="padding:2px 10px">BOX用</button> <button class="btn sub" type="button" id="nt5" style="padding:2px 10px">BOX用（減額なしの説明つき）</button> <button class="btn sub" type="button" id="nt2" style="padding:2px 10px">PSA用</button> <button class="btn sub" type="button" id="nt4" style="padding:2px 10px">PSA用（減額なしの説明つき）</button></label>
       <textarea id="note" maxlength="260">買取価格は状態や在庫状況によって予告なく変更になる場合がございます。
 買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。</textarea>
       <div class="chk"><label><input type="checkbox" id="showDate" checked>更新日を入れる</label><label><input type="checkbox" id="showName">カード名・BOX名を入れる</label><label><input type="checkbox" id="showQr" checked>QRコード（買取サイト）を入れる</label></div>
@@ -391,9 +391,9 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       $("mkmsg").textContent="できました。下で確認して保存してください。";$("outBox").scrollIntoView({behavior:"smooth"});
     }).catch(function(e){$("mkmsg").textContent="つくれませんでした。もう一度お試しください。";console.error(e)}).then(function(){b.disabled=false;});
   }
-  var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="【減額なし】ケース割れなど重度のダメージ品は減額の可能性がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。";
-  var NOTE3="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。";$("nt3").onclick=function(){$("note").value=NOTE3;preview()};
-  $("nt1").onclick=function(){$("note").value=NOTE1;preview()};$("nt2").onclick=function(){$("note").value=NOTE2;preview()};
+  var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。",NOTE4="【減額なし】ケース割れなど重度のダメージ品は減額の可能性がございます。\n"+NOTE2;
+  var NOTE3="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE5="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n"+NOTE3;$("nt3").onclick=function(){$("note").value=NOTE3;preMark();preview()};$("nt5").onclick=function(){$("note").value=NOTE5;preMark();preview()};
+  $("nt1").onclick=function(){$("note").value=NOTE1;preview()};$("nt2").onclick=function(){$("note").value=NOTE2;preMark();preview()};$("nt4").onclick=function(){$("note").value=NOTE4;preMark();preview()};
   // かんたん設定（Xのシングル用／PSA用／BOX用）
   var PRE={single:{tpl:"縦長 40枚",title:"ナタデココ買取表",note:NOTE1,name:false},psa:{tpl:"縦長 48枚",title:"ナタデココ買取表",note:NOTE2,name:false},box:{tpl:"横長 36枚",title:"ナタデココBOX買取表",note:NOTE3,name:true}};
   function preMark(){var cur="";Object.keys(PRE).forEach(function(k){var v=PRE[k];if($("tpl").value===String(tplAt(v.tpl))&&$("title").value===v.title&&$("note").value===v.note&&$("showName").checked===v.name)cur=k});

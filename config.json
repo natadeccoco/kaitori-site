@@ -57,7 +57,7 @@
     "旧弾": "シングル",
     "汎用": "最低保証"
   },
-  "hideNames": ["スタンプラリー"],
+  "hideNames": ["スタンプラリー", "ピカチュウ(ANA)", "ピカチュウ(ポケモンフェスタ2002)", "(CD付未開封)ピカチュウ", "フシギソウ LV.23(サザンアイランド)", "イワーク LV.40(サザンアイランド)", "ラッタ LV.25(サザンアイランド)"],
   "staffReportUrl": "https://script.google.com/macros/s/AKfycbw-wkodhT2Gmt7pTDZJJDorXAjAT5lHzndPN-FoaGFDaOt8U_YycX9CCB-hk3bzjagh/exec",
   "campaign": {
     "on": true,

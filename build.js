@@ -101,7 +101,7 @@ console.log(`items: ${items.length}`, Object.fromEntries(RAW_CATS.map(c => [c, i
 const clientCfg = { base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
 const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }) => ({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }));
 const dataJson = JSON.stringify({ updated, items: slim }).replace(/</g, "\\u003c");
-const headCommon = (title, desc, url, image) => `<meta property="og:type" content="website">
+const headCommon = (title, desc, url, image) => `${desc ? `<meta name="description" content="${esc(desc)}">\n` : ""}<meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(CFG.siteName)}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
@@ -478,7 +478,7 @@ console.log(`article pages: ${arts.length}`);
     const hotAt = i => hot[i % hot.length];
     const hotJson = JSON.stringify(hot.map(r => ({ id: r.id, n: r.name, p: yen(r.price), img: r.img })));
     const cards = pick.map((r, i) => `<a class="pc${i >= 30 ? " xm" : ""}" data-k="${kOf(r)}" href="/card/${encodeURIComponent(r.id)}/"><span class="im"><img src="${esc(r.img)}" alt="${esc(r.name)}" loading="lazy" onerror="this.remove()">${/^PSA\s*10$/i.test(r.grade) ? `<img class="g" src="/img/psa10.webp?v=3" alt="PSA10">` : ""}</span><em>${esc(yen(r.price))}</em><b>${esc(r.name)}</b><span class="cd">${esc(r.code)}</span></a>`).join("");
-    const shops = ["柏", "松戸", "津田沼", "千葉中央", "中野", "お台場", "町田", "横浜"].map(n => `<a href="${CFG.storesUrl}">${n}</a>`).join("");
+    const shops = [["柏", "kashiwa"], ["松戸", "matsudo"], ["津田沼", "tsudanuma"], ["千葉中央", "chibachuo"], ["中野", "nakano"], ["お台場", "odaiba"], ["町田", "machida"], ["横浜", "yokohama"]].map(([n, id]) => `<a href="/stores/${id}/">${n}</a>`).join("");
     const ld = { "@context": "https://schema.org", "@type": "Service", name: title.split("｜")[0], provider: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl }, areaServed: "JP", description: desc, url };
     const html = lpTpl
       .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
@@ -523,7 +523,49 @@ console.log(`article pages: ${arts.length}`);
 // スタッフ専用：買取表の画像をつくるページ（/staff/slide/。検索に出さない・サイトマップにも入れない）
 { let h = read(path.join(SRC, "staff_slide.html"));
   if (h) write("staff/slide/index.html", wrap(h.replace("__STAFF_URL__", CFG.staffReportUrl || "").replace("__HEAD__", headCommon("スタッフ専用｜買取表の画像をつくる", "", `${CFG.siteUrl}/staff/slide/`, "")))); }
-for (const name of ["stores", "legal", "privacy", "company"]) {   // 採用ページ（recruit）は準備中のため非公開
+// 店舗ページ（/stores/ と 店舗ごとの /stores/<id>/）。JSを読まないAI・検索エンジンにも店舗情報が届くよう、中身をHTMLで書き出し、店舗データ（Store）も入れる（11/19）
+{ const src = read(path.join(SRC, "stores.html"));
+  const m = src && src.match(/var STORES=(\[[\s\S]*?\]);\n/);
+  if (m) {
+    const H = (o, c) => [o * 60, c * 60], every = (o, c) => Array.from({ length: 7 }, () => H(o, c));
+    const STORES = new Function("H", "every", "return " + m[1])(H, every);
+    const DAYS = ["日", "月", "火", "水", "木", "金", "土"], fmt = x => Math.floor(x / 60) + ":" + String(x % 60).padStart(2, "0"), rng = h => fmt(h[0]) + "〜" + fmt(h[1]);
+    const week = hours => { const g = []; [1, 2, 3, 4, 5, 6, 0].forEach(d => { const k = rng(hours[d]), l = g[g.length - 1]; if (l && l.key === k) l.days.push(d); else g.push({ key: k, days: [d] }); }); if (g.length === 1) return ["毎日 " + g[0].key]; return g.map(x => { const n = x.days.length, a = DAYS[x.days[0]], b = DAYS[x.days[n - 1]]; return (n === 1 ? a : n === 2 ? a + "・" + b : a + "〜" + b) + " " + x.key; }); };
+    const card = s => `<article class="store" id="s-${s.id}" data-pref="${s.pref}"><div class="photo"><img src="/img/stores/${s.id}.jpg" alt="${esc(s.name)}の外観" loading="lazy"><span class="floor">${esc(s.bldg)}</span></div><div class="body"><div class="head"><div><p class="where">${esc(s.city)}</p><h2>${esc(s.name)}</h2></div><span class="pill" data-pill></span></div><dl class="facts"><dt>住所</dt><dd>〒${s.zip}<br>${esc(s.addr)}</dd><dt>アクセス</dt><dd>${esc(s.access)}</dd><dt>電話</dt><dd><a href="tel:${s.tel.replace(/-/g, "")}">${s.tel}</a></dd><dt>営業時間</dt><dd>${(s.label || week(s.hours)).map(esc).join("<br>")}</dd>${s.kai ? `<dt>買取受付</dt><dd>${esc(s.kai)}</dd>` : ""}</dl><div class="links"><a href="/stores/${s.id}/">${esc(s.name)}の詳しい案内 ›</a><a href="https://maps.google.com/?cid=${s.cid}" target="_blank" rel="noopener">Googleマップで開く ↗</a><a href="https://x.com/${s.x}" target="_blank" rel="noopener">X @${s.x} ↗</a></div></div></article>`;
+    const DN = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const ld = s => ({ "@type": "Store", "@id": `${CFG.siteUrl}/stores/${s.id}/#store`, name: `ポケモンカード専門店ナタデココ ${s.name}`, url: `${CFG.siteUrl}/stores/${s.id}/`,
+      description: `${s.city}のポケモンカード（ポケカ）専門店。シングルカード・BOX・PSA鑑定品の店頭買取と販売。買取価格は${CFG.siteUrl}/ で毎日更新。`,
+      image: `${CFG.siteUrl}/img/stores/${s.id}.jpg`, telephone: s.tel, hasMap: `https://maps.google.com/?cid=${s.cid}`, sameAs: [`https://x.com/${s.x}`],
+      address: { "@type": "PostalAddress", postalCode: s.zip, addressRegion: s.city.match(/^(.+?[都道府県])/)[1], addressLocality: s.addr.replace(/^.+?[都道府県]/, "").match(/^(.+?[市区町村])/)[1], streetAddress: s.addr.replace(/^.+?[都道府県].+?[市区町村]/, ""), addressCountry: "JP" },
+      openingHoursSpecification: [0, 1, 2, 3, 4, 5, 6].map(d => ({ "@type": "OpeningHoursSpecification", dayOfWeek: DN[d], opens: fmt(s.hours[d]).padStart(5, "0"), closes: fmt(s.hours[d][1] === undefined ? 0 : s.hours[d][1]).padStart(5, "0") })).map((o, d) => ({ ...o, opens: fmt(s.hours[d][0]).padStart(5, "0"), closes: fmt(s.hours[d][1]).padStart(5, "0") })),
+      priceRange: "¥", currenciesAccepted: "JPY", parentOrganization: { "@type": "Organization", name: CFG.company, url: CFG.siteUrl + "/" },
+      makesOffer: { "@type": "Offer", name: "ポケモンカードの店頭買取", description: "シングルカード・BOX・PSA鑑定品を買取。宅配買取（送料無料・全国対応）も受付。" } });
+    const fill = h => h.replace(/__COMPANY__/g, esc(CFG.company)).replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__STORES_URL__/g, CFG.storesUrl);
+    const oldLd = /<script type="application\/ld\+json">[\s\S]*?<\/script>/;
+    // 一覧ページ
+    let all = src.replace('<section class="stores" id="stores"></section>', `<section class="stores" id="stores">${STORES.map(card).join("")}</section>`)
+      .replace(oldLd, `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "ItemList", name: "ポケモンカード専門店ナタデココ 店舗一覧（店頭買取）", itemListElement: STORES.map((s, i) => ({ "@type": "ListItem", position: i + 1, item: ld(s) })) })}</script>`)
+      .replace("__HEAD__", headCommon(src.match(/<title>(.*?)<\/title>/)[1], "ポケモンカード（ポケカ）の店頭買取は千葉・東京・神奈川のナタデココ全8店舗（柏・松戸・津田沼・千葉中央・中野・お台場・町田・横浜）で。住所・営業時間・アクセス・買取受付時間の一覧。遠方の方は送料無料の宅配買取も。", `${CFG.siteUrl}/stores/`, ""));
+    write("stores/index.html", wrap(fill(all)));
+    urls.push({ url: `${CFG.siteUrl}/stores/`, lastmod: updated.replace(/\//g, "-") });
+    // 店舗ごとのページ
+    for (const s of STORES) {
+      const area = s.name.replace(/本?店$/, "");
+      const title = `${area}でポケカ買取なら｜ポケモンカード専門店ナタデココ ${s.name}`;
+      const desc = `${s.access}。${s.city}のポケモンカード（ポケカ）専門店ナタデココ ${s.name}。シングル・BOX・PSA鑑定品を店頭買取。営業時間 ${(s.label || week(s.hours)).join("／")}${s.kai ? "、買取受付 " + s.kai : ""}。買取価格は毎日更新。`;
+      let h = src.replace(/<title>.*?<\/title>/, `<title>${esc(title)}</title>`)
+        .replace(/<p class="eyebrow">[\s\S]*?<div class="chips" id="chips"><\/div>/, `<p class="eyebrow">${esc(area)}でポケモンカード/ポケカを売るなら</p>\n  <h1>${esc(s.name)}（店頭買取）</h1>\n  <p class="lede">${esc(s.city)}のポケモンカード専門店 ナタデココ ${esc(s.name)}です。シングルカード・BOX・PSA鑑定品を<b>店頭で買取</b>しています。買取価格は<a href="/">買取価格表</a>で毎日更新中。お店に行けない方は<a href="/takuhai/">宅配買取</a>（送料無料・全国対応）もご利用ください。</p>\n  <a class="back" href="/">買取価格表はこちら ›</a> <a class="back" href="/stores/">全8店舗の一覧 ›</a>\n  <div class="chips" id="chips" hidden></div>`)
+        .replace('<section class="stores" id="stores"></section>', `<section class="stores" id="stores">${card(s)}</section>`)
+        .replace("var list=document.getElementById('stores');", `STORES=STORES.filter(function(s){return s.id===${JSON.stringify(s.id)}});var list=document.getElementById('stores');`)
+        .replace(oldLd, `<script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", ...ld(s) })}</script>`)
+        .replace("__HEAD__", headCommon(title, desc, `${CFG.siteUrl}/stores/${s.id}/`, `${CFG.siteUrl}/img/stores/${s.id}.jpg`));
+      write(`stores/${s.id}/index.html`, wrap(fill(h)));
+      urls.push({ url: `${CFG.siteUrl}/stores/${s.id}/`, lastmod: updated.replace(/\//g, "-") });
+    }
+    console.log(`stores: 一覧＋${STORES.length}店舗ページ`);
+  }
+}
+for (const name of ["legal", "privacy", "company"]) {   // 採用ページ（recruit）は準備中のため非公開
   let html = read(path.join(SRC, name + ".html"));
   if (!html) continue;
   html = html.replace(/__COMPANY__/g, esc(CFG.company)).replace(/__COUNT__/g, items.length.toLocaleString()).replace(/__LICENSE__/g, esc(CFG.antiqueLicense)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__STORES_URL__/g, CFG.storesUrl)
@@ -534,6 +576,23 @@ for (const name of ["stores", "legal", "privacy", "company"]) {   // 採用ペ�
 
 /* ---------- 5. sitemap / robots / 404 / CNAME / assets ---------- */
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n<url><loc>${CFG.siteUrl}/</loc><lastmod>${updated.replace(/\//g, "-")}</lastmod><changefreq>daily</changefreq><priority>1.0</priority></url>\n${urls.map(u => `<url><loc>${esc(u.url)}</loc><lastmod>${u.lastmod}</lastmod><changefreq>daily</changefreq></url>`).join("\n")}\n</urlset>\n`);
+write("llms.txt", `# ナタデココ ポケモンカード買取
+> 千葉・東京・神奈川に8店舗のポケモンカード（ポケカ）専門店「ナタデココ」（${CFG.company}）の公式買取サイト。シングルカード・BOX・PSA鑑定品の買取価格を毎日更新しています。
+
+## 買取の方法
+- 店頭買取：柏本店・松戸店・津田沼店・千葉中央店・中野店・お台場店・町田店・横浜店の全8店舗。住所・営業時間・買取受付時間は ${CFG.siteUrl}/stores/
+- 宅配買取：全国対応。送料・査定料・キャンセル料・返送料・振込手数料はすべて0円、最短当日入金、店頭と同じ価格。申込は ${CFG.siteUrl}/takuhai/
+- 宅配買取の流れ・ルール：${CFG.siteUrl}/rules/
+
+## 主なページ
+- 買取価格表（毎日更新）：${CFG.siteUrl}/
+- BOX買取：${CFG.siteUrl}/lp/box/
+- PSA鑑定品の買取：${CFG.siteUrl}/lp/psa/
+- 店舗一覧：${CFG.siteUrl}/stores/
+${[["柏本店", "kashiwa"], ["松戸店", "matsudo"], ["津田沼店", "tsudanuma"], ["千葉中央店", "chibachuo"], ["中野店", "nakano"], ["お台場店", "odaiba"], ["町田店", "machida"], ["横浜店", "yokohama"]].map(([n, id]) => `- ${n}：${CFG.siteUrl}/stores/${id}/`).join("\n")}
+- 会社概要：${CFG.siteUrl}/company/
+- 古物営業法に関する表示：${CFG.siteUrl}/legal/
+`);
 write("robots.txt", `User-agent: *\nAllow: /\nSitemap: ${CFG.siteUrl}/sitemap.xml\n`);
 write("google6b85628da0df3843.html", "google-site-verification: google6b85628da0df3843.html");   // Search Consoleの所有権確認（消さない）
 write("404.html", `<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="4;url=/"><title>ページが見つかりません｜ナタデココ</title><style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif;background:linear-gradient(135deg,#FFF6C9,#B8F4F4 50%,#DCCBFF);color:#173B5C}img{height:200px}h1{margin:12px 0 4px;font-size:22px}a{display:inline-block;margin-top:14px;background:#fff;border:2px solid #A9F3F4;border-radius:999px;padding:10px 22px;text-decoration:none;color:#173B5C;font-weight:700;box-shadow:0 3px 0 #A9F3F4}</style></head><body><div><img src="/img/chars/amery2.webp" alt=""><h1>ページが見つかりません</h1><p>数秒後に買取価格表へ移動します。</p><a href="/">買取価格表へ</a></div></body></html>`);

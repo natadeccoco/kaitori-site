@@ -138,13 +138,13 @@ return tpl.replace(/__SELLMODE__/g, mode)
   .replace("__MODELABEL__", st ? "店頭買取" : `宅配買取</small><small class="h1s same">店頭と同じ価格`)
   .replace("__MODELINK__", "")
   .replace("__MODEBNR__", st
-    ? `<a class="tkbnr" href="/takuhai/" aria-label="宅配買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span><span class="tk-tx"><small>お店に行けない方・遠方の方は</small><b>宅配買取は<em>コチラ</em></b><span class="tk-sub">店頭と同じ価格・送料無料・最短当日入金</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`
+    ? `<a class="tkbnr" href="/takuhai/" aria-label="宅配買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span><span class="tk-tx"><small>お店に行けない方・遠方の方は</small><b>宅配買取は<em>コチラ</em></b><span class="tk-sub">店頭と同じ価格・返送料まで無料・最短当日入金</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`
     : `<a class="tkbnr" href="/" aria-label="店頭買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5M4 9v11h16V9M9 20v-6h6v6"/></svg></span><span class="tk-tx"><small>お店に持ち込んで売る方は</small><b>店頭買取は<em>コチラ</em></b><span class="tk-sub">千葉・東京・神奈川 8店舗</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`)
   .replace('<footer id="stores">', st ? '<footer id="stores">' : TK_FAQ_HTML + '<footer id="stores">')
   .replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("__DATA__", dataJson)
   .replace(/__STORES_URL__/g, CFG.storesUrl)
-  .replace("<!--__HEAD__-->", headCommon(st ? "ナタデココ｜ポケカ買取価格表（店頭買取）" : "ナタデココ｜ポケカ宅配買取 買取価格表", st ? "ポケモンカード専門店ナタデココの店頭買取価格表。千葉・東京・神奈川の8店舗で、シングル・PSA10・未開封BOX・旧裏を毎日更新の価格で買取。" : "全国対応・送料無料・最短当日入金のポケモンカード宅配買取。首都圏8店舗の専門店ナタデココが店頭と同じ価格で買取。シングル・PSA10・未開封BOX・旧裏の買取価格表を毎日更新、カードを選んでLINEで申込。", CFG.siteUrl + (st ? "/" : "/takuhai/"), CFG.siteUrl + "/ogp.png") + `
+  .replace("<!--__HEAD__-->", headCommon(st ? "ナタデココ｜ポケカ買取価格表（店頭買取）" : "ナタデココ｜ポケカ宅配買取 買取価格表", st ? "ポケモンカード専門店ナタデココの店頭買取価格表。千葉・東京・神奈川の8店舗で、シングル・PSA10・未開封BOX・旧裏を毎日更新の価格で買取。" : "全国対応・送料無料（キャンセル時の返送料も無料）・最短当日入金のポケモンカード宅配買取。首都圏8店舗の専門店ナタデココが店頭と同じ価格で買取。シングル・PSA10・未開封BOX・旧裏の買取価格表を毎日更新、カードを選んでLINEで申込。", CFG.siteUrl + (st ? "/" : "/takuhai/"), CFG.siteUrl + "/ogp.png") + `
 <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "Organization", name: CFG.company, url: CFG.siteUrl, sameAs: [CFG.xUrl, CFG.shopUrl] })}</script>` + (st ? "" : TK_LD) + (st ? `
 <script type="application/ld+json">${JSON.stringify({ "@context": "https://schema.org", "@type": "WebSite", name: CFG.siteName, alternateName: ["ナタデココ", "ナタデココ買取表"], url: CFG.siteUrl + "/" })}</script>` : "")) };
 const SITE_FX = fs.existsSync(path.join(SRC, "site_fx.html")) ? read(path.join(SRC, "site_fx.html")) : "";   // 全ページ共通の仕上げ（LINEアイコン・進捗バー・キラキラ・キャラ反応）

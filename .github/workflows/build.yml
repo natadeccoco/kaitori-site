@@ -56,6 +56,12 @@ jobs:
         run: node build.js
       - name: 公開用の画像を軽くする（デプロイのタイムアウト対策）
         run: node shrink_images.js
+      - name: 宅配買取店Xのピックアップ画像（今の価格で今日の6枚）を作る
+        continue-on-error: true   # 失敗してもサイトの公開は止めない（GAS側が日付を見て投稿を止める）
+        run: |
+          sudo apt-get update -qq >/dev/null 2>&1 || true
+          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-cjk-extra >/dev/null 2>&1 || true
+          python3 xpick/render.py
       - name: データ・画像の変更をコミット
         run: |
           git config user.name "kaitori-bot"

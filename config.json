@@ -57,6 +57,7 @@
     "旧弾": "シングル",
     "汎用": "最低保証"
   },
+  "hideNames": ["スタンプラリー"],
   "staffReportUrl": "https://script.google.com/macros/s/AKfycbw-wkodhT2Gmt7pTDZJJDorXAjAT5lHzndPN-FoaGFDaOt8U_YycX9CCB-hk3bzjagh/exec",
   "campaign": {
     "on": true,

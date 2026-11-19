@@ -48,6 +48,14 @@ if (sheetJson) {
     items = items.filter(i => i.cat !== cat).concat(extra);
   }
 }
+// サイトに出さないカード（config.json の hideNames：名前にこの文字が入るものは載せない。買取表スプレッドシートはそのまま）
+{
+  const hn = (CFG.hideNames || []).filter(Boolean);
+  if (hn.length) { const n0 = items.length; const isHide = i => hn.some(w => String(i.name || "").includes(w));
+    // 以前つくった個別ページが残っていれば消す（URLを直接開いても出ないように）
+    items.filter(isHide).forEach(i => { if (i.id && /^[\w-]+$/.test(i.id)) fs.rmSync(path.join(DIST, "card", i.id), { recursive: true, force: true }); });
+    items = items.filter(i => !isHide(i)); console.log(`サイト非表示（hideNames）: ${n0 - items.length} 件`); }
+}
 items.forEach(i => { if (/noimage/.test(i.img)) i.img = ""; });
 // 自前に取り込んだ画像（img/cards/<hash>.webp）があればそちらを使う（出典URLを出さない）
 {

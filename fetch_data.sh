@@ -5,7 +5,7 @@ set -u
 if [ -z "${SITE_DATA_URL:-}" ]; then echo "SITE_DATA_URL 未設定: 既存の data_*.csvで生成します"; exit 0; fi
 ok=0
 tmp=$(mktemp)
-if curl -fsSL --max-time 180 "${SITE_DATA_URL}?action=sitedata" -o "$tmp" && node -e 'const d=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));if(!d.tabs||!d.tabs.length)process.exit(1)' "$tmp"; then
+if curl -fsSL --max-time 330 "${SITE_DATA_URL}?action=sitedata" -o "$tmp" && node -e 'const d=JSON.parse(require("fs").readFileSync(process.argv[1],"utf8"));if(!d.tabs||!d.tabs.length)process.exit(1)' "$tmp"; then
   mv "$tmp" data_sheet.json; echo "updated data_sheet.json"; ok=1
 else
   echo "WARN: sitedata の取得に失敗。前回の data_sheet.json を使います"; rm -f "$tmp"

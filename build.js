@@ -29,6 +29,14 @@ if (sheetJson) {
   // 買取表スプレッドシート（GAS sitedata）＋ Myca画像カタログ
   const sd = require("./sheetdata.js");
   const data = JSON.parse(sheetJson);
+  // おたちゅう価格だけで決まった行（ラッシュ欄が空。GAS が oonly:1 を付ける）はサイトに出さない（config.json の hideOtachuOnly。買取表スプレッドシートには残る）
+  if (CFG.hideOtachuOnly) {
+    const only = { ...data, tabs: data.tabs.map(t => ({ ...t, rows: t.rows.filter(r => r.oonly) })).filter(t => t.rows.length) };
+    const gone = only.tabs.length ? sd.sheetToItems(only, CFG) : [];
+    gone.forEach(i => { if (i.id && /^[\w-]+$/.test(i.id)) fs.rmSync(path.join(DIST, "card", i.id), { recursive: true, force: true }); });   // 以前つくった個別ページも消す
+    data.tabs.forEach(t => { t.rows = t.rows.filter(r => !r.oonly); });
+    console.log(`サイト非表示（おたちゅうのみ参照）: ${gone.length} 件`);
+  }
   items = sd.sheetToItems(data, CFG);
   const catalog = sd.loadCatalog(read(path.join(ROOT, "master_images.csv")));
   sd.resolveImages(items, catalog, sd.loadOverrides(read(path.join(ROOT, "image_overrides.csv"))));

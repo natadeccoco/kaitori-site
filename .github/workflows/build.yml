@@ -58,9 +58,10 @@ jobs:
         run: node shrink_images.js
       - name: 宅配買取店Xのピックアップ画像（今の価格で今日の6枚）を作る
         continue-on-error: true   # 失敗してもサイトの公開は止めない（GAS側が日付を見て投稿を止める）
+        timeout-minutes: 6        # 2026-11-19 apt が固まってサイトの公開が20分以上止まったため、時間で打ち切る
         run: |
-          sudo apt-get update -qq >/dev/null 2>&1 || true
-          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-cjk-extra >/dev/null 2>&1 || true
+          timeout 90 sudo apt-get update -qq >/dev/null 2>&1 || true
+          timeout 150 sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-cjk-extra >/dev/null 2>&1 || true
           python3 xpick/render.py
       - name: データ・画像の変更をコミット
         run: |

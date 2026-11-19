@@ -252,6 +252,7 @@ function daily() {
       if (!arrived && age >= UNSENT_DAYS) { ss.deleteSheet(sh); state = '未着・削除'; amount = ''; }
       else state = arrived ? '着荷' : '到着待ち';
     }
+    else if (/LINE待ち/.test(String(v[COL.tab - 1]))) { state = 'LINE未接続'; amount = ''; }   // 見積書タブがまだ無い（LINEでつながっていない）申込（11/19）
     const won = arrived && !cancel && Number(amount) > 0;
     // 期限の前日（申込日+2日）に、まだ届いていない人へ公式LINEで1回だけお知らせ
     let remind = v[COL.remind - 1];

@@ -152,6 +152,17 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       <h2 style="margin-top:18px">X（旧Twitter）用の投稿文<span class="cnt" id="xCnt"></span></h2>
       <textarea id="xText" style="min-height:190px"></textarea>
       <div style="margin-top:8px"><button class="btn sub" type="button" id="xCopy">投稿文をコピー</button><span class="hint" id="xMsg" style="margin-left:8px"></span></div>
+      <div style="margin-top:8px"><label style="font-weight:700"><input type="checkbox" id="xUrl"> 投稿文にサイトのURLを入れる</label> <span class="hint">（自動投稿では、URL入りは1回 約30円・URLなしは約2円かかります。自分の手で投稿するなら無料です）</span></div>
+      <div id="xReqBox" style="margin-top:16px;padding:14px;border:2px solid #1D9BF0;border-radius:14px;background:#F3FAFF">
+        <b style="font-size:16px">Xに自動で投稿する（本部の承認つき）</b>
+        <p class="hint" style="margin:6px 0 10px">店舗の「買取価格・オリパの承認グループ」（LINE WORKS）に、画像・投稿文・買取表との差が届きます。役員が「承認して投稿」を押すと、その店舗のXアカウントに投稿されます。画像は4枚までです。</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+          <select id="xStore" style="min-width:150px;flex:0 0 auto"><option value="">店舗をえらぶ</option><option>柏本店</option><option>松戸店</option><option>津田沼店</option><option>千葉中央店</option><option>中野店</option><option>お台場店</option><option>町田店</option><option>横浜店</option></select>
+          <input type="text" id="xName" placeholder="申請する人の名前" style="max-width:200px;flex:1 1 140px">
+          <button class="btn" type="button" id="xReq" style="flex:0 0 auto">Xへの投稿を申請する</button>
+        </div>
+        <p class="hint" id="xReqMsg" style="margin:8px 0 0;font-weight:700;color:var(--navy)"></p>
+      </div>
     </section>
 
     <section class="box" style="margin-top:16px">
@@ -387,7 +398,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     }).then(function(fs){
       $("outBox").hidden=false;$("outN").textContent=fs.length+"枚";
       $("pv").innerHTML=fs.map(function(f){return '<figure><img src="'+f.url+'" alt=""><figcaption><a class="btn sub" href="'+f.url+'" download="'+esc(f.name)+'">この画像を保存</a></figcaption></figure>'}).join("");
-      FILES=fs;$("dlAll").hidden=fs.length<2;$("xText").value=xText(o,list,d);xCount();
+      FILES=fs;CVS=cvs;XLAST=[o,list,d];XDONE="";$("xReqMsg").textContent="";$("dlAll").hidden=fs.length<2;$("xText").value=xText(o,list,d);xCount();
       $("mkmsg").textContent="できました。下で確認して保存してください。";$("outBox").scrollIntoView({behavior:"smooth"});
     }).catch(function(e){$("mkmsg").textContent="つくれませんでした。もう一度お試しください。";console.error(e)}).then(function(){b.disabled=false;});
   }
@@ -401,17 +412,42 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   document.querySelector(".presets").addEventListener("click",function(e){var b=e.target.closest("button");if(!b)return;var v=PRE[b.dataset.pre];
     $("tpl").value=tplAt(v.tpl);$("title").value=v.title;$("note").value=v.note;$("showName").checked=v.name;$("showDate").checked=true;$("showQr").checked=true;preMark();preview();});
   ["title","tpl","store","sort","cTheme","cPrice","chara","note","tmark","showDate","showName","showQr"].forEach(function(k){var f=function(){preMark();preview()};$(k).addEventListener("input",f);$(k).addEventListener("change",f);});
-  var FILES=[],FB_URL="__STAFF_URL__";
+  var FILES=[],CVS=[],XLAST=null,XDONE="",FB_URL="__STAFF_URL__",LW_URL="https://script.google.com/macros/s/AKfycbwXHuu-X3L0qzJhvaszEIm-1xdeNIqJACQ0uM7mz5Q0hvwfdF9IuQiTKr3qmscNVmnhcQ/exec";
   $("dlAll").onclick=function(){FILES.forEach(function(f,i){setTimeout(function(){var a=document.createElement("a");a.href=f.url;a.download=f.name;document.body.appendChild(a);a.click();a.remove();},i*500)});};
   // X用の投稿文（Xの文字数は全角2・半角1・URLは23で数えて280まで）
   function xw(s){var n=0;s.replace(/https?:\/\/\S+/g,function(){n+=23;return ""}).split("").forEach(function(c){n+=/[\u0000-\u10FF\u2000-\u200D\u2010-\u201F\u2032-\u2037]/.test(c)?1:2});return n;}
-  function xText(o,list,d){var head="【ナタデココ"+(o.store?" "+o.store:"")+"】"+o.title.replace(/^ナタデココ\s*/,"")+"（"+(d.getMonth()+1)+"/"+d.getDate()+"更新）",tail="\n最新の買取価格はこちら▼\nhttps://kaitori.pokemon-card.shop/\n\n#ポケカ #ポケカ買取 #ナタデココ",lines=[];
+  function xText(o,list,d){var head="【ナタデココ"+(o.store?" "+o.store:"")+"】"+o.title.replace(/^ナタデココ\s*/,"")+"（"+(d.getMonth()+1)+"/"+d.getDate()+"更新）",tail=($("xUrl").checked?"\n最新の買取価格はこちら▼\nhttps://kaitori.pokemon-card.shop/":"\n最新の買取価格はプロフィールのリンクから！")+"\n\n#ポケカ #ポケカ買取 #ナタデココ",lines=[];
     for(var k=0;k<list.length;k++){var s=list[k],k2=kind(s.it),ln="・"+(k2&&k2[0]==="psa"?"PSA10 ":"")+s.it.name+" "+yen(s.price),more=k<list.length-1?"\n…ほか":"";
       if(xw(head+"\n\n"+lines.concat(ln).join("\n")+more+"\n"+tail)>280)break;lines.push(ln);}
     return head+"\n\n"+lines.join("\n")+(lines.length<list.length?"\n…ほか":"")+"\n"+tail;}
   function xCount(){var w=xw($("xText").value);$("xCnt").textContent="文字数 "+Math.ceil(w/2)+" / 140"+(w>280?"（長すぎます）":"");$("xCnt").style.color=w>280?"#D0342C":"";}
   $("xText").addEventListener("input",xCount);
   $("xCopy").onclick=function(){var t=$("xText");var done=function(){$("xMsg").textContent="コピーしました。"};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t.value).then(done,function(){t.select();document.execCommand("copy");done()});else{t.select();document.execCommand("copy");done();}};
+  // ---------- Xへの投稿を申請（店舗の承認グループ → 承認でその店舗のXに投稿） ----------
+  $("xUrl").onchange=function(){if(XLAST){$("xText").value=xText(XLAST[0],XLAST[1],XLAST[2]);xCount();}};
+  try{var xs0=localStorage.getItem("nd_staff_store");if(xs0)$("xStore").value=xs0;var xn0=localStorage.getItem("nd_staff_xname");if(xn0)$("xName").value=xn0;}catch(e){}
+  function xJpeg(cv){var q=.9,u=cv.toDataURL("image/jpeg",q);while(u.length>5.5e6&&q>.5){q-=.1;u=cv.toDataURL("image/jpeg",q);}return u.split(",")[1];}
+  $("xReq").onclick=function(){var msg=function(t,bad){$("xReqMsg").textContent=t;$("xReqMsg").style.color=bad?"#D0342C":"";};
+    var st=$("xStore").value,nm=$("xName").value.trim(),tx=$("xText").value.trim(),wu=$("xUrl").checked;
+    if(!CVS.length||!XLAST){msg("先に「画像をつくる」を押してください。",1);return;}
+    if(XDONE){msg("この画像はもう申請ずみです（依頼番号 "+XDONE+"）。もう一度申請するときは「画像をつくる」を押し直してください。",1);return;}
+    if(CVS.length>4){msg("Xに投稿できる画像は4枚までです（いま "+CVS.length+"枚）。カードを減らすか、枚数の多いサイズにしてください。",1);return;}
+    if(!st){msg("店舗をえらんでください。",1);return;}
+    if(!nm){msg("申請する人の名前を入れてください。",1);return;}
+    if(!tx){msg("投稿文が空です。",1);return;}
+    if(xw(tx)>280){msg("投稿文が長すぎます（140文字まで）。",1);return;}
+    if(!wu&&/https?:\/\//.test(tx)){msg("投稿文にURLが入っています。「投稿文にサイトのURLを入れる」にチェックを入れるか、URLを消してください。",1);return;}
+    if(wu&&!/https?:\/\//.test(tx))wu=false;
+    var pass="";try{pass=sessionStorage.getItem("nd_staff")||"";localStorage.setItem("nd_staff_xname",nm)}catch(e){}
+    var items=XLAST[1].map(function(s){var k2=kind(s.it);return {n:(k2&&k2[0]==="psa"?"PSA10 ":"")+s.it.name,b:s.it.price,p:s.price}});
+    var b=$("xReq");b.disabled=true;msg("送っています…（画像が大きいので少し時間がかかります）");
+    var imgs;try{imgs=CVS.map(xJpeg)}catch(e){b.disabled=false;msg("画像を用意できませんでした。「画像をつくる」を押し直してください。",1);return;}
+    fetch(LW_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"xpost",pass:pass,store:st,requester:nm,text:tx,url:wu,images:imgs,items:items})})
+      .then(function(r){return r.json()}).then(function(j){
+        if(j&&j.ok){XDONE=j.id;msg("申請しました（依頼番号 "+j.id+"）。"+st+"の承認グループに届いています。役員が承認すると、Xに投稿されます。");}
+        else msg("申請できませんでした："+((j&&j.error)||"もう一度お試しください"),1);
+      }).catch(function(e){msg("申請できませんでした。通信を確認して、もう一度お試しください。",1);console.error(e)}).then(function(){b.disabled=false;});
+  };
   // ---------- 保存と呼び出し（全店共有。本部のスプレッドシートに保存） ----------
   var OPT=["title","store","sort","cTheme","cPrice","chara","note","tmark"],CHK=["showDate","showName","showQr"],SV=[];
   function svMsg(t){$("svMsg").textContent=t||"";}

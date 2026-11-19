@@ -349,6 +349,9 @@ const packs = [...bySet].filter(([, a]) => a.length >= 3).map(([set, a]) => {
 }).sort((a, b) => b.items.length - a.items.length);
 const packLink = p => `<a href="/pack/${p.slug}/">${esc(p.set)}${p.exp ? "（" + esc(p.exp) + "）" : ""} <small>${p.items.length}</small></a>`;
 const packIndexLinks = packs.map(packLink).join("");
+// 今は作っていない収録弾ページ（旧URL p-xxxx など）を消す：残ると古い文言のまま公開され続けるため（11/20）
+{ const keep = new Set(packs.map(p => p.slug)), dir = path.join(DIST, "pack");
+  if (fs.existsSync(dir)) for (const d of fs.readdirSync(dir)) if (!keep.has(d) && /^[\w-]+$/.test(d) && fs.statSync(path.join(dir, d)).isDirectory()) fs.rmSync(path.join(dir, d), { recursive: true, force: true }); }
 for (const p of packs) {
   const cats = [...new Set(p.items.map(x => x.cat))];
   const top = p.items[0];

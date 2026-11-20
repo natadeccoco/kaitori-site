@@ -143,7 +143,7 @@ return tpl.replace(/__SELLMODE__/g, mode)
   .replace("__MODEBNR__", st
     ? `<a class="tkbnr" href="/takuhai/" aria-label="宅配買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span><span class="tk-tx"><small>お店に行けない方・遠方の方は</small><b>宅配買取は<em>コチラ</em></b><span class="tk-sub">店頭と同じ価格・返送料まで無料・最短当日入金</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`
     : `<a class="tkbnr" href="/" aria-label="店頭買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5M4 9v11h16V9M9 20v-6h6v6"/></svg></span><span class="tk-tx"><small>お店に持ち込んで売る方は</small><b>店頭買取は<em>コチラ</em></b><span class="tk-sub">千葉・東京・神奈川 8店舗</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`)
-  .replace('<footer id="stores">', st ? '<footer id="stores">' : X_FOLLOW_HTML + TK_FAQ_HTML + '<footer id="stores">')
+  .replace('<footer id="stores">', st ? X_FOLLOW_HTML + '<footer id="stores">' : X_FOLLOW_HTML + TK_FAQ_HTML + '<footer id="stores">')
   .replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("__DATA__", dataJson)
   .replace(/__STORES_URL__/g, CFG.storesUrl)

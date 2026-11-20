@@ -104,10 +104,11 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       <section class="box">
         <h2><span class="n">1</span>カードをえらぶ</h2>
         <div class="fcats" id="fcat"></div>
+        <div class="fcats" id="fera"></div>
         <div class="srow">
           <input type="text" id="q" placeholder="カード名・型番（例：リザードン 201/165）">
         </div>
-        <div class="frow"><label>価格 <input type="number" id="pmin" min="0" step="100" placeholder="下限"> 〜 <input type="number" id="pmax" min="0" step="100" placeholder="上限"> 円</label><label>レアリティ <select id="frar"><option value="">すべて</option></select></label></div>
+        <div class="frow"><label>価格 <input type="number" id="pmin" min="0" step="100" placeholder="下限"> 〜 <input type="number" id="pmax" min="0" step="100" placeholder="上限"> 円</label><label>レアリティ <select id="frar"><option value="">すべて</option></select></label><label>ならび順 <select id="fsort"><option value="new">新しいカードから</option><option value="hi">価格が高い順</option><option value="lo">価格が安い順</option></select></label></div>
         <div class="list" id="res"></div>
         <p class="hint" id="resn"></p>
         <div class="frow">いま出ているカードを上から <input type="number" id="addN" min="1" max="100" value="40"> 枚 <button class="btn sub" type="button" id="addTop">まとめて追加</button><span class="hint" id="addMsg"></span></div>
@@ -189,7 +190,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   try{var sv=sessionStorage.getItem("nd_staff");if(sv)tryEnter(sv,true);}catch(e){}
 
   /* ---------- データ ---------- */
-  var ITEMS=[],SEL=[],LAST=[];   // SEL: {it, price}
+  var ITEMS=[],SEL=[],LAST=[],HIGH=100000;   // SEL: {it, price}
   var norm=function(s){return String(s||"").normalize("NFKC").toLowerCase().replace(/[ぁ-ゖ]/g,function(c){return String.fromCharCode(c.charCodeAt(0)+96)}).replace(/\s+/g,"")};
   var kind=function(it){return it.vOf?["ns","シュリンクなし"]:it.cat==="PSA"?["psa",it.grade||"PSA10"]:it.cat==="BOX"?["box","BOX"]:null};
   var tagHTML=function(it){var k=kind(it);return k?'<span class="tag '+k[0]+'">'+esc(k[1])+'</span>':""};
@@ -198,10 +199,12 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
     $("res").innerHTML='<div class="none">読み込み中…</div>';
     fetch("/data/items.json",{cache:"no-store"}).then(function(r){return r.json()}).then(function(d){
       var a=Array.isArray(d)?d:(d.items||[]);
-      a.forEach(function(i){if(!(i.price>0))return;i._h=norm([i.name,i.code,i.set,i.rarity,i.cat].join(" "));ITEMS.push(i);
+      a.forEach(function(i){if(!(i.price>0))return;i._h=norm([i.name,i.code,i.set,i.rarity,i.cat].join(" "));i._era=Math.ceil((Number(i.order)||0)/100)*100;var em=String(i.exp||"").match(/^(?:SV|SM|XY|BW|M|S)(\d+)([A-Za-z]*)/i);i._sub=em?Number(em[1])+(em[2]?.5:0):0;ITEMS.push(i);
         if(i.price2>0){var n=Object.assign({},i,{id:i.id+"~ns",price:i.price2,price2:0,vOf:i.id});n._h=i._h+"しゅりんくなし";ITEMS.push(n);}});
       var cats=[];ITEMS.forEach(function(i){if(cats.indexOf(i.cat)<0)cats.push(i.cat)});
       $("fcat").innerHTML=cats.map(function(c){return '<label><input type="checkbox" value="'+esc(c)+'"><span>'+esc(c==="ポケモン"?"シングル":c)+'</span></label>'}).join("");
+      var ERA=[[900,"MEGA"],[800,"SV"],[700,"SS"],[600,"SM"],[500,"XY"],[400,"BW"]];
+      $("fera").innerHTML=ERA.filter(function(e){return ITEMS.some(function(i){return i._era===e[0]})}).map(function(e){return '<label><input type="checkbox" value="'+e[0]+'"><span>'+e[1]+'</span></label>'}).join("");
       var rc={};ITEMS.forEach(function(i){if(i.rarity&&i.rarity!=="-"&&!/^[★☆●◆]+$/.test(i.rarity))rc[i.rarity]=(rc[i.rarity]||0)+1});
       $("frar").innerHTML='<option value="">すべて</option>'+Object.keys(rc).sort(function(a,b){return rc[b]-rc[a]}).slice(0,40).map(function(r){return '<option>'+esc(r)+'</option>'}).join("");
       try{var s=localStorage.getItem("nd_staff_store");if(s)$("store").value=s;}catch(e){}
@@ -211,16 +214,17 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   }
   function search(){
     var ws=$("q").value.trim().split(/[\s　]+/).filter(Boolean).map(norm),cs=Array.prototype.map.call($("fcat").querySelectorAll("input:checked"),function(x){return x.value});   // チェックなし＝全部
-    var lo=Number($("pmin").value)||0,hi=Number($("pmax").value)||0,rr=$("frar").value;
-    var out=ITEMS.filter(function(i){if(cs.length&&cs.indexOf(i.cat)<0)return false;if(lo&&i.price<lo)return false;if(hi&&i.price>hi)return false;if(rr&&i.rarity!==rr)return false;return ws.every(function(w){return i._h.indexOf(w)>=0})});
-    out.sort(function(a,b){return b.price-a.price});LAST=out;
-    $("resn").textContent=out.length.toLocaleString()+"件"+(out.length>100?"（価格が高い順に120件まで表示。名前や型番でしぼりこめます）":"");
+    var lo=Number($("pmin").value)||0,hi=Number($("pmax").value)||0,rr=$("frar").value,so=$("fsort").value;
+    var es=Array.prototype.map.call($("fera").querySelectorAll("input:checked"),function(x){return Number(x.value)});   // シリーズ（MEGA・SVなど）。チェックなし＝全部
+    var out=ITEMS.filter(function(i){if(cs.length&&cs.indexOf(i.cat)<0)return false;if(es.length&&es.indexOf(i._era)<0)return false;if(lo&&i.price<lo)return false;if(hi&&i.price>hi)return false;if(rr&&i.rarity!==rr)return false;return ws.every(function(w){return i._h.indexOf(w)>=0})});
+    out.sort(so==="hi"?function(a,b){return b.price-a.price}:so==="lo"?function(a,b){return a.price-b.price}:function(a,b){return ((a.price>=HIGH)-(b.price>=HIGH))||(b._era-a._era)||(b._sub-a._sub)||((Number(b.order)||0)-(Number(a.order)||0))||(b.price-a.price)});LAST=out;   // 初期は新しい弾から（同じ弾の中は価格が高い順）。10万円以上はあまり使わないので後ろへ
+    $("resn").textContent=out.length.toLocaleString()+"件"+(out.length>120?"（"+(so==="hi"?"価格が高い順":so==="lo"?"価格が安い順":"新しい弾から順（10万円以上は後ろ）")+"に120件まで表示。名前や型番でしぼりこめます）":"");
     var keep=$("res").scrollTop;
     $("res").innerHTML=out.slice(0,120).map(function(i){var on=SEL.some(function(s){return s.it.id===i.id});
       return '<button type="button" class="tile'+(on?" added":"")+'" data-id="'+esc(i.id)+'">'+(i.img?'<img src="'+esc(i.img)+'" loading="lazy" alt="">':'<span class="ph"></span>')+'<span class="tg">'+tagHTML(i)+'</span><b>'+esc(i.name)+'</b><span class="cd">'+esc([i.code,i.rarity!=="-"?i.rarity:""].filter(Boolean).join(" ／ ")||i.set||"")+'</span><span class="pr">'+yen(i.price)+'</span></button>'}).join("")||'<div class="none">見つかりません</div>';
     if(search._keep)$("res").scrollTop=keep;search._keep=false;
   }
-  var st;$("q").addEventListener("input",function(){clearTimeout(st);st=setTimeout(search,150)});$("fcat").onchange=search;
+  var st;$("q").addEventListener("input",function(){clearTimeout(st);st=setTimeout(search,150)});$("fcat").onchange=search;$("fera").onchange=search;$("fsort").onchange=search;
   ["pmin","pmax"].forEach(function(k){$(k).addEventListener("input",function(){clearTimeout(st);st=setTimeout(search,250)})});$("frar").onchange=search;
   // いま出ているカード（しぼりこみ結果）を上から◯枚まとめて追加
   $("addTop").onclick=function(){var n=Math.max(1,Math.min(100,Number($("addN").value)||0)),a=0;

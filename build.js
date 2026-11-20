@@ -98,7 +98,7 @@ const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson
 console.log(`items: ${items.length}`, Object.fromEntries(RAW_CATS.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 
 /* ---------- 2. 価格表ページ ---------- */
-const clientCfg = { base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
+const clientCfg = { base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, xTk: "https://x.com/" + (CFG.xTakuhai || "coco_netshop"), pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
 const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }) => ({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }));
 const dataJson = JSON.stringify({ updated, items: slim }).replace(/</g, "\\u003c");
 const headCommon = (title, desc, url, image) => `${desc ? `<meta name="description" content="${esc(desc)}">\n` : ""}<meta property="og:type" content="website">
@@ -111,6 +111,9 @@ ${image ? `<meta property="og:image" content="${esc(image)}">` : ""}
 <link rel="canonical" href="${esc(url)}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">`;
 const pageTpl = read(path.join(SRC, "page.html"));
+// 宅配買取店X（@coco_netshop）のフォロー案内。カード個別ページと宅配ページに出す（11/20 フォロワー1,000人に向けて）
+const X_TK = CFG.xTakuhai || "coco_netshop";
+const X_FOLLOW_HTML = `<aside class="xfol"><span class="xfol-ic" aria-hidden="true">𝕏</span><span class="xfol-tx"><b>買取強化・価格アップ情報をXで毎日配信中</b><small>ナタデココ宅配買取店 @${esc(X_TK)}</small></span><a class="xfol-btn" href="https://x.com/intent/follow?screen_name=${encodeURIComponent(X_TK)}" target="_blank" rel="noopener" onclick="window.gtag&&gtag('event','x_follow',{page_path:location.pathname})">フォローする</a><style>.xfol{display:flex;align-items:center;gap:12px;max-width:880px;margin:18px auto;padding:12px 16px;border-radius:16px;background:#14171a;color:#fff;box-sizing:border-box}.xfol-ic{font-size:26px;font-weight:800;line-height:1}.xfol-tx{flex:1;min-width:0;line-height:1.35}.xfol-tx b{display:block;font-size:15px}.xfol-tx small{font-size:12px;opacity:.75}.xfol-btn{flex:none;background:#fff;color:#14171a;border-radius:999px;padding:9px 18px;font-weight:800;font-size:14px;text-decoration:none}.xfol-btn:hover{opacity:.9}@media(max-width:600px){.xfol{margin:14px 12px;gap:10px;padding:10px 12px}.xfol-tx b{font-size:13px}.xfol-btn{padding:8px 14px;font-size:13px}}</style></aside>\n`;
 // 宅配買取ページ：AI・検索向けの説明（サービス情報・申込の流れ・よくある質問）。答えは /faq/ と /rules/ の範囲内（11/20）
 const TK_FAQ = [
   ["送料や手数料はかかりますか？", "かかりません。送料（佐川急便の着払い）・査定料・キャンセル料・返送料・振込手数料はすべて無料です。"],
@@ -140,7 +143,7 @@ return tpl.replace(/__SELLMODE__/g, mode)
   .replace("__MODEBNR__", st
     ? `<a class="tkbnr" href="/takuhai/" aria-label="宅配買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span><span class="tk-tx"><small>お店に行けない方・遠方の方は</small><b>宅配買取は<em>コチラ</em></b><span class="tk-sub">店頭と同じ価格・返送料まで無料・最短当日入金</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`
     : `<a class="tkbnr" href="/" aria-label="店頭買取はコチラ"><span class="tk-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 9l1-5h16l1 5M4 9v11h16V9M9 20v-6h6v6"/></svg></span><span class="tk-tx"><small>お店に持ち込んで売る方は</small><b>店頭買取は<em>コチラ</em></b><span class="tk-sub">千葉・東京・神奈川 8店舗</span></span><span class="tk-ar" aria-hidden="true">›</span></a>`)
-  .replace('<footer id="stores">', st ? '<footer id="stores">' : TK_FAQ_HTML + '<footer id="stores">')
+  .replace('<footer id="stores">', st ? '<footer id="stores">' : X_FOLLOW_HTML + TK_FAQ_HTML + '<footer id="stores">')
   .replace("/*__CONFIG__*/{}", JSON.stringify(clientCfg))
   .replace("__DATA__", dataJson)
   .replace(/__STORES_URL__/g, CFG.storesUrl)
@@ -309,7 +312,7 @@ for (const it of items) {
     .replace(/__PSABADGE__/g, /^PSA\s*10$/i.test(it.grade) ? `<img class="badge img" src="/img/psa10.webp?v=3" alt="PSA10">` : /^PSA/i.test(it.grade) ? `<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i, ""))}</span></span>` : "")
     .replace(/__LINE_URL__/g, esc(lineUrl)).replace(/__ID__/g, () => esc(it.id)).replace(/__PRICENUM__/g, String(it.price)).replace(/__LINEID__/g, () => esc(CFG.lineId)).replace(/__LINEMSG__/g, () => esc(lineMsg)).replace(/__LINE_ADD__/g, esc(CFG.lineAddUrl)).replace(/__ADD_URL__/g, `/takuhai/#add=${encodeURIComponent(it.id)}&back=1`)
     .replace(/__RELATED__/g, related.map(r => `<a class="rc" href="/card/${encodeURIComponent(r.id)}/">${r.img ? `<img src="${esc(r.img)}" alt="" loading="lazy" onerror="this.remove()">` : ""}${psaBadge(r)}<b>${esc(r.name)}</b><span>${esc(r.code)}</span><em>${esc(yen(r.price))}</em></a>`).join(""))
-    .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace(/__COMPANY__/g, esc(CFG.company))
+    .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace("<!--__XFOLLOW__-->", X_FOLLOW_HTML).replace(/__COMPANY__/g, esc(CFG.company))
     .replace(/__PACK_LINK__/g, it.set && packSlugBySet.has(it.set) ? `<a class="sec" href="/pack/${packSlugBySet.get(it.set)}/">${esc(it.set)}の買取価格一覧 ›</a>` : "")
     .replace(/__CAT_URL__/g, `/cat/${CAT_SLUG[it.cat] || "c"}/`);
   write(rel + "index.html", wrap(html));

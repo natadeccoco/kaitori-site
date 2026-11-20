@@ -58,11 +58,20 @@
     "汎用": "最低保証"
   },
   "hideOtachuOnly": true,
-  "hideNames": ["スタンプラリー", "ピカチュウ(ANA)", "ピカチュウ(ポケモンフェスタ2002)", "(CD付未開封)ピカチュウ", "フシギソウ LV.23(サザンアイランド)", "イワーク LV.40(サザンアイランド)", "ラッタ LV.25(サザンアイランド)"],
+  "hideNames": [
+    "スタンプラリー",
+    "ピカチュウ(ANA)",
+    "ピカチュウ(ポケモンフェスタ2002)",
+    "(CD付未開封)ピカチュウ",
+    "フシギソウ LV.23(サザンアイランド)",
+    "イワーク LV.40(サザンアイランド)",
+    "ラッタ LV.25(サザンアイランド)"
+  ],
   "staffReportUrl": "https://script.google.com/macros/s/AKfycbw-wkodhT2Gmt7pTDZJJDorXAjAT5lHzndPN-FoaGFDaOt8U_YycX9CCB-hk3bzjagh/exec",
   "campaign": {
     "on": true,
     "start": "2026-11-17",
     "end": "2026-11-30"
-  }
+  },
+  "xTakuhai": "coco_netshop"
 }

@@ -923,7 +923,7 @@ $("#howtoBtn").onclick=openHow;$("#howtoLink").onclick=openHow;
 $("#howtoClose").onclick=()=>$("#howto").hidden=true;
 $("#howto").addEventListener("click",e=>{if(e.target.id==="howto")$("#howto").hidden=true;});
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){$("#howto").hidden=true;closeItem();}});
-$("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;if($("#bannerLine"))$("#bannerLine").href=CONFIG.lineAddUrl;$("#xLink").href=CONFIG.xUrl;
+$("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;if($("#bannerLine"))$("#bannerLine").href=CONFIG.lineAddUrl;$("#xLink").href=("__SELLMODE__"==="takuhai"&&CONFIG.xTk)||CONFIG.xUrl;
 
 /* ============================ 初期化 ============================ */
 function boot(items){

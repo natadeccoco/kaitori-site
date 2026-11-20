@@ -250,7 +250,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   function pctPrice(base,pc){return roundUp(base*(1+pc/100));}
   function refreshRow(row,n){row.querySelector(".cmp").innerHTML=cmpHTML(SEL[n]);}
   function onSel(e,final){var t=e.target,row=t.closest(".it");if(!row||row.dataset.n==null)return;var n=+row.dataset.n,s=SEL[n];
-    if(t.classList.contains("gnsel")){s.gn=t.value;t.classList.toggle("on",!!t.value);return;}
+    if(t.classList.contains("gnsel")){s.gn=t.value;t.classList.toggle("on",!!t.value);preview();return;}
     if(t.classList.contains("pct")){if(t.value===""||t.value==="-"){if(final&&t.value===""){s.pct=null;}return;}var pc=Number(t.value);if(isNaN(pc))return;s.pct=pc;s.price=pctPrice(s.it.price,pc);row.querySelector(".prc").value=s.price;refreshRow(row,n);return;}
     if(t.classList.contains("prc")){var v=Number(t.value);if(t.value!==""&&v>=0){s.price=v;s.pct=null;row.querySelector(".pct").value="";refreshRow(row,n);}}}
   $("sel").addEventListener("change",function(e){onSel(e,true);preview()});
@@ -381,7 +381,22 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
   function jobOpts(t,d,scale){var k=scale||1;return {tmark:$("tmark").value,size:[Math.round(t[1][0]*k),Math.round(t[1][1]*k)],cols:t[2],rows:t[3],title:$("title").value.trim()||"買取表",store:$("store").value,theme:$("cTheme").value,price:$("cPrice").value,chara:$("chara").value,note:$("note").value,name:$("showName").checked,qr:$("showQr").checked,fill:$("tpl").value!=="auto",date:$("showDate").checked?(d.getMonth()+1)+"月"+d.getDate()+"日":""};}
   // できあがりの見本：えらんだカードや設定が変わるたびに、小さいサイズで1枚目を描き直す
   var pvT=0,pvSeq=0;
-  function preview(){clearTimeout(pvT);pvT=setTimeout(function(){
+  // マークを1つでも付けたら、その説明の文を注意書きの先頭に自動で入れる（マークを全部はずすと、自動で入れた文だけ消える）
+  var EX_AUTO=[];
+  function autoNote(){
+    var EX_BOX=NOTE5.split("\n")[0],EX_PSA=NOTE4.split("\n")[0],tm=$("tmark").value,need=[];
+    var K=function(s){var k=kind(s.it);return k?k[0]:""};
+    if(SEL.some(function(s){var k=K(s);return (k==="box"||k==="ns")&&((s.gn&&s.gn!=="c")||tm==="g")}))need.push(EX_BOX);
+    if(SEL.some(function(s){return K(s)==="psa"&&((s.gn&&s.gn!=="c")||tm==="g")}))need.push(EX_PSA);
+    if(SEL.some(function(s){return !K(s)&&(s.gn==="c"||tm==="c")}))need.push(EX_CEN);
+    var cur=$("note").value.split("\n"),has=function(l){return cur.some(function(x){return x.trim()===l})};
+    var drop=EX_AUTO.filter(function(l){return need.indexOf(l)<0}),add=need.filter(function(l){return !has(l)});
+    EX_AUTO=EX_AUTO.filter(function(l){return need.indexOf(l)>=0&&has(l)}).concat(add);
+    if(!drop.length&&!add.length)return;
+    var rest=cur.filter(function(x){return drop.indexOf(x.trim())<0});
+    $("note").value=add.concat(rest).join("\n").replace(/^\n+/,"");preMark();
+  }
+  function preview(){autoNote();clearTimeout(pvT);pvT=setTimeout(function(){
     if(!SEL.length){$("pvImg").removeAttribute("src");$("pvN").textContent="";$("pvNote").textContent="カードをえらぶと、ここに仕上がりが出ます。";return;}
     var J=job(),seq=++pvSeq,o=jobOpts(J.t,new Date(),900/Math.max(J.t[1][0],J.t[1][1]));
     $("pvN").textContent=J.t[0].replace(/（.*$/,"");
@@ -389,6 +404,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       $("pvNote").textContent=J.pages>6?"カードが多すぎます（"+J.pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。":J.pages>1?"全部で"+J.pages+"枚になります（ここに出ているのは1枚目）。":"保存用の大きい画像は、下の「画像をつくる」で作ります。";}).catch(function(){});
   },350);}
   function make(){
+    autoNote();
     if(!SEL.length){$("mkmsg").textContent="のせるカードをえらんでください。";return;}
     var J=job(),t=J.t,per=J.per,list=J.list,pages=J.pages;if(pages>6){$("mkmsg").textContent="カードが多すぎます（"+pages+"枚になります）。枚数の多いサイズにするか、カードを減らしてください。";return;}
     var d=new Date(),o=jobOpts(t,d,1);
@@ -406,7 +422,7 @@ h2 .cnt{margin-left:auto;font-size:13px;color:var(--ink-2)}
       $("mkmsg").textContent="できました。下で確認して保存してください。";$("outBox").scrollIntoView({behavior:"smooth"});
     }).catch(function(e){$("mkmsg").textContent="つくれませんでした。もう一度お試しください。";console.error(e)}).then(function(){b.disabled=false;});
   }
-  var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。",NOTE4="【減額なし】ケース割れなど重度のダメージ品は減額の可能性がございます。\n"+NOTE2;
+  var NOTE1="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE2="買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。\n買取価格は在庫状況によって予告なく変更になる場合がございます。",NOTE4="【減額なし】ケース割れなど重度のダメージ品は減額の可能性がございます。\n"+NOTE2,EX_CEN="【センタリング減額なし】マークのカードは、センタリング（印刷の上下左右のズレ）による減額をいたしません。";
   var NOTE3="買取価格は状態や在庫状況によって予告なく変更になる場合がございます。\n買取上限に達した場合は、期間内であっても受付を終了させていただくことがございます。",NOTE5="【減額なし】マークのBOXは、箱のへこみやシュリンクの破れがあっても、中のカードまで損傷が及んでいないと判断できる場合は減額いたしません。\n"+NOTE3;$("nt3").onclick=function(){$("note").value=NOTE3;preMark();preview()};$("nt5").onclick=function(){$("note").value=NOTE5;preMark();preview()};
   $("nt1").onclick=function(){$("note").value=NOTE1;preview()};$("nt2").onclick=function(){$("note").value=NOTE2;preMark();preview()};$("nt4").onclick=function(){$("note").value=NOTE4;preMark();preview()};
   // かんたん設定（Xのシングル用／PSA用／BOX用）

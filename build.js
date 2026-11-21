@@ -105,9 +105,9 @@ function seriesScore(i) {
   return 0;
 }
 // 2026-11-21 店頭の対象カード5%UP：買取表スプレッドシートの「5%UP」列に印がある行（シングルだけ）に、店頭用の価格 sp を付ける
-// 端数：1,000円未満は10円単位、1万円未満は100円単位、1万円以上は1,000円単位で切り上げ（宅配の価格 price は変えない）
+// 端数（2026-11-21 本人決定）：1万円未満は10円単位、1万円〜10万円未満は100円単位、10万円以上は1,000円単位で切り上げ（宅配の価格 price は変えない）
 { const SU = CFG.storeUp || {}, rate = Number(SU.rate) || 0;
-  const up = p => { const v = Math.round(p * rate * 100) / 100, u = p < 1000 ? 10 : p < 10000 ? 100 : 1000; return Math.ceil(v / u - 1e-9) * u; };
+  const up = p => { const v = Math.round(p * rate * 100) / 100, u = p < 10000 ? 10 : p < 100000 ? 100 : 1000; return Math.ceil(v / u - 1e-9) * u; };
   items.forEach(i => { i.sp = 0; if (SU.on && rate > 1 && i.up5 && i.cat === "ポケモン" && i.price > 0) { const s = up(i.price); if (s > i.price) { i.sp = s; UP_COUNT++; } } });
   console.log(`店頭5%UP: ${UP_COUNT} 件`); }
 { const idx = {}; items.forEach(i => { let sc = seriesScore(i); if (i.cat === "BOX") { idx[i.set] = (idx[i.set] || 0) + 1; sc -= idx[i.set] * 0.001; } i.order = sc; }); }

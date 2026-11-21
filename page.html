@@ -106,6 +106,21 @@ h1,h2,h3{font-family:"M PLUS Rounded 1c","Zen Kaku Gothic New",sans-serif}
 .cattabs .tab .tc{margin:0;font-size:11px;font-weight:600;opacity:.75}
 .cattabs .tab:hover{border-color:var(--cyan-deep);color:var(--ink)}
 .cattabs .tab.on{background:linear-gradient(160deg,var(--cyan),#8EE3EC);border-color:#8EE3EC;color:var(--navy);box-shadow:0 3px 0 var(--cyan-deep)}
+/* 2026-11-21 店頭の対象カード5%UP */
+.card.up5{border-color:#F7D31A;box-shadow:0 0 0 3px #FFE27A}
+.card.up5 .im{container-type:inline-size}
+.card .uptri{position:absolute;top:0;right:0;width:44%;aspect-ratio:1;background:#E23B47;clip-path:polygon(0 0,100% 0,100% 100%);z-index:2;pointer-events:none}
+.card .uptx{position:absolute;top:5.5%;right:1.5%;z-index:3;color:#fff;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:22px;font-size:12.5cqw;line-height:1;text-align:center;transform:rotate(45deg);pointer-events:none;text-shadow:-2px -2px 0 #E23B47,2px -2px 0 #E23B47,-2px 2px 0 #E23B47,2px 2px 0 #E23B47,0 -2px 0 #E23B47,0 2px 0 #E23B47,-2px 0 0 #E23B47,2px 0 0 #E23B47,0 2px 4px rgba(0,0,0,.45)}
+.card .uptx small{display:block;font-size:68%}
+.card.up5 .pr{background:linear-gradient(180deg,#FFFBE0,#FFF1A8);white-space:nowrap}
+.card .pr .po{font-size:11px;color:#7b8790;text-decoration:line-through;font-weight:500;font-family:"Noto Sans JP",sans-serif;margin-right:3px}
+.card .pr .pa{font-size:10px;margin-right:3px}
+@media(max-width:700px){.card.up5 .pr{white-space:normal;line-height:1.15}.card .pr .po{display:block;margin:0}.card .pr .pa{display:none}}
+.grid.simple .card .uptri,.grid.simple .card .uptx{display:none}
+.grid.simple .card.up5 .pr,.grid.compact .card.up5 .pr{background:none}
+.tab[data-cat="買取5%UP対象"]{color:#8a5a00}
+.cattabs .tab[data-cat="買取5%UP対象"]{background:linear-gradient(160deg,#FFF6C9,#FFE27A);border-color:#F7D31A;color:#8a5a00;box-shadow:0 3px 0 #d9b200}
+.cattabs .tab[data-cat="買取5%UP対象"].on{background:linear-gradient(160deg,#FFE27A,#F7D31A);border-color:#d9b200;color:#5b3a00;box-shadow:0 3px 0 #b89500}
 .cattabs .tab[data-cat="PSA"].on{background:linear-gradient(160deg,#FFF6C9,#FFE27A);border-color:#FFE27A;box-shadow:0 3px 0 var(--yellow-deep)}
 .cattabs .tab[data-cat="BOX"].on{background:linear-gradient(160deg,#FFE2F1,#FFB8DC);border-color:#FFB8DC;box-shadow:0 3px 0 #E06FA8}
 .cattabs .tab[data-cat="旧裏"].on,.cattabs .tab[data-cat="最低保証"].on{background:linear-gradient(160deg,#ECE3FF,#CDB8FF);border-color:#CDB8FF;box-shadow:0 3px 0 #8E6FD9}
@@ -599,7 +614,9 @@ const norm=s=>(s||"").toLowerCase().replace(/[\s\-\/_・]/g,"").replace(/[Ａ-�
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const GROUPS=[["type","種類"],["grade","状態"],["rarity","レアリティ"],["set","収録弾"]];
 const GRP=c=>(CONFIG.catGroups&&CONFIG.catGroups[c])||c;   // 表示用のまとめ（ポケモン＋旧弾→シングル、汎用→最低保証）
-const CATS=()=>["すべて",...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
+const UPCAT="買取5%UP対象",IS_STORE=document.body.classList.contains("sm-store")&&Date.now()>=Date.parse((CONFIG.storeUpStart||"2000-01-01")+"T00:00:00+09:00");   // 店頭の買取表だけ。開始日（日本時間0時）より前は何も変えない   // 店頭の対象カード5%UP（店頭の買取表だけ）
+const upN=()=>IS_STORE?ITEMS.filter(i=>i.up5).length:0;
+const CATS=()=>["すべて",...(upN()?[UPCAT]:[]),...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
 function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.cat===c));apply();}
 
 /* 種類の呼び方。BOXのシュリンクなし価格は、カートに入れられるように別の品目（id の末尾が ~ns）として一覧に出す */
@@ -629,7 +646,7 @@ function renderTabs(){
   ["#tabs","#cattabs"].forEach(sel=>{
     const t=$(sel);t.innerHTML="";
     CATS().forEach(cat=>{
-      const n=cat==="すべて"?ITEMS.length:(c[cat]||0);
+      const n=cat==="すべて"?ITEMS.length:cat===UPCAT?upN():(c[cat]||0);
       const b=document.createElement("button");b.className="tab"+(cat===state.cat?" on":"");b.dataset.cat=cat;b.type="button";b.setAttribute("role","tab");
       b.innerHTML=`${esc(cat)}<span class="tc">${n.toLocaleString()}件</span>`;b.onclick=()=>{setCat(cat);if(sel==="#tabs")scrollToList();};t.appendChild(b);
     });
@@ -644,7 +661,7 @@ function chipEl(key,val,label,cnt){
 }
 function renderFilterPanel(){
   const p=$("#fpanel");p.innerHTML="";
-  const base=ITEMS.filter(i=>state.cat==="すべて"||GRP(i.cat)===state.cat);
+  const base=ITEMS.filter(i=>state.cat===UPCAT?i.up5:(state.cat==="すべて"||GRP(i.cat)===state.cat));
   GROUPS.forEach(([key,label])=>{
     const c=counts(key,base);const keys=Object.keys(c);if(!keys.length)return;
     keys.sort(key==="set"?(a,b)=>(setRanks()[b]||0)-(setRanks()[a]||0)||c[b]-c[a]:(a,b)=>c[b]-c[a]);
@@ -662,12 +679,12 @@ function renderFilterPanel(){
 }
 function renderBrowse(){
   const wrap=$("#browseGroups");wrap.innerHTML="";
-  const base=ITEMS.filter(i=>state.cat==="すべて"||GRP(i.cat)===state.cat);
+  const base=ITEMS.filter(i=>state.cat===UPCAT?i.up5:(state.cat==="すべて"||GRP(i.cat)===state.cat));
   const order={type:null,grade:null,rarity:CONFIG.topRarities,set:null};
   { // カテゴリーから探す
     const c={};ITEMS.forEach(i=>{const gg=GRP(i.cat);c[gg]=(c[gg]||0)+1;});const g=document.createElement("div");g.innerHTML=`<h3>カテゴリー</h3><div class="chips"></div>`;
     const box=g.querySelector(".chips");
-    CATS().filter(k=>k!=="すべて").forEach(k=>{const b=document.createElement("button");b.className="chip";b.type="button";b.innerHTML=`${esc(k)}<span class="c">${c[k]||0}</span>`;b.onclick=()=>{GROUPS.forEach(([kk])=>state[kk].clear());state.q="";$("#q").value="";setCat(k);scrollToList();};box.appendChild(b);});
+    CATS().filter(k=>k!=="すべて").forEach(k=>{const b=document.createElement("button");b.className="chip";b.type="button";b.innerHTML=`${esc(k)}<span class="c">${k===UPCAT?upN():(c[k]||0)}</span>`;b.onclick=()=>{GROUPS.forEach(([kk])=>state[kk].clear());state.q="";$("#q").value="";setCat(k);scrollToList();};box.appendChild(b);});
     wrap.appendChild(g);
   }
   GROUPS.forEach(([key,label])=>{
@@ -703,7 +720,7 @@ function filtered(){
   const q=norm(state.q), qs=(state.q||"").split(/[\s\u3000]+/).map(norm).filter(Boolean);   // 単語をスペースで区切ったら、順番に関係なく全部含むものを出す
   const qr=(state.q||"").split(/[\s\u3000]+/).filter(r=>norm(r)), qn=qr.map(numQ);
   let out=ITEMS.filter(it=>{
-    if(state.cat!=="すべて"&&GRP(it.cat)!==state.cat)return false;
+    if(state.cat===UPCAT){if(!it.up5)return false;}else if(state.cat!=="すべて"&&GRP(it.cat)!==state.cat)return false;
     for(const [k] of GROUPS){ if(state[k].size&&!state[k].has(k==="set"?setKey(it):it[k])) return false; }
     if(q){ const hay=norm([it.name,it.code,it.no,it.exp,it.set,it.rarity,it.cat,it.grade,it.kw].join(" "));
       if(qn.some(Boolean)){ if(!qr.every((r,i)=>qn[i]?numHit(it,qn[i]):hay.includes(norm(r)))) return false; }   // 数字だけの語は「カード番号」として一致するものだけ
@@ -714,7 +731,13 @@ function filtered(){
   if(s==="price-desc")out.sort((a,b)=>b.price-a.price);
   else if(s==="price-asc")out.sort((a,b)=>a.price-b.price);
   else if(s==="name")out.sort((a,b)=>a.name.localeCompare(b.name,"ja"));
-  else out.sort((a,b)=>(b.order-a.order)||(b.price-a.price));
+  else{out.sort((a,b)=>(b.order-a.order)||(b.price-a.price));
+    /* 店頭の対象カード5%UP：おすすめ順の「すべて」「シングル」では、対象カードを上のほうに少し混ぜる（最大8枚。3枚目から5枚おき）。検索・絞り込み中は混ぜない */
+    if(IS_STORE&&!q&&(state.cat==="すべて"||state.cat==="シングル")&&!GROUPS.some(([k])=>state[k].size)){
+      const ups=out.filter(i=>i.up5).slice(0,8);
+      if(ups.length){const rest=out.filter(i=>ups.indexOf(i)<0);ups.forEach((u,n)=>rest.splice(Math.min(2+n*5,rest.length),0,u));out=rest;}
+    }
+  }
   return out;
 }
 function cardUrl(id){return (CONFIG.base||"/")+"card/"+encodeURIComponent(id)+"/";}
@@ -725,11 +748,11 @@ function cardHTML(it){
   const img=it.img&&!/noimage/.test(it.img)?`<img src="${esc(it.img)}" alt="${esc(it.name)}" loading="lazy" data-alt="${esc((it.imgAlt||[]).join("|"))}" onerror="imgErr(this)">`:"";
   const stag=it.vOf?`<img class="stag" src="/img/shrink_nashi.webp?v=1" alt="シュリンクなし">`:"";const dn=(it.vOf?"【シュリンクなし】":"")+it.name;
   const badge=/^PSA\s*10$/i.test(it.grade)?`<img class="badge img" src="/img/psa10.webp?v=3" alt="PSA10">`:/^PSA/i.test(it.grade)?`<span class="badge"><span class="p">PSA</span><span class="g">${esc(it.grade.replace(/psa/i,""))}</span></span>`:"";
-  return `<div class="card${q?" sel":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
-    <a class="im" href="${cardUrl(it.vOf||it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${stag}${catTag}<span class="qty">${q}</span></a>
+  return `<div class="card${q?" sel":""}${it.up5?" up5":""}" role="button" tabindex="0" data-id="${esc(it.id)}" data-cat="${esc(it.cat)}" title="${esc(it.name)} ${esc(it.code)}">
+    <a class="im" href="${cardUrl(it.vOf||it.id)}" title="${esc(it.name)} の詳細を見る">${ph}${img}${badge}${stag}${catTag}${it.up5?'<span class="uptri"></span><span class="uptx">5%<small>UP</small></span>':""}<span class="qty">${q}</span></a>
     <div class="bxname">${esc(dn)}</div>${it.cat==="汎用"?`<div class="cnote">${esc(it.note||"")}</div>`:`<div class="no"><span>${esc(it.code||it.set||"")}</span><span>${esc(it.rarity!=="-"?it.rarity:"")}</span></div>${it.note?`<div class="cnote" style="min-height:0">${esc(it.note)}</div>`:""}`}
     <div class="nm"><b>${esc(dn)}</b><span>${esc([it.code,it.set,it.rarity!=="-"?it.rarity:"",it.cat!=="ポケモン"?(it.cat==="汎用"?"最低保証":it.cat):""].filter(Boolean).join("　"))}</span></div>
-    <div class="pr num">${yen(it.price)}</div>
+    <div class="pr num">${it.up5?`<span class="po">${yen(it.base)}</span><span class="pa">▶</span>`:""}${yen(it.price)}</div>
     <button class="cartbtn" type="button" data-add="${esc(it.id)}" aria-label="${esc(it.name)}${it.vOf?" シュリンクなし":""} をカートに入れる">${q?`<span class="ic">🛒</span><span class="tx">${q}枚 追加済み</span>`:`<span class="ic">🛒</span><span class="tx">カートに入れる</span>`}</button>
   </div>`;
 }
@@ -845,7 +868,7 @@ function pxCheck(){
   if(pxBusy)return pxBusy;
   pxBusy=fetch((CONFIG.base||"/")+"data/prices.json?t="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw 0;return r.json();}).then(d=>{
     const p=d&&d.p;if(!p||typeof p!=="object")throw 0;const ch=[];let any=false;
-    ITEMS.forEach(it=>{const np=p[it.id];if(typeof np!=="number"||np===it.price)return;
+    ITEMS.forEach(it=>{const np=(IS_STORE&&d.ps&&typeof d.ps[it.id]==="number")?d.ps[it.id]:p[it.id];if(typeof np!=="number"||np===it.price)return;
       if(cart.has(it.id))ch.push({name:it.name,code:it.code,grade:it.grade,old:it.price,now:np});it.price=np;any=true;});
     [...cart.keys()].forEach(id=>{if(p[id]==null&&!cart.get(id).item.omakase){const c=cart.get(id);ch.push({name:c.item.name,code:c.item.code,grade:c.item.grade,old:c.item.price,now:null});cart.delete(id);any=true;}});
     pxAt=Date.now();
@@ -928,9 +951,12 @@ $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;if($(
 
 /* ============================ 初期化 ============================ */
 function boot(items){
+  if(IS_STORE)items.forEach(i=>{if(i.sp>i.price){i.base=i.price;i.price=i.sp;i.up5=1;}});   /* 店頭の買取表：対象カードは5%UP後の価格で表示（宅配は元の価格のまま） */
   ITEMS=items;addShrinkless();loadCart();
   (function(){var tk=$("#sfxTk");if(!tk)return;var top=items.filter(function(x){return x.img&&!/noimage/.test(x.img)&&x.cat==="ポケモン"}).sort(function(a,b){return ((b.order||0)-(a.order||0))||(b.price-a.price)}).slice(0,24);if(top.length<6)return;
     var h=top.map(function(r){return '<a href="'+cardUrl(r.id)+'"><img src="'+esc(r.img)+'" alt="" loading="lazy" onerror="this.remove()"><span><b>'+esc(r.name)+'</b><em>'+yen(r.price)+'</em></span></a>'}).join("");tk.querySelector(".run").innerHTML=h+h;tk.hidden=false;})();
+  if(state.cat===UPCAT&&!upN())state.cat="すべて";   /* キャンペーンが終わったあとに、保存されていた絞り込みが残らないように */
+  if(upN()&&new URLSearchParams(location.search).get("up"))state.cat=UPCAT;   /* バナーの「対象カードを見る」から来たとき */
   renderTabs();renderBrowse();renderCart();apply();
 }
 function imgErr(el){const alts=(el.dataset.alt||"").split("|").filter(Boolean);if(alts.length){el.dataset.alt=alts.slice(1).join("|");el.src=alts[0];}else el.remove();}

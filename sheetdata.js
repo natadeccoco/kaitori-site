@@ -51,7 +51,7 @@ function sheetToItems(data, cfg) {
         id: `${CAT_SLUG[t.cat] || "c"}-${hashId(t.cat + "|" + norm(r.name) + "|" + norm(no) + "|" + norm(exp))}`,   // URLに使うので英数字だけ
         name: r.name, code, set: r.pack || "", rarity: r.rarity || "-", grade: t.cat === "PSA" ? "PSA10" : "素体",
         type: t.cat === "BOX" ? "ボックス" : "シングル", cat: t.cat, no, exp, price: r.price, price2: r.price2 || 0,
-        img: r.img || "", note: r.note || "", kw: "", order: 0, tab: t.tab
+        img: r.img || "", note: r.note || "", kw: "", order: 0, tab: t.tab, up5: r.up5 ? 1 : 0
       });
     }
   }

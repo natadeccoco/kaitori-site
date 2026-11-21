@@ -19,7 +19,18 @@ const CAMP = CFG.campaign && CFG.campaign.on && CFG.campaign.banner !== false ? 
 const CAMP_HTML = CAMP ? `<div id="ndCamp" data-s="${CAMP.start}" data-e="${CAMP.end}" style="display:none"><a href="/rules/#campaign" class="ndCampBar"><span class="ndCampTag">11/30まで</span><span class="ndCampMain">宅配買取 <b>買取金額5%UP</b></span><span class="ndCampSub">買取総額1万円以上が対象｜1回の上乗せ上限3万円まで｜期間中何回でもOK</span><span class="ndCampMore">条件を見る ›</span></a><style>#ndCamp{position:sticky;top:0;z-index:19}.ndCampBar{display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;box-sizing:border-box;min-height:96px;padding:12px 16px;background:linear-gradient(90deg,#ff4f8b,#ff7aa8 50%,#ff4f8b);border-top:3px solid #fff;border-bottom:3px solid #fff;color:#fff;text-decoration:none;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:26px;line-height:1.3;text-align:center;box-shadow:0 4px 12px rgba(43,58,103,.12)}.ndCampBar:hover{filter:brightness(1.05)}.ndCampTag{background:#fff;color:#e8306f;border-radius:999px;padding:4px 18px;font-size:22px}.ndCampMain b{font-size:46px;color:#fff6a8;letter-spacing:.02em}.ndCampSub{font-size:21px}.ndCampMore{font-size:20px;background:#fff;color:#e8306f;border-radius:999px;padding:5px 16px}@media(max-width:1250px){.ndCampBar{font-size:20px;gap:14px}.ndCampTag{font-size:17px}.ndCampMain b{font-size:34px}.ndCampSub{font-size:16px}.ndCampMore{font-size:16px}}@media(max-width:600px){.ndCampBar{min-height:0!important;gap:2px 6px;font-size:13px;padding:6px 8px;border-width:2px}.ndCampTag{font-size:11px;padding:1px 8px}.ndCampMain b{font-size:15px}.ndCampSub{flex-basis:100%;order:3;font-size:11px}.ndCampMore{font-size:11px;padding:1px 8px;background:none;color:#fff;text-decoration:underline}}</style></div><script>(function(){var b=document.getElementById("ndCamp");if(!b)return;var n=Date.now(),s=Date.parse(b.dataset.s+"T00:00:00+09:00"),e=Date.parse(b.dataset.e+"T23:59:59+09:00");if(!(n>=s&&n<=e)){b.remove();return}b.style.display="block";var h=document.querySelector("header"),t=document.querySelector(".ticker");function fit(){if(h&&getComputedStyle(h).position=="sticky")b.style.top=h.offsetHeight+"px";if(t&&t.offsetHeight>40&&innerWidth>600)b.querySelector(".ndCampBar").style.minHeight=t.offsetHeight+"px";}fit();addEventListener("resize",fit);addEventListener("load",fit);setTimeout(fit,1500);})();</script>` : "";
 const CAMP_SKIP = /^(liff|staff|recruit|company|privacy|legal)\//;
 const CAMP_ONLY = /./;   // 2026-11-18 広告再開に合わせて全ページに表示（LP・買取表・カード個別・トップなど。CAMP_SKIP のページは除く）
-const addCamp = (rel, s) => (!CAMP || !CAMP_ONLY.test(rel) || CAMP_SKIP.test(rel) || s.indexOf("</header>") < 0) ? s : s.replace("</header>", "</header>" + CAMP_HTML);
+// 2026-11-21 店頭の「対象カード5%UP」バナー（config.json の storeUp.on。対象カードが1枚以上ある時だけ。宅配5%UPの帯の代わりに出す。出すのは店頭の買取表（トップ）と店舗一覧だけ。宅配・LP・カード個別など、宅配につながるページには絶対に出さない）
+let UP_COUNT = 0;   // 対象カードの枚数（下で数える）
+const UP_ONLY = /^(index\.html$|stores\/)/;
+const UP_START = String((CFG.storeUp || {}).start || "2000-01-01");   // この日（日本時間）の0時から出す。前の日までは今までどおり宅配5%UPの帯
+const UP_HTML = () => `<div id="ndUp" data-s="${UP_START}" style="display:none"><style>#ndUp{position:sticky;top:0;z-index:19}.ndUpBar{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;box-sizing:border-box;min-height:96px;padding:12px 16px;background:linear-gradient(90deg,#ffcf3a,#ffe27a 50%,#ffcf3a);border-top:3px solid #fff;border-bottom:3px solid #fff;color:#5b3a00;text-decoration:none;font-family:"M PLUS Rounded 1c",sans-serif;font-weight:800;font-size:22px;line-height:1.3;text-align:center;box-shadow:0 4px 12px rgba(43,58,103,.12)}.ndUpBar:hover{filter:brightness(1.04)}.ndUpTag{background:#E23B47;color:#fff;border-radius:999px;padding:4px 18px;font-size:19px}.ndUpMain b{font-size:40px;color:#E23B47;letter-spacing:.02em}.ndUpSub{font-size:17px}.ndUpMore{font-size:17px;background:#5b3a00;color:#fff;border-radius:999px;padding:5px 16px}@media(max-width:1250px){.ndUpBar{font-size:18px;gap:12px}.ndUpTag{font-size:15px}.ndUpMain b{font-size:30px}.ndUpSub{font-size:14px}.ndUpMore{font-size:14px}}@media(max-width:600px){.ndUpBar{min-height:0;gap:2px 6px;font-size:13px;padding:6px 8px;border-width:2px}.ndUpTag{font-size:11px;padding:1px 8px}.ndUpMain b{font-size:16px}.ndUpSub{flex-basis:100%;order:3;font-size:11px}.ndUpMore{font-size:11px;padding:1px 8px;background:none;color:#5b3a00;text-decoration:underline}}</style><a href="/?up=1#list" class="ndUpBar"><span class="ndUpTag">店頭買取</span><span class="ndUpMain">対象カード <b>買取UPキャンペーン</b></span><span class="ndUpSub">対象カードは買取価格${String((CFG.storeUp || {}).label || "5%UP")}</span><span class="ndUpMore">対象カードを見る ›</span></a></div>`;
+const UP_JS = `<script>(function(){var u=document.getElementById("ndUp");if(!u)return;if(Date.now()<Date.parse(u.dataset.s+"T00:00:00+09:00")){u.remove();return}var c=document.getElementById("ndCamp");if(c)c.remove();u.style.display="block";var h=document.querySelector("header");function fit(){if(h&&getComputedStyle(h).position=="sticky")u.style.top=h.offsetHeight+"px";}fit();addEventListener("resize",fit);addEventListener("load",fit);})();</script>`;
+const addCamp = (rel, s) => {
+  if (CAMP_SKIP.test(rel) || s.indexOf("</header>") < 0) return s;
+  const camp = (CAMP && CAMP_ONLY.test(rel)) ? CAMP_HTML : "";   // 宅配5%UPの帯（宅配・LP・カード個別などは今までどおり）
+  const up = (UP_COUNT > 0 && UP_ONLY.test(rel)) ? UP_HTML() : "";   // 店頭の買取表・店舗一覧だけ：開始日からは店頭キャンペーンのバナーに入れ替える
+  return (camp || up) ? s.replace("</header>", "</header>" + up + camp + (up ? UP_JS : "")) : s;
+};
 const write = (rel, s) => { if (/\.html$/.test(rel)) s = addCamp(rel, s); const f = path.join(DIST, rel); fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, /\.html$/.test(rel) ? rebase(s) : s); };
 
 /* ---------- 1. データ読み込み ---------- */
@@ -93,13 +104,19 @@ function seriesScore(i) {
   if (i.cat === "BOX") { const bySet = { "MEGA": 900, "SV": 800, "SS": 700, "SM": 600, "XY": 500 }; return bySet[set] || 300; }
   return 0;
 }
+// 2026-11-21 店頭の対象カード5%UP：買取表スプレッドシートの「5%UP」列に印がある行（シングルだけ）に、店頭用の価格 sp を付ける
+// 端数：1,000円未満は10円単位、1万円未満は100円単位、1万円以上は1,000円単位で切り上げ（宅配の価格 price は変えない）
+{ const SU = CFG.storeUp || {}, rate = Number(SU.rate) || 0;
+  const up = p => { const v = Math.round(p * rate * 100) / 100, u = p < 1000 ? 10 : p < 10000 ? 100 : 1000; return Math.ceil(v / u - 1e-9) * u; };
+  items.forEach(i => { i.sp = 0; if (SU.on && rate > 1 && i.up5 && i.cat === "ポケモン" && i.price > 0) { const s = up(i.price); if (s > i.price) { i.sp = s; UP_COUNT++; } } });
+  console.log(`店頭5%UP: ${UP_COUNT} 件`); }
 { const idx = {}; items.forEach(i => { let sc = seriesScore(i); if (i.cat === "BOX") { idx[i.set] = (idx[i.set] || 0) + 1; sc -= idx[i.set] * 0.001; } i.order = sc; }); }
 const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson && JSON.parse(sheetJson).updated) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
 console.log(`items: ${items.length}`, Object.fromEntries(RAW_CATS.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 
 /* ---------- 2. 価格表ページ ---------- */
-const clientCfg = { base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, xTk: "https://x.com/" + (CFG.xTakuhai || "coco_netshop"), pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
-const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }) => ({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }));
+const clientCfg = { storeUpStart: UP_START, base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, xTk: "https://x.com/" + (CFG.xTakuhai || "coco_netshop"), pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
+const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order, sp }) => Object.assign({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }, sp ? { sp } : {}));   // sp = 店頭の5%UP価格（対象カードだけ）
 const dataJson = JSON.stringify({ updated, items: slim }).replace(/</g, "\\u003c");
 const headCommon = (title, desc, url, image) => `${desc ? `<meta name="description" content="${esc(desc)}">\n` : ""}<meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(CFG.siteName)}">
@@ -626,7 +643,7 @@ write("404.html", `<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><m
 write(".nojekyll", "");
 if (!/github\.io$/.test(new URL(CFG.siteUrl).host)) write("CNAME", new URL(CFG.siteUrl).host);
 write("data/items.json", dataJson);
-write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price]).concat(slim.filter(i => i.price2).map(i => [i.id + "~ns", i.price2]))), p2: Object.fromEntries(slim.filter(i => i.price2).map(i => [i.id, i.price2])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
+write("data/prices.json", JSON.stringify({ updated, p: Object.fromEntries(slim.map(i => [i.id, i.price]).concat(slim.filter(i => i.price2).map(i => [i.id + "~ns", i.price2]))), p2: Object.fromEntries(slim.filter(i => i.price2).map(i => [i.id, i.price2])), ps: Object.fromEntries(slim.filter(i => i.sp).map(i => [i.id, i.sp])) }));   // 申込直前の最新価格チェック用（page.html の pxCheck が読む）
 for (const f of fs.readdirSync(ROOT)) { if (/\.(png|jpg|jpeg|svg|ico|webp)$/i.test(f)) fs.copyFileSync(path.join(ROOT, f), path.join(DIST, f)); }
 if (fs.existsSync(path.join(ROOT, "img"))) fs.cpSync(path.join(ROOT, "img"), path.join(DIST, "img"), { recursive: true, filter: f => !path.basename(f).startsWith("_") });   // _missing.txt 等は公開しない
 console.log(`built ${urls.length + 1} pages -> dist/`);

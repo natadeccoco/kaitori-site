@@ -69,7 +69,13 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           if [ -n "${{ needs.check.outputs.ver }}" ]; then echo "${{ needs.check.outputs.ver }}" > site_ver.txt; fi
           git add --ignore-errors data_*.csv data_sheet.json data_updated.txt img/cards site_ver.txt || true
-          if ! git diff --cached --quiet; then git commit -m "data: $(date -u +%Y-%m-%d)" && (git push || (git pull --rebase && git push)); fi
+          # 2026-11-21 ほかの更新と重なって push できなくても、サイトの公開は止めない（データの記録は次の更新で入る）
+          if ! git diff --cached --quiet; then
+            git commit -m "data: $(date -u +%Y-%m-%d)" || true
+            pushed=0
+            if git push; then pushed=1; fi   # 重なったときは無理に合わせない（作ったサイトの中身を崩さないため）
+            if [ "$pushed" != "1" ]; then echo "::warning::データの記録を保存できませんでした（ほかの更新と重なりました）。サイトの公開は続けます。次の更新で保存されます。"; fi
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with: { path: dist }

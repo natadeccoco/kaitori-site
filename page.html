@@ -615,6 +615,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",
 const GROUPS=[["type","種類"],["grade","状態"],["rarity","レアリティ"],["set","収録弾"]];
 const GRP=c=>(CONFIG.catGroups&&CONFIG.catGroups[c])||c;   // 表示用のまとめ（ポケモン＋旧弾→シングル、汎用→最低保証）
 const UPCAT="買取5%UP対象",IS_STORE=(function(){if(!document.body.classList.contains("sm-store"))return false;var E=CONFIG.storeUpEnd||"",et=E?(E.length<=10?Date.parse(E+"T23:59:59+09:00"):Date.parse(E)):Infinity,n=Date.now();return n>=Date.parse((CONFIG.storeUpStart||"2000-01-01")+"T00:00:00+09:00")&&n<=et;})();   // 店頭の買取表だけ。開始日（日本時間0時）より前は何も変えない   // 店頭の対象カード5%UP（店頭の買取表だけ）
+/* 2026-11-26 終了が決まっているときの表示（「本日21時まで！」「明日21時まで！」「11/30 21時まで」）。終了日時が無ければ空 */
+const upEndLabel=()=>{const E=CONFIG.storeUpEnd||"";if(!E)return "";const et=E.length<=10?Date.parse(E+"T23:59:59+09:00"):Date.parse(E);if(!isFinite(et))return "";const J=32400000,n=Date.now(),de=new Date(et+J),dd=Math.floor((et+J)/86400000)-Math.floor((n+J)/86400000),T=E.length<=10?"":(de.getUTCHours()+(de.getUTCMinutes()?":"+("0"+de.getUTCMinutes()).slice(-2):"時"));return dd<=0?"本日"+T+"まで！":dd===1?"明日"+T+"まで！":(de.getUTCMonth()+1)+"/"+de.getUTCDate()+(T?" "+T:"")+"まで";};
 const upN=()=>IS_STORE?ITEMS.filter(i=>i.up5).length:0;
 const CATS=()=>["すべて",...(upN()?[UPCAT]:[]),...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
 function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.cat===c));apply();}
@@ -648,7 +650,7 @@ function renderTabs(){
     CATS().forEach(cat=>{
       const n=cat==="すべて"?ITEMS.length:cat===UPCAT?upN():(c[cat]||0);
       const b=document.createElement("button");b.className="tab"+(cat===state.cat?" on":"");b.dataset.cat=cat;b.type="button";b.setAttribute("role","tab");
-      b.innerHTML=`${esc(cat)}<span class="tc">${n.toLocaleString()}件</span>`;b.onclick=()=>{setCat(cat);if(sel==="#tabs")scrollToList();};t.appendChild(b);
+      b.innerHTML=`${esc(cat)}<span class="tc">${n.toLocaleString()}件${cat===UPCAT&&upEndLabel()?"・"+upEndLabel():""}</span>`;b.onclick=()=>{setCat(cat);if(sel==="#tabs")scrollToList();};t.appendChild(b);
     });
   });
 }

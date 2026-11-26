@@ -57,7 +57,7 @@
     "旧弾": "シングル",
     "汎用": "最低保証"
   },
-  "storeUp": { "on": true, "start": "2026-11-22", "rate": 1.05, "label": "5%UP" },
+  "storeUp": { "on": true, "start": "2026-11-22", "end": "2026-11-27T21:00:00+09:00", "rate": 1.05, "label": "5%UP" },
   "hideOtachuOnly": true,
   "hideNames": [
     "スタンプラリー",

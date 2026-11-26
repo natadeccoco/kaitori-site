@@ -614,7 +614,7 @@ const norm=s=>(s||"").toLowerCase().replace(/[\s\-\/_・]/g,"").replace(/[Ａ-�
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const GROUPS=[["type","種類"],["grade","状態"],["rarity","レアリティ"],["set","収録弾"]];
 const GRP=c=>(CONFIG.catGroups&&CONFIG.catGroups[c])||c;   // 表示用のまとめ（ポケモン＋旧弾→シングル、汎用→最低保証）
-const UPCAT="買取5%UP対象",IS_STORE=document.body.classList.contains("sm-store")&&Date.now()>=Date.parse((CONFIG.storeUpStart||"2000-01-01")+"T00:00:00+09:00");   // 店頭の買取表だけ。開始日（日本時間0時）より前は何も変えない   // 店頭の対象カード5%UP（店頭の買取表だけ）
+const UPCAT="買取5%UP対象",IS_STORE=(function(){if(!document.body.classList.contains("sm-store"))return false;var E=CONFIG.storeUpEnd||"",et=E?(E.length<=10?Date.parse(E+"T23:59:59+09:00"):Date.parse(E)):Infinity,n=Date.now();return n>=Date.parse((CONFIG.storeUpStart||"2000-01-01")+"T00:00:00+09:00")&&n<=et;})();   // 店頭の買取表だけ。開始日（日本時間0時）より前は何も変えない   // 店頭の対象カード5%UP（店頭の買取表だけ）
 const upN=()=>IS_STORE?ITEMS.filter(i=>i.up5).length:0;
 const CATS=()=>["すべて",...(upN()?[UPCAT]:[]),...CONFIG.categories,...[...new Set(ITEMS.map(i=>GRP(i.cat)))].filter(c=>!CONFIG.categories.includes(c))];
 function setCat(c){state.cat=c;document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("on",x.dataset.cat===c));apply();}

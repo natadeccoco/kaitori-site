@@ -1,7 +1,8 @@
 
-@font-face{font-family:J;src:local('Noto Sans CJK JP Black');font-weight:900}
+/* 日本語フォントは xpick/fonts/ の同梱ファイルを使う（@font-face は render.py が絶対パスで差し込む）。
+   2026-11-26 apt のインストールが失敗すると文字が□になって気づけなかったため、同梱に変えた。 */
 *{margin:0;padding:0;box-sizing:border-box}
-body{width:1200px;height:1200px;overflow:hidden;font-family:'Noto Sans CJK JP',sans-serif}
+body{width:1200px;height:1200px;overflow:hidden;font-family:'NotoJP','Noto Sans CJK JP',sans-serif}
 .bg{position:absolute;inset:0;background:linear-gradient(180deg,#f7a8d8 0%,#e6a6e8 30%,#c1b0f2 55%,#9cc6f4 78%,#86e0ee 100%)}
 .rays{position:absolute;left:-600px;top:-500px;width:2400px;height:2400px;
   background:repeating-conic-gradient(from 0deg at 50% 50%,rgba(255,255,255,.16) 0deg 6deg,rgba(255,255,255,0) 6deg 15deg);

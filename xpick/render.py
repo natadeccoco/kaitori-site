@@ -73,9 +73,47 @@ def panel(c, x, y, w, h, big, kind):
             f'<img class="im" src="{imgsrc(c["img"], kind)}" style="top:{it}px;height:{ih}px;width:{w - (20 if big else 0)}px">'
             f'<div class="rows{" h" if horiz else ""}" style="bottom:{bp}px">{rh_}</div></div></div>')
 
+FONTS = os.path.join(X, 'fonts')
+FONT_CSS = (
+    "@font-face{font-family:'NotoJP';font-weight:400;font-display:block;"
+    f"src:url('file://{FONTS}/NotoSansCJKjp-Regular.woff2') format('woff2')}}"
+    "@font-face{font-family:'NotoJP';font-weight:900;font-display:block;"
+    f"src:url('file://{FONTS}/NotoSansCJKjp-Black.woff2') format('woff2')}}"
+)
+
+def check_fonts():
+    """日本語フォントが実際に読めるか確かめる。読めないまま画像を作ると文字が□になるので、
+       ここで止める（画像を書き換えないので、GASは前日の today.json を見て投稿を見送る）。"""
+    for f in ('NotoSansCJKjp-Regular.woff2', 'NotoSansCJKjp-Black.woff2'):
+        p = os.path.join(FONTS, f)
+        if not os.path.exists(p) or os.path.getsize(p) < 100000:
+            print('NG: 日本語フォントがありません:', p); return False
+    probe = os.path.join(OUT, '_fontcheck.html')
+    open(probe, 'w', encoding='utf-8').write(
+        '<!doctype html><html><head><meta charset="utf-8"><style>' + FONT_CSS + '</style></head>'
+        '<body><span style="font-family:NotoJP;font-weight:400">漢字テストあア1</span>'
+        '<span style="font-family:NotoJP;font-weight:900">漢字テストあア1</span>'
+        '<script>Promise.all(['
+        'document.fonts.load("400 100px NotoJP","漢字テストあア1"),'
+        'document.fonts.load("900 100px NotoJP","漢字テストあア1")]).then(function(a){'
+        'document.body.setAttribute("data-ok", a[0].length>0 && a[1].length>0);'
+        '},function(){document.body.setAttribute("data-ok",false);});</script></body></html>')
+    try:
+        r = subprocess.run(['google-chrome', '--headless=new', '--no-sandbox', '--disable-gpu',
+                            '--allow-file-access-from-files', '--virtual-time-budget=4000',
+                            '--dump-dom', 'file://' + probe],
+                           capture_output=True, text=True, timeout=90)
+        ok = 'data-ok="true"' in r.stdout
+    except Exception as e:
+        print('NG: フォントの確認に失敗:', e); ok = False
+    finally:
+        if os.path.exists(probe): os.remove(probe)
+    if not ok: print('NG: 日本語フォントを読み込めませんでした（文字が□になるため中止します）')
+    return ok
+
 def page(items, chip, kind, stamp, camp):
     css = open(os.path.join(X, 'style.css'), encoding='utf-8').read()
-    h = [f'<style>{css}</style>', '<div class="bg"></div><div class="rays"></div>', '<div class="sp" style="left:690px;top:52px">✦</div>']
+    h = [f'<style>{FONT_CSS}{css}</style>', '<div class="bg"></div><div class="rays"></div>', '<div class="sp" style="left:690px;top:52px">✦</div>']
     h.append(f'<img class="logo" src="file://{ROOT}/logo.png"><img class="chara" src="file://{ROOT}/img/chars/chan3.webp">')
     h.append(f'<div class="sub">{html.escape(chip)}</div>')
     t = '高額買取中!'
@@ -110,7 +148,8 @@ def main():
     tabs, idx, bx = load()
     P = json.load(open(os.path.join(X, 'patterns.json'), encoding='utf-8'))
     os.makedirs(OUT, exist_ok=True)
-    camp = '<div class="bottom">11/30お申込みまで 表記金額から <b>さらに5%UP!</b></div>' if today <= datetime.date(2026, 11, 30) else ''
+    if not check_fonts(): sys.exit(1)
+    camp ='<div class="bottom">11/30お申込みまで 表記金額から <b>さらに5%UP!</b></div>' if today <= datetime.date(2026, 11, 30) else ''
     stamp = f'{today.month}/{today.day} {now.strftime("%H:%M")}'
     res = {'date': today.isoformat(), 'built': now.isoformat(timespec='seconds'), 'cats': {}}
     for ci, cat in enumerate(CATS):

@@ -60,8 +60,8 @@ jobs:
         continue-on-error: true   # 失敗してもサイトの公開は止めない（GAS側が日付を見て投稿を止める）
         timeout-minutes: 6        # 2026-11-19 apt が固まってサイトの公開が20分以上止まったため、時間で打ち切る
         run: |
-          timeout 90 sudo apt-get update -qq >/dev/null 2>&1 || true
-          timeout 150 sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-cjk-extra >/dev/null 2>&1 || true
+          # 2026-11-26 日本語フォントは xpick/fonts/ に同梱したので apt は使わない。
+          # （apt が失敗しても止まらない作りだったため、文字が□のまま投稿された）
           python3 xpick/render.py
       - name: データ・画像の変更をコミット
         run: |

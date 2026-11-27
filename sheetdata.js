@@ -124,7 +124,8 @@ function matchCard(it, cat) {
       c = [...new Set([`${e}/${e}_${m[1]}.jpg`, `${e}/${e.toUpperCase()}_${m[1]}.jpg`, `${e.toLowerCase()}/${e}_${m[1]}.jpg`, `${e.toLowerCase()}/${e.toLowerCase()}_${m[1]}.jpg`, `${E2}/${E2}_${m[1]}.jpg`])];
     }
     if (c.length) { it.imgAlt = c.slice(1).map(x => CARD_PREFIX + x); it.imgWhy = "guess"; return CARD_PREFIX + c[0]; }
-    if (all.length) return "";
+    // 型番があるのにカタログでその型番が見つからないカードは、名前だけでは決めない（新弾でRRの画像がSAR/MURに付くのを防ぐ）
+    return "";
   }
   // 型番なし：名前だけで決めると別のカードに当たるので、次のどちらかのときだけ画像を付ける
   //  ・同じ名前のカードがカタログに1枚しかなく、シート名に括弧書き（バージョン違いの指定）がない

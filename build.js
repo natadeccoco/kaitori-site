@@ -37,7 +37,7 @@ const NT_HTML = NT ? `<div id="ndStop" style="display:none"><style>#ndStop.solo{
 const NT_JS = `<script>(function(){var b=document.getElementById("ndStop");if(!b)return;var n=Date.now(),k=0;[].slice.call(b.querySelectorAll(".ndStopBar")).forEach(function(x){var s=Date.parse(x.dataset.s),e=Date.parse(x.dataset.e);if(n>=s&&n<=e)k++;else x.remove();});if(!k){b.remove();return}b.style.display="block";var c=document.getElementById("ndCamp")||document.getElementById("ndUp");if(c){c.insertBefore(b,c.firstChild);return}b.className="solo";var h=document.querySelector("header");function fit(){if(h&&getComputedStyle(h).position=="sticky")b.style.top=h.offsetHeight+"px";}fit();addEventListener("resize",fit);addEventListener("load",fit);})();</script>`;
 const addCamp = (rel, s) => {
   if (CAMP_SKIP.test(rel) || s.indexOf("</header>") < 0) return s;
-  const camp = (CAMP && CAMP_ONLY.test(rel)) ? CAMP_HTML : "";   // 宅配5%UPの帯（宅配・LP・カード個別などは今までどおり）
+  const camp = (CAMP && CAMP_ONLY.test(rel) && !UP_ONLY.test(rel)) ? CAMP_HTML : "";   // 2026-11-28 店頭の買取表・店舗一覧には宅配5%UPの帯を出さない   // 宅配5%UPの帯（宅配・LP・カード個別などは今までどおり）
   const up = (UP_COUNT > 0 && UP_ONLY.test(rel)) ? UP_HTML() : "";   // 店頭の買取表・店舗一覧だけ：開始日からは店頭キャンペーンのバナーに入れ替える
   const nt = (NT && UP_ONLY.test(rel)) ? NT_HTML : "";
   return (camp || up || nt) ? s.replace("</header>", "</header>" + up + nt + camp + (up ? UP_JS : "") + (nt ? NT_JS : "")) : s;

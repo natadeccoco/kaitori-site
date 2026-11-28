@@ -953,6 +953,7 @@ $("#lineAdd").href=CONFIG.lineAddUrl;$("#lineFoot").href=CONFIG.lineAddUrl;if($(
 
 /* ============================ 初期化 ============================ */
 function boot(items){
+  if(document.body.classList.contains("sm-takuhai"))items=items.filter(i=>!(i.th>Date.now()));   /* 新弾は発売から一定日数、宅配買取には出さない（店頭の買取表には出す） */
   if(IS_STORE)items.forEach(i=>{if(i.sp>i.price){i.base=i.price;i.price=i.sp;i.up5=1;}});   /* 店頭の買取表：対象カードは5%UP後の価格で表示（宅配は元の価格のまま） */
   ITEMS=items;addShrinkless();loadCart();
   (function(){var tk=$("#sfxTk");if(!tk)return;var top=items.filter(function(x){return x.img&&!/noimage/.test(x.img)&&x.cat==="ポケモン"}).sort(function(a,b){return ((b.order||0)-(a.order||0))||(b.price-a.price)}).slice(0,24);if(top.length<6)return;

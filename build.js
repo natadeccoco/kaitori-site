@@ -122,12 +122,20 @@ function seriesScore(i) {
   items.forEach(i => { i.sp = 0; if (SU.on && rate > 1 && i.up5 && i.cat === "ポケモン" && i.price > 0) { const s = up(i.price); if (s > i.price) { i.sp = s; UP_COUNT++; } } });
   console.log(`店頭5%UP: ${UP_COUNT} 件`); }
 { const idx = {}; items.forEach(i => { let sc = seriesScore(i); if (i.cat === "BOX") { idx[i.set] = (idx[i.set] || 0) + 1; sc -= idx[i.set] * 0.001; } i.order = sc; }); }
+// 新弾は発売から一定日数、宅配買取に出さない（店頭の買取表には出す）。config.json の takuhaiHold：sets に { exp:パック型番, name:弾の名前, release:発売日 } を足す
+const TH = CFG.takuhaiHold && CFG.takuhaiHold.on ? CFG.takuhaiHold : null;
+const TH_UNTIL = s => Date.parse(s.release + "T00:00:00+09:00") + (Number(s.days || TH.days) || 14) * 86400000;   // この時刻（日本時間0時）から宅配にも出す
+const thOf = i => { if (!TH) return 0; for (const s of TH.sets || []) { const u = TH_UNTIL(s); if (!(u > Date.now())) continue;
+  if ((s.exp && String(i.exp || "").toUpperCase() === String(s.exp).toUpperCase()) || (s.name && (i.set === s.name || (i.cat === "BOX" && String(i.name || "").startsWith(s.name))))) return u; } return 0; };
+items.forEach(i => { i.th = thOf(i); });
+const itemsTk = items.filter(i => !i.th);   // 宅配向けのページ（LP）で使う一覧
+console.log(`宅配に出さない新弾: ${items.length - itemsTk.length} 件`);
 const updated = (read(path.join(DATA, "data_updated.txt")).trim()) || (sheetJson && JSON.parse(sheetJson).updated) || new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, "/");
 console.log(`items: ${items.length}`, Object.fromEntries(RAW_CATS.map(c => [c, items.filter(i => i.cat === c).length])), "updated", updated);
 
 /* ---------- 2. 価格表ページ ---------- */
 const clientCfg = { storeUpStart: UP_START, storeUpEnd: UP_END, base: BASE, catGroups: CFG.catGroups || {}, lineId: CFG.lineId, lineAddUrl: CFG.lineAddUrl, xUrl: CFG.xUrl, xTk: "https://x.com/" + (CFG.xTakuhai || "coco_netshop"), pageSize: CFG.pageSize, categories: CFG.categories, topRarities: CFG.topRarities, topSetsCount: CFG.topSetsCount, oldBackExpansions: null };
-const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order, sp }) => Object.assign({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }, sp ? { sp } : {}));   // sp = 店頭の5%UP価格（対象カードだけ）
+const slim = items.map(({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order, sp, th }) => Object.assign({ id, name, code, set, rarity, grade, type, cat, no, exp, price, price2, img, imgAlt, note, order }, sp ? { sp } : {}, th ? { th } : {}));   // sp = 店頭の5%UP価格（対象カードだけ）
 const dataJson = JSON.stringify({ updated, items: slim }).replace(/</g, "\\u003c");
 const headCommon = (title, desc, url, image) => `${desc ? `<meta name="description" content="${esc(desc)}">\n` : ""}<meta property="og:type" content="website">
 <meta property="og:site_name" content="${esc(CFG.siteName)}">
@@ -329,7 +337,7 @@ for (const it of items) {
   let related = items.filter(x => x.cat === it.cat && x.id !== it.id && !vIds.has(x.id) && x.set && x.set === it.set).sort((x, y) => Math.abs(y.price - it.price) < Math.abs(x.price - it.price) ? 1 : -1).slice(0, 8);
   if (!related.length) related = items.filter(x => x.cat === it.cat && x.id !== it.id && !vIds.has(x.id) && x.rarity === it.rarity).slice(0, 8);
   const faq = cardFaq(it);
-  const html = cardTpl
+  let html = cardTpl
     .replace(/__TITLE__/g, esc(title + "｜" + CFG.siteName))
     .replace("__HEAD__", headCommon(title, desc, url, it.img) + `\n<script type="application/ld+json">${JSON.stringify(ld)}</script>\n<script type="application/ld+json">${JSON.stringify(faq.ld)}</script>`)
     .replace("__ABOUT__", cardAbout(it)).replace("__VARIANTS__", cardVariants(it) + speciesCards(it)).replace("__FAQ__", faq.html).replace("__DEX__", speciesRows(it)).replace("__EN__", enNames ? `<p class="en">${esc(enNames)}</p>` : "")
@@ -343,6 +351,8 @@ for (const it of items) {
     .replace(/__STORES_URL__/g, CFG.storesUrl).replace(/__XURL__/g, esc(CFG.xUrl)).replace("<!--__XFOLLOW__-->", X_FOLLOW_HTML).replace(/__COMPANY__/g, esc(CFG.company))
     .replace(/__PACK_LINK__/g, it.set && packSlugBySet.has(it.set) ? `<a class="sec" href="/pack/${packSlugBySet.get(it.set)}/">${esc(it.set)}の買取価格一覧 ›</a>` : "")
     .replace(/__CAT_URL__/g, `/cat/${CAT_SLUG[it.cat] || "c"}/`);
+  if (it.th) { const d = new Date(it.th + 9 * 3600e3), md = (d.getUTCMonth() + 1) + "/" + d.getUTCDate();   // 新弾：宅配の申込ボタンを出さず、店頭買取の案内にする
+    html = html.replace(/<div class="btns">[\s\S]*?<\/div>\s*<ul class="notes">/, `<div class="btns"><div class="thnote" style="background:#fff8d6;border:2px solid #f2c200;border-radius:14px;padding:12px 14px;font-weight:700;color:#5b3a00;line-height:1.6">発売直後のため、このカードは<b>店頭買取のみ</b>の取り扱いです。<br>宅配買取は ${md} から受付予定です。</div><a class="sec" href="${CFG.storesUrl}">店舗一覧・営業時間を見る ›</a></div>\n      <ul class="notes">`); }
   write(rel + "index.html", wrap(html));
   urls.push({ url, lastmod: updated.replace(/\//g, "-") });
 }
@@ -439,6 +449,7 @@ console.log(`article pages: ${arts.length}`);
 
 /* ---------- 3d. 誘導LP（/lp/ ・ /lp/box/ ・ /lp/old/）：広告・X・Shopifyからの着地ページ ---------- */
 {
+  const items = itemsTk;   // LPは宅配の広告の着地ページなので、宅配に出さない新弾は載せない
   const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
   const isSAR = x => /^SAR$/i.test(x.rarity || "");
   const isPsaItem = x => /^PSA/i.test(x.grade || "") || x.cat === "PSA";
